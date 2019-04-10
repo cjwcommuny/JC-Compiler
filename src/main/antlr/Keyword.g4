@@ -1,21 +1,21 @@
 grammar Keyword;
 
 NAMESPACE: 'namespace';
-FUNCTION_DEFINITION: 'def';
+FUNCTION_DEFINITION_SYMBOL: 'def';
 
-IF: 'if';
-WHILE: 'while';
-ELSE: 'else';
-ELSE_IF: 'elif';
-RETURN: 'return';
-CONTINUE: 'continue';
-FOR: 'for';
-BREAK: 'break';
+IF_SYMBOL: 'if';
+WHILE_SYMBOL: 'while';
+ELSE_SYMBOL: 'else';
+ELSE_IF_SYMBOL: 'elif';
+RETURN_SYMBOL: 'return';
+CONTINUE_SYMBOL: 'continue';
+FOR_SYMBOL: 'for';
+BREAK_SYMBOL: 'break';
 
 
 //data type
-INT: 'int';
-DOUBLE: 'double';
-CHAR: 'char';
-STRING: 'string';
-BOOL: 'bool';
+INT_SYMBOL: 'int';
+DOUBLE_SYMBOL: 'double';
+CHAR_SYMBOL: 'char';
+STRING_SYMBOL: 'string';
+BOOL_SYMBOL: 'bool';

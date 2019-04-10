@@ -5,7 +5,7 @@ token symbolic names:
 null
 
 rule names:
-assignment
+arithmeticExpression
 
 
 atn:

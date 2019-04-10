@@ -1,4 +1,4 @@
-// Generated from /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/src/main/antlr/Assignment.g4 by ANTLR 4.7.1
+// Generated from /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/src/main/antlr/Arithmetic.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -9,16 +9,16 @@ import java.util.Iterator;
 import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class AssignmentParser extends Parser {
+public class ArithmeticParser extends Parser {
 	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		RULE_assignment = 0;
+		RULE_arithmeticExpression = 0;
 	public static final String[] ruleNames = {
-		"assignment"
+		"arithmeticExpression"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -59,7 +59,7 @@ public class AssignmentParser extends Parser {
 	}
 
 	@Override
-	public String getGrammarFileName() { return "Assignment.g4"; }
+	public String getGrammarFileName() { return "Arithmetic.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -70,20 +70,20 @@ public class AssignmentParser extends Parser {
 	@Override
 	public ATN getATN() { return _ATN; }
 
-	public AssignmentParser(TokenStream input) {
+	public ArithmeticParser(TokenStream input) {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-	public static class AssignmentContext extends ParserRuleContext {
-		public AssignmentContext(ParserRuleContext parent, int invokingState) {
+	public static class ArithmeticExpressionContext extends ParserRuleContext {
+		public ArithmeticExpressionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_assignment; }
+		@Override public int getRuleIndex() { return RULE_arithmeticExpression; }
 	}
 
-	public final AssignmentContext assignment() throws RecognitionException {
-		AssignmentContext _localctx = new AssignmentContext(_ctx, getState());
-		enterRule(_localctx, 0, RULE_assignment);
+	public final ArithmeticExpressionContext arithmeticExpression() throws RecognitionException {
+		ArithmeticExpressionContext _localctx = new ArithmeticExpressionContext(_ctx, getState());
+		enterRule(_localctx, 0, RULE_arithmeticExpression);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{

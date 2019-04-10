@@ -1,45 +1,17 @@
 grammar ProgramRules;
-import Common;
-import BasicToken;
-import Keyword;
-import FunctionDefinition;
-import Assignment;
-
+import Common, BasicToken, Keyword, FunctionDefinition, Assignment, BasicStructure;
 
 program: /*empty rule*/
-    | code
+    | code //default namespace
     | NAMESPACE LEFT_CURLY_BRACE code RIGHT_CURLY_BRACE
     ;
 
-code: /*empty */
-	| statementList statementAndBlock
+//code is the content of a namespace, which cannot contain namespace
+code: /*empty*/
+    | code codeContent
     ;
 
-codeContents: /*empty */
-    | codeContent codeContents;
-
-codeContent: functionDefinitionBlock
+codeContent:
+    functionDefinitionBlock
     | assignStatement
     ;
-
-
-
-
-//================================================
-
-
-expression: 
-    ;
-
-statementList: /*empty */
-	| statementAndBlock SEMICOLON
-    ;
-
-statementAndBlock: block
-    | statement
-    ;
-
-statement: expression SEMICOLON
-    ;
-
-assignStatement: ;

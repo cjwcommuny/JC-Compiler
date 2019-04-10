@@ -1,12 +1,24 @@
 grammar VariableDefinition;
 
-import BasicToken;
-import Identifier;
-import Common;
+import BasicToken, Identifier, Common;
 
+//TODO: array declaration
 //without semicolon
-variableDefinition: variableDeclaration ASSIGN_SYMBOL rValue
+variableDefinition:
+    ordinaryVariableDefinition
+    | arrayDefinition
 	| variableDeclaration
     ;
 
-variableDeclaration: TYPE_NAME VARIABLE_NAME; 
+ordinaryVariableDefinition: ordinaryVariableDeclaration ASSIGN_SYMBOL rValue;
+
+arrayDefinition: arrayDeclaration ASSIGN_SYMBOL rValue;
+
+variableDeclaration: 
+    ordinaryVariableDeclaration
+    | arrayDeclaration
+;
+
+ordinaryVariableDeclaration: TYPE_NAME VARIABLE_NAME; 
+
+arrayDeclaration: TYPE_NAME LEFT_BRACKET RIGHT_BRACKET VARIABLE_NAME;
