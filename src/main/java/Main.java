@@ -3,8 +3,13 @@ import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class Main {
@@ -27,11 +32,11 @@ public class Main {
         JPanel panel = new JPanel();
         TreeViewer viewr = new TreeViewer(Arrays.asList(
                 parser.getRuleNames()),tree);
-        viewr.setScale(1.5);
+        viewr.setScale(1);
         panel.add(viewr);
         frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000,500);
+        frame.setSize(1000,1000);
         frame.setVisible(true);
     }
 }

@@ -10,6 +10,18 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link rulesParser#arrayInitialization}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayInitialization(rulesParser.ArrayInitializationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#simpleArrayInitialization}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link rulesParser#rValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -21,6 +33,12 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLValue(rulesParser.LValueContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpression(rulesParser.ExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#program}.
 	 * @param ctx the parse tree
@@ -39,6 +57,12 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCodeContent(rulesParser.CodeContentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArithmeticExpression(rulesParser.ArithmeticExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#assignment}.
 	 * @param ctx the parse tree
@@ -130,6 +154,12 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link rulesParser#ordinaryArrayDefinition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link rulesParser#variableDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -141,4 +171,10 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSimpleVariableDeclaration(rulesParser.SimpleVariableDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#arrayDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx);
 }

@@ -7,6 +7,26 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface rulesListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@link rulesParser#arrayInitialization}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayInitialization(rulesParser.ArrayInitializationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#arrayInitialization}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayInitialization(rulesParser.ArrayInitializationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#simpleArrayInitialization}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#simpleArrayInitialization}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link rulesParser#rValue}.
 	 * @param ctx the parse tree
 	 */
@@ -26,6 +46,16 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitLValue(rulesParser.LValueContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpression(rulesParser.ExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#expression}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpression(rulesParser.ExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#program}.
 	 * @param ctx the parse tree
@@ -56,6 +86,16 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCodeContent(rulesParser.CodeContentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterArithmeticExpression(rulesParser.ArithmeticExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitArithmeticExpression(rulesParser.ArithmeticExpressionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#assignment}.
 	 * @param ctx the parse tree
@@ -207,6 +247,16 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link rulesParser#ordinaryArrayDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void enterOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#ordinaryArrayDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void exitOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link rulesParser#variableDeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -226,4 +276,14 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSimpleVariableDeclaration(rulesParser.SimpleVariableDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#arrayDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayDeclaration(rulesParser.ArrayDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#arrayDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx);
 }

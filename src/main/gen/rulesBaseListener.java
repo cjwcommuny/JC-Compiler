@@ -15,6 +15,30 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterArrayInitialization(rulesParser.ArrayInitializationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayInitialization(rulesParser.ArrayInitializationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterRValue(rulesParser.RValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -34,6 +58,18 @@ public class rulesBaseListener implements rulesListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitLValue(rulesParser.LValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpression(rulesParser.ExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpression(rulesParser.ExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -70,6 +106,18 @@ public class rulesBaseListener implements rulesListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCodeContent(rulesParser.CodeContentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArithmeticExpression(rulesParser.ArithmeticExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArithmeticExpression(rulesParser.ArithmeticExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -255,6 +303,18 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVariableDeclaration(rulesParser.VariableDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -274,6 +334,18 @@ public class rulesBaseListener implements rulesListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSimpleVariableDeclaration(rulesParser.SimpleVariableDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayDeclaration(rulesParser.ArrayDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

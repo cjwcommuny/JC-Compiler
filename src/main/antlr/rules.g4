@@ -8,8 +8,8 @@ TEST_SYMBOL: 'TEST';
 LEFT_CURLY_BRACE: '{';
 RIGHT_CURLY_BRACE: '}';
 
-LEFT_BRAKET: '[';
-RIGHT_BRAKET: ']';
+LEFT_BRACKET: '[';
+RIGHT_BRACKET: ']';
 
 LEFT_PARENTHESES: '(';
 RIGHT_PARENTHESES: ')';
@@ -46,6 +46,14 @@ CHAR_LITERAL: '\'' [a-zA-Z] '\'';
 STRING_LITERAL: '"' [a-zA-Z0-9 \t]* '"';
 BOOL_LITERAL: 'true' | 'false';
 
+arrayInitialization:
+    simpleArrayInitialization
+    | '{' (simpleArrayInitialization ',') simpleArrayInitialization '}'
+    ;
+
+simpleArrayInitialization:
+    '{' (rValue ',')* rValue '}'
+    ;
 
 //keywords ==============================================================
 NAMESPACE_SYMBOL: 'namespace';
@@ -94,7 +102,8 @@ rValue:
     | CHAR_LITERAL
     | STRING_LITERAL
     | BOOL_LITERAL
-//    | expression
+    | expression
+    | arrayInitialization
     ;
 
 //TODO
@@ -104,10 +113,10 @@ lValue:
 //    | lValue LEFT_BRAKET expression RIGHT_BRAKET
     ;
 
-//expression:
-//    IDENTIFIER
-//    | arithmeticExpression
-//    ;
+expression:
+    IDENTIFIER
+    | arithmeticExpression
+    ;
 
 
 //program general rules ==============================================================
@@ -127,26 +136,26 @@ codeContent:
 
 
 
-////arithmetic ==============================================================
-//arithmeticExpression:
-//    VARIABLE_NAME
-//    | INT_LITERAL
-////    | DOUBLE_LITERAL
-////    | STRING_LITERAL
-////    | CHAR_LITERAL
-//    | arithmeticExpression ADD arithmeticExpression
-//    | arithmeticExpression SUB arithmeticExpression
-//    | arithmeticExpression MUL arithmeticExpression
-//    | arithmeticExpression DIV arithmeticExpression
-//    | SUB arithmeticExpression
-//    | arithmeticExpression XOR arithmeticExpression
-//    | arithmeticExpression OR arithmeticExpression
-//    | arithmeticExpression AND arithmeticExpression
-//    | NOT arithmeticExpression
-//    | LEFT_PARENTHESES arithmeticExpression RIGHT_PARENTHESES
-//    ;
-//
-//
+//arithmetic ==============================================================
+arithmeticExpression:
+    IDENTIFIER
+    | INT_LITERAL
+    | DOUBLE_LITERAL
+    | STRING_LITERAL
+    | CHAR_LITERAL
+    | arithmeticExpression ADD arithmeticExpression
+    | arithmeticExpression SUB arithmeticExpression
+    | arithmeticExpression MUL arithmeticExpression
+    | arithmeticExpression DIV arithmeticExpression
+    | SUB arithmeticExpression
+    | arithmeticExpression XOR arithmeticExpression
+    | arithmeticExpression OR arithmeticExpression
+    | arithmeticExpression AND arithmeticExpression
+    | NOT arithmeticExpression
+    | LEFT_PARENTHESES arithmeticExpression RIGHT_PARENTHESES
+    ;
+
+
 //assignment ==============================================================
 assignment: lValue ASSIGN_SYMBOL rValue;
 
@@ -195,11 +204,11 @@ returnStatement:
 functionDefinitionBlock:
 	FUNCTION_DEFINITION_SYMBOL IDENTIFIER IDENTIFIER functionParameterDefinition functionBody;
 
-functionParameterDefinition: LEFT_PARENTHESES (parameterList | /*empty*/ ) RIGHT_PARENTHESES;
+functionParameterDefinition: LEFT_PARENTHESES parameterList RIGHT_PARENTHESES;
 
 parameterList:
-    variableDeclaration
-    | parameterList COMMA variableDeclaration
+    //empty
+    | (variableDeclaration ',')* variableDeclaration
     ;
 
 functionBody: LEFT_CURLY_BRACE functionBodyCode RIGHT_CURLY_BRACE;
@@ -219,25 +228,26 @@ functionBody: LEFT_CURLY_BRACE functionBodyCode RIGHT_CURLY_BRACE;
 //
 //
 //variable definition ==============================================================
-//TODO: array declaration
 //without semicolon
 variableDefinition:
     ordinaryVariableDefinition
-//    | arrayDefinition
+    | ordinaryArrayDefinition
 	| variableDeclaration
     ;
 
 ordinaryVariableDefinition: simpleVariableDeclaration ASSIGN_SYMBOL rValue;
 
-//arrayDefinition: arrayDeclaration ASSIGN_SYMBOL rValue;
+ordinaryArrayDefinition: arrayDeclaration ASSIGN_SYMBOL rValue;
 
 variableDeclaration:
     simpleVariableDeclaration
-//    | arrayDeclaration
+    | arrayDeclaration
 ;
 
 simpleVariableDeclaration: IDENTIFIER IDENTIFIER;
 
-//arrayDeclaration: TYPE_NAME LEFT_BRACKET RIGHT_BRACKET VARIABLE_NAME;
+arrayDeclaration: IDENTIFIER (LEFT_BRACKET RIGHT_BRACKET)* IDENTIFIER;
 
 
+
+//call function ==============================================================
