@@ -1,18 +1,14 @@
 namespace MyNamespace {
-    def void main() {
-        if (true) {
-            i = i + 1;
-        } elif (false) {
-            i = i + 1;
-        } else {
-            i = i + 1;
+    struct MyStruct {
+        int i = 0;
+        char[] arr = {'a', 'b'};
+    }
+
+    
+    def void f() {
+        struct BS {
+            int j = 1;
         }
     }
-}
-
-
-namespace anotherNamespace {
-    def int f() {
-        return true;
-    }
+    
 }

@@ -406,4 +406,24 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionCall(rulesParser.FunctionCallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#structFieldStatementList}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructFieldStatementList(rulesParser.StructFieldStatementListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#structFieldStatementList}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructFieldStatementList(rulesParser.StructFieldStatementListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#structDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructDefinition(rulesParser.StructDefinitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#structDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructDefinition(rulesParser.StructDefinitionContext ctx);
 }

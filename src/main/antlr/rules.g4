@@ -62,6 +62,7 @@ rValueList:
 //keywords ==============================================================
 NAMESPACE_SYMBOL: 'namespace';
 FUNCTION_DEFINITION_SYMBOL: 'def';
+CLASS_DEFINITION_SYMNOL: 'struct';
 
 IF_SYMBOL: 'if';
 WHILE_SYMBOL: 'while';
@@ -142,6 +143,7 @@ code: //empty
 codeContent:
     variableDefinition SEMICOLON
     | functionDefinitionBlock
+    | structDefinition
     ;
 
 
@@ -205,6 +207,7 @@ statement:
 
 blockBodyCode:
     statementList
+    | structDefinition
     ;
 
 returnStatement:
@@ -292,4 +295,14 @@ arrayDeclaration: IDENTIFIER (LEFT_BRACKET RIGHT_BRACKET)* IDENTIFIER;
 //call function ==============================================================
 functionCall:
     IDENTIFIER '(' rValueList ')'
+    ;
+
+
+//struct ==============================================================
+structFieldStatementList:
+    (variableDefinition ';')*
+    ;
+
+structDefinition:
+    CLASS_DEFINITION_SYMNOL IDENTIFIER '{' structFieldStatementList '}'
     ;

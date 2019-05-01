@@ -249,4 +249,16 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionCall(rulesParser.FunctionCallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#structFieldStatementList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStructFieldStatementList(rulesParser.StructFieldStatementListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#structDefinition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStructDefinition(rulesParser.StructDefinitionContext ctx);
 }
