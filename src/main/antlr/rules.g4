@@ -57,7 +57,7 @@ IDENTIFIER:
 
 
 //keywords ==============================================================
-NAMESPACE: 'namespace';
+NAMESPACE_SYMBOL: 'namespace';
 FUNCTION_DEFINITION_SYMBOL: 'def';
 
 IF_SYMBOL: 'if';
@@ -80,6 +80,7 @@ BOOL_SYMBOL: 'bool';
 
 //common ==============================================================
 WHITE_SPACE: [ \t\r\n]+ -> skip;
+NEW_LINE_SYMBOL: [\r\n];
 
 //TODO
 rValue:
@@ -107,7 +108,7 @@ expression:
 //program general rules ==============================================================
 program: //empty rule
     | code //default namespace
-    | NAMESPACE LEFT_CURLY_BRACE code RIGHT_CURLY_BRACE
+    | NAMESPACE_SYMBOL LEFT_CURLY_BRACE code RIGHT_CURLY_BRACE
     ;
 
 //code is the content of a namespace, which cannot contain namespace
@@ -159,7 +160,7 @@ pureBlock:
     ;
 
 statementWithoutSemicolon: //TODO
-    return
+    returnStatement
     | assignment
     | variableDefinition
     ;
@@ -180,7 +181,7 @@ functionBodyCode:
     statementList
     ;
 
-return:
+returnStatement:
     RETURN_SYMBOL rValue
     | RETURN_SYMBOL
     ;
@@ -234,3 +235,11 @@ variableDeclaration:
 simpleVariableDeclaration: TYPE_NAME VARIABLE_NAME;
 
 //arrayDeclaration: TYPE_NAME LEFT_BRACKET RIGHT_BRACKET VARIABLE_NAME;
+
+
+// comment  ==============================================================
+comment:
+    COMMENT_START_SYMBOL . NEW_LINE_SYMBOL
+    ;
+
+COMMENT_START_SYMBOL: '//';
