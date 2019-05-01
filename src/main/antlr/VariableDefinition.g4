@@ -6,19 +6,19 @@ import BasicToken, Identifier, Common;
 //without semicolon
 variableDefinition:
     ordinaryVariableDefinition
-    | arrayDefinition
+//    | arrayDefinition
 	| variableDeclaration
     ;
 
-ordinaryVariableDefinition: ordinaryVariableDeclaration ASSIGN_SYMBOL rValue;
+ordinaryVariableDefinition: simpleVariableDeclaration ASSIGN_SYMBOL rValue;
 
-arrayDefinition: arrayDeclaration ASSIGN_SYMBOL rValue;
+//arrayDefinition: arrayDeclaration ASSIGN_SYMBOL rValue;
 
 variableDeclaration: 
-    ordinaryVariableDeclaration
-    | arrayDeclaration
+    simpleVariableDeclaration
+//    | arrayDeclaration
 ;
 
-ordinaryVariableDeclaration: TYPE_NAME VARIABLE_NAME; 
+simpleVariableDeclaration: TYPE_NAME VARIABLE_NAME;
 
-arrayDeclaration: TYPE_NAME LEFT_BRACKET RIGHT_BRACKET VARIABLE_NAME;
+//arrayDeclaration: TYPE_NAME LEFT_BRACKET RIGHT_BRACKET VARIABLE_NAME;

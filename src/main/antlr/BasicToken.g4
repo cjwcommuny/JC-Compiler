@@ -13,20 +13,23 @@ SEMICOLON: ';';
 COMMA: ',';
 DOT: '.';
 
+//SINGLE_QUOTATION_MARK: '\'';
+//DOUBLE_QUOTATION_MARK: '"';
+
 ASSIGN_SYMBOL: '=';
 
 EQUAL_SYMBOL: '==';
 LOGIC_OR: '||';
 LOGIC_AND: '&&';
-LOGIC_NOT: '!'
+LOGIC_NOT: '!';
 
 //TODO: scientific notation support
-DOUBLE_LITERAL: '[+-]?\d*\.?\d+';
-INT_LITERAL: '[+-]?\d+';
+DOUBLE_LITERAL: [+-]?[0-9]*'.'?[0-9]+;
+INT_LITERAL: [+-]?[0-9]+;
 //TODO: unicode support
-CHAR_LITERAL: '\'[a-zA-Z]\'';
+CHAR_LITERAL: '\'' [a-zA-Z] '\'';
 //TODO: unicode support
-STRING_LITERAL: '\"[a-zA-Z0-9\ \t]*\"';
+STRING_LITERAL: '"' [a-zA-Z0-9 \t]* '"';
 BOOL_LITERAL: 'true' | 'false';
 
 ADD: '+';

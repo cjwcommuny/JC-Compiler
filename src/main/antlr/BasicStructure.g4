@@ -3,19 +3,37 @@ grammar BasicStructure;
 import Loop, LogicBlock, FunctionDefinition;
 
 block:
-	forBlock
-	| whileBlock
-	| ifBlock
-	| functionDefinitionBlock;
+//	forBlock
+//	| whileBlock
+//	| ifBlock
+//	| functionDefinitionBlock
+	pureBlock
+	;
 
-expression:;
+statementWithoutSemicolon: //TODO
+    return
+    | assignment
+    | variableDefinition
+    ;
 
-statementList: /*empty */ | statementAndBlock SEMICOLON;
+statementList: /*empty */
+    | statementOrBlock statementList
+    ;
 
-statementAndBlock: block | statement;
+statementOrBlock: block
+    | statement
+    ;
 
-statement: expression SEMICOLON;
+statement:
+    statementWithoutSemicolon SEMICOLON
+    ;
 
-assignStatement:;
+functionBodyCode:
+    statementList
+    ;
 
-ordinaryCode: ;
+
+return:
+    RETURN_SYMBOL rValue
+    | RETURN_SYMBOL
+    ;

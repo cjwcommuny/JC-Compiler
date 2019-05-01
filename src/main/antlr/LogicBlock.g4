@@ -1,3 +1,3 @@
 grammar LogicBlock;
 
-ifBlock: ;
+//ifBlock: ;

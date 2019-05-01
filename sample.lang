@@ -1,0 +1,24 @@
+namespace MyNamespace {
+    int a = 3;
+
+    def int func(int x, int y) {
+        int b = 1;
+        return x + y + b;
+    }
+
+    def void main() {
+        int z = func(2, 3);
+        System.out.println(z);
+    }
+}
+
+
+
+/*
+int x;
+int x = 1;
+
+
+
+
+*/
