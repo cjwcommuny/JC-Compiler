@@ -1,5 +1,9 @@
 grammar rules;
 
+//test  ==============================================================
+TEST_SYMBOL: 'TEST';
+
+
 //basic tokens ==============================================================
 LEFT_CURLY_BRACE: '{';
 RIGHT_CURLY_BRACE: '}';
@@ -24,15 +28,6 @@ LOGIC_OR: '||';
 LOGIC_AND: '&&';
 LOGIC_NOT: '!';
 
-//TODO: scientific notation support
-DOUBLE_LITERAL: [+-]?[0-9]*'.'?[0-9]+;
-INT_LITERAL: [+-]?[0-9]+;
-//TODO: unicode support
-CHAR_LITERAL: '\'' [a-zA-Z] '\'';
-//TODO: unicode support
-STRING_LITERAL: '"' [a-zA-Z0-9 \t]* '"';
-BOOL_LITERAL: 'true' | 'false';
-
 ADD: '+';
 SUB: '-';
 MUL: '*';
@@ -42,18 +37,14 @@ AND: '&';
 OR: '|';
 NOT: '~';
 
-
-//identifier ==============================================================
-FUNCTION_NAME: [a-zA-Z_$][a-zA-Z_$0-9]*;
-
-TYPE_NAME: [a-zA-Z_$][a-zA-Z_$0-9]*;
-
-VARIABLE_NAME: [a-zA-Z_$][a-zA-Z_$0-9]*;
-
-IDENTIFIER:
-    FUNCTION_NAME
-    | VARIABLE_NAME
-    ;
+//TODO: scientific notation support
+DOUBLE_LITERAL: [+-]?[0-9]*'.'?[0-9]+;
+INT_LITERAL: [+-]?[0-9]+;
+//TODO: unicode support
+CHAR_LITERAL: '\'' [a-zA-Z] '\'';
+//TODO: unicode support
+STRING_LITERAL: '"' [a-zA-Z0-9 \t]* '"';
+BOOL_LITERAL: 'true' | 'false';
 
 
 //keywords ==============================================================
@@ -76,6 +67,21 @@ DOUBLE_SYMBOL: 'double';
 CHAR_SYMBOL: 'char';
 STRING_SYMBOL: 'string';
 BOOL_SYMBOL: 'bool';
+
+
+//identifier ==============================================================
+FUNCTION_NAME: [a-zA-Z_$][a-zA-Z_$0-9]*;
+
+TYPE_NAME: [a-zA-Z_$][a-zA-Z_$0-9]*;
+
+VARIABLE_NAME: [a-zA-Z_$][a-zA-Z_$0-9]*;
+
+IDENTIFIER:
+    FUNCTION_NAME
+    | VARIABLE_NAME
+    ;
+
+
 
 
 //common ==============================================================
@@ -106,13 +112,12 @@ NEW_LINE_SYMBOL: [\r\n];
 
 
 //program general rules ==============================================================
-program: //empty rule
-    | code //default namespace
+program: code //default namespace
     | NAMESPACE_SYMBOL LEFT_CURLY_BRACE code RIGHT_CURLY_BRACE
     ;
 
 //code is the content of a namespace, which cannot contain namespace
-code: //empty
+code: TEST_SYMBOL//empty
 //    | code codeContent
     ;
 

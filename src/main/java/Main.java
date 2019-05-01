@@ -11,8 +11,8 @@ public class Main {
         Lexer lexer = new rulesLexer(CharStreams.fromStream(new FileInputStream(inputFile)));
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         rulesParser parser = new rulesParser(tokenStream);
-        System.out.println("token stream: ");
-        System.out.println(tokenStream.getText());
+//        System.out.println("token stream: ");
+//        System.out.println(tokenStream.getText());
         ParseTree tree = parser.program();
         System.out.println(tree.toStringTree(parser));
 //        ParseTreeWalker walker = new ParseTreeWalker();

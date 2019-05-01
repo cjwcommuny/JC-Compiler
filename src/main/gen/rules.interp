@@ -1,5 +1,6 @@
 token literal names:
 null
+'TEST'
 '{'
 '}'
 '['
@@ -14,11 +15,6 @@ null
 '||'
 '&&'
 '!'
-null
-null
-null
-null
-null
 '+'
 '-'
 '*'
@@ -27,6 +23,7 @@ null
 '&'
 '|'
 '~'
+null
 null
 null
 null
@@ -48,9 +45,14 @@ null
 'bool'
 null
 null
+null
+null
+null
+null
 
 token symbolic names:
 null
+TEST_SYMBOL
 LEFT_CURLY_BRACE
 RIGHT_CURLY_BRACE
 LEFT_BRAKET
@@ -65,11 +67,6 @@ EQUAL_SYMBOL
 LOGIC_OR
 LOGIC_AND
 LOGIC_NOT
-DOUBLE_LITERAL
-INT_LITERAL
-CHAR_LITERAL
-STRING_LITERAL
-BOOL_LITERAL
 ADD
 SUB
 MUL
@@ -78,10 +75,11 @@ XOR
 AND
 OR
 NOT
-FUNCTION_NAME
-TYPE_NAME
-VARIABLE_NAME
-IDENTIFIER
+DOUBLE_LITERAL
+INT_LITERAL
+CHAR_LITERAL
+STRING_LITERAL
+BOOL_LITERAL
 NAMESPACE_SYMBOL
 FUNCTION_DEFINITION_SYMBOL
 IF_SYMBOL
@@ -97,6 +95,10 @@ DOUBLE_SYMBOL
 CHAR_SYMBOL
 STRING_SYMBOL
 BOOL_SYMBOL
+FUNCTION_NAME
+TYPE_NAME
+VARIABLE_NAME
+IDENTIFIER
 WHITE_SPACE
 NEW_LINE_SYMBOL
 
@@ -106,4 +108,4 @@ code
 
 
 atn:
-[3, 24715, 42794, 33075, 47597, 16764, 15335, 30598, 22884, 3, 50, 18, 4, 2, 9, 2, 4, 3, 9, 3, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 5, 2, 14, 10, 2, 3, 3, 3, 3, 3, 3, 2, 2, 4, 2, 4, 2, 2, 2, 17, 2, 13, 3, 2, 2, 2, 4, 15, 3, 2, 2, 2, 6, 14, 3, 2, 2, 2, 7, 14, 5, 4, 3, 2, 8, 9, 7, 34, 2, 2, 9, 10, 7, 3, 2, 2, 10, 11, 5, 4, 3, 2, 11, 12, 7, 4, 2, 2, 12, 14, 3, 2, 2, 2, 13, 6, 3, 2, 2, 2, 13, 7, 3, 2, 2, 2, 13, 8, 3, 2, 2, 2, 14, 3, 3, 2, 2, 2, 15, 16, 3, 2, 2, 2, 16, 5, 3, 2, 2, 2, 3, 13]
+[3, 24715, 42794, 33075, 47597, 16764, 15335, 30598, 22884, 3, 51, 17, 4, 2, 9, 2, 4, 3, 9, 3, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 3, 2, 5, 2, 13, 10, 2, 3, 3, 3, 3, 3, 3, 2, 2, 4, 2, 4, 2, 2, 2, 15, 2, 12, 3, 2, 2, 2, 4, 14, 3, 2, 2, 2, 6, 13, 5, 4, 3, 2, 7, 8, 7, 31, 2, 2, 8, 9, 7, 4, 2, 2, 9, 10, 5, 4, 3, 2, 10, 11, 7, 5, 2, 2, 11, 13, 3, 2, 2, 2, 12, 6, 3, 2, 2, 2, 12, 7, 3, 2, 2, 2, 13, 3, 3, 2, 2, 2, 14, 15, 7, 3, 2, 2, 15, 5, 3, 2, 2, 2, 3, 12]

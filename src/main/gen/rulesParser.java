@@ -16,16 +16,16 @@ public class rulesParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		LEFT_CURLY_BRACE=1, RIGHT_CURLY_BRACE=2, LEFT_BRAKET=3, RIGHT_BRAKET=4, 
-		LEFT_PARENTHESES=5, RIGHT_PARENTHESES=6, SEMICOLON=7, COMMA=8, DOT=9, 
-		ASSIGN_SYMBOL=10, EQUAL_SYMBOL=11, LOGIC_OR=12, LOGIC_AND=13, LOGIC_NOT=14, 
-		DOUBLE_LITERAL=15, INT_LITERAL=16, CHAR_LITERAL=17, STRING_LITERAL=18, 
-		BOOL_LITERAL=19, ADD=20, SUB=21, MUL=22, DIV=23, XOR=24, AND=25, OR=26, 
-		NOT=27, FUNCTION_NAME=28, TYPE_NAME=29, VARIABLE_NAME=30, IDENTIFIER=31, 
-		NAMESPACE_SYMBOL=32, FUNCTION_DEFINITION_SYMBOL=33, IF_SYMBOL=34, WHILE_SYMBOL=35, 
-		ELSE_SYMBOL=36, ELSE_IF_SYMBOL=37, RETURN_SYMBOL=38, CONTINUE_SYMBOL=39, 
-		FOR_SYMBOL=40, BREAK_SYMBOL=41, INT_SYMBOL=42, DOUBLE_SYMBOL=43, CHAR_SYMBOL=44, 
-		STRING_SYMBOL=45, BOOL_SYMBOL=46, WHITE_SPACE=47, NEW_LINE_SYMBOL=48;
+		TEST_SYMBOL=1, LEFT_CURLY_BRACE=2, RIGHT_CURLY_BRACE=3, LEFT_BRAKET=4, 
+		RIGHT_BRAKET=5, LEFT_PARENTHESES=6, RIGHT_PARENTHESES=7, SEMICOLON=8, 
+		COMMA=9, DOT=10, ASSIGN_SYMBOL=11, EQUAL_SYMBOL=12, LOGIC_OR=13, LOGIC_AND=14, 
+		LOGIC_NOT=15, ADD=16, SUB=17, MUL=18, DIV=19, XOR=20, AND=21, OR=22, NOT=23, 
+		DOUBLE_LITERAL=24, INT_LITERAL=25, CHAR_LITERAL=26, STRING_LITERAL=27, 
+		BOOL_LITERAL=28, NAMESPACE_SYMBOL=29, FUNCTION_DEFINITION_SYMBOL=30, IF_SYMBOL=31, 
+		WHILE_SYMBOL=32, ELSE_SYMBOL=33, ELSE_IF_SYMBOL=34, RETURN_SYMBOL=35, 
+		CONTINUE_SYMBOL=36, FOR_SYMBOL=37, BREAK_SYMBOL=38, INT_SYMBOL=39, DOUBLE_SYMBOL=40, 
+		CHAR_SYMBOL=41, STRING_SYMBOL=42, BOOL_SYMBOL=43, FUNCTION_NAME=44, TYPE_NAME=45, 
+		VARIABLE_NAME=46, IDENTIFIER=47, WHITE_SPACE=48, NEW_LINE_SYMBOL=49;
 	public static final int
 		RULE_program = 0, RULE_code = 1;
 	private static String[] makeRuleNames() {
@@ -37,26 +37,26 @@ public class rulesParser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'{'", "'}'", "'['", "']'", "'('", "')'", "';'", "','", "'.'", 
-			"'='", "'=='", "'||'", "'&&'", "'!'", null, null, null, null, null, "'+'", 
-			"'-'", "'*'", "'/'", "'^'", "'&'", "'|'", "'~'", null, null, null, null, 
-			"'namespace'", "'def'", "'if'", "'while'", "'else'", "'elif'", "'return'", 
-			"'continue'", "'for'", "'break'", "'int'", "'double'", "'char'", "'string'", 
-			"'bool'"
+			null, "'TEST'", "'{'", "'}'", "'['", "']'", "'('", "')'", "';'", "','", 
+			"'.'", "'='", "'=='", "'||'", "'&&'", "'!'", "'+'", "'-'", "'*'", "'/'", 
+			"'^'", "'&'", "'|'", "'~'", null, null, null, null, null, "'namespace'", 
+			"'def'", "'if'", "'while'", "'else'", "'elif'", "'return'", "'continue'", 
+			"'for'", "'break'", "'int'", "'double'", "'char'", "'string'", "'bool'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "LEFT_CURLY_BRACE", "RIGHT_CURLY_BRACE", "LEFT_BRAKET", "RIGHT_BRAKET", 
-			"LEFT_PARENTHESES", "RIGHT_PARENTHESES", "SEMICOLON", "COMMA", "DOT", 
-			"ASSIGN_SYMBOL", "EQUAL_SYMBOL", "LOGIC_OR", "LOGIC_AND", "LOGIC_NOT", 
-			"DOUBLE_LITERAL", "INT_LITERAL", "CHAR_LITERAL", "STRING_LITERAL", "BOOL_LITERAL", 
-			"ADD", "SUB", "MUL", "DIV", "XOR", "AND", "OR", "NOT", "FUNCTION_NAME", 
-			"TYPE_NAME", "VARIABLE_NAME", "IDENTIFIER", "NAMESPACE_SYMBOL", "FUNCTION_DEFINITION_SYMBOL", 
-			"IF_SYMBOL", "WHILE_SYMBOL", "ELSE_SYMBOL", "ELSE_IF_SYMBOL", "RETURN_SYMBOL", 
-			"CONTINUE_SYMBOL", "FOR_SYMBOL", "BREAK_SYMBOL", "INT_SYMBOL", "DOUBLE_SYMBOL", 
-			"CHAR_SYMBOL", "STRING_SYMBOL", "BOOL_SYMBOL", "WHITE_SPACE", "NEW_LINE_SYMBOL"
+			null, "TEST_SYMBOL", "LEFT_CURLY_BRACE", "RIGHT_CURLY_BRACE", "LEFT_BRAKET", 
+			"RIGHT_BRAKET", "LEFT_PARENTHESES", "RIGHT_PARENTHESES", "SEMICOLON", 
+			"COMMA", "DOT", "ASSIGN_SYMBOL", "EQUAL_SYMBOL", "LOGIC_OR", "LOGIC_AND", 
+			"LOGIC_NOT", "ADD", "SUB", "MUL", "DIV", "XOR", "AND", "OR", "NOT", "DOUBLE_LITERAL", 
+			"INT_LITERAL", "CHAR_LITERAL", "STRING_LITERAL", "BOOL_LITERAL", "NAMESPACE_SYMBOL", 
+			"FUNCTION_DEFINITION_SYMBOL", "IF_SYMBOL", "WHILE_SYMBOL", "ELSE_SYMBOL", 
+			"ELSE_IF_SYMBOL", "RETURN_SYMBOL", "CONTINUE_SYMBOL", "FOR_SYMBOL", "BREAK_SYMBOL", 
+			"INT_SYMBOL", "DOUBLE_SYMBOL", "CHAR_SYMBOL", "STRING_SYMBOL", "BOOL_SYMBOL", 
+			"FUNCTION_NAME", "TYPE_NAME", "VARIABLE_NAME", "IDENTIFIER", "WHITE_SPACE", 
+			"NEW_LINE_SYMBOL"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -140,34 +140,31 @@ public class rulesParser extends Parser {
 		ProgramContext _localctx = new ProgramContext(_ctx, getState());
 		enterRule(_localctx, 0, RULE_program);
 		try {
-			setState(11);
+			setState(10);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
-			case 1:
+			switch (_input.LA(1)) {
+			case TEST_SYMBOL:
 				enterOuterAlt(_localctx, 1);
 				{
+				setState(4);
+				code();
 				}
 				break;
-			case 2:
+			case NAMESPACE_SYMBOL:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(5);
-				code();
-				}
-				break;
-			case 3:
-				enterOuterAlt(_localctx, 3);
-				{
-				setState(6);
 				match(NAMESPACE_SYMBOL);
-				setState(7);
+				setState(6);
 				match(LEFT_CURLY_BRACE);
-				setState(8);
+				setState(7);
 				code();
-				setState(9);
+				setState(8);
 				match(RIGHT_CURLY_BRACE);
 				}
 				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 		}
 		catch (RecognitionException re) {
@@ -182,6 +179,7 @@ public class rulesParser extends Parser {
 	}
 
 	public static class CodeContext extends ParserRuleContext {
+		public TerminalNode TEST_SYMBOL() { return getToken(rulesParser.TEST_SYMBOL, 0); }
 		public CodeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -207,6 +205,8 @@ public class rulesParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
+			setState(12);
+			match(TEST_SYMBOL);
 			}
 		}
 		catch (RecognitionException re) {
@@ -221,11 +221,11 @@ public class rulesParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\62\22\4\2\t\2\4\3"+
-		"\t\3\3\2\3\2\3\2\3\2\3\2\3\2\3\2\5\2\16\n\2\3\3\3\3\3\3\2\2\4\2\4\2\2"+
-		"\2\21\2\r\3\2\2\2\4\17\3\2\2\2\6\16\3\2\2\2\7\16\5\4\3\2\b\t\7\"\2\2\t"+
-		"\n\7\3\2\2\n\13\5\4\3\2\13\f\7\4\2\2\f\16\3\2\2\2\r\6\3\2\2\2\r\7\3\2"+
-		"\2\2\r\b\3\2\2\2\16\3\3\2\2\2\17\20\3\2\2\2\20\5\3\2\2\2\3\r";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\63\21\4\2\t\2\4\3"+
+		"\t\3\3\2\3\2\3\2\3\2\3\2\3\2\5\2\r\n\2\3\3\3\3\3\3\2\2\4\2\4\2\2\2\17"+
+		"\2\f\3\2\2\2\4\16\3\2\2\2\6\r\5\4\3\2\7\b\7\37\2\2\b\t\7\4\2\2\t\n\5\4"+
+		"\3\2\n\13\7\5\2\2\13\r\3\2\2\2\f\6\3\2\2\2\f\7\3\2\2\2\r\3\3\2\2\2\16"+
+		"\17\7\3\2\2\17\5\3\2\2\2\3\f";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
