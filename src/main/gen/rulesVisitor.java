@@ -112,11 +112,11 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatement(rulesParser.StatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#functionBodyCode}.
+	 * Visit a parse tree produced by {@link rulesParser#blockBodyCode}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitFunctionBodyCode(rulesParser.FunctionBodyCodeContext ctx);
+	T visitBlockBodyCode(rulesParser.BlockBodyCodeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#returnStatement}.
 	 * @param ctx the parse tree
@@ -147,6 +147,36 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionBody(rulesParser.FunctionBodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#forBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForBlock(rulesParser.ForBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#forCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForCondition(rulesParser.ForConditionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#initOrStepCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#terminateCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTerminateCondition(rulesParser.TerminateConditionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#whileBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileBlock(rulesParser.WhileBlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#variableDefinition}.
 	 * @param ctx the parse tree

@@ -115,7 +115,7 @@ rValue:
 lValue:
     IDENTIFIER
 //    | lValue DOT IDENTIFIER
-//    | lValue LEFT_BRAKET expression RIGHT_BRAKET
+    | lValue LEFT_BRACKET expression RIGHT_BRACKET
     ;
 
 expression:
@@ -161,20 +161,23 @@ arithmeticExpression:
     ;
 
 
+//bool expression
+//TODO
+
 //assignment ==============================================================
 assignment: lValue ASSIGN_SYMBOL rValue;
 
 //basic structure ==============================================================
 block:
-//	forBlock
-//	| whileBlock
+	forBlock
+	| whileBlock
 //	| ifBlock
 //	| functionDefinitionBlock
-	pureBlock
+	| pureBlock
 	;
 
 pureBlock:
-    LEFT_CURLY_BRACE functionBodyCode RIGHT_CURLY_BRACE
+    LEFT_CURLY_BRACE blockBodyCode RIGHT_CURLY_BRACE
     ;
 
 statementWithoutSemicolon: //TODO
@@ -196,7 +199,7 @@ statement:
     statementWithoutSemicolon SEMICOLON
     ;
 
-functionBodyCode:
+blockBodyCode:
     statementList
     ;
 
@@ -217,22 +220,35 @@ parameterList:
     | (variableDeclaration ',')* variableDeclaration
     ;
 
-functionBody: LEFT_CURLY_BRACE functionBodyCode RIGHT_CURLY_BRACE;
+functionBody: LEFT_CURLY_BRACE blockBodyCode RIGHT_CURLY_BRACE;
 
 
 ////logic block ==============================================================
-////ifBlock: ;
-//
-////loop ==============================================================
-//
-////forBlock:
-////	FOR_SYMBOL LEFT_PARENTHESES forCondition RIGHT_PARENTHESES LEFT_CURLY_BRACE code RIGHT_CURLY_BRACE;
-////
-////forCondition: ; //TODO
-////
-////whileBlock: ;
-//
-//
+//ifBlock: ;
+
+//loop ==============================================================
+//TODO: do-while
+forBlock:
+	FOR_SYMBOL '(' forCondition ')' '{' blockBodyCode '}';
+
+forCondition:
+    initOrStepCondition ';' terminateCondition ';' initOrStepCondition
+    ;
+
+initOrStepCondition:
+    //empty
+    | (statementWithoutSemicolon ',')* statementWithoutSemicolon
+    ;
+
+terminateCondition:
+    //empty
+    | rValue
+    ;
+
+
+whileBlock: WHILE_SYMBOL '(' rValue ')' '{' blockBodyCode '}';
+
+
 //variable definition ==============================================================
 //without semicolon
 variableDefinition:

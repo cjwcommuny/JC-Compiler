@@ -177,15 +177,15 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitStatement(rulesParser.StatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#functionBodyCode}.
+	 * Enter a parse tree produced by {@link rulesParser#blockBodyCode}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunctionBodyCode(rulesParser.FunctionBodyCodeContext ctx);
+	void enterBlockBodyCode(rulesParser.BlockBodyCodeContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#functionBodyCode}.
+	 * Exit a parse tree produced by {@link rulesParser#blockBodyCode}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunctionBodyCode(rulesParser.FunctionBodyCodeContext ctx);
+	void exitBlockBodyCode(rulesParser.BlockBodyCodeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#returnStatement}.
 	 * @param ctx the parse tree
@@ -236,6 +236,56 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionBody(rulesParser.FunctionBodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#forBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterForBlock(rulesParser.ForBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#forBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitForBlock(rulesParser.ForBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#forCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterForCondition(rulesParser.ForConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#forCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitForCondition(rulesParser.ForConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#initOrStepCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#initOrStepCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#terminateCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterTerminateCondition(rulesParser.TerminateConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#terminateCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitTerminateCondition(rulesParser.TerminateConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#whileBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileBlock(rulesParser.WhileBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#whileBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileBlock(rulesParser.WhileBlockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#variableDefinition}.
 	 * @param ctx the parse tree
