@@ -9,6 +9,12 @@ namespace MyNamespace {
         struct BS {
             int j = 1;
         }
+        for (int i = 0; i < 10; i = i + 1) {
+            g();
+        }
     }
     
+    def void g() {
+
+    }
 }

@@ -131,8 +131,9 @@ namespaceDefinition:
 
 
 //program general rules ==============================================================
-program: code //default namespace
-    | (namespaceDefinition)+
+program:
+    (namespaceDefinition)+
+//    | code //default namespace
     ;
 
 //code is the content of a namespace, which cannot contain namespace
@@ -306,3 +307,5 @@ structFieldStatementList:
 structDefinition:
     CLASS_DEFINITION_SYMNOL IDENTIFIER '{' structFieldStatementList '}'
     ;
+
+//TODO: identifier.identifier
