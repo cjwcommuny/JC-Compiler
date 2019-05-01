@@ -67,6 +67,16 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitExpression(rulesParser.ExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link rulesParser#namespaceDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void enterNamespaceDefinition(rulesParser.NamespaceDefinitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#namespaceDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void exitNamespaceDefinition(rulesParser.NamespaceDefinitionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link rulesParser#program}.
 	 * @param ctx the parse tree
 	 */
@@ -236,6 +246,46 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionBody(rulesParser.FunctionBodyContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#logicBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicBlock(rulesParser.LogicBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#logicBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicBlock(rulesParser.LogicBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#ifBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfBlock(rulesParser.IfBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#ifBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfBlock(rulesParser.IfBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#elseIfBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterElseIfBlock(rulesParser.ElseIfBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#elseIfBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitElseIfBlock(rulesParser.ElseIfBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#elseBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterElseBlock(rulesParser.ElseBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#elseBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitElseBlock(rulesParser.ElseBlockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#forBlock}.
 	 * @param ctx the parse tree

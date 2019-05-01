@@ -123,10 +123,15 @@ expression:
     | arithmeticExpression
     ;
 
+//namespace definition
+namespaceDefinition:
+    NAMESPACE_SYMBOL IDENTIFIER LEFT_CURLY_BRACE code RIGHT_CURLY_BRACE
+    ;
+
 
 //program general rules ==============================================================
 program: code //default namespace
-    | NAMESPACE_SYMBOL IDENTIFIER LEFT_CURLY_BRACE code RIGHT_CURLY_BRACE
+    | (namespaceDefinition)+
     ;
 
 //code is the content of a namespace, which cannot contain namespace
@@ -141,13 +146,15 @@ codeContent:
 
 
 
-//arithmetic ==============================================================
+//arithmetic or bool expression ==============================================================
 arithmeticExpression:
     IDENTIFIER
     | INT_LITERAL
     | DOUBLE_LITERAL
     | STRING_LITERAL
     | CHAR_LITERAL
+    | BOOL_LITERAL
+    | functionCall
     | arithmeticExpression ADD arithmeticExpression
     | arithmeticExpression SUB arithmeticExpression
     | arithmeticExpression MUL arithmeticExpression
@@ -161,9 +168,6 @@ arithmeticExpression:
     ;
 
 
-//bool expression
-//TODO
-
 //assignment ==============================================================
 assignment: lValue ASSIGN_SYMBOL rValue;
 
@@ -171,7 +175,7 @@ assignment: lValue ASSIGN_SYMBOL rValue;
 block:
 	forBlock
 	| whileBlock
-//	| ifBlock
+    | logicBlock
 //	| functionDefinitionBlock
 	| pureBlock
 	;
@@ -224,7 +228,20 @@ functionBody: LEFT_CURLY_BRACE blockBodyCode RIGHT_CURLY_BRACE;
 
 
 ////logic block ==============================================================
-//ifBlock: ;
+logicBlock:
+    ifBlock elseIfBlock* elseBlock?
+    ;
+
+
+ifBlock: IF_SYMBOL '(' rValue ')' '{' blockBodyCode '}';
+
+elseIfBlock:
+    ELSE_IF_SYMBOL '(' rValue ')' '{' blockBodyCode '}'
+    ;
+
+elseBlock:
+    ELSE_SYMBOL '{' blockBodyCode '}'
+    ;
 
 //loop ==============================================================
 //TODO: do-while

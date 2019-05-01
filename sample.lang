@@ -1,14 +1,18 @@
 namespace MyNamespace {
     def void main() {
-        /*
-        for (int i = 0; true; i = i + 1) {
-            print(i);
-        }
-        */
-        while (true) {
+        if (true) {
+            i = i + 1;
+        } elif (false) {
+            i = i + 1;
+        } else {
             i = i + 1;
         }
     }
 }
 
 
+namespace anotherNamespace {
+    def int f() {
+        return true;
+    }
+}

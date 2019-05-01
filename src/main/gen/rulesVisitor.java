@@ -46,6 +46,12 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(rulesParser.ExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link rulesParser#namespaceDefinition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNamespaceDefinition(rulesParser.NamespaceDefinitionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link rulesParser#program}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -147,6 +153,30 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionBody(rulesParser.FunctionBodyContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#logicBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLogicBlock(rulesParser.LogicBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#ifBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfBlock(rulesParser.IfBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#elseIfBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseIfBlock(rulesParser.ElseIfBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#elseBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitElseBlock(rulesParser.ElseBlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#forBlock}.
 	 * @param ctx the parse tree
