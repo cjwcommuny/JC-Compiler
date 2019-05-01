@@ -83,12 +83,12 @@ WHITE_SPACE: [ \t\r\n]+ -> skip;
 
 //TODO
 rValue:
-    expression
+    INT_LITERAL
 //    | DOUBLE_LITERAL
-    | INT_LITERAL
 //    | CHAR_LITERAL
 //    | STRING_LITERAL
 //    | BOOL_LITERAL
+    | expression
     ;
 
 //TODO
@@ -124,7 +124,11 @@ codeContent:
 
 //arithmetic ==============================================================
 arithmeticExpression:
-    rValue
+    VARIABLE_NAME
+    | INT_LITERAL
+//    | DOUBLE_LITERAL
+//    | STRING_LITERAL
+//    | CHAR_LITERAL
     | arithmeticExpression ADD arithmeticExpression
     | arithmeticExpression SUB arithmeticExpression
     | arithmeticExpression MUL arithmeticExpression
