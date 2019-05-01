@@ -82,27 +82,27 @@ BOOL_SYMBOL: 'bool';
 WHITE_SPACE: [ \t\r\n]+ -> skip;
 NEW_LINE_SYMBOL: [\r\n];
 
-//TODO
-rValue:
-    INT_LITERAL
-//    | DOUBLE_LITERAL
-//    | CHAR_LITERAL
-//    | STRING_LITERAL
-//    | BOOL_LITERAL
-    | expression
-    ;
-
-//TODO
-lValue:
-    IDENTIFIER
-//    | lValue DOT IDENTIFIER
-//    | lValue LEFT_BRAKET expression RIGHT_BRAKET
-    ;
-
-expression:
-    IDENTIFIER
-    | arithmeticExpression
-    ;
+////TODO
+//rValue:
+//    INT_LITERAL
+////    | DOUBLE_LITERAL
+////    | CHAR_LITERAL
+////    | STRING_LITERAL
+////    | BOOL_LITERAL
+//    | expression
+//    ;
+//
+////TODO
+//lValue:
+//    IDENTIFIER
+////    | lValue DOT IDENTIFIER
+////    | lValue LEFT_BRAKET expression RIGHT_BRAKET
+//    ;
+//
+//expression:
+//    IDENTIFIER
+//    | arithmeticExpression
+//    ;
 
 
 //program general rules ==============================================================
@@ -113,133 +113,133 @@ program: //empty rule
 
 //code is the content of a namespace, which cannot contain namespace
 code: //empty
-    | code codeContent
+//    | code codeContent
     ;
 
-codeContent:
-    functionDefinitionBlock
-    | assignment
-    ;
+//codeContent:
+//    functionDefinitionBlock
+//    | assignment
+//    ;
 
 
 
-//arithmetic ==============================================================
-arithmeticExpression:
-    VARIABLE_NAME
-    | INT_LITERAL
-//    | DOUBLE_LITERAL
-//    | STRING_LITERAL
-//    | CHAR_LITERAL
-    | arithmeticExpression ADD arithmeticExpression
-    | arithmeticExpression SUB arithmeticExpression
-    | arithmeticExpression MUL arithmeticExpression
-    | arithmeticExpression DIV arithmeticExpression
-    | SUB arithmeticExpression
-    | arithmeticExpression XOR arithmeticExpression
-    | arithmeticExpression OR arithmeticExpression
-    | arithmeticExpression AND arithmeticExpression
-    | NOT arithmeticExpression
-    | LEFT_PARENTHESES arithmeticExpression RIGHT_PARENTHESES
-    ;
-
-
-//assignment ==============================================================
-assignment: lValue ASSIGN_SYMBOL rValue;
-
-//basic structure ==============================================================
-block:
-//	forBlock
-//	| whileBlock
-//	| ifBlock
-//	| functionDefinitionBlock
-	pureBlock
-	;
-
-pureBlock:
-    LEFT_CURLY_BRACE functionBodyCode RIGHT_CURLY_BRACE
-    ;
-
-statementWithoutSemicolon: //TODO
-    returnStatement
-    | assignment
-    | variableDefinition
-    ;
-
-statementList: /*empty */
-    | statementOrBlock statementList
-    ;
-
-statementOrBlock: block
-    | statement
-    ;
-
-statement:
-    statementWithoutSemicolon SEMICOLON
-    ;
-
-functionBodyCode:
-    statementList
-    ;
-
-returnStatement:
-    RETURN_SYMBOL rValue
-    | RETURN_SYMBOL
-    ;
-
-
-//function definition ==============================================================
-functionDefinitionBlock:
-	FUNCTION_DEFINITION_SYMBOL TYPE_NAME FUNCTION_NAME functionParameterDefinition functionBody;
-
-functionParameterDefinition: LEFT_PARENTHESES (parameterList | /*empty*/ ) RIGHT_PARENTHESES;
-
-parameterList:
-    variableDeclaration
-    | parameterList COMMA variableDeclaration
-    ;
-
-functionBody: LEFT_CURLY_BRACE functionBodyCode RIGHT_CURLY_BRACE;
-
-
-//logic block ==============================================================
-//ifBlock: ;
-
-//loop ==============================================================
-
-//forBlock:
-//	FOR_SYMBOL LEFT_PARENTHESES forCondition RIGHT_PARENTHESES LEFT_CURLY_BRACE code RIGHT_CURLY_BRACE;
+////arithmetic ==============================================================
+//arithmeticExpression:
+//    VARIABLE_NAME
+//    | INT_LITERAL
+////    | DOUBLE_LITERAL
+////    | STRING_LITERAL
+////    | CHAR_LITERAL
+//    | arithmeticExpression ADD arithmeticExpression
+//    | arithmeticExpression SUB arithmeticExpression
+//    | arithmeticExpression MUL arithmeticExpression
+//    | arithmeticExpression DIV arithmeticExpression
+//    | SUB arithmeticExpression
+//    | arithmeticExpression XOR arithmeticExpression
+//    | arithmeticExpression OR arithmeticExpression
+//    | arithmeticExpression AND arithmeticExpression
+//    | NOT arithmeticExpression
+//    | LEFT_PARENTHESES arithmeticExpression RIGHT_PARENTHESES
+//    ;
 //
-//forCondition: ; //TODO
 //
-//whileBlock: ;
-
-
-//variable definition ==============================================================
-//TODO: array declaration
-//without semicolon
-variableDefinition:
-    ordinaryVariableDefinition
-//    | arrayDefinition
-	| variableDeclaration
-    ;
-
-ordinaryVariableDefinition: simpleVariableDeclaration ASSIGN_SYMBOL rValue;
-
-//arrayDefinition: arrayDeclaration ASSIGN_SYMBOL rValue;
-
-variableDeclaration:
-    simpleVariableDeclaration
-//    | arrayDeclaration
-;
-
-simpleVariableDeclaration: TYPE_NAME VARIABLE_NAME;
-
-//arrayDeclaration: TYPE_NAME LEFT_BRACKET RIGHT_BRACKET VARIABLE_NAME;
-
-
-// comment  ==============================================================
-comment:
-    COMMENT_START_SYMBOL . NEW_LINE_SYMBOL
-    ;
-
-COMMENT_START_SYMBOL: '//';
+////assignment ==============================================================
+//assignment: lValue ASSIGN_SYMBOL rValue;
+//
+////basic structure ==============================================================
+//block:
+////	forBlock
+////	| whileBlock
+////	| ifBlock
+////	| functionDefinitionBlock
+//	pureBlock
+//	;
+//
+//pureBlock:
+//    LEFT_CURLY_BRACE functionBodyCode RIGHT_CURLY_BRACE
+//    ;
+//
+//statementWithoutSemicolon: //TODO
+//    returnStatement
+//    | assignment
+//    | variableDefinition
+//    ;
+//
+//statementList: /*empty */
+//    | statementOrBlock statementList
+//    ;
+//
+//statementOrBlock: block
+//    | statement
+//    ;
+//
+//statement:
+//    statementWithoutSemicolon SEMICOLON
+//    ;
+//
+//functionBodyCode:
+//    statementList
+//    ;
+//
+//returnStatement:
+//    RETURN_SYMBOL rValue
+//    | RETURN_SYMBOL
+//    ;
+//
+//
+////function definition ==============================================================
+//functionDefinitionBlock:
+//	FUNCTION_DEFINITION_SYMBOL TYPE_NAME FUNCTION_NAME functionParameterDefinition functionBody;
+//
+//functionParameterDefinition: LEFT_PARENTHESES (parameterList | /*empty*/ ) RIGHT_PARENTHESES;
+//
+//parameterList:
+//    variableDeclaration
+//    | parameterList COMMA variableDeclaration
+//    ;
+//
+//functionBody: LEFT_CURLY_BRACE functionBodyCode RIGHT_CURLY_BRACE;
+//
+//
+////logic block ==============================================================
+////ifBlock: ;
+//
+////loop ==============================================================
+//
+////forBlock:
+////	FOR_SYMBOL LEFT_PARENTHESES forCondition RIGHT_PARENTHESES LEFT_CURLY_BRACE code RIGHT_CURLY_BRACE;
+////
+////forCondition: ; //TODO
+////
+////whileBlock: ;
+//
+//
+////variable definition ==============================================================
+////TODO: array declaration
+////without semicolon
+//variableDefinition:
+//    ordinaryVariableDefinition
+////    | arrayDefinition
+//	| variableDeclaration
+//    ;
+//
+//ordinaryVariableDefinition: simpleVariableDeclaration ASSIGN_SYMBOL rValue;
+//
+////arrayDefinition: arrayDeclaration ASSIGN_SYMBOL rValue;
+//
+//variableDeclaration:
+//    simpleVariableDeclaration
+////    | arrayDeclaration
+//;
+//
+//simpleVariableDeclaration: TYPE_NAME VARIABLE_NAME;
+//
+////arrayDeclaration: TYPE_NAME LEFT_BRACKET RIGHT_BRACKET VARIABLE_NAME;
+//
+//
+//// comment  ==============================================================
+//comment:
+//    COMMENT_START_SYMBOL . NEW_LINE_SYMBOL
+//    ;
+//
+//COMMENT_START_SYMBOL: '//';

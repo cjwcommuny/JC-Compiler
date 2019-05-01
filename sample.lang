@@ -1,14 +1,5 @@
-namespace MyNamespace {
-    int a = 3;
+namespace {
 
-    def int func(int x, int y) {
-        int b = 1;
-        int t = x + y + b;
-    }
-
-    def void main() {
-        //int z = func(2, 3);
-        // System.out.println(z);
-    }
 }
+
 
