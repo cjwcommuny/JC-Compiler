@@ -46,6 +46,78 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignment(rulesParser.AssignmentContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link rulesParser#block}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBlock(rulesParser.BlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#pureBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPureBlock(rulesParser.PureBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#statementList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatementList(rulesParser.StatementListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#statementOrBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatementOrBlock(rulesParser.StatementOrBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#statement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatement(rulesParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#functionBodyCode}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionBodyCode(rulesParser.FunctionBodyCodeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#returnStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReturnStatement(rulesParser.ReturnStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#functionDefinitionBlock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionDefinitionBlock(rulesParser.FunctionDefinitionBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#functionParameterDefinition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionParameterDefinition(rulesParser.FunctionParameterDefinitionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#parameterList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParameterList(rulesParser.ParameterListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#functionBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionBody(rulesParser.FunctionBodyContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link rulesParser#variableDefinition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

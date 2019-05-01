@@ -77,7 +77,15 @@ IDENTIFIER: [a-zA-Z_$][a-zA-Z_$0-9]*;
 
 //common ==============================================================
 WHITE_SPACE: [ \t\r\n]+ -> skip;
-NEW_LINE_SYMBOL: [\r\n];
+
+LINE_COMMENT:
+    '//' ~[\r\n]*  -> skip
+    ;
+
+COMMENT
+    : '/*' .*? '*/' -> skip
+;
+
 
 ////TODO
 rValue:
@@ -114,7 +122,7 @@ code: //empty
 
 codeContent:
     variableDefinition SEMICOLON
-//    | functionDefinitionBlock
+    | functionDefinitionBlock
     ;
 
 
@@ -142,61 +150,61 @@ codeContent:
 //assignment ==============================================================
 assignment: lValue ASSIGN_SYMBOL rValue;
 
-////basic structure ==============================================================
-//block:
-////	forBlock
-////	| whileBlock
-////	| ifBlock
-////	| functionDefinitionBlock
-//	pureBlock
-//	;
-//
-//pureBlock:
-//    LEFT_CURLY_BRACE functionBodyCode RIGHT_CURLY_BRACE
-//    ;
-//
-//statementWithoutSemicolon: //TODO
-//    returnStatement
-//    | assignment
-//    | variableDefinition
-//    ;
-//
-//statementList: /*empty */
-//    | statementOrBlock statementList
-//    ;
-//
-//statementOrBlock: block
-//    | statement
-//    ;
-//
-//statement:
-//    statementWithoutSemicolon SEMICOLON
-//    ;
-//
-//functionBodyCode:
-//    statementList
-//    ;
-//
-//returnStatement:
-//    RETURN_SYMBOL rValue
-//    | RETURN_SYMBOL
-//    ;
-//
-//
-////function definition ==============================================================
-//functionDefinitionBlock:
-//	FUNCTION_DEFINITION_SYMBOL TYPE_NAME FUNCTION_NAME functionParameterDefinition functionBody;
-//
-//functionParameterDefinition: LEFT_PARENTHESES (parameterList | /*empty*/ ) RIGHT_PARENTHESES;
-//
-//parameterList:
-//    variableDeclaration
-//    | parameterList COMMA variableDeclaration
-//    ;
-//
-//functionBody: LEFT_CURLY_BRACE functionBodyCode RIGHT_CURLY_BRACE;
-//
-//
+//basic structure ==============================================================
+block:
+//	forBlock
+//	| whileBlock
+//	| ifBlock
+//	| functionDefinitionBlock
+	pureBlock
+	;
+
+pureBlock:
+    LEFT_CURLY_BRACE functionBodyCode RIGHT_CURLY_BRACE
+    ;
+
+statementWithoutSemicolon: //TODO
+    returnStatement
+    | assignment
+    | variableDefinition
+    ;
+
+statementList: /*empty */
+    | statementOrBlock statementList
+    ;
+
+statementOrBlock: block
+    | statement
+    ;
+
+statement:
+    statementWithoutSemicolon SEMICOLON
+    ;
+
+functionBodyCode:
+    statementList
+    ;
+
+returnStatement:
+    RETURN_SYMBOL rValue
+    | RETURN_SYMBOL
+    ;
+
+
+//function definition ==============================================================
+functionDefinitionBlock:
+	FUNCTION_DEFINITION_SYMBOL IDENTIFIER IDENTIFIER functionParameterDefinition functionBody;
+
+functionParameterDefinition: LEFT_PARENTHESES (parameterList | /*empty*/ ) RIGHT_PARENTHESES;
+
+parameterList:
+    variableDeclaration
+    | parameterList COMMA variableDeclaration
+    ;
+
+functionBody: LEFT_CURLY_BRACE functionBodyCode RIGHT_CURLY_BRACE;
+
+
 ////logic block ==============================================================
 ////ifBlock: ;
 //
@@ -233,9 +241,3 @@ simpleVariableDeclaration: IDENTIFIER IDENTIFIER;
 //arrayDeclaration: TYPE_NAME LEFT_BRACKET RIGHT_BRACKET VARIABLE_NAME;
 
 
-//// comment  ==============================================================
-//comment:
-//    COMMENT_START_SYMBOL . NEW_LINE_SYMBOL
-//    ;
-//
-//COMMENT_START_SYMBOL: '//';
