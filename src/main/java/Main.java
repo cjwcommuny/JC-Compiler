@@ -1,8 +1,11 @@
+import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
+import javax.swing.*;
 import java.io.FileInputStream;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -18,5 +21,17 @@ public class Main {
 //        ParseTreeWalker walker = new ParseTreeWalker();
 //        walker.walk(new ShortToUnicodeString(), tree);
         System.out.println();
+
+        //show AST in GUI
+        JFrame frame = new JFrame("Antlr AST");
+        JPanel panel = new JPanel();
+        TreeViewer viewr = new TreeViewer(Arrays.asList(
+                parser.getRuleNames()),tree);
+        viewr.setScale(1.5);
+        panel.add(viewr);
+        frame.add(panel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(1000,500);
+        frame.setVisible(true);
     }
 }

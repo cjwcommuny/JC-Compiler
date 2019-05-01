@@ -1,3 +1,8 @@
-namespace { TEST }
+namespace MyNamespace { 
+    int a = 3;
+    String b = "str";
+    char c = "ch";
+    bool d = true;
+}
 
 

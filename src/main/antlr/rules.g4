@@ -62,24 +62,15 @@ BREAK_SYMBOL: 'break';
 
 
 //data type
-INT_SYMBOL: 'int';
-DOUBLE_SYMBOL: 'double';
-CHAR_SYMBOL: 'char';
-STRING_SYMBOL: 'string';
-BOOL_SYMBOL: 'bool';
+//INT_SYMBOL: 'int';
+//DOUBLE_SYMBOL: 'double';
+//CHAR_SYMBOL: 'char';
+//STRING_SYMBOL: 'string';
+//BOOL_SYMBOL: 'bool';
 
 
 //identifier ==============================================================
-FUNCTION_NAME: [a-zA-Z_$][a-zA-Z_$0-9]*;
-
-TYPE_NAME: [a-zA-Z_$][a-zA-Z_$0-9]*;
-
-VARIABLE_NAME: [a-zA-Z_$][a-zA-Z_$0-9]*;
-
-IDENTIFIER:
-    FUNCTION_NAME
-    | VARIABLE_NAME
-    ;
+IDENTIFIER: [a-zA-Z_$][a-zA-Z_$0-9]*;
 
 
 
@@ -89,22 +80,22 @@ WHITE_SPACE: [ \t\r\n]+ -> skip;
 NEW_LINE_SYMBOL: [\r\n];
 
 ////TODO
-//rValue:
-//    INT_LITERAL
-////    | DOUBLE_LITERAL
-////    | CHAR_LITERAL
-////    | STRING_LITERAL
-////    | BOOL_LITERAL
+rValue:
+    INT_LITERAL
+    | DOUBLE_LITERAL
+    | CHAR_LITERAL
+    | STRING_LITERAL
+    | BOOL_LITERAL
 //    | expression
-//    ;
-//
-////TODO
-//lValue:
-//    IDENTIFIER
-////    | lValue DOT IDENTIFIER
-////    | lValue LEFT_BRAKET expression RIGHT_BRAKET
-//    ;
-//
+    ;
+
+//TODO
+lValue:
+    IDENTIFIER
+//    | lValue DOT IDENTIFIER
+//    | lValue LEFT_BRAKET expression RIGHT_BRAKET
+    ;
+
 //expression:
 //    IDENTIFIER
 //    | arithmeticExpression
@@ -113,18 +104,18 @@ NEW_LINE_SYMBOL: [\r\n];
 
 //program general rules ==============================================================
 program: code //default namespace
-    | NAMESPACE_SYMBOL LEFT_CURLY_BRACE code RIGHT_CURLY_BRACE
+    | NAMESPACE_SYMBOL IDENTIFIER LEFT_CURLY_BRACE code RIGHT_CURLY_BRACE
     ;
 
 //code is the content of a namespace, which cannot contain namespace
-code: TEST_SYMBOL//empty
-//    | code codeContent
+code: //empty
+    | codeContent+
     ;
 
-//codeContent:
-//    functionDefinitionBlock
-//    | assignment
-//    ;
+codeContent:
+    variableDefinition SEMICOLON
+//    | functionDefinitionBlock
+    ;
 
 
 
@@ -148,9 +139,9 @@ code: TEST_SYMBOL//empty
 //    ;
 //
 //
-////assignment ==============================================================
-//assignment: lValue ASSIGN_SYMBOL rValue;
-//
+//assignment ==============================================================
+assignment: lValue ASSIGN_SYMBOL rValue;
+
 ////basic structure ==============================================================
 //block:
 ////	forBlock
@@ -219,29 +210,29 @@ code: TEST_SYMBOL//empty
 ////whileBlock: ;
 //
 //
-////variable definition ==============================================================
-////TODO: array declaration
-////without semicolon
-//variableDefinition:
-//    ordinaryVariableDefinition
-////    | arrayDefinition
-//	| variableDeclaration
-//    ;
-//
-//ordinaryVariableDefinition: simpleVariableDeclaration ASSIGN_SYMBOL rValue;
-//
-////arrayDefinition: arrayDeclaration ASSIGN_SYMBOL rValue;
-//
-//variableDeclaration:
-//    simpleVariableDeclaration
-////    | arrayDeclaration
-//;
-//
-//simpleVariableDeclaration: TYPE_NAME VARIABLE_NAME;
-//
-////arrayDeclaration: TYPE_NAME LEFT_BRACKET RIGHT_BRACKET VARIABLE_NAME;
-//
-//
+//variable definition ==============================================================
+//TODO: array declaration
+//without semicolon
+variableDefinition:
+    ordinaryVariableDefinition
+//    | arrayDefinition
+	| variableDeclaration
+    ;
+
+ordinaryVariableDefinition: simpleVariableDeclaration ASSIGN_SYMBOL rValue;
+
+//arrayDefinition: arrayDeclaration ASSIGN_SYMBOL rValue;
+
+variableDeclaration:
+    simpleVariableDeclaration
+//    | arrayDeclaration
+;
+
+simpleVariableDeclaration: IDENTIFIER IDENTIFIER;
+
+//arrayDeclaration: TYPE_NAME LEFT_BRACKET RIGHT_BRACKET VARIABLE_NAME;
+
+
 //// comment  ==============================================================
 //comment:
 //    COMMENT_START_SYMBOL . NEW_LINE_SYMBOL
