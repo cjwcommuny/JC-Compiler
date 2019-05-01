@@ -27,6 +27,16 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link rulesParser#rValueList}.
+	 * @param ctx the parse tree
+	 */
+	void enterRValueList(rulesParser.RValueListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#rValueList}.
+	 * @param ctx the parse tree
+	 */
+	void exitRValueList(rulesParser.RValueListContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link rulesParser#rValue}.
 	 * @param ctx the parse tree
 	 */
@@ -286,4 +296,14 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#functionCall}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCall(rulesParser.FunctionCallContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#functionCall}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCall(rulesParser.FunctionCallContext ctx);
 }

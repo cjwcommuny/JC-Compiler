@@ -9,8 +9,9 @@ namespace MyNamespace {
     */
 
     def void main() {
-        int[] arr = {3,4,5};
-        int[][] arr2 = {{3,4,5}, {7,8,9}};
+        //int[] arr = {3,4,5};
+        //int[][] arr2 = {{3,4,5}, {7,8,9}};
+        func(3, 4);
     }
 }
 

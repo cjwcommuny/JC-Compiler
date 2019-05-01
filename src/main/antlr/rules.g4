@@ -52,7 +52,11 @@ arrayInitialization:
     ;
 
 simpleArrayInitialization:
-    '{' (rValue ',')* rValue '}'
+    '{' rValueList '}'
+    ;
+
+rValueList:
+    (rValue ',')* rValue
     ;
 
 //keywords ==============================================================
@@ -104,6 +108,7 @@ rValue:
     | BOOL_LITERAL
     | expression
     | arrayInitialization
+    | functionCall
     ;
 
 //TODO
@@ -176,6 +181,7 @@ statementWithoutSemicolon: //TODO
     returnStatement
     | assignment
     | variableDefinition
+    | rValue
     ;
 
 statementList: /*empty */
@@ -251,3 +257,6 @@ arrayDeclaration: IDENTIFIER (LEFT_BRACKET RIGHT_BRACKET)* IDENTIFIER;
 
 
 //call function ==============================================================
+functionCall:
+    IDENTIFIER '(' rValueList ')'
+    ;

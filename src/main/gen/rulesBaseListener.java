@@ -39,6 +39,18 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterRValueList(rulesParser.RValueListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRValueList(rulesParser.RValueListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterRValue(rulesParser.RValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -346,6 +358,18 @@ public class rulesBaseListener implements rulesListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctionCall(rulesParser.FunctionCallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctionCall(rulesParser.FunctionCallContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -22,6 +22,12 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link rulesParser#rValueList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRValueList(rulesParser.RValueListContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link rulesParser#rValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -177,4 +183,10 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#functionCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionCall(rulesParser.FunctionCallContext ctx);
 }
