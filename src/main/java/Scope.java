@@ -15,4 +15,8 @@ public class Scope {
     public int hashCode() {
         return Objects.hash(scopeIndex);
     }
+
+    public Scope(String scopeIndex) {
+        this.scopeIndex = scopeIndex;
+    }
 }

@@ -76,6 +76,12 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArithmeticExpression(rulesParser.ArithmeticExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link rulesParser#boolExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBoolExpression(rulesParser.BoolExpressionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link rulesParser#assignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

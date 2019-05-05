@@ -147,6 +147,18 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterBoolExpression(rulesParser.BoolExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitBoolExpression(rulesParser.BoolExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterAssignment(rulesParser.AssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}

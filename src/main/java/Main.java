@@ -19,16 +19,13 @@ public class Main {
         Lexer lexer = new rulesLexer(CharStreams.fromStream(new FileInputStream(inputFile)));
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         rulesParser parser = new rulesParser(tokenStream);
-//        System.out.println("token stream: ");
-//        System.out.println(tokenStream.getText());
         ParseTree tree = parser.program();
         System.out.println(tree.toStringTree(parser));
-//        ParseTreeWalker walker = new ParseTreeWalker();
-//        walker.walk(new ShortToUnicodeString(), tree);
-        System.out.println();
+//        MyRulesVisitor visitor = new MyRulesVisitor();
+//        visitor.visit(tree);
 
-        //show AST in GUI
-        JFrame frame = new JFrame("Antlr AST");
+        //show ast in GUI
+        JFrame frame = new JFrame("Antlr ast");
         JPanel panel = new JPanel();
         TreeViewer viewr = new TreeViewer(Arrays.asList(
                 parser.getRuleNames()),tree);

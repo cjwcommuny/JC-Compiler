@@ -117,6 +117,16 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitArithmeticExpression(rulesParser.ArithmeticExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link rulesParser#boolExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterBoolExpression(rulesParser.BoolExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#boolExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitBoolExpression(rulesParser.BoolExpressionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link rulesParser#assignment}.
 	 * @param ctx the parse tree
 	 */

@@ -1,20 +1,18 @@
 namespace MyNamespace {
-    struct MyStruct {
-        int i = 0;
-        char[] arr = {'a', 'b'};
-    }
-
-    
     def void f() {
-        struct BS {
-            int j = 1;
-        }
         for (int i = 0; i < 10; i = i + 1) {
             g();
         }
+        //g();
     }
-    
+
     def void g() {
 
     }
 }
+
+/*
+attribute:
+所在作用域：namespace，struct，function或者各种block结构；或者在分析时用 current scope这个状态量替代。
+
+*/

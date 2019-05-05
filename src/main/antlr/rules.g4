@@ -23,7 +23,7 @@ DOT: '.';
 
 ASSIGN_SYMBOL: '=';
 
-EQUAL_SYMBOL: '==';
+
 LOGIC_OR: '||';
 LOGIC_AND: '&&';
 LOGIC_NOT: '!';
@@ -36,6 +36,13 @@ XOR: '^';
 AND: '&';
 OR: '|';
 NOT: '~';
+
+LESS_THAN: '<';
+LESS_OR_EQUAL_THAN: '<=';
+GREATER_THAN: '>';
+GREATER_OR_EQUAL_THAN: '>=';
+EQUAL_SYMBOL: '==';
+
 
 //TODO: scientific notation support
 DOUBLE_LITERAL: [+-]?[0-9]*'.'?[0-9]+;
@@ -122,6 +129,7 @@ lValue:
 expression:
     IDENTIFIER
     | arithmeticExpression
+    | boolExpression
     ;
 
 //namespace definition
@@ -170,6 +178,19 @@ arithmeticExpression:
     | LEFT_PARENTHESES arithmeticExpression RIGHT_PARENTHESES
     ;
 
+//bool expression ==============================================================
+boolExpression:
+    IDENTIFIER
+    | INT_LITERAL
+    | DOUBLE_LITERAL
+    | CHAR_LITERAL
+    | functionCall
+    | boolExpression LESS_THAN boolExpression
+    | boolExpression GREATER_THAN boolExpression
+    | boolExpression LESS_OR_EQUAL_THAN boolExpression
+    | boolExpression GREATER_OR_EQUAL_THAN boolExpression
+    | boolExpression EQUAL_SYMBOL boolExpression
+    ;
 
 //assignment ==============================================================
 assignment: lValue ASSIGN_SYMBOL rValue;
@@ -181,6 +202,7 @@ block:
     | logicBlock
 //	| functionDefinitionBlock
 	| pureBlock
+	| structDefinition
 	;
 
 pureBlock:
@@ -208,7 +230,6 @@ statement:
 
 blockBodyCode:
     statementList
-    | structDefinition
     ;
 
 returnStatement:
@@ -295,7 +316,7 @@ arrayDeclaration: IDENTIFIER (LEFT_BRACKET RIGHT_BRACKET)* IDENTIFIER;
 
 //call function ==============================================================
 functionCall:
-    IDENTIFIER '(' rValueList ')'
+    IDENTIFIER '(' rValueList? ')'
     ;
 
 
