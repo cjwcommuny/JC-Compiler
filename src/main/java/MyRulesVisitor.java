@@ -1,54 +1,68 @@
-import ast.Node;
+import ast.*;
+
+import java.util.List;
 
 public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     @Override
     public Node visitArrayInitialization(rulesParser.ArrayInitializationContext ctx) {
-        return super.visitArrayInitialization(ctx);
+        return super.visitArrayInitialization(ctx);//TODO
     }
 
     @Override
     public Node visitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx) {
-        return super.visitSimpleArrayInitialization(ctx);
-    }
-
-    @Override
-    public Node visitRValueList(rulesParser.RValueListContext ctx) {
-        return super.visitRValueList(ctx);
+        return super.visitSimpleArrayInitialization(ctx);//TODO
     }
 
     @Override
     public Node visitRValue(rulesParser.RValueContext ctx) {
-        return super.visitRValue(ctx);
+        return visit(ctx.children.get(0));
     }
 
     @Override
-    public Node visitLValue(rulesParser.LValueContext ctx) {
-        return super.visitLValue(ctx);
+    public Node visitLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx) {
+        Node arrayIndexNode = new ArrayIndexNode();
+        arrayIndexNode.addChild(visit(ctx.lValue()));
+        arrayIndexNode.addChild(visit(ctx.expression()));
+        return arrayIndexNode;
     }
 
     @Override
-    public Node visitExpression(rulesParser.ExpressionContext ctx) {
-        return super.visitExpression(ctx);
+    public Node visitLValueIdentifier(rulesParser.LValueIdentifierContext ctx) {
+        return new IdentifierNode(ctx.IDENTIFIER().getText());
     }
+
 
     @Override
     public Node visitNamespaceDefinition(rulesParser.NamespaceDefinitionContext ctx) {
-        return super.visitNamespaceDefinition(ctx);
+        Node namespaceNode = new NamespaceNode(ctx.IDENTIFIER().getText());
+        for (rulesParser.CodeContentContext context: ctx.codeContent()) {
+            namespaceNode.addChild(visit(context));
+        }
+        return namespaceNode;
     }
 
     @Override
     public Node visitProgram(rulesParser.ProgramContext ctx) {
-        return super.visitProgram(ctx);
+        Node node = new ProgramNode();
+        for (rulesParser.NamespaceDefinitionContext context: ctx.namespaceDefinition()) {
+            node.addChild(visit(context));
+        }
+        return node;
     }
 
     @Override
-    public Node visitCode(rulesParser.CodeContext ctx) {
-        return super.visitCode(ctx);
+    public Node visitCodeContentVariableDefinition(rulesParser.CodeContentVariableDefinitionContext ctx) {
+        return super.visitCodeContentVariableDefinition(ctx);
     }
 
     @Override
-    public Node visitCodeContent(rulesParser.CodeContentContext ctx) {
-        return super.visitCodeContent(ctx);
+    public Node visitCodeContentFunctionDefinition(rulesParser.CodeContentFunctionDefinitionContext ctx) {
+        return super.visitCodeContentFunctionDefinition(ctx);
+    }
+
+    @Override
+    public Node visitCodeContentStructDefinition(rulesParser.CodeContentStructDefinitionContext ctx) {
+        return super.visitCodeContentStructDefinition(ctx);
     }
 
     @Override

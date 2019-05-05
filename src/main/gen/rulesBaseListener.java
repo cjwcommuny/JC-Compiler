@@ -39,18 +39,6 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRValueList(rulesParser.RValueListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRValueList(rulesParser.RValueListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterRValue(rulesParser.RValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -63,13 +51,25 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLValue(rulesParser.LValueContext ctx) { }
+	@Override public void enterLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLValue(rulesParser.LValueContext ctx) { }
+	@Override public void exitLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLValueIdentifier(rulesParser.LValueIdentifierContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLValueIdentifier(rulesParser.LValueIdentifierContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -111,25 +111,37 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCode(rulesParser.CodeContext ctx) { }
+	@Override public void enterCodeContentVariableDefinition(rulesParser.CodeContentVariableDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCode(rulesParser.CodeContext ctx) { }
+	@Override public void exitCodeContentVariableDefinition(rulesParser.CodeContentVariableDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCodeContent(rulesParser.CodeContentContext ctx) { }
+	@Override public void enterCodeContentFunctionDefinition(rulesParser.CodeContentFunctionDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCodeContent(rulesParser.CodeContentContext ctx) { }
+	@Override public void exitCodeContentFunctionDefinition(rulesParser.CodeContentFunctionDefinitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCodeContentStructDefinition(rulesParser.CodeContentStructDefinitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCodeContentStructDefinition(rulesParser.CodeContentStructDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

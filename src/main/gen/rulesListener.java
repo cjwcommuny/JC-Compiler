@@ -27,16 +27,6 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#rValueList}.
-	 * @param ctx the parse tree
-	 */
-	void enterRValueList(rulesParser.RValueListContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link rulesParser#rValueList}.
-	 * @param ctx the parse tree
-	 */
-	void exitRValueList(rulesParser.RValueListContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link rulesParser#rValue}.
 	 * @param ctx the parse tree
 	 */
@@ -47,15 +37,29 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitRValue(rulesParser.RValueContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#lValue}.
+	 * Enter a parse tree produced by the {@code lValueArrayIndex}
+	 * labeled alternative in {@link rulesParser#lValue}.
 	 * @param ctx the parse tree
 	 */
-	void enterLValue(rulesParser.LValueContext ctx);
+	void enterLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#lValue}.
+	 * Exit a parse tree produced by the {@code lValueArrayIndex}
+	 * labeled alternative in {@link rulesParser#lValue}.
 	 * @param ctx the parse tree
 	 */
-	void exitLValue(rulesParser.LValueContext ctx);
+	void exitLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code lValueIdentifier}
+	 * labeled alternative in {@link rulesParser#lValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterLValueIdentifier(rulesParser.LValueIdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code lValueIdentifier}
+	 * labeled alternative in {@link rulesParser#lValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitLValueIdentifier(rulesParser.LValueIdentifierContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#expression}.
 	 * @param ctx the parse tree
@@ -87,25 +91,41 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitProgram(rulesParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#code}.
+	 * Enter a parse tree produced by the {@code codeContentVariableDefinition}
+	 * labeled alternative in {@link rulesParser#codeContent}.
 	 * @param ctx the parse tree
 	 */
-	void enterCode(rulesParser.CodeContext ctx);
+	void enterCodeContentVariableDefinition(rulesParser.CodeContentVariableDefinitionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#code}.
+	 * Exit a parse tree produced by the {@code codeContentVariableDefinition}
+	 * labeled alternative in {@link rulesParser#codeContent}.
 	 * @param ctx the parse tree
 	 */
-	void exitCode(rulesParser.CodeContext ctx);
+	void exitCodeContentVariableDefinition(rulesParser.CodeContentVariableDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#codeContent}.
+	 * Enter a parse tree produced by the {@code codeContentFunctionDefinition}
+	 * labeled alternative in {@link rulesParser#codeContent}.
 	 * @param ctx the parse tree
 	 */
-	void enterCodeContent(rulesParser.CodeContentContext ctx);
+	void enterCodeContentFunctionDefinition(rulesParser.CodeContentFunctionDefinitionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#codeContent}.
+	 * Exit a parse tree produced by the {@code codeContentFunctionDefinition}
+	 * labeled alternative in {@link rulesParser#codeContent}.
 	 * @param ctx the parse tree
 	 */
-	void exitCodeContent(rulesParser.CodeContentContext ctx);
+	void exitCodeContentFunctionDefinition(rulesParser.CodeContentFunctionDefinitionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code codeContentStructDefinition}
+	 * labeled alternative in {@link rulesParser#codeContent}.
+	 * @param ctx the parse tree
+	 */
+	void enterCodeContentStructDefinition(rulesParser.CodeContentStructDefinitionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code codeContentStructDefinition}
+	 * labeled alternative in {@link rulesParser#codeContent}.
+	 * @param ctx the parse tree
+	 */
+	void exitCodeContentStructDefinition(rulesParser.CodeContentStructDefinitionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#arithmeticExpression}.
 	 * @param ctx the parse tree

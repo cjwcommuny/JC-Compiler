@@ -1,4 +1,4 @@
-// Generated from /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/src/main/antlr/rules.g4 by ANTLR 4.7.2
+// Generated from /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/src/main/antlr/rules.g4 by ANTLR 4.7.1
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class rulesParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7.2", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.7.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -40,47 +40,38 @@ public class rulesParser extends Parser {
 		RULE_ordinaryVariableDefinition = 33, RULE_ordinaryArrayDefinition = 34, 
 		RULE_variableDeclaration = 35, RULE_simpleVariableDeclaration = 36, RULE_arrayDeclaration = 37, 
 		RULE_functionCall = 38, RULE_structFieldStatementList = 39, RULE_structDefinition = 40;
-	private static String[] makeRuleNames() {
-		return new String[] {
-			"arrayInitialization", "simpleArrayInitialization", "rValue", "lValue", 
-			"expression", "namespaceDefinition", "program", "codeContent", "arithmeticExpression", 
-			"boolExpression", "assignment", "block", "pureBlock", "statementWithoutSemicolon", 
-			"statementList", "statementOrBlock", "statement", "blockBodyCode", "returnStatement", 
-			"functionDefinitionBlock", "functionParameterDefinition", "parameterList", 
-			"functionBody", "logicBlock", "ifBlock", "elseIfBlock", "elseBlock", 
-			"forBlock", "forCondition", "initOrStepCondition", "terminateCondition", 
-			"whileBlock", "variableDefinition", "ordinaryVariableDefinition", "ordinaryArrayDefinition", 
-			"variableDeclaration", "simpleVariableDeclaration", "arrayDeclaration", 
-			"functionCall", "structFieldStatementList", "structDefinition"
-		};
-	}
-	public static final String[] ruleNames = makeRuleNames();
+	public static final String[] ruleNames = {
+		"arrayInitialization", "simpleArrayInitialization", "rValue", "lValue", 
+		"expression", "namespaceDefinition", "program", "codeContent", "arithmeticExpression", 
+		"boolExpression", "assignment", "block", "pureBlock", "statementWithoutSemicolon", 
+		"statementList", "statementOrBlock", "statement", "blockBodyCode", "returnStatement", 
+		"functionDefinitionBlock", "functionParameterDefinition", "parameterList", 
+		"functionBody", "logicBlock", "ifBlock", "elseIfBlock", "elseBlock", "forBlock", 
+		"forCondition", "initOrStepCondition", "terminateCondition", "whileBlock", 
+		"variableDefinition", "ordinaryVariableDefinition", "ordinaryArrayDefinition", 
+		"variableDeclaration", "simpleVariableDeclaration", "arrayDeclaration", 
+		"functionCall", "structFieldStatementList", "structDefinition"
+	};
 
-	private static String[] makeLiteralNames() {
-		return new String[] {
-			null, "'TEST'", "'{'", "'}'", "'['", "']'", "'('", "')'", "';'", "','", 
-			"'.'", "'='", "'||'", "'&&'", "'!'", "'+'", "'-'", "'*'", "'/'", "'^'", 
-			"'&'", "'|'", "'~'", "'<'", "'<='", "'>'", "'>='", "'=='", null, null, 
-			null, null, null, "'namespace'", "'def'", "'struct'", "'if'", "'while'", 
-			"'else'", "'elif'", "'return'", "'continue'", "'for'", "'break'"
-		};
-	}
-	private static final String[] _LITERAL_NAMES = makeLiteralNames();
-	private static String[] makeSymbolicNames() {
-		return new String[] {
-			null, "TEST_SYMBOL", "LEFT_CURLY_BRACE", "RIGHT_CURLY_BRACE", "LEFT_BRACKET", 
-			"RIGHT_BRACKET", "LEFT_PARENTHESES", "RIGHT_PARENTHESES", "SEMICOLON", 
-			"COMMA", "DOT", "ASSIGN_SYMBOL", "LOGIC_OR", "LOGIC_AND", "LOGIC_NOT", 
-			"ADD", "SUB", "MUL", "DIV", "XOR", "AND", "OR", "NOT", "LESS_THAN", "LESS_OR_EQUAL_THAN", 
-			"GREATER_THAN", "GREATER_OR_EQUAL_THAN", "EQUAL_SYMBOL", "DOUBLE_LITERAL", 
-			"INT_LITERAL", "CHAR_LITERAL", "STRING_LITERAL", "BOOL_LITERAL", "NAMESPACE_SYMBOL", 
-			"FUNCTION_DEFINITION_SYMBOL", "CLASS_DEFINITION_SYMNOL", "IF_SYMBOL", 
-			"WHILE_SYMBOL", "ELSE_SYMBOL", "ELSE_IF_SYMBOL", "RETURN_SYMBOL", "CONTINUE_SYMBOL", 
-			"FOR_SYMBOL", "BREAK_SYMBOL", "IDENTIFIER", "WHITE_SPACE", "LINE_COMMENT", 
-			"COMMENT"
-		};
-	}
-	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
+	private static final String[] _LITERAL_NAMES = {
+		null, "'TEST'", "'{'", "'}'", "'['", "']'", "'('", "')'", "';'", "','", 
+		"'.'", "'='", "'||'", "'&&'", "'!'", "'+'", "'-'", "'*'", "'/'", "'^'", 
+		"'&'", "'|'", "'~'", "'<'", "'<='", "'>'", "'>='", "'=='", null, null, 
+		null, null, null, "'namespace'", "'def'", "'struct'", "'if'", "'while'", 
+		"'else'", "'elif'", "'return'", "'continue'", "'for'", "'break'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, "TEST_SYMBOL", "LEFT_CURLY_BRACE", "RIGHT_CURLY_BRACE", "LEFT_BRACKET", 
+		"RIGHT_BRACKET", "LEFT_PARENTHESES", "RIGHT_PARENTHESES", "SEMICOLON", 
+		"COMMA", "DOT", "ASSIGN_SYMBOL", "LOGIC_OR", "LOGIC_AND", "LOGIC_NOT", 
+		"ADD", "SUB", "MUL", "DIV", "XOR", "AND", "OR", "NOT", "LESS_THAN", "LESS_OR_EQUAL_THAN", 
+		"GREATER_THAN", "GREATER_OR_EQUAL_THAN", "EQUAL_SYMBOL", "DOUBLE_LITERAL", 
+		"INT_LITERAL", "CHAR_LITERAL", "STRING_LITERAL", "BOOL_LITERAL", "NAMESPACE_SYMBOL", 
+		"FUNCTION_DEFINITION_SYMBOL", "CLASS_DEFINITION_SYMNOL", "IF_SYMBOL", 
+		"WHILE_SYMBOL", "ELSE_SYMBOL", "ELSE_IF_SYMBOL", "RETURN_SYMBOL", "CONTINUE_SYMBOL", 
+		"FOR_SYMBOL", "BREAK_SYMBOL", "IDENTIFIER", "WHITE_SPACE", "LINE_COMMENT", 
+		"COMMENT"
+	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -130,7 +121,6 @@ public class rulesParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
-
 	public static class ArrayInitializationContext extends ParserRuleContext {
 		public List<SimpleArrayInitializationContext> simpleArrayInitialization() {
 			return getRuleContexts(SimpleArrayInitializationContext.class);
@@ -138,26 +128,10 @@ public class rulesParser extends Parser {
 		public SimpleArrayInitializationContext simpleArrayInitialization(int i) {
 			return getRuleContext(SimpleArrayInitializationContext.class,i);
 		}
-		public TerminalNode LEFT_CURLY_BRACE() { return getToken(rulesParser.LEFT_CURLY_BRACE, 0); }
-		public TerminalNode RIGHT_CURLY_BRACE() { return getToken(rulesParser.RIGHT_CURLY_BRACE, 0); }
-		public TerminalNode COMMA() { return getToken(rulesParser.COMMA, 0); }
 		public ArrayInitializationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arrayInitialization; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterArrayInitialization(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitArrayInitialization(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitArrayInitialization(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ArrayInitializationContext arrayInitialization() throws RecognitionException {
@@ -205,35 +179,16 @@ public class rulesParser extends Parser {
 	}
 
 	public static class SimpleArrayInitializationContext extends ParserRuleContext {
-		public TerminalNode LEFT_CURLY_BRACE() { return getToken(rulesParser.LEFT_CURLY_BRACE, 0); }
 		public List<RValueContext> rValue() {
 			return getRuleContexts(RValueContext.class);
 		}
 		public RValueContext rValue(int i) {
 			return getRuleContext(RValueContext.class,i);
 		}
-		public TerminalNode RIGHT_CURLY_BRACE() { return getToken(rulesParser.RIGHT_CURLY_BRACE, 0); }
-		public List<TerminalNode> COMMA() { return getTokens(rulesParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(rulesParser.COMMA, i);
-		}
 		public SimpleArrayInitializationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_simpleArrayInitialization; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterSimpleArrayInitialization(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitSimpleArrayInitialization(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitSimpleArrayInitialization(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final SimpleArrayInitializationContext simpleArrayInitialization() throws RecognitionException {
@@ -299,19 +254,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_rValue; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterRValue(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitRValue(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitRValue(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final RValueContext rValue() throws RecognitionException {
@@ -411,36 +353,10 @@ public class rulesParser extends Parser {
 		}
 		public TerminalNode RIGHT_BRACKET() { return getToken(rulesParser.RIGHT_BRACKET, 0); }
 		public LValueArrayIndexContext(LValueContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterLValueArrayIndex(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitLValueArrayIndex(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitLValueArrayIndex(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	public static class LValueIdentifierContext extends LValueContext {
 		public TerminalNode IDENTIFIER() { return getToken(rulesParser.IDENTIFIER, 0); }
 		public LValueIdentifierContext(LValueContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterLValueIdentifier(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitLValueIdentifier(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitLValueIdentifier(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final LValueContext lValue() throws RecognitionException {
@@ -518,19 +434,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_expression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ExpressionContext expression() throws RecognitionException {
@@ -589,19 +492,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_namespaceDefinition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterNamespaceDefinition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitNamespaceDefinition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitNamespaceDefinition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final NamespaceDefinitionContext namespaceDefinition() throws RecognitionException {
@@ -657,19 +547,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_program; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterProgram(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitProgram(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitProgram(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ProgramContext program() throws RecognitionException {
@@ -722,38 +599,12 @@ public class rulesParser extends Parser {
 			return getRuleContext(FunctionDefinitionBlockContext.class,0);
 		}
 		public CodeContentFunctionDefinitionContext(CodeContentContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterCodeContentFunctionDefinition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitCodeContentFunctionDefinition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitCodeContentFunctionDefinition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	public static class CodeContentStructDefinitionContext extends CodeContentContext {
 		public StructDefinitionContext structDefinition() {
 			return getRuleContext(StructDefinitionContext.class,0);
 		}
 		public CodeContentStructDefinitionContext(CodeContentContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterCodeContentStructDefinition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitCodeContentStructDefinition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitCodeContentStructDefinition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 	public static class CodeContentVariableDefinitionContext extends CodeContentContext {
 		public VariableDefinitionContext variableDefinition() {
@@ -761,19 +612,6 @@ public class rulesParser extends Parser {
 		}
 		public TerminalNode SEMICOLON() { return getToken(rulesParser.SEMICOLON, 0); }
 		public CodeContentVariableDefinitionContext(CodeContentContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterCodeContentVariableDefinition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitCodeContentVariableDefinition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitCodeContentVariableDefinition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final CodeContentContext codeContent() throws RecognitionException {
@@ -854,19 +692,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arithmeticExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterArithmeticExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitArithmeticExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitArithmeticExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ArithmeticExpressionContext arithmeticExpression() throws RecognitionException {
@@ -1095,19 +920,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_boolExpression; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterBoolExpression(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitBoolExpression(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitBoolExpression(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final BoolExpressionContext boolExpression() throws RecognitionException {
@@ -1263,19 +1075,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_assignment; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterAssignment(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitAssignment(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitAssignment(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final AssignmentContext assignment() throws RecognitionException {
@@ -1323,19 +1122,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_block; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitBlock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final BlockContext block() throws RecognitionException {
@@ -1405,19 +1191,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_pureBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterPureBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitPureBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitPureBlock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final PureBlockContext pureBlock() throws RecognitionException {
@@ -1462,19 +1235,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statementWithoutSemicolon; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterStatementWithoutSemicolon(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitStatementWithoutSemicolon(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitStatementWithoutSemicolon(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final StatementWithoutSemicolonContext statementWithoutSemicolon() throws RecognitionException {
@@ -1536,19 +1296,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statementList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterStatementList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitStatementList(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitStatementList(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final StatementListContext statementList() throws RecognitionException {
@@ -1612,19 +1359,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statementOrBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterStatementOrBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitStatementOrBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitStatementOrBlock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final StatementOrBlockContext statementOrBlock() throws RecognitionException {
@@ -1670,19 +1404,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_statement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitStatement(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final StatementContext statement() throws RecognitionException {
@@ -1716,19 +1437,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_blockBodyCode; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterBlockBodyCode(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitBlockBodyCode(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitBlockBodyCode(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final BlockBodyCodeContext blockBodyCode() throws RecognitionException {
@@ -1761,19 +1469,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_returnStatement; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterReturnStatement(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitReturnStatement(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitReturnStatement(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ReturnStatementContext returnStatement() throws RecognitionException {
@@ -1828,19 +1523,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_functionDefinitionBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterFunctionDefinitionBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitFunctionDefinitionBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitFunctionDefinitionBlock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final FunctionDefinitionBlockContext functionDefinitionBlock() throws RecognitionException {
@@ -1882,19 +1564,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_functionParameterDefinition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterFunctionParameterDefinition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitFunctionParameterDefinition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitFunctionParameterDefinition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final FunctionParameterDefinitionContext functionParameterDefinition() throws RecognitionException {
@@ -1929,27 +1598,10 @@ public class rulesParser extends Parser {
 		public VariableDeclarationContext variableDeclaration(int i) {
 			return getRuleContext(VariableDeclarationContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(rulesParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(rulesParser.COMMA, i);
-		}
 		public ParameterListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_parameterList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterParameterList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitParameterList(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitParameterList(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ParameterListContext parameterList() throws RecognitionException {
@@ -2015,19 +1667,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_functionBody; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterFunctionBody(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitFunctionBody(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitFunctionBody(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final FunctionBodyContext functionBody() throws RecognitionException {
@@ -2072,19 +1711,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_logicBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterLogicBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitLogicBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitLogicBlock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final LogicBlockContext logicBlock() throws RecognitionException {
@@ -2135,33 +1761,16 @@ public class rulesParser extends Parser {
 
 	public static class IfBlockContext extends ParserRuleContext {
 		public TerminalNode IF_SYMBOL() { return getToken(rulesParser.IF_SYMBOL, 0); }
-		public TerminalNode LEFT_PARENTHESES() { return getToken(rulesParser.LEFT_PARENTHESES, 0); }
 		public RValueContext rValue() {
 			return getRuleContext(RValueContext.class,0);
 		}
-		public TerminalNode RIGHT_PARENTHESES() { return getToken(rulesParser.RIGHT_PARENTHESES, 0); }
-		public TerminalNode LEFT_CURLY_BRACE() { return getToken(rulesParser.LEFT_CURLY_BRACE, 0); }
 		public BlockBodyCodeContext blockBodyCode() {
 			return getRuleContext(BlockBodyCodeContext.class,0);
 		}
-		public TerminalNode RIGHT_CURLY_BRACE() { return getToken(rulesParser.RIGHT_CURLY_BRACE, 0); }
 		public IfBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_ifBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterIfBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitIfBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitIfBlock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final IfBlockContext ifBlock() throws RecognitionException {
@@ -2199,33 +1808,16 @@ public class rulesParser extends Parser {
 
 	public static class ElseIfBlockContext extends ParserRuleContext {
 		public TerminalNode ELSE_IF_SYMBOL() { return getToken(rulesParser.ELSE_IF_SYMBOL, 0); }
-		public TerminalNode LEFT_PARENTHESES() { return getToken(rulesParser.LEFT_PARENTHESES, 0); }
 		public RValueContext rValue() {
 			return getRuleContext(RValueContext.class,0);
 		}
-		public TerminalNode RIGHT_PARENTHESES() { return getToken(rulesParser.RIGHT_PARENTHESES, 0); }
-		public TerminalNode LEFT_CURLY_BRACE() { return getToken(rulesParser.LEFT_CURLY_BRACE, 0); }
 		public BlockBodyCodeContext blockBodyCode() {
 			return getRuleContext(BlockBodyCodeContext.class,0);
 		}
-		public TerminalNode RIGHT_CURLY_BRACE() { return getToken(rulesParser.RIGHT_CURLY_BRACE, 0); }
 		public ElseIfBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_elseIfBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterElseIfBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitElseIfBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitElseIfBlock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ElseIfBlockContext elseIfBlock() throws RecognitionException {
@@ -2263,28 +1855,13 @@ public class rulesParser extends Parser {
 
 	public static class ElseBlockContext extends ParserRuleContext {
 		public TerminalNode ELSE_SYMBOL() { return getToken(rulesParser.ELSE_SYMBOL, 0); }
-		public TerminalNode LEFT_CURLY_BRACE() { return getToken(rulesParser.LEFT_CURLY_BRACE, 0); }
 		public BlockBodyCodeContext blockBodyCode() {
 			return getRuleContext(BlockBodyCodeContext.class,0);
 		}
-		public TerminalNode RIGHT_CURLY_BRACE() { return getToken(rulesParser.RIGHT_CURLY_BRACE, 0); }
 		public ElseBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_elseBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterElseBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitElseBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitElseBlock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ElseBlockContext elseBlock() throws RecognitionException {
@@ -2316,33 +1893,16 @@ public class rulesParser extends Parser {
 
 	public static class ForBlockContext extends ParserRuleContext {
 		public TerminalNode FOR_SYMBOL() { return getToken(rulesParser.FOR_SYMBOL, 0); }
-		public TerminalNode LEFT_PARENTHESES() { return getToken(rulesParser.LEFT_PARENTHESES, 0); }
 		public ForConditionContext forCondition() {
 			return getRuleContext(ForConditionContext.class,0);
 		}
-		public TerminalNode RIGHT_PARENTHESES() { return getToken(rulesParser.RIGHT_PARENTHESES, 0); }
-		public TerminalNode LEFT_CURLY_BRACE() { return getToken(rulesParser.LEFT_CURLY_BRACE, 0); }
 		public BlockBodyCodeContext blockBodyCode() {
 			return getRuleContext(BlockBodyCodeContext.class,0);
 		}
-		public TerminalNode RIGHT_CURLY_BRACE() { return getToken(rulesParser.RIGHT_CURLY_BRACE, 0); }
 		public ForBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_forBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterForBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitForBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitForBlock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ForBlockContext forBlock() throws RecognitionException {
@@ -2385,10 +1945,6 @@ public class rulesParser extends Parser {
 		public InitOrStepConditionContext initOrStepCondition(int i) {
 			return getRuleContext(InitOrStepConditionContext.class,i);
 		}
-		public List<TerminalNode> SEMICOLON() { return getTokens(rulesParser.SEMICOLON); }
-		public TerminalNode SEMICOLON(int i) {
-			return getToken(rulesParser.SEMICOLON, i);
-		}
 		public TerminateConditionContext terminateCondition() {
 			return getRuleContext(TerminateConditionContext.class,0);
 		}
@@ -2396,19 +1952,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_forCondition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterForCondition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitForCondition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitForCondition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ForConditionContext forCondition() throws RecognitionException {
@@ -2447,27 +1990,10 @@ public class rulesParser extends Parser {
 		public StatementWithoutSemicolonContext statementWithoutSemicolon(int i) {
 			return getRuleContext(StatementWithoutSemicolonContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(rulesParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(rulesParser.COMMA, i);
-		}
 		public InitOrStepConditionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_initOrStepCondition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterInitOrStepCondition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitInitOrStepCondition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitInitOrStepCondition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final InitOrStepConditionContext initOrStepCondition() throws RecognitionException {
@@ -2542,19 +2068,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_terminateCondition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterTerminateCondition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitTerminateCondition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitTerminateCondition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final TerminateConditionContext terminateCondition() throws RecognitionException {
@@ -2602,33 +2115,16 @@ public class rulesParser extends Parser {
 
 	public static class WhileBlockContext extends ParserRuleContext {
 		public TerminalNode WHILE_SYMBOL() { return getToken(rulesParser.WHILE_SYMBOL, 0); }
-		public TerminalNode LEFT_PARENTHESES() { return getToken(rulesParser.LEFT_PARENTHESES, 0); }
 		public RValueContext rValue() {
 			return getRuleContext(RValueContext.class,0);
 		}
-		public TerminalNode RIGHT_PARENTHESES() { return getToken(rulesParser.RIGHT_PARENTHESES, 0); }
-		public TerminalNode LEFT_CURLY_BRACE() { return getToken(rulesParser.LEFT_CURLY_BRACE, 0); }
 		public BlockBodyCodeContext blockBodyCode() {
 			return getRuleContext(BlockBodyCodeContext.class,0);
 		}
-		public TerminalNode RIGHT_CURLY_BRACE() { return getToken(rulesParser.RIGHT_CURLY_BRACE, 0); }
 		public WhileBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_whileBlock; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterWhileBlock(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitWhileBlock(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitWhileBlock(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final WhileBlockContext whileBlock() throws RecognitionException {
@@ -2678,19 +2174,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_variableDefinition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterVariableDefinition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitVariableDefinition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitVariableDefinition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final VariableDefinitionContext variableDefinition() throws RecognitionException {
@@ -2746,19 +2229,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_ordinaryVariableDefinition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterOrdinaryVariableDefinition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitOrdinaryVariableDefinition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitOrdinaryVariableDefinition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final OrdinaryVariableDefinitionContext ordinaryVariableDefinition() throws RecognitionException {
@@ -2798,19 +2268,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_ordinaryArrayDefinition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterOrdinaryArrayDefinition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitOrdinaryArrayDefinition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitOrdinaryArrayDefinition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final OrdinaryArrayDefinitionContext ordinaryArrayDefinition() throws RecognitionException {
@@ -2849,19 +2306,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_variableDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterVariableDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitVariableDeclaration(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitVariableDeclaration(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final VariableDeclarationContext variableDeclaration() throws RecognitionException {
@@ -2907,19 +2351,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_simpleVariableDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterSimpleVariableDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitSimpleVariableDeclaration(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitSimpleVariableDeclaration(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final SimpleVariableDeclarationContext simpleVariableDeclaration() throws RecognitionException {
@@ -2962,19 +2393,6 @@ public class rulesParser extends Parser {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_arrayDeclaration; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterArrayDeclaration(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitArrayDeclaration(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitArrayDeclaration(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final ArrayDeclarationContext arrayDeclaration() throws RecognitionException {
@@ -3019,35 +2437,16 @@ public class rulesParser extends Parser {
 
 	public static class FunctionCallContext extends ParserRuleContext {
 		public TerminalNode IDENTIFIER() { return getToken(rulesParser.IDENTIFIER, 0); }
-		public TerminalNode LEFT_PARENTHESES() { return getToken(rulesParser.LEFT_PARENTHESES, 0); }
-		public TerminalNode RIGHT_PARENTHESES() { return getToken(rulesParser.RIGHT_PARENTHESES, 0); }
 		public List<RValueContext> rValue() {
 			return getRuleContexts(RValueContext.class);
 		}
 		public RValueContext rValue(int i) {
 			return getRuleContext(RValueContext.class,i);
 		}
-		public List<TerminalNode> COMMA() { return getTokens(rulesParser.COMMA); }
-		public TerminalNode COMMA(int i) {
-			return getToken(rulesParser.COMMA, i);
-		}
 		public FunctionCallContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_functionCall; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterFunctionCall(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitFunctionCall(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitFunctionCall(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final FunctionCallContext functionCall() throws RecognitionException {
@@ -3112,27 +2511,10 @@ public class rulesParser extends Parser {
 		public VariableDefinitionContext variableDefinition(int i) {
 			return getRuleContext(VariableDefinitionContext.class,i);
 		}
-		public List<TerminalNode> SEMICOLON() { return getTokens(rulesParser.SEMICOLON); }
-		public TerminalNode SEMICOLON(int i) {
-			return getToken(rulesParser.SEMICOLON, i);
-		}
 		public StructFieldStatementListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_structFieldStatementList; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterStructFieldStatementList(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitStructFieldStatementList(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitStructFieldStatementList(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final StructFieldStatementListContext structFieldStatementList() throws RecognitionException {
@@ -3174,28 +2556,13 @@ public class rulesParser extends Parser {
 	public static class StructDefinitionContext extends ParserRuleContext {
 		public TerminalNode CLASS_DEFINITION_SYMNOL() { return getToken(rulesParser.CLASS_DEFINITION_SYMNOL, 0); }
 		public TerminalNode IDENTIFIER() { return getToken(rulesParser.IDENTIFIER, 0); }
-		public TerminalNode LEFT_CURLY_BRACE() { return getToken(rulesParser.LEFT_CURLY_BRACE, 0); }
 		public StructFieldStatementListContext structFieldStatementList() {
 			return getRuleContext(StructFieldStatementListContext.class,0);
 		}
-		public TerminalNode RIGHT_CURLY_BRACE() { return getToken(rulesParser.RIGHT_CURLY_BRACE, 0); }
 		public StructDefinitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_structDefinition; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterStructDefinition(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitStructDefinition(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitStructDefinition(this);
-			else return visitor.visitChildren(this);
-		}
 	}
 
 	public final StructDefinitionContext structDefinition() throws RecognitionException {

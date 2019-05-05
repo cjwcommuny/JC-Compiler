@@ -1,13 +1,16 @@
 package ast;
 
-public class IdentifierNode extends Node {
+/**
+ * child 1...: codeContent
+ * */
+public class NamespaceNode extends Node {
     private String name;
 
     public String getName() {
         return name;
     }
 
-    public IdentifierNode(String name) {
+    public NamespaceNode(String name) {
         this.name = name;
     }
 }

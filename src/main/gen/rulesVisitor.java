@@ -22,23 +22,25 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#rValueList}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRValueList(rulesParser.RValueListContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link rulesParser#rValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitRValue(rulesParser.RValueContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#lValue}.
+	 * Visit a parse tree produced by the {@code lValueArrayIndex}
+	 * labeled alternative in {@link rulesParser#lValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLValue(rulesParser.LValueContext ctx);
+	T visitLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code lValueIdentifier}
+	 * labeled alternative in {@link rulesParser#lValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLValueIdentifier(rulesParser.LValueIdentifierContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#expression}.
 	 * @param ctx the parse tree
@@ -58,17 +60,26 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(rulesParser.ProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#code}.
+	 * Visit a parse tree produced by the {@code codeContentVariableDefinition}
+	 * labeled alternative in {@link rulesParser#codeContent}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCode(rulesParser.CodeContext ctx);
+	T visitCodeContentVariableDefinition(rulesParser.CodeContentVariableDefinitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#codeContent}.
+	 * Visit a parse tree produced by the {@code codeContentFunctionDefinition}
+	 * labeled alternative in {@link rulesParser#codeContent}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCodeContent(rulesParser.CodeContentContext ctx);
+	T visitCodeContentFunctionDefinition(rulesParser.CodeContentFunctionDefinitionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code codeContentStructDefinition}
+	 * labeled alternative in {@link rulesParser#codeContent}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCodeContentStructDefinition(rulesParser.CodeContentStructDefinitionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#arithmeticExpression}.
 	 * @param ctx the parse tree
