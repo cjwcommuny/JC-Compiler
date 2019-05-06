@@ -27,15 +27,53 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#rValue}.
+	 * Enter a parse tree produced by the {@code rValueliteral}
+	 * labeled alternative in {@link rulesParser#rValue}.
 	 * @param ctx the parse tree
 	 */
-	void enterRValue(rulesParser.RValueContext ctx);
+	void enterRValueliteral(rulesParser.RValueliteralContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#rValue}.
+	 * Exit a parse tree produced by the {@code rValueliteral}
+	 * labeled alternative in {@link rulesParser#rValue}.
 	 * @param ctx the parse tree
 	 */
-	void exitRValue(rulesParser.RValueContext ctx);
+	void exitRValueliteral(rulesParser.RValueliteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code rValueExpressionLabel}
+	 * labeled alternative in {@link rulesParser#rValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterRValueExpressionLabel(rulesParser.RValueExpressionLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code rValueExpressionLabel}
+	 * labeled alternative in {@link rulesParser#rValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitRValueExpressionLabel(rulesParser.RValueExpressionLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arrayInitializationLabel}
+	 * labeled alternative in {@link rulesParser#rValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayInitializationLabel(rulesParser.ArrayInitializationLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arrayInitializationLabel}
+	 * labeled alternative in {@link rulesParser#rValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayInitializationLabel(rulesParser.ArrayInitializationLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code rValueFunctionCallLabel}
+	 * labeled alternative in {@link rulesParser#rValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterRValueFunctionCallLabel(rulesParser.RValueFunctionCallLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code rValueFunctionCallLabel}
+	 * labeled alternative in {@link rulesParser#rValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitRValueFunctionCallLabel(rulesParser.RValueFunctionCallLabelContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code lValueArrayIndex}
 	 * labeled alternative in {@link rulesParser#lValue}.
@@ -127,15 +165,113 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitCodeContentStructDefinition(rulesParser.CodeContentStructDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#arithmeticExpression}.
+	 * Enter a parse tree produced by the {@code arithmeticCharLiteral}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterArithmeticExpression(rulesParser.ArithmeticExpressionContext ctx);
+	void enterArithmeticCharLiteral(rulesParser.ArithmeticCharLiteralContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#arithmeticExpression}.
+	 * Exit a parse tree produced by the {@code arithmeticCharLiteral}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitArithmeticExpression(rulesParser.ArithmeticExpressionContext ctx);
+	void exitArithmeticCharLiteral(rulesParser.ArithmeticCharLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code identifier}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifier(rulesParser.IdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code identifier}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifier(rulesParser.IdentifierContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arithmeticDoubleLiteral}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterArithmeticDoubleLiteral(rulesParser.ArithmeticDoubleLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arithmeticDoubleLiteral}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitArithmeticDoubleLiteral(rulesParser.ArithmeticDoubleLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code functionCallLabel}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code functionCallLabel}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code infixExpression}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterInfixExpression(rulesParser.InfixExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code infixExpression}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitInfixExpression(rulesParser.InfixExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arithmeticBoolLiteral}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterArithmeticBoolLiteral(rulesParser.ArithmeticBoolLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arithmeticBoolLiteral}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitArithmeticBoolLiteral(rulesParser.ArithmeticBoolLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code unaryExpression}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterUnaryExpression(rulesParser.UnaryExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code unaryExpression}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitUnaryExpression(rulesParser.UnaryExpressionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arithmeticStringLiteral}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterArithmeticStringLiteral(rulesParser.ArithmeticStringLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arithmeticStringLiteral}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitArithmeticStringLiteral(rulesParser.ArithmeticStringLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code arithmeticIntLiteral}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterArithmeticIntLiteral(rulesParser.ArithmeticIntLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code arithmeticIntLiteral}
+	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitArithmeticIntLiteral(rulesParser.ArithmeticIntLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#boolExpression}.
 	 * @param ctx the parse tree
@@ -157,15 +293,65 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitAssignment(rulesParser.AssignmentContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#block}.
+	 * Enter a parse tree produced by the {@code forBlockLabel}
+	 * labeled alternative in {@link rulesParser#block}.
 	 * @param ctx the parse tree
 	 */
-	void enterBlock(rulesParser.BlockContext ctx);
+	void enterForBlockLabel(rulesParser.ForBlockLabelContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#block}.
+	 * Exit a parse tree produced by the {@code forBlockLabel}
+	 * labeled alternative in {@link rulesParser#block}.
 	 * @param ctx the parse tree
 	 */
-	void exitBlock(rulesParser.BlockContext ctx);
+	void exitForBlockLabel(rulesParser.ForBlockLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code whileBlockLabel}
+	 * labeled alternative in {@link rulesParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileBlockLabel(rulesParser.WhileBlockLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code whileBlockLabel}
+	 * labeled alternative in {@link rulesParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileBlockLabel(rulesParser.WhileBlockLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code logicBlockLabel}
+	 * labeled alternative in {@link rulesParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicBlockLabel(rulesParser.LogicBlockLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code logicBlockLabel}
+	 * labeled alternative in {@link rulesParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicBlockLabel(rulesParser.LogicBlockLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code pureBlockLabel}
+	 * labeled alternative in {@link rulesParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterPureBlockLabel(rulesParser.PureBlockLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code pureBlockLabel}
+	 * labeled alternative in {@link rulesParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitPureBlockLabel(rulesParser.PureBlockLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code structDefinitionLabel}
+	 * labeled alternative in {@link rulesParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructDefinitionLabel(rulesParser.StructDefinitionLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code structDefinitionLabel}
+	 * labeled alternative in {@link rulesParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructDefinitionLabel(rulesParser.StructDefinitionLabelContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#pureBlock}.
 	 * @param ctx the parse tree
@@ -177,15 +363,53 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitPureBlock(rulesParser.PureBlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#statementWithoutSemicolon}.
+	 * Enter a parse tree produced by the {@code returnStatementLabel}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
 	 * @param ctx the parse tree
 	 */
-	void enterStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx);
+	void enterReturnStatementLabel(rulesParser.ReturnStatementLabelContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#statementWithoutSemicolon}.
+	 * Exit a parse tree produced by the {@code returnStatementLabel}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
 	 * @param ctx the parse tree
 	 */
-	void exitStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx);
+	void exitReturnStatementLabel(rulesParser.ReturnStatementLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code assignmentLabel}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignmentLabel(rulesParser.AssignmentLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code assignmentLabel}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignmentLabel(rulesParser.AssignmentLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code variableDefinitionLabel}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableDefinitionLabel(rulesParser.VariableDefinitionLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code variableDefinitionLabel}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableDefinitionLabel(rulesParser.VariableDefinitionLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code rValueLabel}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 */
+	void enterRValueLabel(rulesParser.RValueLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code rValueLabel}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 */
+	void exitRValueLabel(rulesParser.RValueLabelContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#statementList}.
 	 * @param ctx the parse tree

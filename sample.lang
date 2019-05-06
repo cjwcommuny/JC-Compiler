@@ -1,5 +1,7 @@
 namespace MyNamespace {
-    int[] arr = {1,2,3};
+    def f() {
+        3 + 2;
+    }
 }
 
 /*

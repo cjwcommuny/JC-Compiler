@@ -85,14 +85,15 @@ COMMENT: '/*' .*? '*/' -> skip;
 
 ////TODO
 rValue:
-	INT_LITERAL
-	| DOUBLE_LITERAL
-	| CHAR_LITERAL
-	| STRING_LITERAL
-	| BOOL_LITERAL
-	| expression
-	| arrayInitialization
-	| functionCall;
+	INT_LITERAL # rValueliteral
+	| DOUBLE_LITERAL # rValueliteral
+	| CHAR_LITERAL # rValueliteral
+	| STRING_LITERAL # rValueliteral
+	| BOOL_LITERAL # rValueliteral
+	| expression # rValueExpressionLabel
+	| arrayInitialization # arrayInitializationLabel
+	| functionCall # rValueFunctionCallLabel
+	;
 
 //TODO
 lValue:
@@ -101,7 +102,10 @@ lValue:
 	| lValue LEFT_BRACKET expression RIGHT_BRACKET # lValueArrayIndex
     ;
 
-expression: IDENTIFIER | arithmeticExpression | boolExpression;
+expression: IDENTIFIER
+    | arithmeticExpression
+    | boolExpression
+    ;
 
 //namespace definition
 namespaceDefinition:
@@ -121,32 +125,33 @@ codeContent:
 
 //arithmetic or bool expression ==============================================================
 arithmeticExpression:
-	IDENTIFIER
-	| INT_LITERAL
-	| DOUBLE_LITERAL
-	| STRING_LITERAL
-	| CHAR_LITERAL
-	| BOOL_LITERAL
-	| functionCall
-	| arithmeticExpression ADD arithmeticExpression
-	| arithmeticExpression SUB arithmeticExpression
-	| arithmeticExpression MUL arithmeticExpression
-	| arithmeticExpression DIV arithmeticExpression
-	| SUB arithmeticExpression
-	| arithmeticExpression XOR arithmeticExpression
-	| arithmeticExpression OR arithmeticExpression
-	| arithmeticExpression AND arithmeticExpression
-	| NOT arithmeticExpression
-	| LEFT_PARENTHESES arithmeticExpression RIGHT_PARENTHESES;
+	IDENTIFIER # identifier
+	| INT_LITERAL # arithmeticIntLiteral
+	| DOUBLE_LITERAL # arithmeticDoubleLiteral
+	| STRING_LITERAL # arithmeticStringLiteral
+	| CHAR_LITERAL # arithmeticCharLiteral
+	| BOOL_LITERAL # arithmeticBoolLiteral
+	| functionCall # functionCallLabel
+	| arithmeticExpression ADD arithmeticExpression # infixExpression
+	| arithmeticExpression SUB arithmeticExpression # infixExpression
+	| arithmeticExpression MUL arithmeticExpression # infixExpression
+	| arithmeticExpression DIV arithmeticExpression # infixExpression
+	| SUB arithmeticExpression # unaryExpression
+	| arithmeticExpression XOR arithmeticExpression # infixExpression
+	| arithmeticExpression OR arithmeticExpression # infixExpression
+	| arithmeticExpression AND arithmeticExpression # infixExpression
+	| NOT arithmeticExpression # unaryExpression
+	| LEFT_PARENTHESES arithmeticExpression RIGHT_PARENTHESES # infixExpression
+    ;
 
 //bool expression ==============================================================
 boolExpression:
-	IDENTIFIER
-	| INT_LITERAL
-	| DOUBLE_LITERAL
-	| CHAR_LITERAL
-	| functionCall
-	| boolExpression LESS_THAN boolExpression
+	IDENTIFIER //#identifier
+	| INT_LITERAL //# intLiteral
+	| DOUBLE_LITERAL //# doubleLiteral
+	| CHAR_LITERAL //# charLiteral
+	| functionCall //# functionCallLabel
+	| boolExpression LESS_THAN boolExpression //# less
 	| boolExpression GREATER_THAN boolExpression
 	| boolExpression LESS_OR_EQUAL_THAN boolExpression
 	| boolExpression GREATER_OR_EQUAL_THAN boolExpression
@@ -157,24 +162,30 @@ assignment: lValue ASSIGN_SYMBOL rValue;
 
 //basic structure ==============================================================
 block:
-	forBlock
-	| whileBlock
-	| logicBlock
+	forBlock # forBlockLabel
+	| whileBlock # whileBlockLabel
+	| logicBlock # logicBlockLabel
 	//	| functionDefinitionBlock
-	| pureBlock
-	| structDefinition;
+	| pureBlock # pureBlockLabel
+	| structDefinition # structDefinitionLabel
+	;
 
 pureBlock: LEFT_CURLY_BRACE blockBodyCode RIGHT_CURLY_BRACE;
 
 statementWithoutSemicolon: //TODO
-	returnStatement
-	| assignment
-	| variableDefinition
-	| rValue;
+	returnStatement # returnStatementLabel
+	| assignment # assignmentLabel
+	| variableDefinition # variableDefinitionLabel
+	| rValue # rValueLabel
+	;
 
-statementList: /*empty */ | statementOrBlock statementList;
+statementList: (statementOrBlock)*;
 
-statementOrBlock: block | statement;
+statementOrBlock:
+    block
+    | statement
+    ;
+
 
 statement: statementWithoutSemicolon SEMICOLON;
 

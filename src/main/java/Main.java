@@ -1,3 +1,4 @@
+import ast.Node;
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -20,11 +21,14 @@ public class Main {
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         rulesParser parser = new rulesParser(tokenStream);
         ParseTree tree = parser.program();
-        System.out.println(tree.toStringTree(parser));
-//        MyRulesVisitor visitor = new MyRulesVisitor();
-//        visitor.visit(tree);
+//        System.out.println(tree.toStringTree(parser));
+        MyRulesVisitor visitor = new MyRulesVisitor();
+        Node abstractSyntaxTree = visitor.visit(tree);
 
-        //show ast in GUI
+        showAstInGUI(parser, tree);
+    }
+
+    private static void showAstInGUI(rulesParser parser, ParseTree tree) {
         JFrame frame = new JFrame("Antlr ast");
         JPanel panel = new JPanel();
         TreeViewer viewr = new TreeViewer(Arrays.asList(
