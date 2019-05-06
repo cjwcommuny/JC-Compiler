@@ -87,12 +87,6 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
         return new IdentifierNode(ctx.IDENTIFIER().getText());
     }
 
-//    @Override
-//    public Node visitFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx) {
-//        return super.visitFunctionCallLabel(ctx);//TODO
-//    }
-
-
 
     @Override
     public Node visitUnaryExpression(rulesParser.UnaryExpressionContext ctx) {
@@ -294,8 +288,8 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     @Override
     public Node visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
         Node variableDefinition = new VariableDefinitionNode();
-        variableDefinition.addChild(visit(ctx.IDENTIFIER(0)));
-        variableDefinition.addChild(visit(ctx.IDENTIFIER(1)));
+        variableDefinition.addChild(new TypeNode(ctx.IDENTIFIER(0).getText()));
+        variableDefinition.addChild(new VariableNameNode(ctx.IDENTIFIER(1).getText()));
         variableDefinition.addChild(visit(ctx.rValue()));
         return variableDefinition;
     }
@@ -304,8 +298,8 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     public Node visitOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx) {
         int dimension = ctx.LEFT_BRACKET().size();
         Node node = new ArrayDefinitionNode(dimension);
-        node.addChild(visit(ctx.IDENTIFIER(0)));
-        node.addChild(visit(ctx.IDENTIFIER(1)));
+        node.addChild(new TypeNode(ctx.IDENTIFIER(0).getText()));
+        node.addChild(new ArrayNameNode(ctx.IDENTIFIER(1).getText()));
         node.addChild(visit(ctx.rValue()));
         return node;
     }
@@ -313,8 +307,8 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     @Override
     public Node visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) {
         Node node = new VariableDefinitionNode();
-        node.addChild(visit(ctx.IDENTIFIER(0)));
-        node.addChild(visit(ctx.IDENTIFIER(1)));
+        node.addChild(new TypeNode(ctx.IDENTIFIER(0).getText()));
+        node.addChild(new VariableNameNode(ctx.IDENTIFIER(1).getText()));
         node.addChild(new DefaultValueNode());
         return node;
     }
@@ -324,8 +318,8 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     public Node visitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx) {
         int dimension = ctx.LEFT_BRACKET().size();
         Node node = new ArrayDefinitionNode(dimension);
-        node.addChild(visit(ctx.IDENTIFIER(0)));
-        node.addChild(visit(ctx.IDENTIFIER(1)));
+        node.addChild(new TypeNode(ctx.IDENTIFIER(0).getText()));
+        node.addChild(new ArrayNameNode(ctx.IDENTIFIER(1).getText()));
         node.addChild(new DefaultValueNode());
         return node;
     }
@@ -333,7 +327,7 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     @Override
     public Node visitFunctionCall(rulesParser.FunctionCallContext ctx) {
         Node node = new FunctionCallNode();
-        node.addChild(visit(ctx.IDENTIFIER()));
+        node.addChild(new FunctionNameNode(ctx.IDENTIFIER().getText()));
         for (rulesParser.RValueContext context: ctx.rValue()) {
             node.addChild(visit(context));
         }
@@ -352,7 +346,7 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     @Override
     public Node visitStructDefinition(rulesParser.StructDefinitionContext ctx) {
         Node node = new StructureDefinitionNode();
-        node.addChild(visit(ctx.IDENTIFIER()));
+        node.addChild(new TypeNode(ctx.IDENTIFIER().getText()));
         node.addChild(visit(ctx.structFieldStatementList()));
         return node;
     }

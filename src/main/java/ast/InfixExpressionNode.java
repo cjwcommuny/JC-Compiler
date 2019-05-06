@@ -1,6 +1,7 @@
 package ast;
 
 public class InfixExpressionNode extends Node {
+    private String typeName;
     private String operation;
 
     public InfixExpressionNode(String operation) {
@@ -14,5 +15,9 @@ public class InfixExpressionNode extends Node {
     @Override
     protected String visualInfo() {
         return "InfixExpression: " + operation;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 }
