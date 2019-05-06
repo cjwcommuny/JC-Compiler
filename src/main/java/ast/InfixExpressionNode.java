@@ -10,4 +10,9 @@ public class InfixExpressionNode extends Node {
     public String getOperation() {
         return operation;
     }
+
+    @Override
+    protected String visualInfo() {
+        return "InfixExpression: " + operation;
+    }
 }

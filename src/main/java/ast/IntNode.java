@@ -9,4 +9,9 @@ public class IntNode extends Node {
     public IntNode(int value) {
         this.value = value;
     }
+
+    @Override
+    protected String visualInfo() {
+        return "INT: " + value;
+    }
 }

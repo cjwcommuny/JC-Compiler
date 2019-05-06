@@ -13,4 +13,9 @@ public class NamespaceNode extends Node {
     public NamespaceNode(String name) {
         this.name = name;
     }
+
+    @Override
+    protected String visualInfo() {
+        return "Namespace: " + name;
+    }
 }

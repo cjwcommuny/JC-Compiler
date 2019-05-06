@@ -41,8 +41,8 @@ GREATER_OR_EQUAL_THAN: '>=';
 EQUAL_SYMBOL: '==';
 
 //TODO: scientific notation support
-DOUBLE_LITERAL: [+-]? [0-9]* '.'? [0-9]+;
 INT_LITERAL: [+-]? [0-9]+;
+DOUBLE_LITERAL: [+-]? [0-9]* '.'? [0-9]+;
 //TODO: unicode support
 CHAR_LITERAL: '\'' [a-zA-Z] '\'';
 //TODO: unicode support

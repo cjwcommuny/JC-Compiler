@@ -84,8 +84,8 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     @Override
     public Node visitInfixExpression(rulesParser.InfixExpressionContext ctx) {
         Node infixExpression = new InfixExpressionNode(ctx.getChild(1).getText());
-        infixExpression.addChild(visit(ctx.arithmeticExpression(0)));
-        infixExpression.addChild(visit(ctx.arithmeticExpression(1)));
+        infixExpression.addChild(visit(ctx.getChild(0)));
+        infixExpression.addChild(visit(ctx.getChild(2)));
         return infixExpression;
     }
 
@@ -116,7 +116,7 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
 
     @Override
     public Node visitArithmeticDoubleLiteral(rulesParser.ArithmeticDoubleLiteralContext ctx) {
-        return super.visitArithmeticDoubleLiteral(ctx);
+        return new DoubleNode(Double.parseDouble(ctx.DOUBLE_LITERAL().getText()));
     }
 
     @Override

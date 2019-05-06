@@ -10,4 +10,9 @@ public class IdentifierNode extends Node {
     public IdentifierNode(String name) {
         this.name = name;
     }
+
+    @Override
+    protected String visualInfo() {
+        return "Identifier: " + name;
+    }
 }

@@ -21,7 +21,7 @@ public class rulesParser extends Parser {
 		COMMA=9, DOT=10, ASSIGN_SYMBOL=11, LOGIC_OR=12, LOGIC_AND=13, LOGIC_NOT=14, 
 		ADD=15, SUB=16, MUL=17, DIV=18, XOR=19, AND=20, OR=21, NOT=22, LESS_THAN=23, 
 		LESS_OR_EQUAL_THAN=24, GREATER_THAN=25, GREATER_OR_EQUAL_THAN=26, EQUAL_SYMBOL=27, 
-		DOUBLE_LITERAL=28, INT_LITERAL=29, CHAR_LITERAL=30, STRING_LITERAL=31, 
+		INT_LITERAL=28, DOUBLE_LITERAL=29, CHAR_LITERAL=30, STRING_LITERAL=31, 
 		BOOL_LITERAL=32, NAMESPACE_SYMBOL=33, FUNCTION_DEFINITION_SYMBOL=34, CLASS_DEFINITION_SYMNOL=35, 
 		IF_SYMBOL=36, WHILE_SYMBOL=37, ELSE_SYMBOL=38, ELSE_IF_SYMBOL=39, RETURN_SYMBOL=40, 
 		CONTINUE_SYMBOL=41, FOR_SYMBOL=42, BREAK_SYMBOL=43, IDENTIFIER=44, WHITE_SPACE=45, 
@@ -72,8 +72,8 @@ public class rulesParser extends Parser {
 			"RIGHT_BRACKET", "LEFT_PARENTHESES", "RIGHT_PARENTHESES", "SEMICOLON", 
 			"COMMA", "DOT", "ASSIGN_SYMBOL", "LOGIC_OR", "LOGIC_AND", "LOGIC_NOT", 
 			"ADD", "SUB", "MUL", "DIV", "XOR", "AND", "OR", "NOT", "LESS_THAN", "LESS_OR_EQUAL_THAN", 
-			"GREATER_THAN", "GREATER_OR_EQUAL_THAN", "EQUAL_SYMBOL", "DOUBLE_LITERAL", 
-			"INT_LITERAL", "CHAR_LITERAL", "STRING_LITERAL", "BOOL_LITERAL", "NAMESPACE_SYMBOL", 
+			"GREATER_THAN", "GREATER_OR_EQUAL_THAN", "EQUAL_SYMBOL", "INT_LITERAL", 
+			"DOUBLE_LITERAL", "CHAR_LITERAL", "STRING_LITERAL", "BOOL_LITERAL", "NAMESPACE_SYMBOL", 
 			"FUNCTION_DEFINITION_SYMBOL", "CLASS_DEFINITION_SYMNOL", "IF_SYMBOL", 
 			"WHILE_SYMBOL", "ELSE_SYMBOL", "ELSE_IF_SYMBOL", "RETURN_SYMBOL", "CONTINUE_SYMBOL", 
 			"FOR_SYMBOL", "BREAK_SYMBOL", "IDENTIFIER", "WHITE_SPACE", "LINE_COMMENT", 
@@ -1933,7 +1933,7 @@ public class rulesParser extends Parser {
 			setState(250);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LEFT_CURLY_BRACE) | (1L << LEFT_PARENTHESES) | (1L << SUB) | (1L << NOT) | (1L << DOUBLE_LITERAL) | (1L << INT_LITERAL) | (1L << CHAR_LITERAL) | (1L << STRING_LITERAL) | (1L << BOOL_LITERAL) | (1L << CLASS_DEFINITION_SYMNOL) | (1L << IF_SYMBOL) | (1L << WHILE_SYMBOL) | (1L << RETURN_SYMBOL) | (1L << FOR_SYMBOL) | (1L << IDENTIFIER))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LEFT_CURLY_BRACE) | (1L << LEFT_PARENTHESES) | (1L << SUB) | (1L << NOT) | (1L << INT_LITERAL) | (1L << DOUBLE_LITERAL) | (1L << CHAR_LITERAL) | (1L << STRING_LITERAL) | (1L << BOOL_LITERAL) | (1L << CLASS_DEFINITION_SYMNOL) | (1L << IF_SYMBOL) | (1L << WHILE_SYMBOL) | (1L << RETURN_SYMBOL) | (1L << FOR_SYMBOL) | (1L << IDENTIFIER))) != 0)) {
 				{
 				{
 				setState(247);
@@ -2844,8 +2844,8 @@ public class rulesParser extends Parser {
 			case LEFT_PARENTHESES:
 			case SUB:
 			case NOT:
-			case DOUBLE_LITERAL:
 			case INT_LITERAL:
+			case DOUBLE_LITERAL:
 			case CHAR_LITERAL:
 			case STRING_LITERAL:
 			case BOOL_LITERAL:
@@ -2929,8 +2929,8 @@ public class rulesParser extends Parser {
 			case LEFT_PARENTHESES:
 			case SUB:
 			case NOT:
-			case DOUBLE_LITERAL:
 			case INT_LITERAL:
+			case DOUBLE_LITERAL:
 			case CHAR_LITERAL:
 			case STRING_LITERAL:
 			case BOOL_LITERAL:
@@ -3421,7 +3421,7 @@ public class rulesParser extends Parser {
 			setState(403);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LEFT_CURLY_BRACE) | (1L << LEFT_PARENTHESES) | (1L << SUB) | (1L << NOT) | (1L << DOUBLE_LITERAL) | (1L << INT_LITERAL) | (1L << CHAR_LITERAL) | (1L << STRING_LITERAL) | (1L << BOOL_LITERAL) | (1L << IDENTIFIER))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LEFT_CURLY_BRACE) | (1L << LEFT_PARENTHESES) | (1L << SUB) | (1L << NOT) | (1L << INT_LITERAL) | (1L << DOUBLE_LITERAL) | (1L << CHAR_LITERAL) | (1L << STRING_LITERAL) | (1L << BOOL_LITERAL) | (1L << IDENTIFIER))) != 0)) {
 				{
 				setState(399);
 				_errHandler.sync(this);
@@ -3681,7 +3681,7 @@ public class rulesParser extends Parser {
 		"\3\2WX\7\13\2\2XY\3\2\2\2YZ\5\4\3\2Z[\7\5\2\2[]\3\2\2\2\\T\3\2\2\2\\U"+
 		"\3\2\2\2]\3\3\2\2\2^d\7\4\2\2_`\5\6\4\2`a\7\13\2\2ac\3\2\2\2b_\3\2\2\2"+
 		"cf\3\2\2\2db\3\2\2\2de\3\2\2\2eg\3\2\2\2fd\3\2\2\2gh\5\6\4\2hi\7\5\2\2"+
-		"i\5\3\2\2\2js\7\37\2\2ks\7\36\2\2ls\7 \2\2ms\7!\2\2ns\7\"\2\2os\5\n\6"+
+		"i\5\3\2\2\2js\7\36\2\2ks\7\37\2\2ls\7 \2\2ms\7!\2\2ns\7\"\2\2os\5\n\6"+
 		"\2ps\5\2\2\2qs\5N(\2rj\3\2\2\2rk\3\2\2\2rl\3\2\2\2rm\3\2\2\2rn\3\2\2\2"+
 		"ro\3\2\2\2rp\3\2\2\2rq\3\2\2\2s\7\3\2\2\2tu\b\5\1\2uv\7.\2\2v~\3\2\2\2"+
 		"wx\f\3\2\2xy\7\6\2\2yz\5\n\6\2z{\7\7\2\2{}\3\2\2\2|w\3\2\2\2}\u0080\3"+
@@ -3695,7 +3695,7 @@ public class rulesParser extends Parser {
 		"\u0094\3\2\2\2\u0094\17\3\2\2\2\u0095\u0096\5B\"\2\u0096\u0097\7\n\2\2"+
 		"\u0097\u009b\3\2\2\2\u0098\u009b\5(\25\2\u0099\u009b\5R*\2\u009a\u0095"+
 		"\3\2\2\2\u009a\u0098\3\2\2\2\u009a\u0099\3\2\2\2\u009b\21\3\2\2\2\u009c"+
-		"\u009d\b\n\1\2\u009d\u00ad\7.\2\2\u009e\u00ad\7\37\2\2\u009f\u00ad\7\36"+
+		"\u009d\b\n\1\2\u009d\u00ad\7.\2\2\u009e\u00ad\7\36\2\2\u009f\u00ad\7\37"+
 		"\2\2\u00a0\u00ad\7!\2\2\u00a1\u00ad\7 \2\2\u00a2\u00ad\7\"\2\2\u00a3\u00ad"+
 		"\5N(\2\u00a4\u00a5\7\22\2\2\u00a5\u00ad\5\22\n\b\u00a6\u00a7\7\30\2\2"+
 		"\u00a7\u00ad\5\22\n\4\u00a8\u00a9\7\b\2\2\u00a9\u00aa\5\22\n\2\u00aa\u00ab"+
@@ -3712,7 +3712,7 @@ public class rulesParser extends Parser {
 		"\3\2\2\2\u00c3\u00b4\3\2\2\2\u00c3\u00b7\3\2\2\2\u00c3\u00ba\3\2\2\2\u00c3"+
 		"\u00bd\3\2\2\2\u00c3\u00c0\3\2\2\2\u00c4\u00c7\3\2\2\2\u00c5\u00c3\3\2"+
 		"\2\2\u00c5\u00c6\3\2\2\2\u00c6\23\3\2\2\2\u00c7\u00c5\3\2\2\2\u00c8\u00c9"+
-		"\b\13\1\2\u00c9\u00cf\7.\2\2\u00ca\u00cf\7\37\2\2\u00cb\u00cf\7\36\2\2"+
+		"\b\13\1\2\u00c9\u00cf\7.\2\2\u00ca\u00cf\7\36\2\2\u00cb\u00cf\7\37\2\2"+
 		"\u00cc\u00cf\7 \2\2\u00cd\u00cf\5N(\2\u00ce\u00c8\3\2\2\2\u00ce\u00ca"+
 		"\3\2\2\2\u00ce\u00cb\3\2\2\2\u00ce\u00cc\3\2\2\2\u00ce\u00cd\3\2\2\2\u00cf"+
 		"\u00e1\3\2\2\2\u00d0\u00d1\f\7\2\2\u00d1\u00d2\7\31\2\2\u00d2\u00e0\5"+

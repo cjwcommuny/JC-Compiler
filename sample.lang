@@ -1,5 +1,5 @@
 namespace MyNamespace {
-    def f() {
+    def void f() {
         3 + 2;
     }
 }

@@ -21,8 +21,8 @@ public class SymbolTableGenerator extends rulesBaseListener {
         scopeSymbolTable.put(scope, new HashMap<>());
     }
 
-    @Override
-    public void exitCodeContent(rulesParser.CodeContentContext ctx) {
-//        Map<Symbol, Value> scope = ctx.parent.parent.
-    }
+//    @Override
+//    public void exitCodeContent(rulesParser.CodeContentContext ctx) {
+////        Map<Symbol, Value> scope = ctx.parent.parent.
+//    }
 }

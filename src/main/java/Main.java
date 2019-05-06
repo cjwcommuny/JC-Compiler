@@ -24,7 +24,7 @@ public class Main {
 //        System.out.println(tree.toStringTree(parser));
         MyRulesVisitor visitor = new MyRulesVisitor();
         Node abstractSyntaxTree = visitor.visit(tree);
-
+        abstractSyntaxTree.printTree();
         showAstInGUI(parser, tree);
     }
 
