@@ -15,18 +15,6 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArrayInitialization(rulesParser.ArrayInitializationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArrayInitialization(rulesParser.ArrayInitializationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -34,6 +22,18 @@ public class rulesBaseListener implements rulesListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -399,37 +399,49 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterForCondition(rulesParser.ForConditionContext ctx) { }
+	@Override public void enterEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitForCondition(rulesParser.ForConditionContext ctx) { }
+	@Override public void exitEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx) { }
+	@Override public void enterNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx) { }
+	@Override public void exitNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTerminateCondition(rulesParser.TerminateConditionContext ctx) { }
+	@Override public void enterEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTerminateCondition(rulesParser.TerminateConditionContext ctx) { }
+	@Override public void exitEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -490,18 +502,6 @@ public class rulesBaseListener implements rulesListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSimpleVariableDeclaration(rulesParser.SimpleVariableDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSimpleVariableDeclaration(rulesParser.SimpleVariableDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

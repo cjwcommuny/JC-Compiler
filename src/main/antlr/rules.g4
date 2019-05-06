@@ -50,10 +50,10 @@ STRING_LITERAL: '"' [a-zA-Z0-9 \t]* '"';
 BOOL_LITERAL: 'true' | 'false';
 
 arrayInitialization:
-	simpleArrayInitialization
-	| '{' (simpleArrayInitialization ',') simpleArrayInitialization '}';
+    '{' (rValue ',')* rValue '}' # simpleArrayInitialization
+    | '{' (arrayInitialization ',')* arrayInitialization '}' # compoundArrayInitialization
+    ;
 
-simpleArrayInitialization: '{' (rValue ',')* rValue '}';
 
 
 //keywords ==============================================================
@@ -204,18 +204,17 @@ elseIfBlock:
 elseBlock: ELSE_SYMBOL '{' blockBodyCode '}';
 
 //loop ============================================================== TODO: do-while
-forBlock: FOR_SYMBOL '(' forCondition ')' '{' blockBodyCode '}';
-
-forCondition:
-	initOrStepCondition ';' terminateCondition ';' initOrStepCondition;
+forBlock: FOR_SYMBOL '(' initOrStepCondition ';' terminateCondition ';' initOrStepCondition ')' '{' blockBodyCode '}';
 
 initOrStepCondition:
-	//empty
-	| (statementWithoutSemicolon ',')* statementWithoutSemicolon;
+	# emptyInitOrStepConsition //empty
+	| (statementWithoutSemicolon ',')* statementWithoutSemicolon # nonEmptyInitOrStepCondition
+	;
 
 terminateCondition:
-	//empty
-	| rValue;
+	# emptyTerminateCondition//empty
+	| rValue # nonEmptyTerminateCondition
+	;
 
 whileBlock: WHILE_SYMBOL '(' rValue ')' '{' blockBodyCode '}';
 
@@ -224,18 +223,18 @@ whileBlock: WHILE_SYMBOL '(' rValue ')' '{' blockBodyCode '}';
 variableDefinition:
 	ordinaryVariableDefinition
 	| ordinaryArrayDefinition
-	| variableDeclaration;
+	| variableDeclaration
+	| arrayDeclaration
+	;
 
 ordinaryVariableDefinition:
-	simpleVariableDeclaration ASSIGN_SYMBOL rValue;
+	IDENTIFIER IDENTIFIER ASSIGN_SYMBOL rValue;
 
-ordinaryArrayDefinition: arrayDeclaration ASSIGN_SYMBOL rValue;
+ordinaryArrayDefinition: IDENTIFIER (LEFT_BRACKET RIGHT_BRACKET)* IDENTIFIER ASSIGN_SYMBOL rValue;
 
 variableDeclaration:
-	simpleVariableDeclaration
-	| arrayDeclaration;
-
-simpleVariableDeclaration: IDENTIFIER IDENTIFIER;
+	IDENTIFIER IDENTIFIER
+    ;
 
 arrayDeclaration:
 	IDENTIFIER (LEFT_BRACKET RIGHT_BRACKET)* IDENTIFIER;

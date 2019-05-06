@@ -7,25 +7,29 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface rulesListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#arrayInitialization}.
-	 * @param ctx the parse tree
-	 */
-	void enterArrayInitialization(rulesParser.ArrayInitializationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link rulesParser#arrayInitialization}.
-	 * @param ctx the parse tree
-	 */
-	void exitArrayInitialization(rulesParser.ArrayInitializationContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link rulesParser#simpleArrayInitialization}.
+	 * Enter a parse tree produced by the {@code simpleArrayInitialization}
+	 * labeled alternative in {@link rulesParser#arrayInitialization}.
 	 * @param ctx the parse tree
 	 */
 	void enterSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#simpleArrayInitialization}.
+	 * Exit a parse tree produced by the {@code simpleArrayInitialization}
+	 * labeled alternative in {@link rulesParser#arrayInitialization}.
 	 * @param ctx the parse tree
 	 */
 	void exitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code compoundArrayInitialization}
+	 * labeled alternative in {@link rulesParser#arrayInitialization}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code compoundArrayInitialization}
+	 * labeled alternative in {@link rulesParser#arrayInitialization}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#literal}.
 	 * @param ctx the parse tree
@@ -341,35 +345,53 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitForBlock(rulesParser.ForBlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#forCondition}.
+	 * Enter a parse tree produced by the {@code emptyInitOrStepConsition}
+	 * labeled alternative in {@link rulesParser#initOrStepCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterForCondition(rulesParser.ForConditionContext ctx);
+	void enterEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#forCondition}.
+	 * Exit a parse tree produced by the {@code emptyInitOrStepConsition}
+	 * labeled alternative in {@link rulesParser#initOrStepCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitForCondition(rulesParser.ForConditionContext ctx);
+	void exitEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#initOrStepCondition}.
+	 * Enter a parse tree produced by the {@code nonEmptyInitOrStepCondition}
+	 * labeled alternative in {@link rulesParser#initOrStepCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx);
+	void enterNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#initOrStepCondition}.
+	 * Exit a parse tree produced by the {@code nonEmptyInitOrStepCondition}
+	 * labeled alternative in {@link rulesParser#initOrStepCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx);
+	void exitNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#terminateCondition}.
+	 * Enter a parse tree produced by the {@code emptyTerminateCondition}
+	 * labeled alternative in {@link rulesParser#terminateCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterTerminateCondition(rulesParser.TerminateConditionContext ctx);
+	void enterEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#terminateCondition}.
+	 * Exit a parse tree produced by the {@code emptyTerminateCondition}
+	 * labeled alternative in {@link rulesParser#terminateCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitTerminateCondition(rulesParser.TerminateConditionContext ctx);
+	void exitEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code nonEmptyTerminateCondition}
+	 * labeled alternative in {@link rulesParser#terminateCondition}.
+	 * @param ctx the parse tree
+	 */
+	void enterNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code nonEmptyTerminateCondition}
+	 * labeled alternative in {@link rulesParser#terminateCondition}.
+	 * @param ctx the parse tree
+	 */
+	void exitNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#whileBlock}.
 	 * @param ctx the parse tree
@@ -420,16 +442,6 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVariableDeclaration(rulesParser.VariableDeclarationContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link rulesParser#simpleVariableDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterSimpleVariableDeclaration(rulesParser.SimpleVariableDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link rulesParser#simpleVariableDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitSimpleVariableDeclaration(rulesParser.SimpleVariableDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#arrayDeclaration}.
 	 * @param ctx the parse tree

@@ -6,11 +6,11 @@ import java.util.List;
 public abstract class Node {
     private List<Node> children = new LinkedList<>();
 
-    public void addChild(Node node) {
+    public final void addChild(Node node) {
         children.add(node);
     }
 
-    public void printTree() {
+    public final void printTree() {
         printSubTree("", true);
     }
 
@@ -27,6 +27,6 @@ public abstract class Node {
 
     protected String visualInfo() {
         //TODO
-        return this.toString();
+        return this.getClass().getSimpleName();
     }
 }

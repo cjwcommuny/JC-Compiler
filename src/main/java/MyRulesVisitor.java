@@ -1,18 +1,35 @@
 import ast.*;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
-
-import java.util.List;
 
 public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     @Override
-    public Node visitArrayInitialization(rulesParser.ArrayInitializationContext ctx) {
-        return super.visitArrayInitialization(ctx);//TODO
+    public Node visitCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx) {
+        Node arrayInit = new ArrayInitNode();
+        for (rulesParser.ArrayInitializationContext context: ctx.arrayInitialization()) {
+            arrayInit.addChild(visit(context));
+        }
+        return arrayInit;
+    }
+
+    @Override
+    public Node visitBlock(rulesParser.BlockContext ctx) {
+        return visit(ctx.getChild(0));
+    }
+
+    @Override
+    public Node visitPureBlock(rulesParser.PureBlockContext ctx) {
+        return visit(ctx.blockBodyCode());
     }
 
     @Override
     public Node visitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx) {
-        return super.visitSimpleArrayInitialization(ctx);//TODO
+        Node node = new ArrayInitNode();
+        for (rulesParser.RValueContext context: ctx.rValue()) {
+            node.addChild(visit(context));
+        }
+        return node;
     }
 
     @Override
@@ -70,18 +87,23 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
         return new IdentifierNode(ctx.IDENTIFIER().getText());
     }
 
-    @Override
-    public Node visitFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx) {
-        return super.visitFunctionCallLabel(ctx);//TODO
-    }
+//    @Override
+//    public Node visitFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx) {
+//        return super.visitFunctionCallLabel(ctx);//TODO
+//    }
 
 
 
     @Override
     public Node visitUnaryExpression(rulesParser.UnaryExpressionContext ctx) {
-        return super.visitUnaryExpression(ctx);
+        Node node = new UnaryExpressionNode(ctx.getChild(0).getText());
+        node.addChild(visit(ctx.getChild(1)));
+        return node;
     }
 
+    /**
+     * handle token
+     * */
     @Override
     public Node visitTerminal(TerminalNode node) {
         String symbol = node.getSymbol().getText();
@@ -90,6 +112,14 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
                 return new IntNode(Integer.valueOf(symbol));
             case rulesLexer.DOUBLE_LITERAL:
                 return new DoubleNode(Double.parseDouble(symbol));
+            case rulesLexer.BOOL_LITERAL:
+                return new BoolNode(Boolean.parseBoolean(symbol));
+            case rulesLexer.CHAR_LITERAL:
+                return new CharNode(symbol.charAt(0));
+            case rulesLexer.STRING_LITERAL:
+                return new StringNode(symbol);
+            case rulesLexer.IDENTIFIER:
+                return new IdentifierNode(symbol);
             default:
                 return null;//TODO: ERROR
         }
@@ -98,7 +128,10 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
 
     @Override
     public Node visitAssignment(rulesParser.AssignmentContext ctx) {
-        return super.visitAssignment(ctx);
+        Node node = new AssignmentNode();
+        node.addChild(visit(ctx.lValue()));
+        node.addChild(visit(ctx.rValue()));
+        return node;
     }
 
 
@@ -142,7 +175,13 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
 
     @Override
     public Node visitReturnStatement(rulesParser.ReturnStatementContext ctx) {
-        return super.visitReturnStatement(ctx);
+        Node returnNode = new ReturnNode();
+        if (ctx.getChildCount() == 1) {
+            return returnNode;
+        } else {
+            returnNode.addChild(visit(ctx.rValue()));
+            return returnNode;
+        }
     }
 
     @Override
@@ -176,91 +215,145 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
 
     @Override
     public Node visitLogicBlock(rulesParser.LogicBlockContext ctx) {
-        return super.visitLogicBlock(ctx);
+        Node logicBlock = new LogicBlockNode();
+        for (ParseTree child: ctx.children) {
+            logicBlock.addChild(visit(child));
+        }
+        return logicBlock;
     }
 
     @Override
     public Node visitIfBlock(rulesParser.IfBlockContext ctx) {
-        return super.visitIfBlock(ctx);
+        Node ifBlock = new IfNode();
+        ifBlock.addChild(visit(ctx.rValue()));
+        ifBlock.addChild(visit(ctx.blockBodyCode()));
+        return ifBlock;
     }
 
     @Override
     public Node visitElseIfBlock(rulesParser.ElseIfBlockContext ctx) {
-        return super.visitElseIfBlock(ctx);
+        Node elseIfBlock = new ElseIfNode();
+        elseIfBlock.addChild(visit(ctx.rValue()));
+        elseIfBlock.addChild(visit(ctx.blockBodyCode()));
+        return elseIfBlock;
     }
 
     @Override
     public Node visitElseBlock(rulesParser.ElseBlockContext ctx) {
-        return super.visitElseBlock(ctx);
+        Node elseNode = new ElseNode();
+        elseNode.addChild(visit(ctx.blockBodyCode()));
+        return elseNode;
     }
 
     @Override
     public Node visitForBlock(rulesParser.ForBlockContext ctx) {
-        return super.visitForBlock(ctx);
+        Node forBlock = new ForBlockNode();
+        forBlock.addChild(visit(ctx.initOrStepCondition(0)));
+        forBlock.addChild(visit(ctx.terminateCondition()));
+        forBlock.addChild(visit(ctx.initOrStepCondition(1)));
+        return forBlock;
     }
 
     @Override
-    public Node visitForCondition(rulesParser.ForConditionContext ctx) {
-        return super.visitForCondition(ctx);
+    public Node visitEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx) {
+        return new EmptyPlaceholderNode();
     }
 
     @Override
-    public Node visitInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx) {
-        return super.visitInitOrStepCondition(ctx);
+    public Node visitNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx) {
+        Node statementList = new StatementListNode();
+        for (rulesParser.StatementWithoutSemicolonContext context: ctx.statementWithoutSemicolon()) {
+            statementList.addChild(visit(context));
+        }
+        return statementList;
     }
 
     @Override
-    public Node visitTerminateCondition(rulesParser.TerminateConditionContext ctx) {
-        return super.visitTerminateCondition(ctx);
+    public Node visitEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx) {
+        return new EmptyPlaceholderNode();
+    }
+
+    @Override
+    public Node visitNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx) {
+        return visit(ctx.rValue());
     }
 
     @Override
     public Node visitWhileBlock(rulesParser.WhileBlockContext ctx) {
-        return super.visitWhileBlock(ctx);
+        Node node = new WhileBlockNode();
+        node.addChild(visit(ctx.rValue()));
+        node.addChild(visit(ctx.blockBodyCode()));
+        return node;
     }
 
     @Override
     public Node visitVariableDefinition(rulesParser.VariableDefinitionContext ctx) {
-        return super.visitVariableDefinition(ctx);
+        return visit(ctx.getChild(0));
     }
 
     @Override
     public Node visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
-        return super.visitOrdinaryVariableDefinition(ctx);
+        Node variableDefinition = new VariableDefinitionNode();
+        variableDefinition.addChild(visit(ctx.IDENTIFIER(0)));
+        variableDefinition.addChild(visit(ctx.IDENTIFIER(1)));
+        variableDefinition.addChild(visit(ctx.rValue()));
+        return variableDefinition;
     }
 
     @Override
     public Node visitOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx) {
-        return super.visitOrdinaryArrayDefinition(ctx);
+        int dimension = ctx.LEFT_BRACKET().size();
+        Node node = new ArrayDefinitionNode(dimension);
+        node.addChild(visit(ctx.IDENTIFIER(0)));
+        node.addChild(visit(ctx.IDENTIFIER(1)));
+        node.addChild(visit(ctx.rValue()));
+        return node;
     }
 
     @Override
     public Node visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) {
-        return super.visitVariableDeclaration(ctx);
+        Node node = new VariableDefinitionNode();
+        node.addChild(visit(ctx.IDENTIFIER(0)));
+        node.addChild(visit(ctx.IDENTIFIER(1)));
+        node.addChild(new DefaultValueNode());
+        return node;
     }
 
-    @Override
-    public Node visitSimpleVariableDeclaration(rulesParser.SimpleVariableDeclarationContext ctx) {
-        return super.visitSimpleVariableDeclaration(ctx);
-    }
 
     @Override
     public Node visitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx) {
-        return super.visitArrayDeclaration(ctx);
+        int dimension = ctx.LEFT_BRACKET().size();
+        Node node = new ArrayDefinitionNode(dimension);
+        node.addChild(visit(ctx.IDENTIFIER(0)));
+        node.addChild(visit(ctx.IDENTIFIER(1)));
+        node.addChild(new DefaultValueNode());
+        return node;
     }
 
     @Override
     public Node visitFunctionCall(rulesParser.FunctionCallContext ctx) {
-        return super.visitFunctionCall(ctx);
+        Node node = new FunctionCallNode();
+        node.addChild(visit(ctx.IDENTIFIER()));
+        for (rulesParser.RValueContext context: ctx.rValue()) {
+            node.addChild(visit(context));
+        }
+        return node;
     }
 
     @Override
     public Node visitStructFieldStatementList(rulesParser.StructFieldStatementListContext ctx) {
-        return super.visitStructFieldStatementList(ctx);
+        Node node = new StructureFieldDefinitionNode();
+        for (rulesParser.VariableDefinitionContext context: ctx.variableDefinition()) {
+            node.addChild(visit(context));
+        }
+        return node;
     }
 
     @Override
     public Node visitStructDefinition(rulesParser.StructDefinitionContext ctx) {
-        return super.visitStructDefinition(ctx);
+        Node node = new StructureDefinitionNode();
+        node.addChild(visit(ctx.IDENTIFIER()));
+        node.addChild(visit(ctx.structFieldStatementList()));
+        return node;
     }
 }

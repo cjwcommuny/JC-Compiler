@@ -10,17 +10,19 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#arrayInitialization}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArrayInitialization(rulesParser.ArrayInitializationContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link rulesParser#simpleArrayInitialization}.
+	 * Visit a parse tree produced by the {@code simpleArrayInitialization}
+	 * labeled alternative in {@link rulesParser#arrayInitialization}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code compoundArrayInitialization}
+	 * labeled alternative in {@link rulesParser#arrayInitialization}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#literal}.
 	 * @param ctx the parse tree
@@ -209,23 +211,33 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitForBlock(rulesParser.ForBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#forCondition}.
+	 * Visit a parse tree produced by the {@code emptyInitOrStepConsition}
+	 * labeled alternative in {@link rulesParser#initOrStepCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitForCondition(rulesParser.ForConditionContext ctx);
+	T visitEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#initOrStepCondition}.
+	 * Visit a parse tree produced by the {@code nonEmptyInitOrStepCondition}
+	 * labeled alternative in {@link rulesParser#initOrStepCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx);
+	T visitNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#terminateCondition}.
+	 * Visit a parse tree produced by the {@code emptyTerminateCondition}
+	 * labeled alternative in {@link rulesParser#terminateCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTerminateCondition(rulesParser.TerminateConditionContext ctx);
+	T visitEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code nonEmptyTerminateCondition}
+	 * labeled alternative in {@link rulesParser#terminateCondition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#whileBlock}.
 	 * @param ctx the parse tree
@@ -256,12 +268,6 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link rulesParser#simpleVariableDeclaration}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSimpleVariableDeclaration(rulesParser.SimpleVariableDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#arrayDeclaration}.
 	 * @param ctx the parse tree
