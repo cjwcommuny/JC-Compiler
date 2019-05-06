@@ -39,49 +39,25 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRValueliteral(rulesParser.RValueliteralContext ctx) { }
+	@Override public void enterLiteral(rulesParser.LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRValueliteral(rulesParser.RValueliteralContext ctx) { }
+	@Override public void exitLiteral(rulesParser.LiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRValueExpressionLabel(rulesParser.RValueExpressionLabelContext ctx) { }
+	@Override public void enterRValue(rulesParser.RValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRValueExpressionLabel(rulesParser.RValueExpressionLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArrayInitializationLabel(rulesParser.ArrayInitializationLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArrayInitializationLabel(rulesParser.ArrayInitializationLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterRValueFunctionCallLabel(rulesParser.RValueFunctionCallLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRValueFunctionCallLabel(rulesParser.RValueFunctionCallLabelContext ctx) { }
+	@Override public void exitRValue(rulesParser.RValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -111,18 +87,6 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpression(rulesParser.ExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpression(rulesParser.ExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterNamespaceDefinition(rulesParser.NamespaceDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -147,49 +111,13 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCodeContentVariableDefinition(rulesParser.CodeContentVariableDefinitionContext ctx) { }
+	@Override public void enterCodeContent(rulesParser.CodeContentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCodeContentVariableDefinition(rulesParser.CodeContentVariableDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCodeContentFunctionDefinition(rulesParser.CodeContentFunctionDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCodeContentFunctionDefinition(rulesParser.CodeContentFunctionDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCodeContentStructDefinition(rulesParser.CodeContentStructDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCodeContentStructDefinition(rulesParser.CodeContentStructDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArithmeticCharLiteral(rulesParser.ArithmeticCharLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArithmeticCharLiteral(rulesParser.ArithmeticCharLiteralContext ctx) { }
+	@Override public void exitCodeContent(rulesParser.CodeContentContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -207,18 +135,6 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArithmeticDoubleLiteral(rulesParser.ArithmeticDoubleLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArithmeticDoubleLiteral(rulesParser.ArithmeticDoubleLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -226,6 +142,18 @@ public class rulesBaseListener implements rulesListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLiteralLabel(rulesParser.LiteralLabelContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLiteralLabel(rulesParser.LiteralLabelContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -243,18 +171,6 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArithmeticBoolLiteral(rulesParser.ArithmeticBoolLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArithmeticBoolLiteral(rulesParser.ArithmeticBoolLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterUnaryExpression(rulesParser.UnaryExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -262,42 +178,6 @@ public class rulesBaseListener implements rulesListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitUnaryExpression(rulesParser.UnaryExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArithmeticStringLiteral(rulesParser.ArithmeticStringLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArithmeticStringLiteral(rulesParser.ArithmeticStringLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterArithmeticIntLiteral(rulesParser.ArithmeticIntLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitArithmeticIntLiteral(rulesParser.ArithmeticIntLiteralContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterBoolExpression(rulesParser.BoolExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitBoolExpression(rulesParser.BoolExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -315,61 +195,13 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterForBlockLabel(rulesParser.ForBlockLabelContext ctx) { }
+	@Override public void enterBlock(rulesParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitForBlockLabel(rulesParser.ForBlockLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterWhileBlockLabel(rulesParser.WhileBlockLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitWhileBlockLabel(rulesParser.WhileBlockLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLogicBlockLabel(rulesParser.LogicBlockLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLogicBlockLabel(rulesParser.LogicBlockLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterPureBlockLabel(rulesParser.PureBlockLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitPureBlockLabel(rulesParser.PureBlockLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStructDefinitionLabel(rulesParser.StructDefinitionLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStructDefinitionLabel(rulesParser.StructDefinitionLabelContext ctx) { }
+	@Override public void exitBlock(rulesParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -387,49 +219,13 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReturnStatementLabel(rulesParser.ReturnStatementLabelContext ctx) { }
+	@Override public void enterStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReturnStatementLabel(rulesParser.ReturnStatementLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignmentLabel(rulesParser.AssignmentLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignmentLabel(rulesParser.AssignmentLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterVariableDefinitionLabel(rulesParser.VariableDefinitionLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitVariableDefinitionLabel(rulesParser.VariableDefinitionLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterRValueLabel(rulesParser.RValueLabelContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRValueLabel(rulesParser.RValueLabelContext ctx) { }
+	@Override public void exitStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

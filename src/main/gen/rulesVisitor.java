@@ -22,33 +22,17 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code rValueliteral}
-	 * labeled alternative in {@link rulesParser#rValue}.
+	 * Visit a parse tree produced by {@link rulesParser#literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRValueliteral(rulesParser.RValueliteralContext ctx);
+	T visitLiteral(rulesParser.LiteralContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code rValueExpressionLabel}
-	 * labeled alternative in {@link rulesParser#rValue}.
+	 * Visit a parse tree produced by {@link rulesParser#rValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitRValueExpressionLabel(rulesParser.RValueExpressionLabelContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code arrayInitializationLabel}
-	 * labeled alternative in {@link rulesParser#rValue}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArrayInitializationLabel(rulesParser.ArrayInitializationLabelContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code rValueFunctionCallLabel}
-	 * labeled alternative in {@link rulesParser#rValue}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRValueFunctionCallLabel(rulesParser.RValueFunctionCallLabelContext ctx);
+	T visitRValue(rulesParser.RValueContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code lValueArrayIndex}
 	 * labeled alternative in {@link rulesParser#lValue}.
@@ -64,12 +48,6 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLValueIdentifier(rulesParser.LValueIdentifierContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpression(rulesParser.ExpressionContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link rulesParser#namespaceDefinition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -82,95 +60,46 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(rulesParser.ProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code codeContentVariableDefinition}
-	 * labeled alternative in {@link rulesParser#codeContent}.
+	 * Visit a parse tree produced by {@link rulesParser#codeContent}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCodeContentVariableDefinition(rulesParser.CodeContentVariableDefinitionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code codeContentFunctionDefinition}
-	 * labeled alternative in {@link rulesParser#codeContent}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCodeContentFunctionDefinition(rulesParser.CodeContentFunctionDefinitionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code codeContentStructDefinition}
-	 * labeled alternative in {@link rulesParser#codeContent}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCodeContentStructDefinition(rulesParser.CodeContentStructDefinitionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code arithmeticCharLiteral}
-	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArithmeticCharLiteral(rulesParser.ArithmeticCharLiteralContext ctx);
+	T visitCodeContent(rulesParser.CodeContentContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code identifier}
-	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * labeled alternative in {@link rulesParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitIdentifier(rulesParser.IdentifierContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code arithmeticDoubleLiteral}
-	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArithmeticDoubleLiteral(rulesParser.ArithmeticDoubleLiteralContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code functionCallLabel}
-	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * labeled alternative in {@link rulesParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code literalLabel}
+	 * labeled alternative in {@link rulesParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLiteralLabel(rulesParser.LiteralLabelContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code infixExpression}
-	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * labeled alternative in {@link rulesParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitInfixExpression(rulesParser.InfixExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code arithmeticBoolLiteral}
-	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArithmeticBoolLiteral(rulesParser.ArithmeticBoolLiteralContext ctx);
-	/**
 	 * Visit a parse tree produced by the {@code unaryExpression}
-	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
+	 * labeled alternative in {@link rulesParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitUnaryExpression(rulesParser.UnaryExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code arithmeticStringLiteral}
-	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArithmeticStringLiteral(rulesParser.ArithmeticStringLiteralContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code arithmeticIntLiteral}
-	 * labeled alternative in {@link rulesParser#arithmeticExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArithmeticIntLiteral(rulesParser.ArithmeticIntLiteralContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link rulesParser#boolExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitBoolExpression(rulesParser.BoolExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#assignment}.
 	 * @param ctx the parse tree
@@ -178,40 +107,11 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignment(rulesParser.AssignmentContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code forBlockLabel}
-	 * labeled alternative in {@link rulesParser#block}.
+	 * Visit a parse tree produced by {@link rulesParser#block}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitForBlockLabel(rulesParser.ForBlockLabelContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code whileBlockLabel}
-	 * labeled alternative in {@link rulesParser#block}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitWhileBlockLabel(rulesParser.WhileBlockLabelContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code logicBlockLabel}
-	 * labeled alternative in {@link rulesParser#block}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLogicBlockLabel(rulesParser.LogicBlockLabelContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code pureBlockLabel}
-	 * labeled alternative in {@link rulesParser#block}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPureBlockLabel(rulesParser.PureBlockLabelContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code structDefinitionLabel}
-	 * labeled alternative in {@link rulesParser#block}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStructDefinitionLabel(rulesParser.StructDefinitionLabelContext ctx);
+	T visitBlock(rulesParser.BlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#pureBlock}.
 	 * @param ctx the parse tree
@@ -219,33 +119,11 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPureBlock(rulesParser.PureBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code returnStatementLabel}
-	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * Visit a parse tree produced by {@link rulesParser#statementWithoutSemicolon}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitReturnStatementLabel(rulesParser.ReturnStatementLabelContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code assignmentLabel}
-	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignmentLabel(rulesParser.AssignmentLabelContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code variableDefinitionLabel}
-	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVariableDefinitionLabel(rulesParser.VariableDefinitionLabelContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code rValueLabel}
-	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRValueLabel(rulesParser.RValueLabelContext ctx);
+	T visitStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#statementList}.
 	 * @param ctx the parse tree

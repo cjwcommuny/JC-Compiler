@@ -1,5 +1,6 @@
 import ast.*;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.List;
 
@@ -15,23 +16,8 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     }
 
     @Override
-    public Node visitRValueExpressionLabel(rulesParser.RValueExpressionLabelContext ctx) {
-        return visit(ctx.expression());
-    }
-
-    @Override
-    public Node visitRValueliteral(rulesParser.RValueliteralContext ctx) {
-        return super.visitRValueliteral(ctx);
-    }
-
-    @Override
-    public Node visitArrayInitializationLabel(rulesParser.ArrayInitializationLabelContext ctx) {
-        return super.visitArrayInitializationLabel(ctx);
-    }
-
-    @Override
-    public Node visitRValueFunctionCallLabel(rulesParser.RValueFunctionCallLabelContext ctx) {
-        return super.visitRValueFunctionCallLabel(ctx);
+    public Node visitLiteral(rulesParser.LiteralContext ctx) {
+        return visit(ctx.getChild(0));
     }
 
     @Override
@@ -58,27 +44,17 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     }
 
     @Override
+    public Node visitCodeContent(rulesParser.CodeContentContext ctx) {
+        return visit(ctx.getChild(0));
+    }
+
+    @Override
     public Node visitProgram(rulesParser.ProgramContext ctx) {
         Node node = new ProgramNode();
         for (rulesParser.NamespaceDefinitionContext context: ctx.namespaceDefinition()) {
             node.addChild(visit(context));
         }
         return node;
-    }
-
-    @Override
-    public Node visitCodeContentVariableDefinition(rulesParser.CodeContentVariableDefinitionContext ctx) {
-        return visit(ctx.variableDefinition());
-    }
-
-    @Override
-    public Node visitCodeContentFunctionDefinition(rulesParser.CodeContentFunctionDefinitionContext ctx) {
-        return visit(ctx.functionDefinitionBlock());
-    }
-
-    @Override
-    public Node visitCodeContentStructDefinition(rulesParser.CodeContentStructDefinitionContext ctx) {
-        return visit(ctx.structDefinition());
     }
 
     @Override
@@ -99,10 +75,7 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
         return super.visitFunctionCallLabel(ctx);//TODO
     }
 
-    @Override
-    public Node visitExpression(rulesParser.ExpressionContext ctx) {
-        return visit(ctx.getChild(0));
-    }
+
 
     @Override
     public Node visitUnaryExpression(rulesParser.UnaryExpressionContext ctx) {
@@ -110,89 +83,24 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     }
 
     @Override
-    public Node visitArithmeticCharLiteral(rulesParser.ArithmeticCharLiteralContext ctx) {
-        return super.visitArithmeticCharLiteral(ctx);
+    public Node visitTerminal(TerminalNode node) {
+        String symbol = node.getSymbol().getText();
+        switch (node.getSymbol().getType()) {
+            case rulesLexer.INT_LITERAL:
+                return new IntNode(Integer.valueOf(symbol));
+            case rulesLexer.DOUBLE_LITERAL:
+                return new DoubleNode(Double.parseDouble(symbol));
+            default:
+                return null;//TODO: ERROR
+        }
     }
 
-    @Override
-    public Node visitArithmeticDoubleLiteral(rulesParser.ArithmeticDoubleLiteralContext ctx) {
-        return new DoubleNode(Double.parseDouble(ctx.DOUBLE_LITERAL().getText()));
-    }
-
-    @Override
-    public Node visitArithmeticBoolLiteral(rulesParser.ArithmeticBoolLiteralContext ctx) {
-        return super.visitArithmeticBoolLiteral(ctx);
-    }
-
-    @Override
-    public Node visitArithmeticStringLiteral(rulesParser.ArithmeticStringLiteralContext ctx) {
-        return super.visitArithmeticStringLiteral(ctx);
-    }
-
-    @Override
-    public Node visitArithmeticIntLiteral(rulesParser.ArithmeticIntLiteralContext ctx) {
-        return new IntNode(Integer.valueOf(ctx.INT_LITERAL().getText()));
-    }
-
-    @Override
-    public Node visitBoolExpression(rulesParser.BoolExpressionContext ctx) {
-        return super.visitBoolExpression(ctx);
-    }
 
     @Override
     public Node visitAssignment(rulesParser.AssignmentContext ctx) {
         return super.visitAssignment(ctx);
     }
 
-    @Override
-    public Node visitForBlockLabel(rulesParser.ForBlockLabelContext ctx) {
-        return super.visitForBlockLabel(ctx);
-    }
-
-    @Override
-    public Node visitWhileBlockLabel(rulesParser.WhileBlockLabelContext ctx) {
-        return super.visitWhileBlockLabel(ctx);
-    }
-
-    @Override
-    public Node visitLogicBlockLabel(rulesParser.LogicBlockLabelContext ctx) {
-        return super.visitLogicBlockLabel(ctx);
-    }
-
-    @Override
-    public Node visitPureBlockLabel(rulesParser.PureBlockLabelContext ctx) {
-        return super.visitPureBlockLabel(ctx);
-    }
-
-    @Override
-    public Node visitStructDefinitionLabel(rulesParser.StructDefinitionLabelContext ctx) {
-        return super.visitStructDefinitionLabel(ctx);
-    }
-
-    @Override
-    public Node visitPureBlock(rulesParser.PureBlockContext ctx) {
-        return super.visitPureBlock(ctx);
-    }
-
-    @Override
-    public Node visitReturnStatementLabel(rulesParser.ReturnStatementLabelContext ctx) {
-        return super.visitReturnStatementLabel(ctx);
-    }
-
-    @Override
-    public Node visitAssignmentLabel(rulesParser.AssignmentLabelContext ctx) {
-        return super.visitAssignmentLabel(ctx);
-    }
-
-    @Override
-    public Node visitVariableDefinitionLabel(rulesParser.VariableDefinitionLabelContext ctx) {
-        return super.visitVariableDefinitionLabel(ctx);
-    }
-
-    @Override
-    public Node visitRValueLabel(rulesParser.RValueLabelContext ctx) {
-        return visit(ctx.rValue());
-    }
 
     @Override
     public Node visitStatementList(rulesParser.StatementListContext ctx) {
@@ -210,6 +118,16 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
         } else {
             return visit(ctx.statement());
         }
+    }
+
+    @Override
+    public Node visitStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx) {
+        return visit(ctx.getChild(0));
+    }
+
+    @Override
+    public Node visitRValue(rulesParser.RValueContext ctx) {
+        return visit(ctx.getChild(0));
     }
 
     @Override

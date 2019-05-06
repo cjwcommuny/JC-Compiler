@@ -83,16 +83,18 @@ LINE_COMMENT: '//' ~[\r\n]* -> skip;
 
 COMMENT: '/*' .*? '*/' -> skip;
 
+literal: INT_LITERAL
+    | DOUBLE_LITERAL
+    | CHAR_LITERAL
+    | STRING_LITERAL
+    | BOOL_LITERAL
+    ;
+
 ////TODO
 rValue:
-	INT_LITERAL # rValueliteral
-	| DOUBLE_LITERAL # rValueliteral
-	| CHAR_LITERAL # rValueliteral
-	| STRING_LITERAL # rValueliteral
-	| BOOL_LITERAL # rValueliteral
-	| expression # rValueExpressionLabel
-	| arrayInitialization # arrayInitializationLabel
-	| functionCall # rValueFunctionCallLabel
+	expression
+	| arrayInitialization
+	| functionCall
 	;
 
 //TODO
@@ -100,11 +102,6 @@ lValue:
 	IDENTIFIER # lValueIdentifier
 	//    | lValue DOT IDENTIFIER
 	| lValue LEFT_BRACKET expression RIGHT_BRACKET # lValueArrayIndex
-    ;
-
-expression: IDENTIFIER
-    | arithmeticExpression
-    | boolExpression
     ;
 
 //namespace definition
@@ -118,66 +115,56 @@ program:
 
 
 codeContent:
-	variableDefinition SEMICOLON # codeContentVariableDefinition
-	| functionDefinitionBlock # codeContentFunctionDefinition
-	| structDefinition # codeContentStructDefinition
+	variableDefinition SEMICOLON
+	| functionDefinitionBlock
+	| structDefinition
     ; 
 
 //arithmetic or bool expression ==============================================================
-arithmeticExpression:
+expression:
 	IDENTIFIER # identifier
-	| INT_LITERAL # arithmeticIntLiteral
-	| DOUBLE_LITERAL # arithmeticDoubleLiteral
-	| STRING_LITERAL # arithmeticStringLiteral
-	| CHAR_LITERAL # arithmeticCharLiteral
-	| BOOL_LITERAL # arithmeticBoolLiteral
+    | literal # literalLabel
 	| functionCall # functionCallLabel
-	| arithmeticExpression ADD arithmeticExpression # infixExpression
-	| arithmeticExpression SUB arithmeticExpression # infixExpression
-	| arithmeticExpression MUL arithmeticExpression # infixExpression
-	| arithmeticExpression DIV arithmeticExpression # infixExpression
-	| SUB arithmeticExpression # unaryExpression
-	| arithmeticExpression XOR arithmeticExpression # infixExpression
-	| arithmeticExpression OR arithmeticExpression # infixExpression
-	| arithmeticExpression AND arithmeticExpression # infixExpression
-	| NOT arithmeticExpression # unaryExpression
-	| LEFT_PARENTHESES arithmeticExpression RIGHT_PARENTHESES # infixExpression
+	| expression ADD expression # infixExpression
+	| expression SUB expression # infixExpression
+	| expression MUL expression # infixExpression
+	| expression DIV expression # infixExpression
+	| SUB expression # unaryExpression
+	| expression XOR expression # infixExpression
+	| expression OR expression # infixExpression
+	| expression AND expression # infixExpression
+	| NOT expression # unaryExpression
+	| LEFT_PARENTHESES expression RIGHT_PARENTHESES # infixExpression
+	| expression LESS_THAN expression # infixExpression
+    | expression GREATER_THAN expression # infixExpression
+    | expression LESS_OR_EQUAL_THAN expression # infixExpression
+    | expression GREATER_OR_EQUAL_THAN expression # infixExpression
+    | expression EQUAL_SYMBOL expression # infixExpression
     ;
 
-//bool expression ==============================================================
-boolExpression:
-	IDENTIFIER //#identifier
-	| INT_LITERAL //# intLiteral
-	| DOUBLE_LITERAL //# doubleLiteral
-	| CHAR_LITERAL //# charLiteral
-	| functionCall //# functionCallLabel
-	| boolExpression LESS_THAN boolExpression //# less
-	| boolExpression GREATER_THAN boolExpression
-	| boolExpression LESS_OR_EQUAL_THAN boolExpression
-	| boolExpression GREATER_OR_EQUAL_THAN boolExpression
-	| boolExpression EQUAL_SYMBOL boolExpression;
 
 //assignment ==============================================================
 assignment: lValue ASSIGN_SYMBOL rValue;
 
 //basic structure ==============================================================
 block:
-	forBlock # forBlockLabel
-	| whileBlock # whileBlockLabel
-	| logicBlock # logicBlockLabel
+	forBlock
+	| whileBlock
+	| logicBlock
 	//	| functionDefinitionBlock
-	| pureBlock # pureBlockLabel
-	| structDefinition # structDefinitionLabel
+	| pureBlock
+	| structDefinition
 	;
 
 pureBlock: LEFT_CURLY_BRACE blockBodyCode RIGHT_CURLY_BRACE;
 
 statementWithoutSemicolon: //TODO
-	returnStatement # returnStatementLabel
-	| assignment # assignmentLabel
-	| variableDefinition # variableDefinitionLabel
-	| rValue # rValueLabel
+	returnStatement
+	| assignment
+	| variableDefinition
+	| rValue
 	;
+
 
 statementList: (statementOrBlock)*;
 

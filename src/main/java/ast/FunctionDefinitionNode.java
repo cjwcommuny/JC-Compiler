@@ -6,5 +6,8 @@ package ast;
  * child 4: function body
  * */
 public class FunctionDefinitionNode extends Node {
-
+    @Override
+    protected String visualInfo() {
+        return "FunctionDefinition";
+    }
 }
