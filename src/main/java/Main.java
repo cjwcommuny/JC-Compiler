@@ -1,16 +1,11 @@
+import ast.Ast;
 import ast.Node;
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.Arrays;
 
 public class Main {
@@ -21,10 +16,10 @@ public class Main {
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         rulesParser parser = new rulesParser(tokenStream);
         ParseTree tree = parser.program();
-//        System.out.println(tree.toStringTree(parser));
-        MyRulesVisitor visitor = new MyRulesVisitor();
-        Node abstractSyntaxTree = visitor.visit(tree);
-        abstractSyntaxTree.printTree();
+        AstGenerator astGenerator = new AstGenerator();
+        Node ast = astGenerator.visit(tree);
+        ast.printTree();
+        Ast.semanticAnalyze(ast, astGenerator.getSymbolTable(), astGenerator.getContextMap());
         showAstInGUI(parser, tree);
     }
 

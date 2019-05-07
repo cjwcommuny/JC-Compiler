@@ -2,13 +2,23 @@ import ast.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import symbol.SymbolTable;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MyRulesVisitor extends rulesBaseVisitor<Node> {
+public class AstGenerator extends rulesBaseVisitor<Node> {
     private SymbolTableGenerator symbolTableGenerator = new SymbolTableGenerator();
-    private Map<String, ParserRuleContext> currentSymbolTable = new HashMap<>();
+    private SymbolTable<String, ParserRuleContext> symbolTable = new SymbolTable<>();
+    private Map<ParserRuleContext, Node> contextMap = new HashMap<>();
+
+    public SymbolTable<String, ParserRuleContext> getSymbolTable() {
+        return symbolTable;
+    }
+
+    public Map<ParserRuleContext, Node> getContextMap() {
+        return contextMap;
+    }
 
     @Override
     public Node visitCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx) {
@@ -59,10 +69,13 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
 
     @Override
     public Node visitNamespaceDefinition(rulesParser.NamespaceDefinitionContext ctx) {
+        symbolTable.enterScope(symbolTableGenerator.visit(ctx).getTable());
         Node namespaceNode = new NamespaceNode(ctx.IDENTIFIER().getText());
+        contextMap.put(ctx, namespaceNode);
         for (rulesParser.CodeContentContext context: ctx.codeContent()) {
             namespaceNode.addChild(visit(context));
         }
+        symbolTable.exitScope();
         return namespaceNode;
     }
 
@@ -73,10 +86,12 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
 
     @Override
     public Node visitProgram(rulesParser.ProgramContext ctx) {
+        symbolTable.enterScope(symbolTableGenerator.visit(ctx).getTable());
         Node node = new ProgramNode();
         for (rulesParser.NamespaceDefinitionContext context: ctx.namespaceDefinition()) {
             node.addChild(visit(context));
         }
+        symbolTable.exitScope();
         return node;
     }
 
@@ -186,11 +201,16 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
 
     @Override
     public Node visitFunctionDefinitionBlock(rulesParser.FunctionDefinitionBlockContext ctx) {
+        symbolTable.enterScope(symbolTableGenerator.visit(ctx).getTable());
+
         Node functionDefinition = new FunctionDefinitionNode();
+        contextMap.put(ctx, functionDefinition);
         functionDefinition.addChild(new IdentifierNode(ctx.IDENTIFIER(0).getText())); //return type
         functionDefinition.addChild(new IdentifierNode(ctx.IDENTIFIER(1).getText())); //function name
         functionDefinition.addChild(visit(ctx.functionParameterDefinition()));
         functionDefinition.addChild(visit(ctx.functionBody()));
+
+        symbolTable.exitScope();
         return functionDefinition;
     }
 
@@ -294,6 +314,7 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     @Override
     public Node visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
         Node variableDefinition = new VariableDefinitionNode();
+        contextMap.put(ctx, variableDefinition);
         variableDefinition.addChild(new TypeNode(ctx.IDENTIFIER(0).getText()));
         variableDefinition.addChild(new VariableNameNode(ctx.IDENTIFIER(1).getText()));
         variableDefinition.addChild(visit(ctx.rValue()));
@@ -304,6 +325,7 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     public Node visitOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx) {
         int dimension = ctx.LEFT_BRACKET().size();
         Node node = new ArrayDefinitionNode(dimension);
+        contextMap.put(ctx, node);
         node.addChild(new TypeNode(ctx.IDENTIFIER(0).getText()));
         node.addChild(new ArrayNameNode(ctx.IDENTIFIER(1).getText()));
         node.addChild(visit(ctx.rValue()));
@@ -313,6 +335,7 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     @Override
     public Node visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) {
         Node node = new VariableDefinitionNode();
+        contextMap.put(ctx, node);
         node.addChild(new TypeNode(ctx.IDENTIFIER(0).getText()));
         node.addChild(new VariableNameNode(ctx.IDENTIFIER(1).getText()));
         node.addChild(new DefaultValueNode());
@@ -324,6 +347,7 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     public Node visitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx) {
         int dimension = ctx.LEFT_BRACKET().size();
         Node node = new ArrayDefinitionNode(dimension);
+        contextMap.put(ctx, node);
         node.addChild(new TypeNode(ctx.IDENTIFIER(0).getText()));
         node.addChild(new ArrayNameNode(ctx.IDENTIFIER(1).getText()));
         node.addChild(new DefaultValueNode());
@@ -343,6 +367,7 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
     @Override
     public Node visitStructFieldStatementList(rulesParser.StructFieldStatementListContext ctx) {
         Node node = new StructureFieldDefinitionNode();
+        contextMap.put(ctx, node);
         for (rulesParser.VariableDefinitionContext context: ctx.variableDefinition()) {
             node.addChild(visit(context));
         }
@@ -351,9 +376,14 @@ public class MyRulesVisitor extends rulesBaseVisitor<Node> {
 
     @Override
     public Node visitStructDefinition(rulesParser.StructDefinitionContext ctx) {
+        symbolTable.enterScope(symbolTableGenerator.visit(ctx).getTable());
+
         Node node = new StructureDefinitionNode();
+        contextMap.put(ctx, node);
         node.addChild(new TypeNode(ctx.IDENTIFIER().getText()));
         node.addChild(visit(ctx.structFieldStatementList()));
+
+        symbolTable.exitScope();
         return node;
     }
 }

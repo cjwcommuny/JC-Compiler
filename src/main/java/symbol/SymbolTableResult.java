@@ -1,3 +1,5 @@
+package symbol;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.Map;
