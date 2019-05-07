@@ -1,116 +1,124 @@
 import org.antlr.v4.runtime.ParserRuleContext;
+
+import java.util.HashMap;
 import java.util.Map;
 
-public class SymbolTableGenerator extends rulesBaseVisitor<Map<String, ParserRuleContext>> {
+public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
     //traverse the parse tree to generate the symbol table
 
     @Override
-    public Map<String, ParserRuleContext> visitNamespaceDefinition(rulesParser.NamespaceDefinitionContext ctx) {
-        return super.visitNamespaceDefinition(ctx);
+    public SymbolTableResult visitNamespaceDefinition(rulesParser.NamespaceDefinitionContext ctx) {
+        Map<String, ParserRuleContext> table = new HashMap<>();
+        for (rulesParser.CodeContentContext context: ctx.codeContent()) {
+            SymbolTableResult result = visit(context);
+            String name = result.getName();
+            ParserRuleContext correspondingContext = result.getContext();
+            if (table.containsKey(name)) {
+                //TODO: name duplication error
+            }
+            table.put(name, correspondingContext);
+        }
+        return new SymbolTableResult(table);
     }
 
     @Override
-    public Map<String, ParserRuleContext> visitProgram(rulesParser.ProgramContext ctx) {
-        return super.visitProgram(ctx);
+    public SymbolTableResult visitProgram(rulesParser.ProgramContext ctx) {
+        Map<String, ParserRuleContext> table = new HashMap<>();
+        for (rulesParser.NamespaceDefinitionContext context: ctx.namespaceDefinition()) {
+            String name = context.IDENTIFIER().getText();
+            if (table.containsKey(name)) {
+                //TODO: name duplication error
+            }
+            table.put(name, context);
+        }
+        return new SymbolTableResult(table);
     }
 
     @Override
-    public Map<String, ParserRuleContext> visitCodeContent(rulesParser.CodeContentContext ctx) {
-        return super.visitCodeContent(ctx);
+    public SymbolTableResult visitCodeContent(rulesParser.CodeContentContext ctx) {
+        SymbolTableResult result = visit(ctx.getChild(0));
+        return new SymbolTableResult(result.getName(), result.getContext());
     }
 
     @Override
-    public Map<String, ParserRuleContext> visitBlock(rulesParser.BlockContext ctx) {
-        return super.visitBlock(ctx);
+    public SymbolTableResult visitVariableDefinition(rulesParser.VariableDefinitionContext ctx) {
+        return visit(ctx.getChild(0));
     }
 
     @Override
-    public Map<String, ParserRuleContext> visitPureBlock(rulesParser.PureBlockContext ctx) {
-        return super.visitPureBlock(ctx);
+    public SymbolTableResult visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
+        String name = ctx.IDENTIFIER(1).getText();
+        return new SymbolTableResult(name, ctx);
     }
 
     @Override
-    public Map<String, ParserRuleContext> visitBlockBodyCode(rulesParser.BlockBodyCodeContext ctx) {
-        return super.visitBlockBodyCode(ctx);
+    public SymbolTableResult visitOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx) {
+        String name = ctx.IDENTIFIER(1).getText();
+        return new SymbolTableResult(name, ctx);
     }
 
     @Override
-    public Map<String, ParserRuleContext> visitFunctionDefinitionBlock(rulesParser.FunctionDefinitionBlockContext ctx) {
-        return super.visitFunctionDefinitionBlock(ctx);
+    public SymbolTableResult visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) {
+        String name = ctx.IDENTIFIER(1).getText();
+        return new SymbolTableResult(name, ctx);
     }
 
     @Override
-    public Map<String, ParserRuleContext> visitFunctionBody(rulesParser.FunctionBodyContext ctx) {
-        return super.visitFunctionBody(ctx);
+    public SymbolTableResult visitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx) {
+        String name = ctx.IDENTIFIER(1).getText();
+        return new SymbolTableResult(name, ctx);
     }
 
     @Override
-    public Map<String, ParserRuleContext> visitLogicBlock(rulesParser.LogicBlockContext ctx) {
-        return super.visitLogicBlock(ctx);
+    public SymbolTableResult visitFunctionDefinitionBlock(rulesParser.FunctionDefinitionBlockContext ctx) {
+        String functionName = ctx.IDENTIFIER(1).getText();
+        Map<String, ParserRuleContext> parameterResult = visit(ctx.functionParameterDefinition()).getTable();
+        Map<String, ParserRuleContext> functionBodyResult = visit(ctx.functionBody()).getTable();
+        boolean nameConflict = CommonInfrastructure.hasCommonKey(parameterResult, functionBodyResult);
+        if (nameConflict) {
+            //TODO: name conflict error
+        }
+        parameterResult.putAll(functionBodyResult);
+        return new SymbolTableResult(parameterResult, functionName, ctx);
     }
 
     @Override
-    public Map<String, ParserRuleContext> visitIfBlock(rulesParser.IfBlockContext ctx) {
-        return super.visitIfBlock(ctx);
+    public SymbolTableResult visitFunctionParameterDefinition(rulesParser.FunctionParameterDefinitionContext ctx) {
+        return visit(ctx.parameterList());
     }
 
     @Override
-    public Map<String, ParserRuleContext> visitElseIfBlock(rulesParser.ElseIfBlockContext ctx) {
-        return super.visitElseIfBlock(ctx);
+    public SymbolTableResult visitParameterList(rulesParser.ParameterListContext ctx) {
+        Map<String, ParserRuleContext> table = new HashMap<>();
+        for (rulesParser.VariableDeclarationContext context: ctx.variableDeclaration()) {
+            SymbolTableResult result = visit(context);
+            String name = result.getName();
+            if (table.containsKey(name)) {
+                //TODO: name conflict error
+            }
+            table.put(name, result.getContext());
+        }
+        return new SymbolTableResult(table);
     }
 
     @Override
-    public Map<String, ParserRuleContext> visitElseBlock(rulesParser.ElseBlockContext ctx) {
-        return super.visitElseBlock(ctx);
+    public SymbolTableResult visitStructFieldStatementList(rulesParser.StructFieldStatementListContext ctx) {
+        Map<String, ParserRuleContext> table = new HashMap<>();
+        for (rulesParser.VariableDefinitionContext context: ctx.variableDefinition()) {
+            SymbolTableResult result = visit(context);
+            String name = result.getName();
+            if (table.containsKey(name)) {
+                //TODO: name conflict error
+            }
+            table.put(name, result.getContext());
+        }
+        return new SymbolTableResult(table);
     }
 
     @Override
-    public Map<String, ParserRuleContext> visitForBlock(rulesParser.ForBlockContext ctx) {
-        return super.visitForBlock(ctx);
-    }
-
-    @Override
-    public Map<String, ParserRuleContext> visitNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx) {
-        return super.visitNonEmptyInitOrStepCondition(ctx);
-    }
-
-    @Override
-    public Map<String, ParserRuleContext> visitWhileBlock(rulesParser.WhileBlockContext ctx) {
-        return super.visitWhileBlock(ctx);
-    }
-
-    @Override
-    public Map<String, ParserRuleContext> visitVariableDefinition(rulesParser.VariableDefinitionContext ctx) {
-        return super.visitVariableDefinition(ctx);
-    }
-
-    @Override
-    public Map<String, ParserRuleContext> visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
-        return super.visitOrdinaryVariableDefinition(ctx);
-    }
-
-    @Override
-    public Map<String, ParserRuleContext> visitOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx) {
-        return super.visitOrdinaryArrayDefinition(ctx);
-    }
-
-    @Override
-    public Map<String, ParserRuleContext> visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) {
-        return super.visitVariableDeclaration(ctx);
-    }
-
-    @Override
-    public Map<String, ParserRuleContext> visitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx) {
-        return super.visitArrayDeclaration(ctx);
-    }
-
-    @Override
-    public Map<String, ParserRuleContext> visitStructFieldStatementList(rulesParser.StructFieldStatementListContext ctx) {
-        return super.visitStructFieldStatementList(ctx);
-    }
-
-    @Override
-    public Map<String, ParserRuleContext> visitStructDefinition(rulesParser.StructDefinitionContext ctx) {
-        return super.visitStructDefinition(ctx);
+    public SymbolTableResult visitStructDefinition(rulesParser.StructDefinitionContext ctx) {
+        String name = ctx.IDENTIFIER().getText();
+        var table = visit(ctx.structFieldStatementList()).getTable();
+        return new SymbolTableResult(table, name, ctx);
     }
 }

@@ -3,7 +3,13 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MyRulesVisitor extends rulesBaseVisitor<Node> {
+    private SymbolTableGenerator symbolTableGenerator = new SymbolTableGenerator();
+    private Map<String, ParserRuleContext> currentSymbolTable = new HashMap<>();
+
     @Override
     public Node visitCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx) {
         Node arrayInit = new ArrayInitNode();
