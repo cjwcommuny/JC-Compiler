@@ -1,14 +1,19 @@
-import ast.*;
+import ast.node.*;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import symbol.SymbolTable;
+import type.Type;
+import type.TypeChecker;
+import value.Value;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class AstGenerator extends rulesBaseVisitor<Node> {
     private SymbolTableGenerator symbolTableGenerator = new SymbolTableGenerator();
+    private TypeInference typeInference = new TypeInference();
+
     private SymbolTable<String, ParserRuleContext> symbolTable = new SymbolTable<>();
     private Map<ParserRuleContext, Node> contextMap = new HashMap<>();
 
@@ -55,15 +60,23 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
 
     @Override
     public Node visitLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx) {
-        Node arrayIndexNode = new ArrayIndexNode();
-        arrayIndexNode.addChild(visit(ctx.lValue()));
-        arrayIndexNode.addChild(visit(ctx.expression()));
+        ValueNode lValueNode = (ValueNode) visit(ctx.lValue());
+        ValueNode expressionNode = (ValueNode) visit(ctx.expression());
+        String arrayType = lValueNode.getType();
+        String indexType = expressionNode.getType();
+        String resultType = TypeChecker.checkArrayIndex(arrayType, indexType);
+        if (resultType == null) {
+            //TODO: type mismatch
+        }
+        Node arrayIndexNode = new ArrayIndexNode(null, resultType);
+        arrayIndexNode.addChild(lValueNode);
+        arrayIndexNode.addChild(expressionNode);
         return arrayIndexNode;
     }
 
     @Override
     public Node visitLValueIdentifier(rulesParser.LValueIdentifierContext ctx) {
-        return new IdentifierNode(ctx.IDENTIFIER().getText());
+        return visit(ctx.IDENTIFIER());
     }
 
 
@@ -97,22 +110,44 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
 
     @Override
     public Node visitInfixExpression(rulesParser.InfixExpressionContext ctx) {
-        Node infixExpression = new InfixExpressionNode(ctx.getChild(1).getText());
-        infixExpression.addChild(visit(ctx.getChild(0)));
-        infixExpression.addChild(visit(ctx.getChild(2)));
-        return infixExpression;
+        ValueNode node1 = (ValueNode) visit(ctx.getChild(0));
+        ValueNode node2 = (ValueNode) visit(ctx.getChild(2));
+        String operation = ctx.getChild(1).getText();
+        String resultType = TypeChecker.checkInfixComputation(operation,
+                node1.getType(),
+                node2.getType());
+        if (resultType == null) {
+            //TODO: type not match error
+        }
+        Node node = new InfixExpressionNode(operation, null, resultType);//TODO: type check
+        node.addChild(node1);
+        node.addChild(node2);
+        return node;
     }
 
     @Override
     public Node visitIdentifier(rulesParser.IdentifierContext ctx) {
-        return new IdentifierNode(ctx.IDENTIFIER().getText());
+        //only used as lValue, not definition
+        String name = ctx.IDENTIFIER().getText();
+        ParserRuleContext referenceContext = symbolTable.search(name);
+        if (referenceContext == null) {
+            //TODO: symbol not resolved
+        }
+        ValueNode referenceNode = (ValueNode) contextMap.get(referenceContext);
+        return new IdentifierNode(name, referenceNode, referenceNode.getType());
     }
 
 
     @Override
     public Node visitUnaryExpression(rulesParser.UnaryExpressionContext ctx) {
-        Node node = new UnaryExpressionNode(ctx.getChild(0).getText());
-        node.addChild(visit(ctx.getChild(1)));
+        String operation = ctx.getChild(0).getText();
+        ValueNode child = (ValueNode) visit(ctx.getChild(1));
+        String resultType = TypeChecker.checkUnaryComputation(operation, child.getType());
+        if (resultType == null) {
+            //TODO: type not match
+        }
+        Node node = new UnaryExpressionNode(operation, null, resultType);
+        node.addChild(child);
         return node;
     }
 
@@ -133,8 +168,8 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
                 return new CharNode(symbol.charAt(0));
             case rulesLexer.STRING_LITERAL:
                 return new StringNode(symbol);
-            case rulesLexer.IDENTIFIER:
-                return new IdentifierNode(symbol);
+//            case rulesLexer.IDENTIFIER:
+//                return new IdentifierNode(symbol);
             default:
                 return null;//TODO: ERROR
         }
@@ -315,8 +350,9 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
     public Node visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
         Node variableDefinition = new VariableDefinitionNode();
         contextMap.put(ctx, variableDefinition);
-        variableDefinition.addChild(new TypeNode(ctx.IDENTIFIER(0).getText()));
-        variableDefinition.addChild(new VariableNameNode(ctx.IDENTIFIER(1).getText()));
+        String typeName = ctx.IDENTIFIER(0).getText();
+        variableDefinition.addChild(new TypeNode(typeName));
+        variableDefinition.addChild(new VariableNameNode(ctx.IDENTIFIER(1).getText(), null, typeName));
         variableDefinition.addChild(visit(ctx.rValue()));
         return variableDefinition;
     }
@@ -326,8 +362,11 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
         int dimension = ctx.LEFT_BRACKET().size();
         Node node = new ArrayDefinitionNode(dimension);
         contextMap.put(ctx, node);
-        node.addChild(new TypeNode(ctx.IDENTIFIER(0).getText()));
-        node.addChild(new ArrayNameNode(ctx.IDENTIFIER(1).getText()));
+        String typeName = ctx.IDENTIFIER(0).getText();
+        node.addChild(new TypeNode(typeName));
+        node.addChild(new ArrayNameNode(ctx.IDENTIFIER(1).getText(),
+                null,
+                Type.generateArrayType(typeName, dimension)));
         node.addChild(visit(ctx.rValue()));
         return node;
     }
@@ -336,8 +375,9 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
     public Node visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) {
         Node node = new VariableDefinitionNode();
         contextMap.put(ctx, node);
-        node.addChild(new TypeNode(ctx.IDENTIFIER(0).getText()));
-        node.addChild(new VariableNameNode(ctx.IDENTIFIER(1).getText()));
+        String typeName = ctx.IDENTIFIER(0).getText();
+        node.addChild(new TypeNode(typeName));
+        node.addChild(new VariableNameNode(ctx.IDENTIFIER(1).getText(), null, typeName));
         node.addChild(new DefaultValueNode());
         return node;
     }
@@ -348,8 +388,11 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
         int dimension = ctx.LEFT_BRACKET().size();
         Node node = new ArrayDefinitionNode(dimension);
         contextMap.put(ctx, node);
-        node.addChild(new TypeNode(ctx.IDENTIFIER(0).getText()));
-        node.addChild(new ArrayNameNode(ctx.IDENTIFIER(1).getText()));
+        String typeName = ctx.IDENTIFIER(0).getText();
+        node.addChild(new TypeNode(typeName));
+        node.addChild(new ArrayNameNode(ctx.IDENTIFIER(1).getText(),
+                null,
+                Type.generateArrayType(typeName, dimension)));
         node.addChild(new DefaultValueNode());
         return node;
     }

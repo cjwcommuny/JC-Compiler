@@ -119,7 +119,54 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
     @Override
     public SymbolTableResult visitStructDefinition(rulesParser.StructDefinitionContext ctx) {
         String name = ctx.IDENTIFIER().getText();
-        var table = visit(ctx.structFieldStatementList()).getTable();
+        Map<String, ParserRuleContext> table = visit(ctx.structFieldStatementList()).getTable();
         return new SymbolTableResult(table, name, ctx);
+    }
+
+    @Override
+    public SymbolTableResult visitFunctionBody(rulesParser.FunctionBodyContext ctx) {
+        return visit(ctx.blockBodyCode());
+    }
+
+    @Override
+    public SymbolTableResult visitBlockBodyCode(rulesParser.BlockBodyCodeContext ctx) {
+        return visit(ctx.statementList());
+    }
+
+    @Override
+    public SymbolTableResult visitStatementList(rulesParser.StatementListContext ctx) {
+        Map<String, ParserRuleContext> table = new HashMap<>();
+        for (rulesParser.StatementOrBlockContext context: ctx.statementOrBlock()) {
+            SymbolTableResult result = visit(context);
+            if (result == null) {
+                continue;
+            }
+            String name = result.getName();
+            if (table.containsKey(name)) {
+                //TODO: name duplicate
+            }
+            table.put(name, result.getContext());
+        }
+        return new SymbolTableResult(table);
+    }
+
+    @Override
+    public SymbolTableResult visitBlock(rulesParser.BlockContext ctx) {
+        return visit(ctx.getChild(0));
+    }
+
+    @Override
+    public SymbolTableResult visitStatementOrBlock(rulesParser.StatementOrBlockContext ctx) {
+        return visit(ctx.getChild(0));
+    }
+
+    @Override
+    public SymbolTableResult visitStatement(rulesParser.StatementContext ctx) {
+        return visit(ctx.statementWithoutSemicolon());
+    }
+
+    @Override
+    public SymbolTableResult visitStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx) {
+        return visit(ctx.getChild(0));
     }
 }

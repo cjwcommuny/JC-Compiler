@@ -15,12 +15,21 @@ public class SymbolTable<S, T> {
     }
 
     public T search(S symbol) {
-        for (var symbolTable: scopeStack) {
+        for (Map<S, T> symbolTable: scopeStack) {
             T result = symbolTable.get(symbol);
             if (result != null) {
                 return result;
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("SymbolTable{");
+//        for (Map.Entry<S, T> )
+        sb.append("};");
+        return sb.toString();
     }
 }

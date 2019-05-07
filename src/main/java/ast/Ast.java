@@ -1,5 +1,6 @@
 package ast;
 
+import ast.node.Node;
 import org.antlr.v4.runtime.ParserRuleContext;
 import symbol.SymbolTable;
 

@@ -6,6 +6,10 @@ namespace MyNamespace {
         3 + 2;
         g();
     }
+
+    def void g() {
+        char ch = 'c';
+    }
 }
 
 
