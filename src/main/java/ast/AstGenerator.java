@@ -243,14 +243,16 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
     @Override
     public Node visitFunctionDefinitionBlock(rulesParser.FunctionDefinitionBlockContext ctx) {
         symbolTable.enterScope(symbolTableGenerator.visit(ctx).getTable());
-
-        Node functionDefinition = new FunctionDefinitionNode();
+        String functionName = ctx.IDENTIFIER(0).getText();
+        ParameterDefinitionNode parameterDefinitionNode = (ParameterDefinitionNode) visit(ctx.functionParameterDefinition());
+        String functionType = Type.generateFunctionType(functionName, parameterDefinitionNode.getParameterTypes());
+        Node functionDefinition = new FunctionDefinitionNode(null, functionType);
         contextMap.put(ctx, functionDefinition);
-        functionDefinition.addChild(new IdentifierNode(ctx.IDENTIFIER(0).getText())); //return type
-        functionDefinition.addChild(new IdentifierNode(ctx.IDENTIFIER(1).getText())); //function name
-        functionDefinition.addChild(visit(ctx.functionParameterDefinition()));
-        functionDefinition.addChild(visit(ctx.functionBody()));
-
+        Node functionBodyNode = visit(ctx.functionBody());
+        functionDefinition.addChild(new IdentifierNode(ctx.IDENTIFIER(1).getText(), null, functionType)); //function name
+        functionDefinition.addChild(functionDefinition);
+        functionDefinition.addChild(parameterDefinitionNode);
+        functionDefinition.addChild(functionBodyNode);
         symbolTable.exitScope();
         return functionDefinition;
     }
@@ -394,9 +396,8 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
         for (rulesParser.RValueContext context: ctx.rValue()) {
             ValueNode argumentNode = (ValueNode) visit(context);
             String argumentType = (argumentNode).getType();
-            String symbol = context
             argumentList.add(argumentType);
-            nodeList.add(new RValueNode(argumentType, getNode()))
+            nodeList.add(visit(context));
         }
         String resultType = TypeChecker.checkFunctionParameter(functionType, argumentList);
         if (resultType == null) {
@@ -442,5 +443,10 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
         return contextMap.get(context);
     }
 
+    /**
+     * such as MyNamespace.MyStruct
+     * */
+    private String getCurrentRestrict() {
 
+    }
 }

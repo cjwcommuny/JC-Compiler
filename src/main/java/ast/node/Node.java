@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Node {
-    private List<Node> children = new LinkedList<>();
+    protected List<Node> children = new LinkedList<>();
 
     public final void addChild(Node node) {
         children.add(node);
@@ -32,5 +32,9 @@ public abstract class Node {
 
     public final void addChildren(List<? extends Node> nodeList) {
         children.addAll(nodeList);
+    }
+
+    public List<Node> getChildren() {
+        return children;
     }
 }

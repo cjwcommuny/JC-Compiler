@@ -11,4 +11,8 @@ public class TypeNode extends Node {
     protected String visualInfo() {
         return "TYPE: " + name;
     }
+
+    public String getTypeName() {
+        return name;
+    }
 }
