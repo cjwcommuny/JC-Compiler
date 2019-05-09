@@ -1,8 +1,7 @@
 package type;
 
-import parser.rulesBaseVisitor;
-import type.TypeInformation;
 
+import parser.rulesBaseVisitor;
 
 public class TypeInference extends rulesBaseVisitor<TypeInformation> {
 

@@ -1,4 +1,4 @@
-// Generated from /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/src/main/antlr/rules.g4 by ANTLR 4.7.2
+// Generated from rules.g4 by ANTLR 4.7.2
 
 package parser;
 

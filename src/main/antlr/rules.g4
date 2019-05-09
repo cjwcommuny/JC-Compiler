@@ -4,6 +4,10 @@ grammar rules;
 package parser;
 }
 
+@members {
+    //added component of generated class
+}
+
 //test  ==============================================================
 TEST_SYMBOL: 'TEST';
 

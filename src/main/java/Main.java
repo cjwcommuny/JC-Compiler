@@ -4,6 +4,8 @@ import ast.node.Node;
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
+import parser.rulesLexer;
+import parser.rulesParser;
 
 import javax.swing.*;
 import java.io.FileInputStream;
