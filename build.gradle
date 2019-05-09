@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'antlr'
+    id 'application'
 }
 
 version '1.0-SNAPSHOT'
@@ -20,4 +21,9 @@ generateGrammarSource {
     outputDirectory = file("src/main/java/parser")
     arguments += ["-visitor",
                   "-long-messages"]
+}
+
+run {
+    mainClassName = 'Main'
+    args = ["./sample.lang"]
 }

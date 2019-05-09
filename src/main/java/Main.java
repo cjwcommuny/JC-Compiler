@@ -4,8 +4,7 @@ import ast.node.Node;
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
-import parser.rulesLexer;
-import parser.rulesParser;
+import parser.*;
 
 import javax.swing.*;
 import java.io.FileInputStream;
@@ -13,7 +12,10 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        String inputFile = "/Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/sample.lang";
+        if (args.length != 1) {
+            System.err.println("args: input file path!");
+        }
+        String inputFile = args[0];
 
         Lexer lexer = new rulesLexer(CharStreams.fromStream(new FileInputStream(inputFile)));
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
