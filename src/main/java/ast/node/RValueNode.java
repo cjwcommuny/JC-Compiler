@@ -1,13 +1,13 @@
 package ast.node;
 
-public class rValueNode extends ValueNode {
+public class RValueNode extends ValueNode {
     private String typeName;
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
     }
 
-    public rValueNode(String typeName, Node reference, String type) {
+    public RValueNode(String typeName, Node reference, String type) {
         this.typeName = typeName;
         this.reference = reference;
         this.type = type;

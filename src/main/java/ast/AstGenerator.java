@@ -12,6 +12,8 @@ import parser.*;
 import type.TypeInference;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class AstGenerator extends rulesBaseVisitor<Node> {
@@ -237,21 +239,21 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
             return returnNode;
         }
     }
-    //TODO:COMMENTED FOR BUILD
-//    @Override
-//    public Node visitFunctionDefinitionBlock(rulesParser.FunctionDefinitionBlockContext ctx) {
-//        symbolTable.enterScope(symbolTableGenerator.visit(ctx).getTable());
-//
-//        Node functionDefinition = new FunctionDefinitionNode();
-//        contextMap.put(ctx, functionDefinition);
-//        functionDefinition.addChild(new IdentifierNode(ctx.IDENTIFIER(0).getText())); //return type
-//        functionDefinition.addChild(new IdentifierNode(ctx.IDENTIFIER(1).getText())); //function name
-//        functionDefinition.addChild(visit(ctx.functionParameterDefinition()));
-//        functionDefinition.addChild(visit(ctx.functionBody()));
-//
-//        symbolTable.exitScope();
-//        return functionDefinition;
-//    }
+
+    @Override
+    public Node visitFunctionDefinitionBlock(rulesParser.FunctionDefinitionBlockContext ctx) {
+        symbolTable.enterScope(symbolTableGenerator.visit(ctx).getTable());
+
+        Node functionDefinition = new FunctionDefinitionNode();
+        contextMap.put(ctx, functionDefinition);
+        functionDefinition.addChild(new IdentifierNode(ctx.IDENTIFIER(0).getText())); //return type
+        functionDefinition.addChild(new IdentifierNode(ctx.IDENTIFIER(1).getText())); //function name
+        functionDefinition.addChild(visit(ctx.functionParameterDefinition()));
+        functionDefinition.addChild(visit(ctx.functionBody()));
+
+        symbolTable.exitScope();
+        return functionDefinition;
+    }
 
     @Override
     public Node visitFunctionParameterDefinition(rulesParser.FunctionParameterDefinitionContext ctx) {
@@ -313,29 +315,7 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
         return forBlock;
     }
 
-    @Override
-    public Node visitEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx) {
-        return new EmptyPlaceholderNode();
-    }
 
-    @Override
-    public Node visitNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx) {
-        Node statementList = new StatementListNode();
-        for (rulesParser.StatementWithoutSemicolonContext context: ctx.statementWithoutSemicolon()) {
-            statementList.addChild(visit(context));
-        }
-        return statementList;
-    }
-
-    @Override
-    public Node visitEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx) {
-        return new EmptyPlaceholderNode();
-    }
-
-    @Override
-    public Node visitNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx) {
-        return visit(ctx.rValue());
-    }
 
     @Override
     public Node visitWhileBlock(rulesParser.WhileBlockContext ctx) {
@@ -401,24 +381,35 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
         return node;
     }
 
-    //TODO:COMMENTED FOR BUILD
-//    @Override
-//    public Node visitFunctionCall(rulesParser.FunctionCallContext ctx) {
-//        String functionName = ctx.IDENTIFIER().getText();
-//        ValueNode functionDefinitionNode = (ValueNode) getNode(functionName);
-//        if (functionDefinitionNode == null) {
-//            //TODO: symbol not resolved
-//        }
-//        String functionType = functionDefinitionNode.getType();
-//        Node node = new FunctionCallNode(functionDefinitionNode, );
-//        node.addChild(new FunctionNameNode());
-//        List<ValueNode> argumentList = new LinkedList<>();
-//        for (rulesParser.RValueContext context: ctx.rValue()) {
-//            argumentList.add((ValueNode) visit(context));
-//        }
-//        node.addChildren(argumentList);
-//        return node;
-//    }
+    @Override
+    public Node visitFunctionCall(rulesParser.FunctionCallContext ctx) {
+        String functionName = ctx.IDENTIFIER().getText();
+        ValueNode functionDefinitionNode = (ValueNode) getNode(functionName);
+        if (functionDefinitionNode == null) {
+            //TODO: symbol not resolved
+        }
+        String functionType = functionDefinitionNode.getType();
+        List<String> argumentList = new LinkedList<>();
+        List<Node> nodeList = new LinkedList<>();
+        for (rulesParser.RValueContext context: ctx.rValue()) {
+            ValueNode argumentNode = (ValueNode) visit(context);
+            String argumentType = (argumentNode).getType();
+            String symbol = context
+            argumentList.add(argumentType);
+            nodeList.add(new RValueNode(argumentType, getNode()))
+        }
+        String resultType = TypeChecker.checkFunctionParameter(functionType, argumentList);
+        if (resultType == null) {
+            //TODO: type mismatched
+        }
+
+
+        Node node = new FunctionCallNode(functionDefinitionNode, resultType);
+        node.addChild(new FunctionNameNode(functionName, functionDefinitionNode, functionType));
+
+        node.addChildren(nodeList);
+        return node;
+    }
 
     @Override
     public Node visitStructFieldStatementList(rulesParser.StructFieldStatementListContext ctx) {
@@ -450,4 +441,6 @@ public class AstGenerator extends rulesBaseVisitor<Node> {
         }
         return contextMap.get(context);
     }
+
+
 }

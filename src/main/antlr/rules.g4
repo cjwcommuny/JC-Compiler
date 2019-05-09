@@ -103,6 +103,7 @@ rValue:
 	expression
 	| arrayInitialization
 	| functionCall
+	| identifierReference
 	;
 
 //TODO
@@ -110,6 +111,7 @@ lValue:
 	IDENTIFIER # lValueIdentifier
 	//    | lValue DOT IDENTIFIER
 	| lValue LEFT_BRACKET expression RIGHT_BRACKET # lValueArrayIndex
+	| identifierReference # reference
     ;
 
 //namespace definition
@@ -196,8 +198,7 @@ functionParameterDefinition:
 	LEFT_PARENTHESES parameterList RIGHT_PARENTHESES;
 
 parameterList:
-	//empty
-	| (variableDeclaration ',')* variableDeclaration;
+	((variableDeclaration ',')* variableDeclaration)?;
 
 functionBody: LEFT_CURLY_BRACE blockBodyCode RIGHT_CURLY_BRACE;
 
@@ -215,13 +216,11 @@ elseBlock: ELSE_SYMBOL '{' blockBodyCode '}';
 forBlock: FOR_SYMBOL '(' initOrStepCondition ';' terminateCondition ';' initOrStepCondition ')' '{' blockBodyCode '}';
 
 initOrStepCondition:
-	# emptyInitOrStepConsition //empty
-	| (statementWithoutSemicolon ',')* statementWithoutSemicolon # nonEmptyInitOrStepCondition
+	| ((statementWithoutSemicolon ',')* statementWithoutSemicolon)?
 	;
 
 terminateCondition:
-	# emptyTerminateCondition//empty
-	| rValue # nonEmptyTerminateCondition
+	rValue?
 	;
 
 whileBlock: WHILE_SYMBOL '(' rValue ')' '{' blockBodyCode '}';
@@ -257,3 +256,7 @@ structDefinition:
 	CLASS_DEFINITION_SYMNOL IDENTIFIER '{' structFieldStatementList '}';
 
 //TODO: identifier.identifier
+
+identifierReference:
+    IDENTIFIER '.' IDENTIFIER
+    ;

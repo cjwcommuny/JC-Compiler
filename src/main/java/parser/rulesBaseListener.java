@@ -66,6 +66,18 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterReference(rulesParser.ReferenceContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitReference(rulesParser.ReferenceContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -402,49 +414,25 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx) { }
+	@Override public void enterInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx) { }
+	@Override public void exitInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx) { }
+	@Override public void enterTerminateCondition(rulesParser.TerminateConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx) { }
+	@Override public void exitTerminateCondition(rulesParser.TerminateConditionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -553,6 +541,18 @@ public class rulesBaseListener implements rulesListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitStructDefinition(rulesParser.StructDefinitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdentifierReference(rulesParser.IdentifierReferenceContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdentifierReference(rulesParser.IdentifierReferenceContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

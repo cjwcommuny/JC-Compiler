@@ -100,8 +100,7 @@ public class TypeChecker {
         }
     }
 
-    private static String checkFunctionParameter(String functionType,
-                                                 String returnType,
+    public static String checkFunctionParameter(String functionType,
                                                  List<String> parameterTypeList) {
         //TODO
         return null;

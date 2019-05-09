@@ -47,6 +47,13 @@ public class rulesBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitReference(rulesParser.ReferenceContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -243,28 +250,14 @@ public class rulesBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx) { return visitChildren(ctx); }
+	@Override public T visitTerminateCondition(rulesParser.TerminateConditionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -328,4 +321,11 @@ public class rulesBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitStructDefinition(rulesParser.StructDefinitionContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitIdentifierReference(rulesParser.IdentifierReferenceContext ctx) { return visitChildren(ctx); }
 }

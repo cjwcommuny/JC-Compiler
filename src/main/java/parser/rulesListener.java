@@ -54,6 +54,18 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitRValue(rulesParser.RValueContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code reference}
+	 * labeled alternative in {@link rulesParser#lValue}.
+	 * @param ctx the parse tree
+	 */
+	void enterReference(rulesParser.ReferenceContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code reference}
+	 * labeled alternative in {@link rulesParser#lValue}.
+	 * @param ctx the parse tree
+	 */
+	void exitReference(rulesParser.ReferenceContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code lValueArrayIndex}
 	 * labeled alternative in {@link rulesParser#lValue}.
 	 * @param ctx the parse tree
@@ -348,53 +360,25 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitForBlock(rulesParser.ForBlockContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code emptyInitOrStepConsition}
-	 * labeled alternative in {@link rulesParser#initOrStepCondition}.
+	 * Enter a parse tree produced by {@link rulesParser#initOrStepCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx);
+	void enterInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code emptyInitOrStepConsition}
-	 * labeled alternative in {@link rulesParser#initOrStepCondition}.
+	 * Exit a parse tree produced by {@link rulesParser#initOrStepCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx);
+	void exitInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code nonEmptyInitOrStepCondition}
-	 * labeled alternative in {@link rulesParser#initOrStepCondition}.
+	 * Enter a parse tree produced by {@link rulesParser#terminateCondition}.
 	 * @param ctx the parse tree
 	 */
-	void enterNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx);
+	void enterTerminateCondition(rulesParser.TerminateConditionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code nonEmptyInitOrStepCondition}
-	 * labeled alternative in {@link rulesParser#initOrStepCondition}.
+	 * Exit a parse tree produced by {@link rulesParser#terminateCondition}.
 	 * @param ctx the parse tree
 	 */
-	void exitNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code emptyTerminateCondition}
-	 * labeled alternative in {@link rulesParser#terminateCondition}.
-	 * @param ctx the parse tree
-	 */
-	void enterEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code emptyTerminateCondition}
-	 * labeled alternative in {@link rulesParser#terminateCondition}.
-	 * @param ctx the parse tree
-	 */
-	void exitEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code nonEmptyTerminateCondition}
-	 * labeled alternative in {@link rulesParser#terminateCondition}.
-	 * @param ctx the parse tree
-	 */
-	void enterNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code nonEmptyTerminateCondition}
-	 * labeled alternative in {@link rulesParser#terminateCondition}.
-	 * @param ctx the parse tree
-	 */
-	void exitNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx);
+	void exitTerminateCondition(rulesParser.TerminateConditionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#whileBlock}.
 	 * @param ctx the parse tree
@@ -485,4 +469,14 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStructDefinition(rulesParser.StructDefinitionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#identifierReference}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifierReference(rulesParser.IdentifierReferenceContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#identifierReference}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifierReference(rulesParser.IdentifierReferenceContext ctx);
 }

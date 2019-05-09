@@ -39,6 +39,13 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRValue(rulesParser.RValueContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code reference}
+	 * labeled alternative in {@link rulesParser#lValue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitReference(rulesParser.ReferenceContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code lValueArrayIndex}
 	 * labeled alternative in {@link rulesParser#lValue}.
 	 * @param ctx the parse tree
@@ -214,33 +221,17 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitForBlock(rulesParser.ForBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code emptyInitOrStepConsition}
-	 * labeled alternative in {@link rulesParser#initOrStepCondition}.
+	 * Visit a parse tree produced by {@link rulesParser#initOrStepCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEmptyInitOrStepConsition(rulesParser.EmptyInitOrStepConsitionContext ctx);
+	T visitInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code nonEmptyInitOrStepCondition}
-	 * labeled alternative in {@link rulesParser#initOrStepCondition}.
+	 * Visit a parse tree produced by {@link rulesParser#terminateCondition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitNonEmptyInitOrStepCondition(rulesParser.NonEmptyInitOrStepConditionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code emptyTerminateCondition}
-	 * labeled alternative in {@link rulesParser#terminateCondition}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitEmptyTerminateCondition(rulesParser.EmptyTerminateConditionContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code nonEmptyTerminateCondition}
-	 * labeled alternative in {@link rulesParser#terminateCondition}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNonEmptyTerminateCondition(rulesParser.NonEmptyTerminateConditionContext ctx);
+	T visitTerminateCondition(rulesParser.TerminateConditionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#whileBlock}.
 	 * @param ctx the parse tree
@@ -295,4 +286,10 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStructDefinition(rulesParser.StructDefinitionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#identifierReference}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdentifierReference(rulesParser.IdentifierReferenceContext ctx);
 }
