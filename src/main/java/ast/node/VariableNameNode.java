@@ -1,9 +1,12 @@
 package ast.node;
 
+import type.Type;
+
 public class VariableNameNode extends ValueNode {
+    private Type type;
     private String name;
 
-    public VariableNameNode(String name, Node reference, String type) {
+    public VariableNameNode(String name, Node reference, Type type) {
         this.name = name;
         this.reference = reference;
         this.type = type;
@@ -11,10 +14,15 @@ public class VariableNameNode extends ValueNode {
 
     @Override
     protected String visualInfo() {
-        return "VARIABLE: " + name;
+        return type.visualInfo() + ": " + name;
     }
 
     public Node getReference() {
         return reference;
+    }
+
+    @Override
+    public Type getType() {
+        return type;
     }
 }

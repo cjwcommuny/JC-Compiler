@@ -18,4 +18,9 @@ public class FunctionType extends Type {
         }
         return sb.toString();
     }
+
+    public FunctionType(List<Type> parameterTypes, Type returnType) {
+        this.parameterTypes = parameterTypes;
+        this.returnType = returnType;
+    }
 }

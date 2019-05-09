@@ -1,15 +1,17 @@
 package ast.node;
 
+import type.Type;
+
 public class ValueNode extends Node {
     //TODO: delete??
     protected Node reference;
-    protected String type;
+    protected Type type;
 
     public Node getReference() {
         return reference;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 }

@@ -15,4 +15,9 @@ public class LiteralNode<T> extends Node {
     public T getValue() {
         return value;
     }
+
+    public LiteralNode(Type type, T value) {
+        this.type = type;
+        this.value = value;
+    }
 }

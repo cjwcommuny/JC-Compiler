@@ -9,7 +9,7 @@ import java.util.Map;
 import parser.*;
 
 public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
-    //traverse the parse tree to generate the symbol table
+    //traverse the parse tree to generateBaseOrObjectType the symbol table
 
     @Override
     public SymbolTableResult visitNamespaceDefinition(rulesParser.NamespaceDefinitionContext ctx) {

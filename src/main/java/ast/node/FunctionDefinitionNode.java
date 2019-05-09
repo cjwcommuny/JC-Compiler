@@ -1,4 +1,7 @@
 package ast.node;
+
+import type.Type;
+
 /**
  * child 1: return type
  * child 2: function name
@@ -11,7 +14,7 @@ public class FunctionDefinitionNode extends ValueNode {
         return "FunctionDefinition";
     }
 
-    public FunctionDefinitionNode(Node reference, String type) {
+    public FunctionDefinitionNode(Node reference, Type type) {
         this.reference = reference;
         this.type = type;
     }

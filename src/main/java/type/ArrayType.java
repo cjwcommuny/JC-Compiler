@@ -13,4 +13,9 @@ public class ArrayType extends Type {
         sb.append(componentType.generateFieldDescriptor());
         return sb.toString();
     }
+
+    public ArrayType(Type componentType, int dimension) {
+        this.componentType = componentType;
+        this.dimension = dimension;
+    }
 }

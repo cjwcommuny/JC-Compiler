@@ -1,9 +1,11 @@
 package ast.node;
 
+import type.Type;
+
 public class ArrayNameNode extends ValueNode {
     private String name;
 
-    public ArrayNameNode(String name, Node reference, String type) {
+    public ArrayNameNode(String name, Node reference, Type type) {
         this.name = name;
         this.reference = reference;
         this.type = type;

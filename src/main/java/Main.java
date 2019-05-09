@@ -1,5 +1,6 @@
 import ast.Ast;
 import ast.AstGenerator;
+import ast.AstGeneratorResult;
 import ast.node.Node;
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.*;
@@ -12,19 +13,19 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
-            System.err.println("args: input file path!");
-        }
-        String inputFile = args[0];
-
+//        if (args.length != 1) {
+//            System.err.println("args: input file path!");
+//        }
+//        String inputFile = args[0];
+        String inputFile = "./sample/sample1.lang";
         Lexer lexer = new rulesLexer(CharStreams.fromStream(new FileInputStream(inputFile)));
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         rulesParser parser = new rulesParser(tokenStream);
         ParseTree tree = parser.program();
         AstGenerator astGenerator = new AstGenerator();
-        Node ast = astGenerator.visit(tree);
+        AstGeneratorResult visitResult = astGenerator.visit(tree);
+        Node ast = visitResult.getNodes().get(0);
         ast.printTree();
-        Ast.semanticAnalyze(ast, astGenerator.getSymbolTable(), astGenerator.getContextMap());
         showAstInGUI(parser, tree);
     }
 
