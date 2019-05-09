@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/JavaCompiler.iml" filepath="$PROJECT_DIR$/.idea/JavaCompiler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JavaCompiler_main.iml" filepath="$PROJECT_DIR$/.idea/modules/JavaCompiler_main.iml" group="JavaCompiler" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JavaCompiler_test.iml" filepath="$PROJECT_DIR$/.idea/modules/JavaCompiler_test.iml" group="JavaCompiler" />
+    </modules>
+  </component>
+</project>
