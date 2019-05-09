@@ -5,9 +5,14 @@ package ast.node;
  * child 3 ...: parameter
  * child 4: function body
  * */
-public class FunctionDefinitionNode extends Node {
+public class FunctionDefinitionNode extends ValueNode {
     @Override
     protected String visualInfo() {
         return "FunctionDefinition";
+    }
+
+    public FunctionDefinitionNode(Node reference, String type) {
+        this.reference = reference;
+        this.type = type;
     }
 }

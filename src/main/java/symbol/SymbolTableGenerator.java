@@ -1,8 +1,12 @@
+package symbol;
+
+import common.CommonInfrastructure;
 import org.antlr.v4.runtime.ParserRuleContext;
 import symbol.SymbolTableResult;
 
 import java.util.HashMap;
 import java.util.Map;
+import parser.*;
 
 public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
     //traverse the parse tree to generate the symbol table

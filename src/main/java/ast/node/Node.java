@@ -29,4 +29,8 @@ public abstract class Node {
         //TODO
         return this.getClass().getSimpleName();
     }
+
+    public final void addChildren(List<? extends Node> nodeList) {
+        children.addAll(nodeList);
+    }
 }

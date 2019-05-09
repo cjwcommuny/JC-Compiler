@@ -1,7 +1,7 @@
+package common;
+
 import org.antlr.v4.runtime.ParserRuleContext;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 public class CommonInfrastructure {

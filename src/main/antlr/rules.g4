@@ -1,5 +1,9 @@
 grammar rules;
 
+@header {
+package parser;
+}
+
 //test  ==============================================================
 TEST_SYMBOL: 'TEST';
 

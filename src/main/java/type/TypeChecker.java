@@ -1,6 +1,8 @@
 package type;
 
 
+import java.util.List;
+
 public class TypeChecker {
 
     public static String checkInfixComputation(String operation, String type1, String type2) {
@@ -98,7 +100,12 @@ public class TypeChecker {
         }
     }
 
-//    private static String checkFunctionParameter(List<>) {}
+    private static String checkFunctionParameter(String functionType,
+                                                 String returnType,
+                                                 List<String> parameterTypeList) {
+        //TODO
+        return null;
+    }
 
     //other operation: XOR and so on
 }

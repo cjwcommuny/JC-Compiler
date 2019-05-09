@@ -15,3 +15,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     antlr "org.antlr:antlr4:4.7.2"
 }
+
+generateGrammarSource {
+    outputDirectory = file("src/main/java/parser")
+}
