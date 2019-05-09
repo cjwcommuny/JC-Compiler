@@ -1,9 +1,9 @@
-package classfile;
+package classfile.constantpool;
 
 import java.util.ArrayList;
 import java.util.List;
 
-class ConstantPool<T> {
+public class ConstantPool<T> {
     private List<T> pool = new ArrayList<>();
 
     int getConstantPoolCount() {

@@ -1,5 +1,7 @@
 package classfile;
 
+import classfile.constantpool.ConstantPool;
+
 import java.util.ArrayList;
 import java.util.List;
 
