@@ -1,6 +1,7 @@
 package ast.node;
 
 public class ValueNode extends Node {
+    //TODO: delete??
     protected Node reference;
     protected String type;
 

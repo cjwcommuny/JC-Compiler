@@ -1,18 +1,20 @@
 package ast.node;
 
-public class TypeNode extends Node {
-    private String name;
+import type.Type;
 
-    public TypeNode(String name) {
-        this.name = name;
+public class TypeNode extends Node {
+    private Type type;
+
+    public TypeNode(Type type) {
+        this.type = type;
     }
 
     @Override
     protected String visualInfo() {
-        return "TYPE: " + name;
+        return "TYPE: " + type.getClass().getSimpleName();
     }
 
-    public String getTypeName() {
-        return name;
+    public Type getType() {
+        return type;
     }
 }

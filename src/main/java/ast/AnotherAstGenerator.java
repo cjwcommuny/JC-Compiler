@@ -5,6 +5,6 @@ import parser.rulesBaseVisitor;
 
 import java.util.List;
 
-public class AnotherAstGenerator extends rulesBaseVisitor<List<Node>> {
+public class AnotherAstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 
 }

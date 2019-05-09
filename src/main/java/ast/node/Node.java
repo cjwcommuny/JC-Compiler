@@ -34,7 +34,7 @@ public abstract class Node {
         children.addAll(nodeList);
     }
 
-    public List<Node> getChildren() {
+    public final List<Node> getChildren() {
         return children;
     }
 }
