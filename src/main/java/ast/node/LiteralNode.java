@@ -1,7 +1,6 @@
 package ast.node;
 
-import type.Type;
-import type.base.BaseType;
+import type.typetype.Type;
 
 public class LiteralNode<T> extends Node {
     private Type type;

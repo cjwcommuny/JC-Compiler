@@ -1,6 +1,6 @@
 package ast.node;
 
-import type.Type;
+import type.typetype.Type;
 
 /**
  * child 1: array

@@ -1,6 +1,6 @@
 package ast.node;
 
-import type.Type;
+import type.typetype.Type;
 
 public class ValueNode extends Node {
     //TODO: delete??

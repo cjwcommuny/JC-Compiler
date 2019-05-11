@@ -1,16 +1,15 @@
 package ast;
 
 import ast.node.*;
-import jdk.nashorn.internal.runtime.regexp.joni.ast.StringNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.rulesBaseVisitor;
 import parser.rulesLexer;
 import parser.rulesParser;
 import symbol.ScopeHandler;
 import symbol.SymbolTableGenerator;
-import type.Type;
-import type.TypeBuilder;
-import type.base.IntType;
+import type.typetype.Type;
+import type.typetype.TypeBuilder;
+import type.typetype.IntType;
 
 import java.util.List;
 

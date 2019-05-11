@@ -1,6 +1,7 @@
-package type;
+package type.typetype;
 
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Type {
     abstract public String generateFieldDescriptor();

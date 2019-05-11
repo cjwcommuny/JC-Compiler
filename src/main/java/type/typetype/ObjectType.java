@@ -1,6 +1,7 @@
-package type;
+package type.typetype;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ObjectType extends Type {
     private String fullRestrictClassName;
@@ -10,7 +11,7 @@ public class ObjectType extends Type {
         return "L" + fullRestrictClassName + ";";
     }
 
-    public ObjectType(String simpleClassName, List<String> restrictNames) {
+    ObjectType(String simpleClassName, List<String> restrictNames) {
         this.fullRestrictClassName = constructFullRestrictClassName(simpleClassName, restrictNames);
     }
 
@@ -22,5 +23,18 @@ public class ObjectType extends Type {
         }
         sb.append(simpleClassName);
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ObjectType that = (ObjectType) o;
+        return Objects.equals(fullRestrictClassName, that.fullRestrictClassName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(fullRestrictClassName);
     }
 }

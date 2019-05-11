@@ -1,6 +1,4 @@
-package type;
-
-import type.base.*;
+package type.typetype;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -12,16 +10,16 @@ public class TypeBuilder {
      * */
     public static Type generateBaseOrObjectType(String typeName, List<String> restrictNames) {
         if (BaseType.isBaseType(typeName)) {
-            return BaseTypeBuilder.generate(typeName);
+            return generateBaseType(typeName);
         } else {
-            return new ObjectType(typeName, restrictNames);
+            return generateObjectType(typeName, restrictNames);
         }
     }
 
     public static ArrayType generateArrayType(String componentTypeName,
                                               List<String> restrictNames,
                                               int dimension) {
-        return new ArrayType(
+        return generateArrayType(
                 generateBaseOrObjectType(componentTypeName, restrictNames),
                 dimension
         );
@@ -30,7 +28,7 @@ public class TypeBuilder {
     public static FunctionType generateFunctionType(String returnTypeName,
                                                     List<String> restrictNames,
                                                     List<String> parameterTypes) {
-        return new FunctionType(
+        return generateFunctionType(
                 generateBaseOrObjectTypes(parameterTypes, restrictNames),
                 generateBaseOrObjectType(returnTypeName, restrictNames)
         );
@@ -44,21 +42,51 @@ public class TypeBuilder {
         }
         return types;
     }
-}
 
-class BaseTypeBuilder {
-    static BaseType generate(String typeName) {
+    public static FunctionType generateFunctionType(List<Type> parameterTypes, Type returnType) {
+        return new FunctionType(parameterTypes, returnType);
+    }
+
+    public static ArrayType generateArrayType(Type componentType, int dimension) {
+        return new ArrayType(componentType, dimension);
+    }
+
+    public static ObjectType generateObjectType(String simpleClassName, List<String> restrictNames) {
+        return new ObjectType(simpleClassName, restrictNames);
+    }
+
+    public static BoolType generateBoolType() {
+        return BoolType.getInstance();
+    }
+
+    public static IntType generateIntType() {
+        return IntType.getInstance();
+    }
+
+    public static CharType generateCharType() {
+        return CharType.getInstance();
+    }
+
+    public static VoidType generateVoidType() {
+        return VoidType.getInstance();
+    }
+
+    public static DoubleType generateDoubleType() {
+        return DoubleType.getInstance();
+    }
+
+    private static BaseType generateBaseType(String typeName) {
         switch (typeName) {
             case "int":
-                return new IntType();
+                return generateIntType();
             case "bool":
-                return new BoolType();
+                return generateBoolType();
             case "double":
-                return new DoubleType();
+                return generateDoubleType();
             case "char":
-                return new CharType();
+                return generateCharType();
             case "void":
-                return new VoidType();
+                return generateVoidType();
             default:
                 return null;//TODO: error handling
         }

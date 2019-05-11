@@ -1,6 +1,6 @@
 package ast.node;
 
-import type.Type;
+import type.typetype.Type;
 
 public class ArrayNameNode extends ValueNode {
     private String name;

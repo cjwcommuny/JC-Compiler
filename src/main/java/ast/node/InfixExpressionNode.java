@@ -1,6 +1,6 @@
 package ast.node;
 
-import type.Type;
+import type.typetype.Type;
 
 public class InfixExpressionNode extends ValueNode {
     private String operation;
