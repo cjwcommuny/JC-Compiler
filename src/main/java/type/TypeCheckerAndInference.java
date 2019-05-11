@@ -41,6 +41,7 @@ public class TypeCheckerAndInference {
             return TypeBuilder.generateDoubleType();
         } else {
             //type match error
+
             return null;
         }
     }

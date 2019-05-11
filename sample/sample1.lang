@@ -1,6 +1,8 @@
-namespace MyNamespace {
-    def void f(int b) {
+/*namespace MyNamespace {
+    def void f(double b) {
         int a = -b;
         a = 3;
     }
-}
+}*/
+
+hahahahahhah

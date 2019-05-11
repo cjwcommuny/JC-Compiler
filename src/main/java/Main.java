@@ -1,7 +1,9 @@
-import ast.Ast;
 import ast.AstGenerator;
 import ast.AstGeneratorResult;
 import ast.node.Node;
+import error.SyntaxError;
+import error.SyntaxErrorListener;
+import error.exception.ParseException;
 import org.antlr.v4.gui.TreeViewer;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -10,6 +12,7 @@ import parser.*;
 import javax.swing.*;
 import java.io.FileInputStream;
 import java.util.Arrays;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -19,14 +22,36 @@ public class Main {
 //        String inputFile = args[0];
         String inputFile = "./sample/sample1.lang";
         Lexer lexer = new rulesLexer(CharStreams.fromStream(new FileInputStream(inputFile)));
+
+        SyntaxErrorListener lexListener = new SyntaxErrorListener();
+        lexer.removeErrorListener(ConsoleErrorListener.INSTANCE);
+        lexer.addErrorListener(lexListener);
+
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         rulesParser parser = new rulesParser(tokenStream);
+
+        SyntaxErrorListener parserErrorListener = new SyntaxErrorListener();
+        parser.removeErrorListener(ConsoleErrorListener.INSTANCE);
+        parser.addErrorListener(parserErrorListener);
         ParseTree tree = parser.program();
-        AstGenerator astGenerator = new AstGenerator();
-        AstGeneratorResult visitResult = astGenerator.visit(tree);
-        Node ast = visitResult.getNodes().get(0);
-        ast.printTree();
-        showAstInGUI(parser, tree);
+        AstGenerator astGenerator = new AstGenerator(tokenStream);
+
+        //parser info printing
+        if (parserErrorListener.getSyntaxErrorsCount() != 0) {
+            List<SyntaxError> syntaxErrors = parserErrorListener.getSyntaxErrors();
+            for (SyntaxError error: syntaxErrors) {
+                System.out.println(error.getMessage());
+            }
+            return;
+        }
+        try {
+            AstGeneratorResult visitResult = astGenerator.visit(tree);
+            Node ast = visitResult.getNodes().get(0);
+            ast.printTree();
+            showAstInGUI(parser, tree);
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private static void showAstInGUI(rulesParser parser, ParseTree tree) {

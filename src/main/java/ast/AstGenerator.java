@@ -13,10 +13,14 @@ import ast.node.structure.ProgramNode;
 import ast.node.value.InfixExpressionNode;
 import ast.node.value.UnaryExpressionNode;
 import ast.node.value.ValueNode;
+import error.exception.TypeMismatchException;
 import operation.InfixOperation;
 import operation.Operation;
 import operation.UnaryOperation;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.Token;
+import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.rulesBaseVisitor;
@@ -28,8 +32,6 @@ import type.TypeCheckerAndInference;
 import type.typetype.FunctionType;
 import type.typetype.Type;
 import type.typetype.TypeBuilder;
-import type.typetype.IntType;
-import value.Value;
 
 import java.util.List;
 
@@ -37,6 +39,12 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     private SymbolTableGenerator symbolTableGenerator = new SymbolTableGenerator();
 
     private ScopeHandler scopeHandler = new ScopeHandler();
+
+    private CommonTokenStream commonTokenStream;
+
+    public AstGenerator(CommonTokenStream commonTokenStream) {
+        this.commonTokenStream = commonTokenStream;
+    }
 
     @Override
     public AstGeneratorResult visitProgram(rulesParser.ProgramContext ctx) {
@@ -96,7 +104,9 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         Type rightSideType = rightSideNode.getType();
         if (!TypeCheckerAndInference.checkAssignment(type, rightSideType)) {
             //TODO: assignment type mismatch
-            System.err.println("assignment type mismatch");
+            Token assignToken = ctx.ASSIGN_SYMBOL().getSymbol();
+            int[] tokenPosition = getTokenPosition(ctx, assignToken);
+            throw new TypeMismatchException(tokenPosition, type, rightSideType);
         }
         thisNode.addChild(rightSideNode);
         return new AstGeneratorResult(thisNode);
@@ -268,5 +278,13 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         VariableDefinitionNode node = (VariableDefinitionNode) result.getNode();
         scopeHandler.putSymbol(node.getVariableName(), ctx.variableDefinition(), node); //put symbol
         return result;
+    }
+
+    private int[] getTokenPosition(ParserRuleContext ctx, Token token) {
+        Interval sourceInterval = ctx.getSourceInterval();
+        Token firstToken = commonTokenStream.get(sourceInterval.a);
+        int lineRowNumber = firstToken.getLine();
+        int columnColumnNumber = token.getCharPositionInLine();
+        return new int[]{lineRowNumber, columnColumnNumber};
     }
 }
