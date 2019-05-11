@@ -1,12 +1,21 @@
 package ast;
 
 import ast.node.*;
+import ast.node.definition.DefinitionNode;
+import ast.node.definition.NamespaceNode;
+import ast.node.definition.VariableDefinitionNode;
+import ast.node.reference.RefNode;
+import ast.node.reference.RefNodeBuilder;
+import ast.node.reference.VariableNameNode;
+import ast.node.structure.ProgramNode;
+import ast.node.value.ValueNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.rulesBaseVisitor;
 import parser.rulesLexer;
 import parser.rulesParser;
 import symbol.ScopeHandler;
 import symbol.SymbolTableGenerator;
+import type.TypeCheckerAndInference;
 import type.typetype.Type;
 import type.typetype.TypeBuilder;
 import type.typetype.IntType;
@@ -63,17 +72,24 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 
     @Override
     public AstGeneratorResult visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
-        VariableDefinitionNode thisNode = new VariableDefinitionNode();
-        scopeHandler.putContextNode(ctx, thisNode);
         String typeName = ctx.IDENTIFIER(0).getText();
         List<String> restrictNames = scopeHandler.getRestrictNames();
         Type type = TypeBuilder.generateBaseOrObjectType(typeName, restrictNames);
+        VariableDefinitionNode thisNode = new VariableDefinitionNode(type);
+
+        scopeHandler.putContextNode(ctx, thisNode);
         String variableName = ctx.IDENTIFIER(1).getText();
         VariableNameNode variableNameNode = new VariableNameNode(variableName, null, type);
         thisNode.addChild(variableNameNode);
 
         AstGeneratorResult visitResult = visit(ctx.rValue());
-        thisNode.addChildren(visitResult.getNodes());
+        ValueNode rightSideNode = (ValueNode) visitResult.getNodes().get(0);
+        Type rightSideType = rightSideNode.getType();
+        if (!TypeCheckerAndInference.checkAssignment(type, rightSideType)) {
+            //TODO: assignment type mismatch
+            System.err.println("assignment type mismatch");
+        }
+        thisNode.addChild(rightSideNode);
         return new AstGeneratorResult(thisNode);
     }
 
@@ -95,7 +111,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         String symbol = thisNode.getSymbol().getText();
         switch (thisNode.getSymbol().getType()) {
             case rulesLexer.INT_LITERAL:
-                LiteralNode<Integer> node = new LiteralNode<Integer>(new IntType(), Integer.valueOf(symbol));
+                LiteralNode<Integer> node = new LiteralNode<>(new IntType(), Integer.valueOf(symbol));
                 return new AstGeneratorResult(node);
             case rulesLexer.DOUBLE_LITERAL:
                 return null;
@@ -105,10 +121,18 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 return null;
             case rulesLexer.STRING_LITERAL:
                 return null;
-//            case rulesLexer.IDENTIFIER:
-//                return new IdentifierNode(symbol);
+            case rulesLexer.IDENTIFIER:
+                DefinitionNode defNode = scopeHandler.getNode(symbol);
+                if (defNode == null) {
+                    //TODO: symbol not resolved
+                    System.err.println("symbol not resolved");
+                }
+                RefNode refNode = RefNodeBuilder.generateProperReNode(symbol, defNode);
+                return new AstGeneratorResult(refNode);
             default:
                 return null;//TODO: ERROR
         }
     }
+
+
 }

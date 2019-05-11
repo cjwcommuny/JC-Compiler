@@ -1,9 +1,11 @@
 package ast.node;
 
+import ast.node.definition.DefinitionNode;
+import ast.node.value.ValueNode;
 import type.typetype.Type;
 
-public class LiteralNode<T> extends Node {
-    private Type type;
+public class LiteralNode<T> extends ValueNode {
+//    private Type type;
     private T value;
 
     @Override
@@ -16,7 +18,7 @@ public class LiteralNode<T> extends Node {
     }
 
     public LiteralNode(Type type, T value) {
-        this.type = type;
+        super(type);
         this.value = value;
     }
 }

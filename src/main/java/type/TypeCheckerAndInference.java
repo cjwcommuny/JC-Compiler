@@ -7,7 +7,6 @@ import type.typetype.FunctionType;
 import type.typetype.Type;
 import type.typetype.TypeBuilder;
 
-import java.lang.reflect.Array;
 import java.util.List;
 
 public class TypeCheckerAndInference {
@@ -60,22 +59,20 @@ public class TypeCheckerAndInference {
     }
 
     private static Type checkBoolExpression(Type type1, Type type2) {
-//        if (type1.equals(Type.BOOL) && type2.equals(Type.BOOL)) {
-//            return Type.BOOL;
-//        } else {
-//            return null;
-//        }
-        return null;
+        if (type1.equals(TypeBuilder.generateBoolType()) && type2.equals(TypeBuilder.generateBoolType())) {
+            return TypeBuilder.generateBoolType();
+        } else {
+            return null;
+        }
     }
 
     private static Type checkCompareExpression(Type type1, Type type2) {
-//        String result = checkAddition(type1, type2);
-//        if (result == null) {
-//            return null;
-//        } else {
-//            return Type.BOOL;
-//        }
-        return null;
+        Type result = checkAddition(type1, type2);
+        if (result == null) {
+            return null;
+        } else {
+            return TypeBuilder.generateBoolType();
+        }
     }
 
     public static Type checkUnaryComputation(Operation operation, Type type) {
@@ -107,7 +104,7 @@ public class TypeCheckerAndInference {
         } else {
             return null;
         }
-        }
+    }
 
     public static Type checkFunctionParameter(Type type,
                                                  List<Type> argumentTypes) {
@@ -127,4 +124,5 @@ public class TypeCheckerAndInference {
     public static boolean checkAssignment(Type type1, Type type2) {
         return type1.equals(type2);
     }
+
 }

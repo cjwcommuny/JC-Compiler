@@ -91,4 +91,8 @@ public class TypeBuilder {
                 return null;//TODO: error handling
         }
     }
+
+    public static NamespaceType generateNamespaceType(String name) {
+        return new NamespaceType(name);
+    }
 }

@@ -1,14 +1,15 @@
-package ast.node;
+package ast.node.value;
 
+import ast.node.definition.DefinitionNode;
+import ast.node.value.ValueNode;
 import type.typetype.Type;
 
 public class UnaryExpressionNode extends ValueNode {
     private String operation;
 
-    public UnaryExpressionNode(String operation, Node reference, Type type) {
+    public UnaryExpressionNode(String operation, Type type) {
+        super(type);
         this.operation = operation;
-        this.reference = reference;
-        this.type = type;
     }
 
     @Override

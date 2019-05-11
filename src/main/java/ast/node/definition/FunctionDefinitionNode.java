@@ -1,5 +1,6 @@
-package ast.node;
+package ast.node.definition;
 
+import ast.node.definition.DefinitionNode;
 import type.typetype.Type;
 
 /**
@@ -8,14 +9,13 @@ import type.typetype.Type;
  * child 3 ...: parameter
  * child 4: function body
  * */
-public class FunctionDefinitionNode extends ValueNode {
+public class FunctionDefinitionNode extends DefinitionNode {
     @Override
     protected String visualInfo() {
         return "FunctionDefinition";
     }
 
-    public FunctionDefinitionNode(Node reference, Type type) {
-        this.reference = reference;
-        this.type = type;
+    public FunctionDefinitionNode(Type type) {
+        super(type);
     }
 }

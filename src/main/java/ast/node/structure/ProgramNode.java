@@ -1,4 +1,7 @@
-package ast.node;
+package ast.node.structure;
+
+import ast.node.Node;
+
 /**
  * child 1...: namespace
  * */

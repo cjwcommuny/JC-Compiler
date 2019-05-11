@@ -1,13 +1,14 @@
 package symbol;
 
 import ast.node.Node;
+import ast.node.definition.DefinitionNode;
 import org.antlr.v4.runtime.ParserRuleContext;
 
 import java.util.*;
 
 public class ScopeHandler {
     private Stack<Scope> scopeStack = new Stack<>();
-    private Map<ParserRuleContext, Node> contextNodeMap = new HashMap<>();//TODO: add hashcode() to visitor
+    private Map<ParserRuleContext, DefinitionNode> contextNodeMap = new HashMap<>();//TODO: add hashcode() to visitor
 
     public void enterScope(Map<String, ParserRuleContext> table, String scopeName, boolean asRestrictiveDescriptor) {
         Scope upperScope;
@@ -23,7 +24,7 @@ public class ScopeHandler {
         scopeStack.pop();
     }
 
-    public void putContextNode(ParserRuleContext context, Node node) {
+    public void putContextNode(ParserRuleContext context, DefinitionNode node) {
         contextNodeMap.put(context, node);
     }
 
@@ -37,7 +38,7 @@ public class ScopeHandler {
         return null;
     }
 
-    public Node getNode(String key) {
+    public DefinitionNode getNode(String key) {
         ParserRuleContext context = getContext(key);
         if (context == null) {
             return null;
