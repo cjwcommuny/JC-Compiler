@@ -1,8 +1,6 @@
-/*namespace MyNamespace {
-    def void f(double b) {
-        int a = -b;
-        a = 3;
+namespace MyNamespace {
+    struct S {
+        int a = 0;
+        int c = -a;
     }
-}*/
-
-hahahahahhah
+}

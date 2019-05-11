@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class ObjectType extends Type {
+    private String simpleClassName;
+    private List<String> restrictNames;
     private String fullRestrictClassName;
 
     @Override
@@ -12,14 +14,23 @@ public class ObjectType extends Type {
     }
 
     ObjectType(String simpleClassName, List<String> restrictNames) {
+        this.simpleClassName = simpleClassName;
+        this.restrictNames = restrictNames;
         this.fullRestrictClassName = constructFullRestrictClassName(simpleClassName, restrictNames);
     }
 
-    private String constructFullRestrictClassName(String simpleClassName, List<String> restrictNames) {
+    private String constructFullRestrictClassName(String simpleClassName,
+                                                  List<String> restrictNames) {
+        return constructFullRestrictClassName(simpleClassName, restrictNames, "/");
+    }
+
+    private String constructFullRestrictClassName(String simpleClassName,
+                                                  List<String> restrictNames,
+                                                  String separator) {
         StringBuilder sb = new StringBuilder();
         for (String restrictName: restrictNames) {
             sb.append(restrictName);
-            sb.append("/");
+            sb.append(separator);
         }
         sb.append(simpleClassName);
         return sb.toString();
@@ -36,5 +47,10 @@ public class ObjectType extends Type {
     @Override
     public int hashCode() {
         return Objects.hash(fullRestrictClassName);
+    }
+
+    @Override
+    public String visualInfo() {
+        return constructFullRestrictClassName(simpleClassName, restrictNames, ".");
     }
 }

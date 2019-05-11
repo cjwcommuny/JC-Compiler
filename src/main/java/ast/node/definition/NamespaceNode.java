@@ -20,6 +20,6 @@ public class NamespaceNode extends DefinitionNode {
 
     @Override
     protected String visualInfo() {
-        return "Namespace: " + getName();
+        return "Namespace: " + type.visualInfo();
     }
 }

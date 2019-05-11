@@ -27,4 +27,9 @@ public class NamespaceType extends Type {
     public int hashCode() {
         return Objects.hash(objectType);
     }
+
+    @Override
+    public String visualInfo() {
+        return objectType.visualInfo();
+    }
 }
