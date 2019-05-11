@@ -2,8 +2,10 @@ package ast;
 
 import ast.node.*;
 import ast.node.definition.DefinitionNode;
+import ast.node.definition.FunctionDefinitionNode;
 import ast.node.definition.NamespaceNode;
 import ast.node.definition.VariableDefinitionNode;
+import ast.node.reference.FunctionNameNode;
 import ast.node.reference.RefNode;
 import ast.node.reference.RefNodeBuilder;
 import ast.node.reference.VariableNameNode;
@@ -14,6 +16,8 @@ import ast.node.value.ValueNode;
 import operation.InfixOperation;
 import operation.Operation;
 import operation.UnaryOperation;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.rulesBaseVisitor;
 import parser.rulesLexer;
@@ -21,6 +25,7 @@ import parser.rulesParser;
 import symbol.ScopeHandler;
 import symbol.SymbolTableGenerator;
 import type.TypeCheckerAndInference;
+import type.typetype.FunctionType;
 import type.typetype.Type;
 import type.typetype.TypeBuilder;
 import type.typetype.IntType;
@@ -78,14 +83,12 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 
     @Override
     public AstGeneratorResult visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
-        String typeName = ctx.IDENTIFIER(0).getText();
-        List<String> restrictNames = scopeHandler.getRestrictNames();
-        Type type = TypeBuilder.generateBaseOrObjectType(typeName, restrictNames);
+        VariableNameNode variableNameNode = (VariableNameNode) visit(ctx.variableDeclaration()).getNode();
+
+        Type type = variableNameNode.getType();
         VariableDefinitionNode thisNode = new VariableDefinitionNode(type);
 
         scopeHandler.putContextNode(ctx, thisNode);
-        String variableName = ctx.IDENTIFIER(1).getText();
-        VariableNameNode variableNameNode = new VariableNameNode(variableName, null, type);
         thisNode.addChild(variableNameNode);
 
         AstGeneratorResult visitResult = visit(ctx.rValue());
@@ -178,5 +181,92 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         UnaryExpressionNode thisNode = new UnaryExpressionNode(operation, resultType);
         thisNode.addChild(valueNode);
         return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitFunctionDefinitionBlock(rulesParser.FunctionDefinitionBlockContext ctx) {
+        String returnTypeStr = ctx.getChild(1).getText();
+        List<String> restrictNames = scopeHandler.getRestrictNames();
+        String functionName = ctx.getChild(2).getText();
+        scopeHandler.enterScope(symbolTableGenerator.visit(ctx).getTable(), functionName, false);
+
+        ParameterListNode parametersNode = (ParameterListNode) visit(ctx.getChild(3)).getNode();
+        List<Type> parameterTypes = parametersNode.getTypes();
+        StatementListNode statements = (StatementListNode) visit(ctx.getChild(4)).getNode();
+        FunctionType functionType = TypeBuilder.generateFunctionType(returnTypeStr,
+                restrictNames,
+                parameterTypes);
+        FunctionDefinitionNode thisNode = new FunctionDefinitionNode(functionType);
+        FunctionNameNode functionNameNode = new FunctionNameNode(functionName, null, functionType);
+        scopeHandler.putContextNode(ctx, thisNode);
+        thisNode.addChild(functionNameNode);
+        thisNode.addChild(parametersNode);
+        thisNode.addChild(statements);
+        scopeHandler.exitScope();
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitFunctionParameterDefinition(rulesParser.FunctionParameterDefinitionContext ctx) {
+        return visit(ctx.parameterList());
+    }
+
+    @Override
+    public AstGeneratorResult visitFunctionBody(rulesParser.FunctionBodyContext ctx) {
+        return visit(ctx.blockBodyCode());
+    }
+
+    @Override
+    public AstGeneratorResult visitParameterList(rulesParser.ParameterListContext ctx) {
+        ParameterListNode thisNode = new ParameterListNode();
+        for (rulesParser.VariableDeclarationContext child: ctx.variableDeclaration()) {
+            //convert to definition node
+            AstGeneratorResult astGeneratorResult = visit(child);
+            VariableNameNode nameNode = (VariableNameNode) astGeneratorResult.getNode();
+            VariableDefinitionNode definitionNode = new VariableDefinitionNode(nameNode.getType());
+            definitionNode.addChild(nameNode);
+            scopeHandler.putContextNode(astGeneratorResult.getContext(), definitionNode);
+            thisNode.addChild(definitionNode);
+        }
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) {
+        return visit(ctx.getChild(0));
+    }
+
+    @Override
+    public AstGeneratorResult visitOrdinaryVariableDeclaration(rulesParser.OrdinaryVariableDeclarationContext ctx) {
+        String typeName = ctx.IDENTIFIER(0).getText();
+        List<String> restrictNames = scopeHandler.getRestrictNames();
+        String variableName = ctx.IDENTIFIER(1).getText();
+        Type type = TypeBuilder.generateBaseOrObjectType(typeName, restrictNames);
+        VariableNameNode thisNode = new VariableNameNode(variableName, null, type);
+        return new AstGeneratorResult(thisNode, ctx);
+    }
+
+    @Override
+    public AstGeneratorResult visitStatementList(rulesParser.StatementListContext ctx) {
+        StatementListNode statementListNode = new StatementListNode();
+        for (int i = 0; i < ctx.getChildCount(); ++i) {
+            ParseTree parseTree = ctx.getChild(i);
+            Node node = visit(parseTree).getNode();
+            statementListNode.addChild(node);
+        }
+        return new AstGeneratorResult(statementListNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitStatement(rulesParser.StatementContext ctx) {
+        return visit(ctx.statementWithoutSemicolon());
+    }
+
+    @Override
+    public AstGeneratorResult visitVariableDefinitionInStatement(rulesParser.VariableDefinitionInStatementContext ctx) {
+        AstGeneratorResult result = visit(ctx.variableDefinition());
+        VariableDefinitionNode node = (VariableDefinitionNode) result.getNode();
+        scopeHandler.putSymbol(node.getVariableName(), ctx.variableDefinition(), node); //put symbol
+        return result;
     }
 }

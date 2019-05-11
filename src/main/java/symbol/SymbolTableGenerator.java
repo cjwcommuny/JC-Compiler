@@ -2,9 +2,11 @@ package symbol;
 
 import common.CommonInfrastructure;
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.tree.ParseTree;
 import symbol.SymbolTableResult;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import parser.*;
 
@@ -52,18 +54,16 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
 
     @Override
     public SymbolTableResult visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
-        String name = ctx.IDENTIFIER(1).getText();
-        return new SymbolTableResult(name, ctx);
-    }
-
-    @Override
-    public SymbolTableResult visitOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx) {
-        String name = ctx.IDENTIFIER(1).getText();
-        return new SymbolTableResult(name, ctx);
+        return visit(ctx.variableDeclaration());
     }
 
     @Override
     public SymbolTableResult visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) {
+        return visit(ctx.getChild(0));
+    }
+
+    @Override
+    public SymbolTableResult visitOrdinaryVariableDeclaration(rulesParser.OrdinaryVariableDeclarationContext ctx) {
         String name = ctx.IDENTIFIER(1).getText();
         return new SymbolTableResult(name, ctx);
     }
@@ -74,16 +74,14 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
         return new SymbolTableResult(name, ctx);
     }
 
+
+    /**
+     * only add parameter declarations
+     * */
     @Override
     public SymbolTableResult visitFunctionDefinitionBlock(rulesParser.FunctionDefinitionBlockContext ctx) {
         String functionName = ctx.IDENTIFIER(1).getText();
         Map<String, ParserRuleContext> parameterResult = visit(ctx.functionParameterDefinition()).getTable();
-        Map<String, ParserRuleContext> functionBodyResult = visit(ctx.functionBody()).getTable();
-        boolean nameConflict = CommonInfrastructure.hasCommonKey(parameterResult, functionBodyResult);
-        if (nameConflict) {
-            //TODO: name conflict error
-        }
-        parameterResult.putAll(functionBodyResult);
         return new SymbolTableResult(parameterResult, functionName, ctx);
     }
 
@@ -140,8 +138,9 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
     @Override
     public SymbolTableResult visitStatementList(rulesParser.StatementListContext ctx) {
         Map<String, ParserRuleContext> table = new HashMap<>();
-        for (rulesParser.StatementOrBlockContext context: ctx.statementOrBlock()) {
-            SymbolTableResult result = visit(context);
+        for (int i = 0; i < ctx.getChildCount(); ++i) {
+            ParseTree parseTree = ctx.getChild(i);
+            SymbolTableResult result = visit(parseTree);
             if (result == null) {
                 continue;
             }
@@ -159,18 +158,10 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
         return visit(ctx.getChild(0));
     }
 
-    @Override
-    public SymbolTableResult visitStatementOrBlock(rulesParser.StatementOrBlockContext ctx) {
-        return visit(ctx.getChild(0));
-    }
 
     @Override
     public SymbolTableResult visitStatement(rulesParser.StatementContext ctx) {
         return visit(ctx.statementWithoutSemicolon());
     }
 
-    @Override
-    public SymbolTableResult visitStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx) {
-        return visit(ctx.getChild(0));
-    }
 }

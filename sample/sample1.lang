@@ -1,4 +1,6 @@
 namespace MyNamespace {
-    double a = 2.0 + 5;
-    double b = -a;
+    def void f(int b) {
+        int a = -b;
+        a = 3;
+    }
 }

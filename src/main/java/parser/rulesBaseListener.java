@@ -234,13 +234,49 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx) { }
+	@Override public void enterReturnInStatement(rulesParser.ReturnInStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx) { }
+	@Override public void exitReturnInStatement(rulesParser.ReturnInStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAssignmentInStatement(rulesParser.AssignmentInStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAssignmentInStatement(rulesParser.AssignmentInStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterVariableDefinitionInStatement(rulesParser.VariableDefinitionInStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitVariableDefinitionInStatement(rulesParser.VariableDefinitionInStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRValueInStatement(rulesParser.RValueInStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRValueInStatement(rulesParser.RValueInStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -253,18 +289,6 @@ public class rulesBaseListener implements rulesListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitStatementList(rulesParser.StatementListContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterStatementOrBlock(rulesParser.StatementOrBlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitStatementOrBlock(rulesParser.StatementOrBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -474,18 +498,6 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterVariableDeclaration(rulesParser.VariableDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -493,6 +505,18 @@ public class rulesBaseListener implements rulesListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOrdinaryVariableDeclaration(rulesParser.OrdinaryVariableDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOrdinaryVariableDeclaration(rulesParser.OrdinaryVariableDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

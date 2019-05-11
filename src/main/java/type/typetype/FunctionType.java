@@ -48,4 +48,20 @@ public class FunctionType extends Type {
     public Type getReturnType() {
         return returnType;
     }
+
+    @Override
+    public String visualInfo() {
+        return "FunctionDef: (" + generateVisualParameterRepresentations() + ") -> " + returnType.visualInfo();
+    }
+
+    private String generateVisualParameterRepresentations() {
+        StringBuilder sb = new StringBuilder();
+        for (Type type: parameterTypes) {
+            sb.append(type.visualInfo());
+            sb.append(", ");
+        }
+        int len = sb.length();
+        sb.delete(len - 2, len);
+        return sb.toString();
+    }
 }

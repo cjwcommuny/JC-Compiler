@@ -21,4 +21,8 @@ public class VariableNameNode extends RefNode {
     public Type getType() {
         return type;
     }
+
+    public String getName() {
+        return name;
+    }
 }

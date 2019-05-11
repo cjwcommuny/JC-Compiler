@@ -169,19 +169,19 @@ block:
 pureBlock: LEFT_CURLY_BRACE blockBodyCode RIGHT_CURLY_BRACE;
 
 statementWithoutSemicolon: //TODO
-	returnStatement
-	| assignment
-	| variableDefinition
-	| rValue
+	returnStatement # returnInStatement
+	| assignment # assignmentInStatement
+	| variableDefinition # variableDefinitionInStatement
+	| rValue # rValueInStatement
 	;
 
 
-statementList: (statementOrBlock)*;
+statementList: (block | statement)*;
 
-statementOrBlock:
-    block
-    | statement
-    ;
+//statementOrBlock:
+//    block
+//    | statement
+//    ;
 
 
 statement: statementWithoutSemicolon SEMICOLON;
@@ -229,22 +229,27 @@ whileBlock: WHILE_SYMBOL '(' rValue ')' '{' blockBodyCode '}';
 // semicolon
 variableDefinition:
 	ordinaryVariableDefinition
-	| ordinaryArrayDefinition
+//	| arrayDefinition
 	| variableDeclaration
-	| arrayDeclaration
 	;
 
 ordinaryVariableDefinition:
-	IDENTIFIER IDENTIFIER ASSIGN_SYMBOL rValue;
-
-ordinaryArrayDefinition: IDENTIFIER (LEFT_BRACKET RIGHT_BRACKET)* IDENTIFIER ASSIGN_SYMBOL rValue;
+	variableDeclaration ASSIGN_SYMBOL rValue;
 
 variableDeclaration:
-	IDENTIFIER IDENTIFIER
+	ordinaryVariableDeclaration
+	| arrayDeclaration
+    ;
+
+ordinaryVariableDeclaration:
+    IDENTIFIER IDENTIFIER
     ;
 
 arrayDeclaration:
 	IDENTIFIER (LEFT_BRACKET RIGHT_BRACKET)* IDENTIFIER;
+
+//arrayDefinition:
+//    IDENTIFIER (LEFT_BRACKET RIGHT_BRACKET)* IDENTIFIER ASSIGN_SYMBOL rValue;
 
 //call function ==============================================================
 functionCall: IDENTIFIER '(' ((rValue ',')* rValue)? ')';

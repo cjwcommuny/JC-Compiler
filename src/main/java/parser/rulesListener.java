@@ -210,15 +210,53 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitPureBlock(rulesParser.PureBlockContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#statementWithoutSemicolon}.
+	 * Enter a parse tree produced by the {@code returnInStatement}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
 	 * @param ctx the parse tree
 	 */
-	void enterStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx);
+	void enterReturnInStatement(rulesParser.ReturnInStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#statementWithoutSemicolon}.
+	 * Exit a parse tree produced by the {@code returnInStatement}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
 	 * @param ctx the parse tree
 	 */
-	void exitStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx);
+	void exitReturnInStatement(rulesParser.ReturnInStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code assignmentInStatement}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignmentInStatement(rulesParser.AssignmentInStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code assignmentInStatement}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignmentInStatement(rulesParser.AssignmentInStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code variableDefinitionInStatement}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableDefinitionInStatement(rulesParser.VariableDefinitionInStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code variableDefinitionInStatement}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableDefinitionInStatement(rulesParser.VariableDefinitionInStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code rValueInStatement}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 */
+	void enterRValueInStatement(rulesParser.RValueInStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code rValueInStatement}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 */
+	void exitRValueInStatement(rulesParser.RValueInStatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#statementList}.
 	 * @param ctx the parse tree
@@ -229,16 +267,6 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStatementList(rulesParser.StatementListContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link rulesParser#statementOrBlock}.
-	 * @param ctx the parse tree
-	 */
-	void enterStatementOrBlock(rulesParser.StatementOrBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link rulesParser#statementOrBlock}.
-	 * @param ctx the parse tree
-	 */
-	void exitStatementOrBlock(rulesParser.StatementOrBlockContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#statement}.
 	 * @param ctx the parse tree
@@ -410,16 +438,6 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#ordinaryArrayDefinition}.
-	 * @param ctx the parse tree
-	 */
-	void enterOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link rulesParser#ordinaryArrayDefinition}.
-	 * @param ctx the parse tree
-	 */
-	void exitOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link rulesParser#variableDeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -429,6 +447,16 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitVariableDeclaration(rulesParser.VariableDeclarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#ordinaryVariableDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterOrdinaryVariableDeclaration(rulesParser.OrdinaryVariableDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#ordinaryVariableDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitOrdinaryVariableDeclaration(rulesParser.OrdinaryVariableDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#arrayDeclaration}.
 	 * @param ctx the parse tree

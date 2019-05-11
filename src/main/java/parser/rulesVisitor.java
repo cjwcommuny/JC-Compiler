@@ -131,23 +131,39 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPureBlock(rulesParser.PureBlockContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#statementWithoutSemicolon}.
+	 * Visit a parse tree produced by the {@code returnInStatement}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStatementWithoutSemicolon(rulesParser.StatementWithoutSemicolonContext ctx);
+	T visitReturnInStatement(rulesParser.ReturnInStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code assignmentInStatement}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignmentInStatement(rulesParser.AssignmentInStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code variableDefinitionInStatement}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariableDefinitionInStatement(rulesParser.VariableDefinitionInStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code rValueInStatement}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRValueInStatement(rulesParser.RValueInStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#statementList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitStatementList(rulesParser.StatementListContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link rulesParser#statementOrBlock}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitStatementOrBlock(rulesParser.StatementOrBlockContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#statement}.
 	 * @param ctx the parse tree
@@ -251,17 +267,17 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#ordinaryArrayDefinition}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitOrdinaryArrayDefinition(rulesParser.OrdinaryArrayDefinitionContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link rulesParser#variableDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#ordinaryVariableDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOrdinaryVariableDeclaration(rulesParser.OrdinaryVariableDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#arrayDeclaration}.
 	 * @param ctx the parse tree

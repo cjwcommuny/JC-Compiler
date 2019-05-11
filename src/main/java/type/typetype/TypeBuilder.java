@@ -27,9 +27,9 @@ public class TypeBuilder {
 
     public static FunctionType generateFunctionType(String returnTypeName,
                                                     List<String> restrictNames,
-                                                    List<String> parameterTypes) {
+                                                    List<Type> parameterTypes) {
         return generateFunctionType(
-                generateBaseOrObjectTypes(parameterTypes, restrictNames),
+                parameterTypes,
                 generateBaseOrObjectType(returnTypeName, restrictNames)
         );
     }

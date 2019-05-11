@@ -20,6 +20,10 @@ public class ScopeHandler {
         scopeStack.push(new Scope(table, upperScope, scopeName, asRestrictiveDescriptor));
     }
 
+    private Scope getCurrentScope() {
+        return scopeStack.peek();
+    }
+
     public void exitScope() {
         scopeStack.pop();
     }
@@ -54,5 +58,10 @@ public class ScopeHandler {
             }
         }
         return result;
+    }
+
+    public void putSymbol(String name, ParserRuleContext context, DefinitionNode node) {
+        getCurrentScope().put(name, context);
+        putContextNode(context, node);
     }
 }

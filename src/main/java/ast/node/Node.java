@@ -37,4 +37,8 @@ public abstract class Node {
     public final List<Node> getChildren() {
         return children;
     }
+
+    public final Node getChild(int i) {
+        return children.get(i);
+    }
 }
