@@ -41,7 +41,7 @@ public class rulesParser extends Parser {
 		RULE_whileBlock = 27, RULE_variableDefinition = 28, RULE_ordinaryVariableDefinition = 29, 
 		RULE_variableDeclaration = 30, RULE_ordinaryVariableDeclaration = 31, 
 		RULE_arrayDeclaration = 32, RULE_functionCall = 33, RULE_structFieldStatementList = 34, 
-		RULE_structDefinition = 35, RULE_identifierReference = 36;
+		RULE_structDefinition = 35, RULE_structReference = 36;
 	private static String[] makeRuleNames() {
 		return new String[] {
 			"arrayInitialization", "literal", "rValue", "lValue", "namespaceDefinition", 
@@ -52,7 +52,7 @@ public class rulesParser extends Parser {
 			"elseBlock", "forBlock", "initOrStepCondition", "terminateCondition", 
 			"whileBlock", "variableDefinition", "ordinaryVariableDefinition", "variableDeclaration", 
 			"ordinaryVariableDeclaration", "arrayDeclaration", "functionCall", "structFieldStatementList", 
-			"structDefinition", "identifierReference"
+			"structDefinition", "structReference"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -349,8 +349,8 @@ public class rulesParser extends Parser {
 		public FunctionCallContext functionCall() {
 			return getRuleContext(FunctionCallContext.class,0);
 		}
-		public IdentifierReferenceContext identifierReference() {
-			return getRuleContext(IdentifierReferenceContext.class,0);
+		public StructReferenceContext structReference() {
+			return getRuleContext(StructReferenceContext.class,0);
 		}
 		public RValueContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -403,7 +403,7 @@ public class rulesParser extends Parser {
 				enterOuterAlt(_localctx, 4);
 				{
 				setState(105);
-				identifierReference();
+				structReference(0);
 				}
 				break;
 			}
@@ -431,8 +431,8 @@ public class rulesParser extends Parser {
 		}
 	}
 	public static class ReferenceContext extends LValueContext {
-		public IdentifierReferenceContext identifierReference() {
-			return getRuleContext(IdentifierReferenceContext.class,0);
+		public StructReferenceContext structReference() {
+			return getRuleContext(StructReferenceContext.class,0);
 		}
 		public ReferenceContext(LValueContext ctx) { copyFrom(ctx); }
 		@Override
@@ -525,7 +525,7 @@ public class rulesParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(110);
-				identifierReference();
+				structReference(0);
 				}
 				break;
 			}
@@ -3009,43 +3009,99 @@ public class rulesParser extends Parser {
 		return _localctx;
 	}
 
-	public static class IdentifierReferenceContext extends ParserRuleContext {
+	public static class StructReferenceContext extends ParserRuleContext {
+		public TerminalNode DOT() { return getToken(rulesParser.DOT, 0); }
 		public List<TerminalNode> IDENTIFIER() { return getTokens(rulesParser.IDENTIFIER); }
 		public TerminalNode IDENTIFIER(int i) {
 			return getToken(rulesParser.IDENTIFIER, i);
 		}
-		public TerminalNode DOT() { return getToken(rulesParser.DOT, 0); }
-		public IdentifierReferenceContext(ParserRuleContext parent, int invokingState) {
+		public FunctionCallContext functionCall() {
+			return getRuleContext(FunctionCallContext.class,0);
+		}
+		public StructReferenceContext structReference() {
+			return getRuleContext(StructReferenceContext.class,0);
+		}
+		public StructReferenceContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_identifierReference; }
+		@Override public int getRuleIndex() { return RULE_structReference; }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterIdentifierReference(this);
+			if ( listener instanceof rulesListener ) ((rulesListener)listener).enterStructReference(this);
 		}
 		@Override
 		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitIdentifierReference(this);
+			if ( listener instanceof rulesListener ) ((rulesListener)listener).exitStructReference(this);
 		}
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitIdentifierReference(this);
+			if ( visitor instanceof rulesVisitor ) return ((rulesVisitor<? extends T>)visitor).visitStructReference(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final IdentifierReferenceContext identifierReference() throws RecognitionException {
-		IdentifierReferenceContext _localctx = new IdentifierReferenceContext(_ctx, getState());
-		enterRule(_localctx, 72, RULE_identifierReference);
+	public final StructReferenceContext structReference() throws RecognitionException {
+		return structReference(0);
+	}
+
+	private StructReferenceContext structReference(int _p) throws RecognitionException {
+		ParserRuleContext _parentctx = _ctx;
+		int _parentState = getState();
+		StructReferenceContext _localctx = new StructReferenceContext(_ctx, _parentState);
+		StructReferenceContext _prevctx = _localctx;
+		int _startState = 72;
+		enterRecursionRule(_localctx, 72, RULE_structReference, _p);
 		try {
+			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(385);
-			match(IDENTIFIER);
-			setState(386);
+			{
+			setState(388);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,31,_ctx) ) {
+			case 1:
+				{
+				setState(386);
+				match(IDENTIFIER);
+				}
+				break;
+			case 2:
+				{
+				setState(387);
+				functionCall();
+				}
+				break;
+			}
+			setState(390);
 			match(DOT);
-			setState(387);
+			setState(391);
 			match(IDENTIFIER);
+			}
+			_ctx.stop = _input.LT(-1);
+			setState(398);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,32,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					if ( _parseListeners!=null ) triggerExitRuleEvent();
+					_prevctx = _localctx;
+					{
+					{
+					_localctx = new StructReferenceContext(_parentctx, _parentState);
+					pushNewRecursionContext(_localctx, _startState, RULE_structReference);
+					setState(393);
+					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+					setState(394);
+					match(DOT);
+					setState(395);
+					match(IDENTIFIER);
+					}
+					} 
+				}
+				setState(400);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,32,_ctx);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -3054,7 +3110,7 @@ public class rulesParser extends Parser {
 			_errHandler.recover(this, re);
 		}
 		finally {
-			exitRule();
+			unrollRecursionContexts(_parentctx);
 		}
 		return _localctx;
 	}
@@ -3065,6 +3121,8 @@ public class rulesParser extends Parser {
 			return lValue_sempred((LValueContext)_localctx, predIndex);
 		case 7:
 			return expression_sempred((ExpressionContext)_localctx, predIndex);
+		case 36:
+			return structReference_sempred((StructReferenceContext)_localctx, predIndex);
 		}
 		return true;
 	}
@@ -3104,9 +3162,16 @@ public class rulesParser extends Parser {
 		}
 		return true;
 	}
+	private boolean structReference_sempred(StructReferenceContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 13:
+			return precpred(_ctx, 2);
+		}
+		return true;
+	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\61\u0188\4\2\t\2"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\61\u0194\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -3134,49 +3199,50 @@ public class rulesParser extends Parser {
 		"\3 \5 \u0158\n \3!\3!\3!\3\"\3\"\3\"\7\"\u0160\n\"\f\"\16\"\u0163\13\""+
 		"\3\"\3\"\3#\3#\3#\3#\3#\7#\u016c\n#\f#\16#\u016f\13#\3#\5#\u0172\n#\3"+
 		"#\3#\3$\3$\3$\7$\u0179\n$\f$\16$\u017c\13$\3%\3%\3%\3%\3%\3%\3&\3&\3&"+
-		"\3&\3&\2\4\b\20\'\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62"+
-		"\64\668:<>@BDFHJ\2\3\3\2\36\"\2\u0197\2d\3\2\2\2\4f\3\2\2\2\6l\3\2\2\2"+
-		"\bq\3\2\2\2\n}\3\2\2\2\f\u0088\3\2\2\2\16\u0091\3\2\2\2\20\u009f\3\2\2"+
-		"\2\22\u00ca\3\2\2\2\24\u00d3\3\2\2\2\26\u00d5\3\2\2\2\30\u00dd\3\2\2\2"+
-		"\32\u00e3\3\2\2\2\34\u00e6\3\2\2\2\36\u00e9\3\2\2\2 \u00ee\3\2\2\2\"\u00f0"+
-		"\3\2\2\2$\u00f6\3\2\2\2&\u0103\3\2\2\2(\u0105\3\2\2\2*\u0109\3\2\2\2,"+
-		"\u0113\3\2\2\2.\u011b\3\2\2\2\60\u0123\3\2\2\2\62\u0128\3\2\2\2\64\u0140"+
-		"\3\2\2\2\66\u0143\3\2\2\28\u0145\3\2\2\2:\u014f\3\2\2\2<\u0151\3\2\2\2"+
-		">\u0157\3\2\2\2@\u0159\3\2\2\2B\u015c\3\2\2\2D\u0166\3\2\2\2F\u017a\3"+
-		"\2\2\2H\u017d\3\2\2\2J\u0183\3\2\2\2LR\7\4\2\2MN\5\6\4\2NO\7\13\2\2OQ"+
-		"\3\2\2\2PM\3\2\2\2QT\3\2\2\2RP\3\2\2\2RS\3\2\2\2SU\3\2\2\2TR\3\2\2\2U"+
-		"V\5\6\4\2VW\7\5\2\2We\3\2\2\2X^\7\4\2\2YZ\5\2\2\2Z[\7\13\2\2[]\3\2\2\2"+
-		"\\Y\3\2\2\2]`\3\2\2\2^\\\3\2\2\2^_\3\2\2\2_a\3\2\2\2`^\3\2\2\2ab\5\2\2"+
-		"\2bc\7\5\2\2ce\3\2\2\2dL\3\2\2\2dX\3\2\2\2e\3\3\2\2\2fg\t\2\2\2g\5\3\2"+
-		"\2\2hm\5\20\t\2im\5\2\2\2jm\5D#\2km\5J&\2lh\3\2\2\2li\3\2\2\2lj\3\2\2"+
-		"\2lk\3\2\2\2m\7\3\2\2\2no\b\5\1\2or\7.\2\2pr\5J&\2qn\3\2\2\2qp\3\2\2\2"+
-		"rz\3\2\2\2st\f\4\2\2tu\7\6\2\2uv\5\20\t\2vw\7\7\2\2wy\3\2\2\2xs\3\2\2"+
-		"\2y|\3\2\2\2zx\3\2\2\2z{\3\2\2\2{\t\3\2\2\2|z\3\2\2\2}~\7#\2\2~\177\7"+
-		".\2\2\177\u0081\7\4\2\2\u0080\u0082\5\16\b\2\u0081\u0080\3\2\2\2\u0082"+
-		"\u0083\3\2\2\2\u0083\u0081\3\2\2\2\u0083\u0084\3\2\2\2\u0084\u0085\3\2"+
-		"\2\2\u0085\u0086\7\5\2\2\u0086\13\3\2\2\2\u0087\u0089\5\n\6\2\u0088\u0087"+
-		"\3\2\2\2\u0089\u008a\3\2\2\2\u008a\u0088\3\2\2\2\u008a\u008b\3\2\2\2\u008b"+
-		"\r\3\2\2\2\u008c\u008d\5:\36\2\u008d\u008e\7\n\2\2\u008e\u0092\3\2\2\2"+
-		"\u008f\u0092\5\"\22\2\u0090\u0092\5H%\2\u0091\u008c\3\2\2\2\u0091\u008f"+
-		"\3\2\2\2\u0091\u0090\3\2\2\2\u0092\17\3\2\2\2\u0093\u0094\b\t\1\2\u0094"+
-		"\u00a0\7.\2\2\u0095\u00a0\5\4\3\2\u0096\u00a0\5D#\2\u0097\u0098\7\22\2"+
-		"\2\u0098\u00a0\5\20\t\r\u0099\u009a\7\30\2\2\u009a\u00a0\5\20\t\t\u009b"+
-		"\u009c\7\b\2\2\u009c\u009d\5\20\t\2\u009d\u009e\7\t\2\2\u009e\u00a0\3"+
-		"\2\2\2\u009f\u0093\3\2\2\2\u009f\u0095\3\2\2\2\u009f\u0096\3\2\2\2\u009f"+
-		"\u0097\3\2\2\2\u009f\u0099\3\2\2\2\u009f\u009b\3\2\2\2\u00a0\u00c7\3\2"+
-		"\2\2\u00a1\u00a2\f\21\2\2\u00a2\u00a3\7\21\2\2\u00a3\u00c6\5\20\t\22\u00a4"+
-		"\u00a5\f\20\2\2\u00a5\u00a6\7\22\2\2\u00a6\u00c6\5\20\t\21\u00a7\u00a8"+
-		"\f\17\2\2\u00a8\u00a9\7\23\2\2\u00a9\u00c6\5\20\t\20\u00aa\u00ab\f\16"+
-		"\2\2\u00ab\u00ac\7\24\2\2\u00ac\u00c6\5\20\t\17\u00ad\u00ae\f\f\2\2\u00ae"+
-		"\u00af\7\25\2\2\u00af\u00c6\5\20\t\r\u00b0\u00b1\f\13\2\2\u00b1\u00b2"+
-		"\7\27\2\2\u00b2\u00c6\5\20\t\f\u00b3\u00b4\f\n\2\2\u00b4\u00b5\7\26\2"+
-		"\2\u00b5\u00c6\5\20\t\13\u00b6\u00b7\f\7\2\2\u00b7\u00b8\7\31\2\2\u00b8"+
-		"\u00c6\5\20\t\b\u00b9\u00ba\f\6\2\2\u00ba\u00bb\7\33\2\2\u00bb\u00c6\5"+
-		"\20\t\7\u00bc\u00bd\f\5\2\2\u00bd\u00be\7\32\2\2\u00be\u00c6\5\20\t\6"+
-		"\u00bf\u00c0\f\4\2\2\u00c0\u00c1\7\34\2\2\u00c1\u00c6\5\20\t\5\u00c2\u00c3"+
-		"\f\3\2\2\u00c3\u00c4\7\35\2\2\u00c4\u00c6\5\20\t\4\u00c5\u00a1\3\2\2\2"+
-		"\u00c5\u00a4\3\2\2\2\u00c5\u00a7\3\2\2\2\u00c5\u00aa\3\2\2\2\u00c5\u00ad"+
-		"\3\2\2\2\u00c5\u00b0\3\2\2\2\u00c5\u00b3\3\2\2\2\u00c5\u00b6\3\2\2\2\u00c5"+
+		"\5&\u0187\n&\3&\3&\3&\3&\3&\3&\7&\u018f\n&\f&\16&\u0192\13&\3&\2\5\b\20"+
+		"J\'\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\668:<>@B"+
+		"DFHJ\2\3\3\2\36\"\2\u01a5\2d\3\2\2\2\4f\3\2\2\2\6l\3\2\2\2\bq\3\2\2\2"+
+		"\n}\3\2\2\2\f\u0088\3\2\2\2\16\u0091\3\2\2\2\20\u009f\3\2\2\2\22\u00ca"+
+		"\3\2\2\2\24\u00d3\3\2\2\2\26\u00d5\3\2\2\2\30\u00dd\3\2\2\2\32\u00e3\3"+
+		"\2\2\2\34\u00e6\3\2\2\2\36\u00e9\3\2\2\2 \u00ee\3\2\2\2\"\u00f0\3\2\2"+
+		"\2$\u00f6\3\2\2\2&\u0103\3\2\2\2(\u0105\3\2\2\2*\u0109\3\2\2\2,\u0113"+
+		"\3\2\2\2.\u011b\3\2\2\2\60\u0123\3\2\2\2\62\u0128\3\2\2\2\64\u0140\3\2"+
+		"\2\2\66\u0143\3\2\2\28\u0145\3\2\2\2:\u014f\3\2\2\2<\u0151\3\2\2\2>\u0157"+
+		"\3\2\2\2@\u0159\3\2\2\2B\u015c\3\2\2\2D\u0166\3\2\2\2F\u017a\3\2\2\2H"+
+		"\u017d\3\2\2\2J\u0183\3\2\2\2LR\7\4\2\2MN\5\6\4\2NO\7\13\2\2OQ\3\2\2\2"+
+		"PM\3\2\2\2QT\3\2\2\2RP\3\2\2\2RS\3\2\2\2SU\3\2\2\2TR\3\2\2\2UV\5\6\4\2"+
+		"VW\7\5\2\2We\3\2\2\2X^\7\4\2\2YZ\5\2\2\2Z[\7\13\2\2[]\3\2\2\2\\Y\3\2\2"+
+		"\2]`\3\2\2\2^\\\3\2\2\2^_\3\2\2\2_a\3\2\2\2`^\3\2\2\2ab\5\2\2\2bc\7\5"+
+		"\2\2ce\3\2\2\2dL\3\2\2\2dX\3\2\2\2e\3\3\2\2\2fg\t\2\2\2g\5\3\2\2\2hm\5"+
+		"\20\t\2im\5\2\2\2jm\5D#\2km\5J&\2lh\3\2\2\2li\3\2\2\2lj\3\2\2\2lk\3\2"+
+		"\2\2m\7\3\2\2\2no\b\5\1\2or\7.\2\2pr\5J&\2qn\3\2\2\2qp\3\2\2\2rz\3\2\2"+
+		"\2st\f\4\2\2tu\7\6\2\2uv\5\20\t\2vw\7\7\2\2wy\3\2\2\2xs\3\2\2\2y|\3\2"+
+		"\2\2zx\3\2\2\2z{\3\2\2\2{\t\3\2\2\2|z\3\2\2\2}~\7#\2\2~\177\7.\2\2\177"+
+		"\u0081\7\4\2\2\u0080\u0082\5\16\b\2\u0081\u0080\3\2\2\2\u0082\u0083\3"+
+		"\2\2\2\u0083\u0081\3\2\2\2\u0083\u0084\3\2\2\2\u0084\u0085\3\2\2\2\u0085"+
+		"\u0086\7\5\2\2\u0086\13\3\2\2\2\u0087\u0089\5\n\6\2\u0088\u0087\3\2\2"+
+		"\2\u0089\u008a\3\2\2\2\u008a\u0088\3\2\2\2\u008a\u008b\3\2\2\2\u008b\r"+
+		"\3\2\2\2\u008c\u008d\5:\36\2\u008d\u008e\7\n\2\2\u008e\u0092\3\2\2\2\u008f"+
+		"\u0092\5\"\22\2\u0090\u0092\5H%\2\u0091\u008c\3\2\2\2\u0091\u008f\3\2"+
+		"\2\2\u0091\u0090\3\2\2\2\u0092\17\3\2\2\2\u0093\u0094\b\t\1\2\u0094\u00a0"+
+		"\7.\2\2\u0095\u00a0\5\4\3\2\u0096\u00a0\5D#\2\u0097\u0098\7\22\2\2\u0098"+
+		"\u00a0\5\20\t\r\u0099\u009a\7\30\2\2\u009a\u00a0\5\20\t\t\u009b\u009c"+
+		"\7\b\2\2\u009c\u009d\5\20\t\2\u009d\u009e\7\t\2\2\u009e\u00a0\3\2\2\2"+
+		"\u009f\u0093\3\2\2\2\u009f\u0095\3\2\2\2\u009f\u0096\3\2\2\2\u009f\u0097"+
+		"\3\2\2\2\u009f\u0099\3\2\2\2\u009f\u009b\3\2\2\2\u00a0\u00c7\3\2\2\2\u00a1"+
+		"\u00a2\f\21\2\2\u00a2\u00a3\7\21\2\2\u00a3\u00c6\5\20\t\22\u00a4\u00a5"+
+		"\f\20\2\2\u00a5\u00a6\7\22\2\2\u00a6\u00c6\5\20\t\21\u00a7\u00a8\f\17"+
+		"\2\2\u00a8\u00a9\7\23\2\2\u00a9\u00c6\5\20\t\20\u00aa\u00ab\f\16\2\2\u00ab"+
+		"\u00ac\7\24\2\2\u00ac\u00c6\5\20\t\17\u00ad\u00ae\f\f\2\2\u00ae\u00af"+
+		"\7\25\2\2\u00af\u00c6\5\20\t\r\u00b0\u00b1\f\13\2\2\u00b1\u00b2\7\27\2"+
+		"\2\u00b2\u00c6\5\20\t\f\u00b3\u00b4\f\n\2\2\u00b4\u00b5\7\26\2\2\u00b5"+
+		"\u00c6\5\20\t\13\u00b6\u00b7\f\7\2\2\u00b7\u00b8\7\31\2\2\u00b8\u00c6"+
+		"\5\20\t\b\u00b9\u00ba\f\6\2\2\u00ba\u00bb\7\33\2\2\u00bb\u00c6\5\20\t"+
+		"\7\u00bc\u00bd\f\5\2\2\u00bd\u00be\7\32\2\2\u00be\u00c6\5\20\t\6\u00bf"+
+		"\u00c0\f\4\2\2\u00c0\u00c1\7\34\2\2\u00c1\u00c6\5\20\t\5\u00c2\u00c3\f"+
+		"\3\2\2\u00c3\u00c4\7\35\2\2\u00c4\u00c6\5\20\t\4\u00c5\u00a1\3\2\2\2\u00c5"+
+		"\u00a4\3\2\2\2\u00c5\u00a7\3\2\2\2\u00c5\u00aa\3\2\2\2\u00c5\u00ad\3\2"+
+		"\2\2\u00c5\u00b0\3\2\2\2\u00c5\u00b3\3\2\2\2\u00c5\u00b6\3\2\2\2\u00c5"+
 		"\u00b9\3\2\2\2\u00c5\u00bc\3\2\2\2\u00c5\u00bf\3\2\2\2\u00c5\u00c2\3\2"+
 		"\2\2\u00c6\u00c9\3\2\2\2\u00c7\u00c5\3\2\2\2\u00c7\u00c8\3\2\2\2\u00c8"+
 		"\21\3\2\2\2\u00c9\u00c7\3\2\2\2\u00ca\u00cb\5\b\5\2\u00cb\u00cc\7\r\2"+
@@ -3236,10 +3302,14 @@ public class rulesParser extends Parser {
 		"\u0176\u0177\7\n\2\2\u0177\u0179\3\2\2\2\u0178\u0175\3\2\2\2\u0179\u017c"+
 		"\3\2\2\2\u017a\u0178\3\2\2\2\u017a\u017b\3\2\2\2\u017bG\3\2\2\2\u017c"+
 		"\u017a\3\2\2\2\u017d\u017e\7%\2\2\u017e\u017f\7.\2\2\u017f\u0180\7\4\2"+
-		"\2\u0180\u0181\5F$\2\u0181\u0182\7\5\2\2\u0182I\3\2\2\2\u0183\u0184\7"+
-		".\2\2\u0184\u0185\7\f\2\2\u0185\u0186\7.\2\2\u0186K\3\2\2\2!R^dlqz\u0083"+
-		"\u008a\u0091\u009f\u00c5\u00c7\u00d3\u00dd\u00e1\u00e3\u00ee\u00ff\u0103"+
-		"\u010d\u0111\u013a\u013e\u0140\u0143\u014f\u0157\u0161\u016d\u0171\u017a";
+		"\2\u0180\u0181\5F$\2\u0181\u0182\7\5\2\2\u0182I\3\2\2\2\u0183\u0186\b"+
+		"&\1\2\u0184\u0187\7.\2\2\u0185\u0187\5D#\2\u0186\u0184\3\2\2\2\u0186\u0185"+
+		"\3\2\2\2\u0187\u0188\3\2\2\2\u0188\u0189\7\f\2\2\u0189\u018a\7.\2\2\u018a"+
+		"\u0190\3\2\2\2\u018b\u018c\f\4\2\2\u018c\u018d\7\f\2\2\u018d\u018f\7."+
+		"\2\2\u018e\u018b\3\2\2\2\u018f\u0192\3\2\2\2\u0190\u018e\3\2\2\2\u0190"+
+		"\u0191\3\2\2\2\u0191K\3\2\2\2\u0192\u0190\3\2\2\2#R^dlqz\u0083\u008a\u0091"+
+		"\u009f\u00c5\u00c7\u00d3\u00dd\u00e1\u00e3\u00ee\u00ff\u0103\u010d\u0111"+
+		"\u013a\u013e\u0140\u0143\u014f\u0157\u0161\u016d\u0171\u017a\u0186\u0190";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

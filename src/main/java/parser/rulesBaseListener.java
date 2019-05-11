@@ -570,13 +570,13 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIdentifierReference(rulesParser.IdentifierReferenceContext ctx) { }
+	@Override public void enterStructReference(rulesParser.StructReferenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIdentifierReference(rulesParser.IdentifierReferenceContext ctx) { }
+	@Override public void exitStructReference(rulesParser.StructReferenceContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

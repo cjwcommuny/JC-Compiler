@@ -61,7 +61,9 @@ public class FunctionType extends Type {
             sb.append(", ");
         }
         int len = sb.length();
-        sb.delete(len - 2, len);
+        if (parameterTypes.size() > 0) {
+            sb.delete(len - 2, len);
+        }
         return sb.toString();
     }
 }

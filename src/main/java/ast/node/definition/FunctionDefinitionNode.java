@@ -1,7 +1,10 @@
 package ast.node.definition;
 
 import ast.node.definition.DefinitionNode;
+import ast.node.structrue.HasScope;
+import symbol.Scope;
 import type.typetype.FunctionType;
+import type.typetype.ObjectType;
 import type.typetype.Type;
 
 /**
@@ -17,8 +20,7 @@ public class FunctionDefinitionNode extends DefinitionNode {
         return this.type.visualInfo();
     }
 
-    public FunctionDefinitionNode(Type type) {
-        super(type);
+    public FunctionDefinitionNode(Type type, Scope parentScope) {
+        super(type, parentScope);
     }
-
 }

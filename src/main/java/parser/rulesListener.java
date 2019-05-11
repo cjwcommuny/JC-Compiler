@@ -498,13 +498,13 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitStructDefinition(rulesParser.StructDefinitionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#identifierReference}.
+	 * Enter a parse tree produced by {@link rulesParser#structReference}.
 	 * @param ctx the parse tree
 	 */
-	void enterIdentifierReference(rulesParser.IdentifierReferenceContext ctx);
+	void enterStructReference(rulesParser.StructReferenceContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#identifierReference}.
+	 * Exit a parse tree produced by {@link rulesParser#structReference}.
 	 * @param ctx the parse tree
 	 */
-	void exitIdentifierReference(rulesParser.IdentifierReferenceContext ctx);
+	void exitStructReference(rulesParser.StructReferenceContext ctx);
 }

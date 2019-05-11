@@ -53,4 +53,9 @@ public class ObjectType extends Type {
     public String visualInfo() {
         return constructFullRestrictClassName(simpleClassName, restrictNames, ".");
     }
+
+    @Override
+    public String getSimpleName() {
+        return simpleClassName;
+    }
 }

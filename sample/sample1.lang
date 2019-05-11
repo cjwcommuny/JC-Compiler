@@ -1,6 +1,9 @@
 namespace MyNamespace {
     struct S {
         int a = 0;
-        int c = -a;
+    }
+
+    def void f() {
+        int c = S.a;
     }
 }

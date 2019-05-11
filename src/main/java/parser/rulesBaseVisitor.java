@@ -341,5 +341,5 @@ public class rulesBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIdentifierReference(rulesParser.IdentifierReferenceContext ctx) { return visitChildren(ctx); }
+	@Override public T visitStructReference(rulesParser.StructReferenceContext ctx) { return visitChildren(ctx); }
 }

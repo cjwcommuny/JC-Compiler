@@ -303,9 +303,9 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStructDefinition(rulesParser.StructDefinitionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#identifierReference}.
+	 * Visit a parse tree produced by {@link rulesParser#structReference}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIdentifierReference(rulesParser.IdentifierReferenceContext ctx);
+	T visitStructReference(rulesParser.StructReferenceContext ctx);
 }

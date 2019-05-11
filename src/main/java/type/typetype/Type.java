@@ -5,7 +5,12 @@ import java.util.Objects;
 
 public abstract class Type {
     abstract public String generateFieldDescriptor();
+
     public String visualInfo() {
         return this.getClass().getSimpleName();
+    }
+
+    public String getSimpleName() {
+        return visualInfo();
     }
 }

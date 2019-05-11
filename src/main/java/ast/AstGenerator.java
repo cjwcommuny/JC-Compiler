@@ -2,11 +2,9 @@ package ast;
 
 import ast.node.*;
 import ast.node.definition.*;
-import ast.node.reference.FunctionNameNode;
-import ast.node.reference.RefNode;
-import ast.node.reference.RefNodeBuilder;
-import ast.node.reference.VariableNameNode;
-import ast.node.structure.ProgramNode;
+import ast.node.reference.*;
+import ast.node.structrue.HasScope;
+import ast.node.structrue.ProgramNode;
 import ast.node.value.InfixExpressionNode;
 import ast.node.value.UnaryExpressionNode;
 import ast.node.value.ValueNode;
@@ -24,6 +22,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.rulesBaseVisitor;
 import parser.rulesLexer;
 import parser.rulesParser;
+import symbol.Scope;
 import symbol.ScopeHandler;
 import symbol.SymbolTableGenerator;
 import type.TypeCheckerAndInference;
@@ -68,7 +67,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 namespaceName,
                 true);
 
-        NamespaceNode thisNode = new NamespaceNode(namespaceName);
+        NamespaceNode thisNode = new NamespaceNode(namespaceName, scopeHandler.getCurrentScope(), scopeHandler.getRestrictParentScope());
         scopeHandler.putContextNode(ctx, thisNode);
         for (rulesParser.CodeContentContext context: ctx.codeContent()) {
             AstGeneratorResult visitResult = visit(context);
@@ -95,7 +94,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         ParserRuleContext declarationContext = declarationVisitResult.getContext();
 
         Type type = variableNameNode.getType();
-        VariableDefinitionNode thisNode = new VariableDefinitionNode(type);
+        VariableDefinitionNode thisNode = new VariableDefinitionNode(type, scopeHandler.getCurrentScope());
 
         scopeHandler.putContextNode(ctx, thisNode);
         thisNode.addChild(variableNameNode);
@@ -208,7 +207,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         FunctionType functionType = TypeBuilder.generateFunctionType(returnTypeStr,
                 restrictNames,
                 parameterTypes);
-        FunctionDefinitionNode thisNode = new FunctionDefinitionNode(functionType);
+        FunctionDefinitionNode thisNode = new FunctionDefinitionNode(functionType, scopeHandler.getRestrictParentScope());
         FunctionNameNode functionNameNode = new FunctionNameNode(functionName, null, functionType);
         scopeHandler.putContextNode(ctx, thisNode);
         thisNode.addChild(functionNameNode);
@@ -235,7 +234,8 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             //convert to definition node
             AstGeneratorResult astGeneratorResult = visit(child);
             VariableNameNode nameNode = (VariableNameNode) astGeneratorResult.getNode();
-            VariableDefinitionNode definitionNode = new VariableDefinitionNode(nameNode.getType());
+            VariableDefinitionNode definitionNode = new VariableDefinitionNode(nameNode.getType(),
+                    scopeHandler.getRestrictParentScope());
             definitionNode.addChild(nameNode);
             scopeHandler.putContextNode(astGeneratorResult.getContext(), definitionNode);
             thisNode.addChild(definitionNode);
@@ -295,9 +295,10 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         String structName = ctx.IDENTIFIER().getText();
         List<String> restrictNames = scopeHandler.getRestrictNames();
         ObjectType type = TypeBuilder.generateObjectType(structName, restrictNames);
-        StructureDefinitionNode thisNode = new StructureDefinitionNode(type);
-        scopeHandler.putContextNode(ctx, thisNode);
         scopeHandler.enterScope(symbolTableGenerator.visit(ctx).getTable(), structName, true);
+        StructureDefinitionNode thisNode = new StructureDefinitionNode(type,
+                scopeHandler.getCurrentScope(), scopeHandler.getRestrictParentScope());
+        scopeHandler.putContextNode(ctx, thisNode);
         StructFieldListNode fieldDefinitionNode = (StructFieldListNode)
                 visit(ctx.structFieldStatementList()).getNode();
         scopeHandler.exitScope();
@@ -316,5 +317,34 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             scopeHandler.putContextNode(definitionContext, definitionNode);
         }
         return new AstGeneratorResult(fieldsNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitStructReference(rulesParser.StructReferenceContext ctx) {
+        RefNode leftNode = (RefNode) visit(ctx.getChild(0)).getNode();
+        Type leftType = leftNode.getType();
+        String rightIdentifierName = ctx.getChild(ctx.getChildCount() - 1).getText();
+
+        if (!(leftType instanceof ObjectType)) {
+            int[] errorLocation = getTokenPosition(ctx, ctx.start);
+            throw new TypeMismatchException(errorLocation, leftType, "Object Type");
+        }
+        DefinitionNode node = scopeHandler.getNode(leftType.getSimpleName());
+        if (node == null) {
+            int[] errorLocation = getTokenPosition(ctx, ctx.start);
+            throw new SymbolNotResolvedException(errorLocation, leftType.getSimpleName());
+        }
+        Scope structScope = ((HasScope) node).getScope();
+        if (structScope == null) {
+            int[] errorLocation = getTokenPosition(ctx, ctx.start);
+            throw new SymbolNotResolvedException(errorLocation, leftType.visualInfo());
+        }
+        VariableDefinitionNode fieldDefinitionNode = (VariableDefinitionNode) scopeHandler.getNode(structScope.get(rightIdentifierName));
+        if (fieldDefinitionNode == null) {
+            int[] errorLocation = getTokenPosition(ctx, ctx.IDENTIFIER(ctx.IDENTIFIER().size() - 1).getSymbol());
+            throw new SymbolNotResolvedException(errorLocation, rightIdentifierName);
+        }
+        StructRefNode thisNode = new StructRefNode(fieldDefinitionNode.getType(), fieldDefinitionNode);
+        return new AstGeneratorResult(thisNode);
     }
 }

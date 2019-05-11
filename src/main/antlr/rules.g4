@@ -103,7 +103,7 @@ rValue:
 	expression
 	| arrayInitialization
 	| functionCall
-	| identifierReference
+	| structReference
 	;
 
 //TODO
@@ -111,7 +111,7 @@ lValue:
 	IDENTIFIER # lValueIdentifier
 	//    | lValue DOT IDENTIFIER
 	| lValue LEFT_BRACKET expression RIGHT_BRACKET # lValueArrayIndex
-	| identifierReference # reference
+	| structReference # reference
     ;
 
 //namespace definition
@@ -156,7 +156,7 @@ expression:
 //assignment ==============================================================
 assignment: lValue ASSIGN_SYMBOL rValue;
 
-//basic structure ==============================================================
+//basic structrue ==============================================================
 block:
 	forBlock
 	| whileBlock
@@ -262,6 +262,7 @@ structDefinition:
 
 //TODO: identifier.identifier
 
-identifierReference:
-    IDENTIFIER '.' IDENTIFIER
+structReference:
+    structReference '.' IDENTIFIER
+    | (IDENTIFIER | functionCall) '.' IDENTIFIER
     ;

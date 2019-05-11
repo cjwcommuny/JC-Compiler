@@ -1,4 +1,4 @@
-package ast.node.structure;
+package ast.node.structrue;
 
 import ast.node.Node;
 
