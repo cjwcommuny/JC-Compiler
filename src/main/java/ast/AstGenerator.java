@@ -8,7 +8,12 @@ import ast.node.reference.RefNode;
 import ast.node.reference.RefNodeBuilder;
 import ast.node.reference.VariableNameNode;
 import ast.node.structure.ProgramNode;
+import ast.node.value.InfixExpressionNode;
+import ast.node.value.UnaryExpressionNode;
 import ast.node.value.ValueNode;
+import operation.InfixOperation;
+import operation.Operation;
+import operation.UnaryOperation;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.rulesBaseVisitor;
 import parser.rulesLexer;
@@ -19,6 +24,7 @@ import type.TypeCheckerAndInference;
 import type.typetype.Type;
 import type.typetype.TypeBuilder;
 import type.typetype.IntType;
+import value.Value;
 
 import java.util.List;
 
@@ -110,18 +116,31 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     public AstGeneratorResult visitTerminal(TerminalNode thisNode) {
         String symbol = thisNode.getSymbol().getText();
         switch (thisNode.getSymbol().getType()) {
-            case rulesLexer.INT_LITERAL:
-                LiteralNode<Integer> node = new LiteralNode<>(new IntType(), Integer.valueOf(symbol));
+            case rulesLexer.INT_LITERAL: {
+                LiteralNode<Integer> node = new LiteralNode<>(TypeBuilder.generateIntType(),
+                        Integer.valueOf(symbol));
                 return new AstGeneratorResult(node);
-            case rulesLexer.DOUBLE_LITERAL:
+            }
+            case rulesLexer.DOUBLE_LITERAL: {
+                LiteralNode<Double> node = new LiteralNode<>(TypeBuilder.generateDoubleType(),
+                        Double.parseDouble(symbol));
+                return new AstGeneratorResult(node);
+            }
+            case rulesLexer.BOOL_LITERAL: {
+                LiteralNode<Boolean> node = new LiteralNode<>(TypeBuilder.generateBoolType(),
+                        Boolean.parseBoolean(symbol));
+                return new AstGeneratorResult(node);
+            }
+            case rulesLexer.CHAR_LITERAL: {
+                LiteralNode<Character> node = new LiteralNode<>(TypeBuilder.generateCharType(),
+                        symbol.charAt(1)); //symbol is like 'c'
+                return new AstGeneratorResult(node);
+            }
+            case rulesLexer.STRING_LITERAL: {
+                //TODO
+            }
                 return null;
-            case rulesLexer.BOOL_LITERAL:
-                return null;
-            case rulesLexer.CHAR_LITERAL:
-                return null;
-            case rulesLexer.STRING_LITERAL:
-                return null;
-            case rulesLexer.IDENTIFIER:
+            case rulesLexer.IDENTIFIER: {
                 DefinitionNode defNode = scopeHandler.getNode(symbol);
                 if (defNode == null) {
                     //TODO: symbol not resolved
@@ -129,10 +148,35 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 }
                 RefNode refNode = RefNodeBuilder.generateProperReNode(symbol, defNode);
                 return new AstGeneratorResult(refNode);
+            }
             default:
                 return null;//TODO: ERROR
         }
     }
 
+    @Override
+    public AstGeneratorResult visitInfixExpression(rulesParser.InfixExpressionContext ctx) {
+        String operationStr = ctx.getChild(1).getText();
+        Operation operation = new InfixOperation(operationStr);
+        ValueNode leftNode = (ValueNode) visit(ctx.getChild(0)).getNode();
+        ValueNode rightNode = (ValueNode) visit(ctx.getChild(2)).getNode();
+        Type resultType = TypeCheckerAndInference.checkInfixComputation(operation,
+                leftNode.getType(),
+                rightNode.getType());
+        InfixExpressionNode thisNode = new InfixExpressionNode(operation, resultType);
+        thisNode.addChild(leftNode);
+        thisNode.addChild(rightNode);
+        return new AstGeneratorResult(thisNode);
+    }
 
+    @Override
+    public AstGeneratorResult visitUnaryExpression(rulesParser.UnaryExpressionContext ctx) {
+        String operationStr = ctx.getChild(0).getText();
+        Operation operation = new UnaryOperation(operationStr);
+        ValueNode valueNode = (ValueNode) visit(ctx.getChild(1)).getNode();
+        Type resultType = TypeCheckerAndInference.checkUnaryComputation(operation, valueNode.getType());
+        UnaryExpressionNode thisNode = new UnaryExpressionNode(operation, resultType);
+        thisNode.addChild(valueNode);
+        return new AstGeneratorResult(thisNode);
+    }
 }

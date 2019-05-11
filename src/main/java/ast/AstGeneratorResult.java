@@ -19,4 +19,8 @@ public class AstGeneratorResult {
     public AstGeneratorResult(Node node) {
         nodes.add(node);
     }
+
+    public Node getNode() {
+        return nodes.get(0);
+    }
 }

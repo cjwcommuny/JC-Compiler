@@ -1,4 +1,4 @@
 namespace MyNamespace {
-    int a = 1;
-    int b = a;
+    double a = 2.0 + 5;
+    double b = -a;
 }

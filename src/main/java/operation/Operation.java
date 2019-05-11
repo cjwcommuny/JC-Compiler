@@ -7,4 +7,8 @@ public abstract class Operation {
     public String toString() {
         return operation;
     }
+
+    public Operation(String operation) {
+        this.operation = operation;
+    }
 }

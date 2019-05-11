@@ -32,7 +32,8 @@ public class TypeCheckerAndInference {
 
     private static Type checkAddition(Type type1, Type type2) {
         //TODO: support String
-        if (type1.equals(TypeBuilder.generateIntType()) && type2.equals(TypeBuilder.generateIntType())) {
+        if (type1.equals(TypeBuilder.generateIntType())
+                && type2.equals(TypeBuilder.generateIntType())) {
             return TypeBuilder.generateIntType();
         } else if ((type1.equals(TypeBuilder.generateIntType()) && type2.equals(TypeBuilder.generateDoubleType()))
                 || (type1.equals(TypeBuilder.generateDoubleType()) && type2.equals(TypeBuilder.generateIntType()))
