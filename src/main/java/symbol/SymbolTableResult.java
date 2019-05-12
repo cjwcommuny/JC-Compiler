@@ -1,10 +1,12 @@
 package symbol;
 
+import ast.VisitLater;
 import ast.node.Node;
 import ast.node.definition.DefinitionNode;
 import ast.node.definition.DefinitionType;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
+import parser.rulesParser;
 import type.typetype.Type;
 
 import java.util.LinkedList;
@@ -18,6 +20,14 @@ public class SymbolTableResult {
     private ParserRuleContext context;
     private Type type;
     private List<Type> types;
+    private VisitLater visitLater;
+
+    public SymbolTableResult(Token symbol, DefinitionType struct, rulesParser.StructDefinitionContext ctx, Type type) {
+        this.tokens.add(symbol);
+        this.definitionType = struct;
+        this.context = ctx;
+        this.type = type;
+    }
 
     public Type getType() {
         return type;
@@ -97,5 +107,13 @@ public class SymbolTableResult {
 
     public Token getToken(int i) {
         return tokens.get(1);
+    }
+
+    public void setVisitLater(VisitLater visitLater) {
+        this.visitLater = visitLater;
+    }
+
+    public VisitLater getVisitLater() {
+        return visitLater;
     }
 }

@@ -16,11 +16,11 @@ public class VisitLater {
         this.symbolTableGenerator = symbolTableGenerator;
     }
 
-    public Map<String, DefinitionNode> visit() {
+    public SymbolTableResult visit() {
         if (symbolTableGenerator == null || context == null) {
             //empty visitLater
             return null;
         }
-        return symbolTableGenerator.visit(context).getTable();
+        return symbolTableGenerator.visit(context);
     }
 }

@@ -22,7 +22,13 @@ public class ScopeHandler {
             upperScope = scopeStack.peek();
         }
         scopeStack.push(new Scope(upperScope, scopeName, asRestrictiveDescriptor));
-        Map<String, DefinitionNode> table = visitLater.visit();
+        SymbolTableResult result = visitLater.visit();
+        Map<String, DefinitionNode> table;
+        if (result == null) {
+            table = null;
+        } else {
+            table = result.getTable();
+        }
         scopeStack.peek().setSymbolTable(table);
     }
 

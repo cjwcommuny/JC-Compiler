@@ -1,8 +1,4 @@
 namespace MyNamespace {
-    def int f(S s2) {
-        int a = s2.a;
-    }
-
     struct S {
         int a = 0;
         T t;
@@ -11,4 +7,13 @@ namespace MyNamespace {
     struct T {
         S s1;
     }
+
+    def int f(S s2) {
+        int a = s2.a;
+        T t = s2.t;
+    }
+
+
+
+    //int x = f(new S())
 }
