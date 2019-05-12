@@ -1,22 +1,21 @@
 package symbol;
 
 import ast.AstGenerator;
-import ast.node.Node;
+import ast.VisitLater;
 import ast.node.definition.DefinitionNode;
 import ast.node.definition.DefinitionNodeBuilder;
 import ast.node.definition.DefinitionType;
 import common.CommonInfrastructure;
+import error.exception.NameDuplicateException;
 import error.exception.SymbolNotResolvedException;
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import parser.*;
-import type.typetype.FunctionType;
+import type.typetype.ObjectType;
 import type.typetype.Type;
 import type.typetype.TypeBuilder;
 
@@ -36,17 +35,32 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
         Map<String, DefinitionNode> table = new HashMap<>();
         for (rulesParser.CodeContentContext context: ctx.codeContent()) {
             SymbolTableResult result = visit(context);
-            String name = result.getName();
+            String name = result.getTokenText();
             if (table.containsKey(name)) {
                 int[] errorPosition = astGenerator.getTokenPosition(ctx, result.getToken());
                 throw new SymbolNotResolvedException(errorPosition, name);
             }
             List<String> restrictNames = scopeHandler.getRestrictNames();
             String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(name, restrictNames);
-            DefinitionNode node = DefinitionNodeBuilder.generateNodeFromType(result.getType(),
-                    result.getDefinitionType(),
-                    fullRestrictName,
-                    scopeHandler.getCurrentScope());
+            DefinitionType definitionType = result.getDefinitionType();
+            Scope parentScope = scopeHandler.getCurrentScope();
+            DefinitionNode node;
+            if (definitionType == DefinitionType.STRUCT) {
+                Scope structInnerScope =  new Scope(result.getTable(), parentScope, name,true);
+                node = DefinitionNodeBuilder.generateStructureDefinitionNode(fullRestrictName,
+                        (ObjectType) result.getType(),
+                        structInnerScope,
+                        parentScope);
+            } else if (definitionType == DefinitionType.VARIABLE) {
+                node = DefinitionNodeBuilder.generateVariableDefinitionNode(fullRestrictName,
+                        result.getType(),
+                        parentScope);
+            } else {
+                node = DefinitionNodeBuilder.generateFunctionDefinitionNode(fullRestrictName,
+                        result.getType(),
+                        parentScope);
+            }
+
             table.put(name, node);
         }
         return new SymbolTableResult(table);
@@ -93,10 +107,13 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
 
     @Override
     public SymbolTableResult visitOrdinaryVariableDeclaration(rulesParser.OrdinaryVariableDeclarationContext ctx) {
-        Token token = ctx.IDENTIFIER(1).getSymbol();
+        Token typeToken = ctx.IDENTIFIER(0).getSymbol();
+        Token variableNameToken = ctx.IDENTIFIER(1).getSymbol();
+        List<Token> tokens = new LinkedList<>();
+        tokens.add(typeToken);
+        tokens.add(variableNameToken);
         List<String> restrictNames = scopeHandler.getRestrictNames();
-        return new SymbolTableResult(TypeBuilder.generateBaseOrObjectType(token.getText(), restrictNames), token, ctx);
-
+        return new SymbolTableResult(TypeBuilder.generateBaseOrObjectType(typeToken.getText(), restrictNames), tokens, ctx);
     }
 
 
@@ -111,7 +128,7 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
         String returnTypeStr = ctx.IDENTIFIER(0).getText();
         List<String> restrictNames = scopeHandler.getRestrictNames();
         Type type = TypeBuilder.generateFunctionType(parametersType, TypeBuilder.generateBaseOrObjectType(returnTypeStr, restrictNames));
-        return new SymbolTableResult(type, token, ctx, DefinitionType.FUNCTION);
+        return new SymbolTableResult(parameterVisitResult.getTable(), token, DefinitionType.FUNCTION, ctx, type);
     }
 
     @Override
@@ -119,14 +136,15 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
         Map<String, DefinitionNode> table = new HashMap<>();
         for (rulesParser.VariableDefinitionContext context: ctx.variableDefinition()) {
             SymbolTableResult result = visit(context);
-            String name = result.getName();
-            if (table.containsKey(name)) {
+            Type type = result.getType();
+            String variableName = result.getTokenText(1);
+            if (table.containsKey(variableName)) {
                 int[] errorPosition = astGenerator.getTokenPosition(ctx, result.getToken());
-                throw new SymbolNotResolvedException(errorPosition, name);
+                throw new NameDuplicateException(errorPosition, variableName);
             }
             List<String> restrictNames = scopeHandler.getRestrictNames();
-            String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(name, restrictNames);
-            table.put(name, DefinitionNodeBuilder.generateVariableDefinitionNode(fullRestrictName, null, scopeHandler.getCurrentScope()));
+            String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(variableName, restrictNames);
+            table.put(variableName, DefinitionNodeBuilder.generateVariableDefinitionNode(fullRestrictName, type, scopeHandler.getCurrentScope()));
         }
         return new SymbolTableResult(table);
     }
@@ -134,12 +152,12 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
     @Override
     public SymbolTableResult visitStructDefinition(rulesParser.StructDefinitionContext ctx) {
         String structName = ctx.IDENTIFIER().getText();
-        scopeHandler.enterScope(null, structName, true);
+        scopeHandler.enterScope(new VisitLater(null, null), structName, true);//TODO
         Map<String, DefinitionNode> table = visit(ctx.structFieldStatementList()).getTable();
         scopeHandler.exitScope();
         List<String> restrictNames = scopeHandler.getRestrictNames();
         Type type = TypeBuilder.generateObjectType(structName, restrictNames);
-        return new SymbolTableResult(type, table, ctx.IDENTIFIER().getSymbol(), ctx);
+        return new SymbolTableResult(table, ctx.IDENTIFIER().getSymbol(), DefinitionType.STRUCT, ctx, type);
     }
 
     @Override
@@ -150,10 +168,12 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
     @Override
     public SymbolTableResult visitParameterList(rulesParser.ParameterListContext ctx) {
         List<Type> types = new LinkedList<>();
+        Map<String, DefinitionNode> parameterSymbolTable = new HashMap<>();
         for (rulesParser.VariableDeclarationContext context: ctx.variableDeclaration()) {
             SymbolTableResult visitResult = visit(context);
-            types.add(visitResult.getType());
+            Type type = visitResult.getType();
+            types.add(type);
         }
-        return new SymbolTableResult(types);
+        return new SymbolTableResult(parameterSymbolTable, types);
     }
 }

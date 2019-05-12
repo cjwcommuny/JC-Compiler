@@ -1,15 +1,14 @@
 namespace MyNamespace {
+    def int f(S s2) {
+        int a = s2.a;
+    }
+
     struct S {
+        int a = 0;
         T t;
     }
 
     struct T {
-        S s;
-    }
-
-    int a = f();
-    
-    def int f() {
-
+        S s1;
     }
 }

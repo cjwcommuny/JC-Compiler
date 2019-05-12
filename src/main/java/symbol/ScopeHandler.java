@@ -1,5 +1,6 @@
 package symbol;
 
+import ast.VisitLater;
 import ast.node.Node;
 import ast.node.definition.DefinitionNode;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -10,17 +11,19 @@ public class ScopeHandler {
     private Stack<Scope> scopeStack = new Stack<>();
 
     public ScopeHandler() {
-        scopeStack.push(new Scope(new HashMap<>(), null, "Global", false));
+//        scopeStack.push(new Scope(new HashMap<>(), null, "Global", false));
     }
 
-    public void enterScope(Map<String, DefinitionNode> table, String scopeName, boolean asRestrictiveDescriptor) {
+    public void enterScope(VisitLater visitLater, String scopeName, boolean asRestrictiveDescriptor) {
         Scope upperScope;
         if (scopeStack.size() == 0) {
             upperScope = null;
         } else {
             upperScope = scopeStack.peek();
         }
-        scopeStack.push(new Scope(table, upperScope, scopeName, asRestrictiveDescriptor));
+        scopeStack.push(new Scope(upperScope, scopeName, asRestrictiveDescriptor));
+        Map<String, DefinitionNode> table = visitLater.visit();
+        scopeStack.peek().setSymbolTable(table);
     }
 
     public Scope getCurrentScope() {
@@ -46,7 +49,7 @@ public class ScopeHandler {
         LinkedList<String> result = new LinkedList<>();
         for (Scope scope: scopeStack) {
             if (scope.asRestrictDescriptiveScope()) {
-                result.addFirst(scope.getScopeName());
+                result.add(scope.getScopeName());
             }
         }
         return result;

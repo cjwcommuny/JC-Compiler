@@ -27,6 +27,16 @@ public class Scope {
         this.isRestrictDescriptiveScope = isRestrictDescriptiveScope;
     }
 
+    public Scope(Scope upperScope, String scopeName, boolean isRestrictDescriptiveScope) {
+        this.upperScope = upperScope;
+        this.scopeName = scopeName;
+        this.isRestrictDescriptiveScope = isRestrictDescriptiveScope;
+    }
+
+    public void setSymbolTable(Map<String, DefinitionNode> symbolTable) {
+        this.symbolTable = symbolTable;
+    }
+
     public String getScopeName() {
         return scopeName;
     }
