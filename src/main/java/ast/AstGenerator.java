@@ -26,10 +26,7 @@ import symbol.Scope;
 import symbol.ScopeHandler;
 import symbol.SymbolTableGenerator;
 import type.TypeCheckerAndInference;
-import type.typetype.FunctionType;
-import type.typetype.ObjectType;
-import type.typetype.Type;
-import type.typetype.TypeBuilder;
+import type.typetype.*;
 
 import java.util.List;
 
@@ -90,7 +87,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     @Override
     public AstGeneratorResult visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
         AstGeneratorResult declarationVisitResult = visit(ctx.variableDeclaration());
-        VariableNameNode variableNameNode = (VariableNameNode) declarationVisitResult.getNode();
+        VariableNameNode variableNameNode = (VariableNameNode) declarationVisitResult.getNode().getChild(0);
         ParserRuleContext declarationContext = declarationVisitResult.getContext();
 
         Type type = variableNameNode.getType();
@@ -251,10 +248,23 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     @Override
     public AstGeneratorResult visitOrdinaryVariableDeclaration(rulesParser.OrdinaryVariableDeclarationContext ctx) {
         String typeName = ctx.IDENTIFIER(0).getText();
-        List<String> restrictNames = scopeHandler.getRestrictNames();
+        Type type;
+        if (BaseType.isBaseType(typeName)) {
+            type = TypeBuilder.generateBaseType(typeName);
+        } else {
+            //object type
+            DefinitionNode definitionNode = scopeHandler.getNode(typeName);
+            if (definitionNode == null) {
+                int[] errorPosition = getTokenPosition(ctx, ctx.IDENTIFIER(0).getSymbol());
+                throw new SymbolNotResolvedException(errorPosition, typeName);
+            }
+            type = definitionNode.getType();
+        }
         String variableName = ctx.IDENTIFIER(1).getText();
-        Type type = TypeBuilder.generateBaseOrObjectType(typeName, restrictNames);
-        VariableNameNode thisNode = new VariableNameNode(variableName, null, type);
+        List<String> restrictNames = scopeHandler.getRestrictNames();
+        VariableNameNode nameNode = new VariableNameNode(variableName, null, type);
+        VariableDefinitionNode thisNode = new VariableDefinitionNode(nameNode.getType(), scopeHandler.getRestrictCurrentScope());
+        thisNode.addChild(nameNode);
         return new AstGeneratorResult(thisNode, ctx);
     }
 
@@ -334,6 +344,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             int[] errorLocation = getTokenPosition(ctx, ctx.start);
             throw new SymbolNotResolvedException(errorLocation, leftType.getSimpleName());
         }
+
         Scope structScope = ((HasScope) node).getScope();
         if (structScope == null) {
             int[] errorLocation = getTokenPosition(ctx, ctx.start);

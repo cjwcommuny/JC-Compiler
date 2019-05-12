@@ -75,7 +75,7 @@ public class TypeBuilder {
         return DoubleType.getInstance();
     }
 
-    private static BaseType generateBaseType(String typeName) {
+    public static BaseType generateBaseType(String typeName) {
         switch (typeName) {
             case "int":
                 return generateIntType();

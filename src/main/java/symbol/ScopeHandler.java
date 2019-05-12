@@ -82,4 +82,13 @@ public class ScopeHandler {
         }
         return null;
     }
+
+    public Scope getRestrictCurrentScope() {
+        for (Scope scope: scopeStack) {
+            if (scope.asRestrictDescriptiveScope()) {
+                return scope;
+            }
+        }
+        return null;
+    }
 }
