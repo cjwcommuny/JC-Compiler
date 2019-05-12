@@ -36,7 +36,7 @@ public class ObjectType extends Type {
 
     @Override
     public String visualInfo() {
-        return CommonInfrastructure.constructFullRestrictClassName(simpleClassName, restrictNames, ".");
+        return simpleClassName;
     }
 
     @Override

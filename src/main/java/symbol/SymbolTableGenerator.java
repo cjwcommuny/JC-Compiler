@@ -12,10 +12,13 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import parser.*;
 import type.typetype.FunctionType;
+import type.typetype.Type;
+import type.typetype.TypeBuilder;
 
 public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
     //traverse the parse tree to generateBaseOrObjectType the symbol table
@@ -40,10 +43,11 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
             }
             List<String> restrictNames = scopeHandler.getRestrictNames();
             String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(name, restrictNames);
-            table.put(name,
-                    DefinitionNodeBuilder.generateNodeFromType(result.getDefinitionType(),
-                        fullRestrictName,
-                        scopeHandler.getCurrentScope()));
+            DefinitionNode node = DefinitionNodeBuilder.generateNodeFromType(result.getType(),
+                    result.getDefinitionType(),
+                    fullRestrictName,
+                    scopeHandler.getCurrentScope());
+            table.put(name, node);
         }
         return new SymbolTableResult(table);
     }
@@ -67,8 +71,7 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
 
     @Override
     public SymbolTableResult visitCodeContent(rulesParser.CodeContentContext ctx) {
-        SymbolTableResult result = visit(ctx.getChild(0));
-        return new SymbolTableResult(result.getToken(), result.getContext(), result.getDefinitionType());
+        return visit(ctx.getChild(0));
     }
 
     @Override
@@ -91,7 +94,9 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
     @Override
     public SymbolTableResult visitOrdinaryVariableDeclaration(rulesParser.OrdinaryVariableDeclarationContext ctx) {
         Token token = ctx.IDENTIFIER(1).getSymbol();
-        return new SymbolTableResult(token, ctx);
+        List<String> restrictNames = scopeHandler.getRestrictNames();
+        return new SymbolTableResult(TypeBuilder.generateBaseOrObjectType(token.getText(), restrictNames), token, ctx);
+
     }
 
 
@@ -101,7 +106,12 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
     @Override
     public SymbolTableResult visitFunctionDefinitionBlock(rulesParser.FunctionDefinitionBlockContext ctx) {
         Token token = ctx.IDENTIFIER(1).getSymbol();
-        return new SymbolTableResult(token, ctx, DefinitionType.FUNCTION);
+        SymbolTableResult parameterVisitResult = visit(ctx.functionParameterDefinition());
+        List<Type> parametersType = parameterVisitResult.getTypes();
+        String returnTypeStr = ctx.IDENTIFIER(0).getText();
+        List<String> restrictNames = scopeHandler.getRestrictNames();
+        Type type = TypeBuilder.generateFunctionType(parametersType, TypeBuilder.generateBaseOrObjectType(returnTypeStr, restrictNames));
+        return new SymbolTableResult(type, token, ctx, DefinitionType.FUNCTION);
     }
 
     @Override
@@ -127,7 +137,23 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
         scopeHandler.enterScope(null, structName, true);
         Map<String, DefinitionNode> table = visit(ctx.structFieldStatementList()).getTable();
         scopeHandler.exitScope();
-        return new SymbolTableResult(table, ctx.IDENTIFIER().getSymbol(), ctx);
+        List<String> restrictNames = scopeHandler.getRestrictNames();
+        Type type = TypeBuilder.generateObjectType(structName, restrictNames);
+        return new SymbolTableResult(type, table, ctx.IDENTIFIER().getSymbol(), ctx);
     }
 
+    @Override
+    public SymbolTableResult visitFunctionParameterDefinition(rulesParser.FunctionParameterDefinitionContext ctx) {
+        return visit(ctx.parameterList());
+    }
+
+    @Override
+    public SymbolTableResult visitParameterList(rulesParser.ParameterListContext ctx) {
+        List<Type> types = new LinkedList<>();
+        for (rulesParser.VariableDeclarationContext context: ctx.variableDeclaration()) {
+            SymbolTableResult visitResult = visit(context);
+            types.add(visitResult.getType());
+        }
+        return new SymbolTableResult(types);
+    }
 }

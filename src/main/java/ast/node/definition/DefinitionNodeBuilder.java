@@ -65,18 +65,18 @@ public class DefinitionNodeBuilder {
         return new VariableDefinitionNode(type, parentScope);
     }
 
-    public static DefinitionNode generateNodeFromType(DefinitionType definitionType, String fullRestrictName, Scope parentScope) {
+    public static DefinitionNode generateNodeFromType(Type type, DefinitionType definitionType, String fullRestrictName, Scope parentScope) {
         if (nodeBuffer.containsKey(fullRestrictName)) {
             return nodeBuffer.get(fullRestrictName);
         }
         DefinitionNode node;
         if (definitionType == DefinitionType.VARIABLE) {
-            node = new VariableDefinitionNode(null, parentScope);
+            node = new VariableDefinitionNode(type, parentScope);
         } else if (definitionType == DefinitionType.FUNCTION) {
-            node = new FunctionDefinitionNode(null, parentScope);
+            node = new FunctionDefinitionNode(type, parentScope);
         } else {
             //struct
-            node = new StructureDefinitionNode(null, null, parentScope);
+            node = new StructureDefinitionNode((ObjectType) type, null, parentScope);
         }
         nodeBuffer.put(fullRestrictName, node);
         return node;

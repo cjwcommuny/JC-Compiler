@@ -4,5 +4,12 @@ namespace MyNamespace {
     }
 
     struct T {
+        S s;
+    }
+
+    int a = f();
+    
+    def int f() {
+
     }
 }
