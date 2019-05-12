@@ -20,4 +20,8 @@ public class DefinitionNode extends Node {
     public Scope getParentScope() {
         return parentScope;
     }
+
+    void setType(Type type) {
+        this.type = type;
+    }
 }

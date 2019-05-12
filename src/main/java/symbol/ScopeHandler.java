@@ -8,13 +8,12 @@ import java.util.*;
 
 public class ScopeHandler {
     private Stack<Scope> scopeStack = new Stack<>();
-    private Map<ParserRuleContext, DefinitionNode> contextNodeMap = new HashMap<>();//TODO: add hashcode() to visitor
 
     public ScopeHandler() {
         scopeStack.push(new Scope(new HashMap<>(), null, "Global", false));
     }
 
-    public void enterScope(Map<String, ParserRuleContext> table, String scopeName, boolean asRestrictiveDescriptor) {
+    public void enterScope(Map<String, DefinitionNode> table, String scopeName, boolean asRestrictiveDescriptor) {
         Scope upperScope;
         if (scopeStack.size() == 0) {
             upperScope = null;
@@ -32,26 +31,15 @@ public class ScopeHandler {
         scopeStack.pop();
     }
 
-    public void putContextNode(ParserRuleContext context, DefinitionNode node) {
-        contextNodeMap.put(context, node);
-    }
 
-    private ParserRuleContext getContext(String key) {
+    public DefinitionNode getNode(String key) {
         for (Scope scope: scopeStack) {
-            ParserRuleContext result = scope.get(key);
+            DefinitionNode result = scope.get(key);
             if (result != null) {
                 return result;
             }
         }
         return null;
-    }
-
-    public DefinitionNode getNode(String key) {
-        ParserRuleContext context = getContext(key);
-        if (context == null) {
-            return null;
-        }
-        return contextNodeMap.get(context);
     }
 
     public List<String> getRestrictNames() {
@@ -64,13 +52,8 @@ public class ScopeHandler {
         return result;
     }
 
-    public void putSymbol(String name, ParserRuleContext context, DefinitionNode node) {
-        getCurrentScope().put(name, context);
-        putContextNode(context, node);
-    }
-
-    public Node getNode(ParserRuleContext context) {
-        return contextNodeMap.get(context);
+    public void putSymbol(String name, DefinitionNode node) {
+        getCurrentScope().put(name, node);
     }
 
     public Scope getRestrictParentScope() {
@@ -90,5 +73,9 @@ public class ScopeHandler {
             }
         }
         return null;
+    }
+
+    public boolean currentScopeContainsName(String name) {
+        return getCurrentScope().containsKey(name);
     }
 }

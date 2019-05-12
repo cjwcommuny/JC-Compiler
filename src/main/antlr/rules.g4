@@ -78,7 +78,7 @@ CONTINUE_SYMBOL: 'continue';
 FOR_SYMBOL: 'for';
 BREAK_SYMBOL: 'break';
 
-//data type INT_SYMBOL: 'int'; DOUBLE_SYMBOL: 'double'; CHAR_SYMBOL: 'char'; STRING_SYMBOL:
+//data definitionType INT_SYMBOL: 'int'; DOUBLE_SYMBOL: 'double'; CHAR_SYMBOL: 'char'; STRING_SYMBOL:
 // 'string'; BOOL_SYMBOL: 'bool';
 
 //identifier ==============================================================

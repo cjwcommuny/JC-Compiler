@@ -8,6 +8,7 @@ import ast.node.structrue.ProgramNode;
 import ast.node.value.InfixExpressionNode;
 import ast.node.value.UnaryExpressionNode;
 import ast.node.value.ValueNode;
+import common.CommonInfrastructure;
 import error.exception.SymbolNotResolvedException;
 import error.exception.TypeMismatchException;
 import operation.InfixOperation;
@@ -29,13 +30,14 @@ import type.TypeCheckerAndInference;
 import type.typetype.*;
 
 import java.util.List;
+import java.util.zip.DeflaterInputStream;
 
 public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
-    private SymbolTableGenerator symbolTableGenerator = new SymbolTableGenerator();
-
     private ScopeHandler scopeHandler = new ScopeHandler();
-
     private CommonTokenStream commonTokenStream;
+    private SymbolTableGenerator symbolTableGenerator = new SymbolTableGenerator(scopeHandler, this);
+
+
 
     public AstGenerator(CommonTokenStream commonTokenStream) {
         this.commonTokenStream = commonTokenStream;
@@ -63,9 +65,8 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 symbolTableGenerator.visit(ctx).getTable(),
                 namespaceName,
                 true);
-
-        NamespaceNode thisNode = new NamespaceNode(namespaceName, scopeHandler.getCurrentScope(), scopeHandler.getRestrictParentScope());
-        scopeHandler.putContextNode(ctx, thisNode);
+        NamespaceNode thisNode = DefinitionNodeBuilder.generateNamespaceNode(namespaceName, scopeHandler.getCurrentScope(), scopeHandler.getRestrictParentScope());
+        thisNode.setThisScope(scopeHandler.getCurrentScope());
         for (rulesParser.CodeContentContext context: ctx.codeContent()) {
             AstGeneratorResult visitResult = visit(context);
             thisNode.addChildren(visitResult.getNodes());
@@ -87,20 +88,20 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     @Override
     public AstGeneratorResult visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
         AstGeneratorResult declarationVisitResult = visit(ctx.variableDeclaration());
-        VariableNameNode variableNameNode = (VariableNameNode) declarationVisitResult.getNode().getChild(0);
+        VariableDefinitionNode declarationNode = (VariableDefinitionNode) declarationVisitResult.getNode();
+        VariableNameNode variableNameNode = (VariableNameNode) declarationNode.getChild(0);
         ParserRuleContext declarationContext = declarationVisitResult.getContext();
 
         Type type = variableNameNode.getType();
-        VariableDefinitionNode thisNode = new VariableDefinitionNode(type, scopeHandler.getCurrentScope());
-
-        scopeHandler.putContextNode(ctx, thisNode);
+        List<String> restrictNames = scopeHandler.getRestrictNames();
+        String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(variableNameNode.getName(), restrictNames);
+        VariableDefinitionNode thisNode = DefinitionNodeBuilder.generateVariableDefinitionNode(fullRestrictName, type, scopeHandler.getRestrictCurrentScope());
+//        thisNode.setType(type);
         thisNode.addChild(variableNameNode);
-
         AstGeneratorResult visitResult = visit(ctx.rValue());
         ValueNode rightSideNode = (ValueNode) visitResult.getNodes().get(0);
         Type rightSideType = rightSideNode.getType();
         if (!TypeCheckerAndInference.checkAssignment(type, rightSideType)) {
-            //TODO: assignment type mismatch
             Token assignToken = ctx.ASSIGN_SYMBOL().getSymbol();
             int[] tokenPosition = getTokenPosition(ctx, assignToken);
             throw new TypeMismatchException(tokenPosition, type, rightSideType);
@@ -204,9 +205,9 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         FunctionType functionType = TypeBuilder.generateFunctionType(returnTypeStr,
                 restrictNames,
                 parameterTypes);
-        FunctionDefinitionNode thisNode = new FunctionDefinitionNode(functionType, scopeHandler.getRestrictParentScope());
+        String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(functionName, restrictNames);
+        FunctionDefinitionNode thisNode = DefinitionNodeBuilder.generateFunctionDefinitionNode(fullRestrictName, functionType, scopeHandler.getRestrictParentScope());
         FunctionNameNode functionNameNode = new FunctionNameNode(functionName, null, functionType);
-        scopeHandler.putContextNode(ctx, thisNode);
         thisNode.addChild(functionNameNode);
         thisNode.addChild(parametersNode);
         thisNode.addChild(statements);
@@ -231,10 +232,11 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             //convert to definition node
             AstGeneratorResult astGeneratorResult = visit(child);
             VariableNameNode nameNode = (VariableNameNode) astGeneratorResult.getNode();
-            VariableDefinitionNode definitionNode = new VariableDefinitionNode(nameNode.getType(),
-                    scopeHandler.getRestrictParentScope());
+            VariableDefinitionNode definitionNode =
+                    DefinitionNodeBuilder.generateVariableDefinitionNodeNotBuf(nameNode.getType(),
+                        scopeHandler.getRestrictParentScope());
             definitionNode.addChild(nameNode);
-            scopeHandler.putContextNode(astGeneratorResult.getContext(), definitionNode);
+            scopeHandler.putSymbol(nameNode.getName(), definitionNode);
             thisNode.addChild(definitionNode);
         }
         return new AstGeneratorResult(thisNode);
@@ -263,7 +265,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         String variableName = ctx.IDENTIFIER(1).getText();
         List<String> restrictNames = scopeHandler.getRestrictNames();
         VariableNameNode nameNode = new VariableNameNode(variableName, null, type);
-        VariableDefinitionNode thisNode = new VariableDefinitionNode(nameNode.getType(), scopeHandler.getRestrictCurrentScope());
+        VariableDefinitionNode thisNode = DefinitionNodeBuilder.generateVariableDefinitionNodeNotBuf(nameNode.getType(), scopeHandler.getRestrictCurrentScope());
         thisNode.addChild(nameNode);
         return new AstGeneratorResult(thisNode, ctx);
     }
@@ -287,12 +289,12 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     @Override
     public AstGeneratorResult visitVariableDefinitionInStatement(rulesParser.VariableDefinitionInStatementContext ctx) {
         AstGeneratorResult result = visit(ctx.variableDefinition());
-        VariableDefinitionNode node = (VariableDefinitionNode) result.getNode();
-        scopeHandler.putSymbol(node.getVariableName(), ctx.variableDefinition(), node); //put symbol
+        VariableDefinitionNode node = (VariableDefinitionNode) result.getNode();//TODO: 区别对待函数中的定义
+        scopeHandler.putSymbol(node.getVariableName(), node); //put symbol
         return result;
     }
 
-    private int[] getTokenPosition(ParserRuleContext ctx, Token token) {
+    public int[] getTokenPosition(ParserRuleContext ctx, Token token) {
         Interval sourceInterval = ctx.getSourceInterval();
         Token firstToken = commonTokenStream.get(sourceInterval.a);
         int lineRowNumber = firstToken.getLine();
@@ -306,9 +308,9 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         List<String> restrictNames = scopeHandler.getRestrictNames();
         ObjectType type = TypeBuilder.generateObjectType(structName, restrictNames);
         scopeHandler.enterScope(symbolTableGenerator.visit(ctx).getTable(), structName, true);
-        StructureDefinitionNode thisNode = new StructureDefinitionNode(type,
-                scopeHandler.getCurrentScope(), scopeHandler.getRestrictParentScope());
-        scopeHandler.putContextNode(ctx, thisNode);
+        String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(structName, restrictNames);
+        StructureDefinitionNode thisNode = DefinitionNodeBuilder.generateStructureDefinitionNode(fullRestrictName, type, scopeHandler.getCurrentScope(), scopeHandler.getRestrictParentScope());
+        thisNode.setThisScope(scopeHandler.getCurrentScope());
         StructFieldListNode fieldDefinitionNode = (StructFieldListNode)
                 visit(ctx.structFieldStatementList()).getNode();
         scopeHandler.exitScope();
@@ -321,10 +323,9 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         StructFieldListNode fieldsNode = new StructFieldListNode();
         for (rulesParser.VariableDefinitionContext context: ctx.variableDefinition()) {
             AstGeneratorResult visitResult = visit(context);
-            DefinitionNode definitionNode = (DefinitionNode) visitResult.getNode();
+            VariableDefinitionNode definitionNode = (VariableDefinitionNode) visitResult.getNode();
             fieldsNode.addChild(definitionNode);
-            ParserRuleContext definitionContext = visitResult.getContext();
-            scopeHandler.putContextNode(definitionContext, definitionNode);
+            scopeHandler.putSymbol(definitionNode.getName(), definitionNode);
         }
         return new AstGeneratorResult(fieldsNode);
     }
@@ -345,12 +346,12 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             throw new SymbolNotResolvedException(errorLocation, leftType.getSimpleName());
         }
 
-        Scope structScope = ((HasScope) node).getScope();
+        Scope structScope = ((HasScope) node).getThisScope();
         if (structScope == null) {
             int[] errorLocation = getTokenPosition(ctx, ctx.start);
             throw new SymbolNotResolvedException(errorLocation, leftType.visualInfo());
         }
-        VariableDefinitionNode fieldDefinitionNode = (VariableDefinitionNode) scopeHandler.getNode(structScope.get(rightIdentifierName));
+        VariableDefinitionNode fieldDefinitionNode = (VariableDefinitionNode) scopeHandler.getNode(rightIdentifierName);
         if (fieldDefinitionNode == null) {
             int[] errorLocation = getTokenPosition(ctx, ctx.IDENTIFIER(ctx.IDENTIFIER().size() - 1).getSymbol());
             throw new SymbolNotResolvedException(errorLocation, rightIdentifierName);

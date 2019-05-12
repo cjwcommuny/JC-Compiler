@@ -1,13 +1,8 @@
 namespace MyNamespace {
     struct S {
-        //int a = 0;
-        S s;
         T t;
     }
 
     struct T {
-        T t;
-        S s;
-        int a;
     }
 }

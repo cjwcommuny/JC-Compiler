@@ -11,7 +11,7 @@ import type.typetype.Type;
  * */
 public class VariableDefinitionNode extends DefinitionNode {
 
-    public VariableDefinitionNode(Type type, Scope parentScope) {
+    VariableDefinitionNode(Type type, Scope parentScope) {
         super(type, parentScope);
     }
 
@@ -20,4 +20,7 @@ public class VariableDefinitionNode extends DefinitionNode {
     }
 
 
+    public String getName() {
+        return ((VariableNameNode) getChild(0)).getName();
+    }
 }

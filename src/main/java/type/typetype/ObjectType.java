@@ -1,5 +1,7 @@
 package type.typetype;
 
+import common.CommonInfrastructure;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -16,24 +18,7 @@ public class ObjectType extends Type {
     ObjectType(String simpleClassName, List<String> restrictNames) {
         this.simpleClassName = simpleClassName;
         this.restrictNames = restrictNames;
-        this.fullRestrictClassName = constructFullRestrictClassName(simpleClassName, restrictNames);
-    }
-
-    private String constructFullRestrictClassName(String simpleClassName,
-                                                  List<String> restrictNames) {
-        return constructFullRestrictClassName(simpleClassName, restrictNames, "/");
-    }
-
-    private String constructFullRestrictClassName(String simpleClassName,
-                                                  List<String> restrictNames,
-                                                  String separator) {
-        StringBuilder sb = new StringBuilder();
-        for (String restrictName: restrictNames) {
-            sb.append(restrictName);
-            sb.append(separator);
-        }
-        sb.append(simpleClassName);
-        return sb.toString();
+        this.fullRestrictClassName = CommonInfrastructure.constructFullRestrictClassName(simpleClassName, restrictNames);
     }
 
     @Override
@@ -51,7 +36,7 @@ public class ObjectType extends Type {
 
     @Override
     public String visualInfo() {
-        return constructFullRestrictClassName(simpleClassName, restrictNames, ".");
+        return CommonInfrastructure.constructFullRestrictClassName(simpleClassName, restrictNames, ".");
     }
 
     @Override

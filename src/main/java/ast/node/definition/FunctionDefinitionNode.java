@@ -20,7 +20,7 @@ public class FunctionDefinitionNode extends DefinitionNode {
         return this.type.visualInfo();
     }
 
-    public FunctionDefinitionNode(Type type, Scope parentScope) {
+    FunctionDefinitionNode(Type type, Scope parentScope) {
         super(type, parentScope);
     }
 }
