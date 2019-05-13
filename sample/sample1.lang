@@ -1,11 +1,15 @@
 namespace MyNamespace {    
+    bool b = false;
     def int f() {
-        int t = g(3);
+        bool b = true;
+        if (b) {
+            int a = 3;
+        } elif (b) {
+            int d = 1;
+        } elif (!b) {
+
+        } else {
+            int b = 0;
+        }
     }
-
-    def int g(int a) {
-
-    }
-
-    int x = g(3);
 }

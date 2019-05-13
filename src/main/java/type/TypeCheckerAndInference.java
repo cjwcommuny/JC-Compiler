@@ -3,10 +3,7 @@ package type;
 
 import error.exception.TypeMismatchException;
 import operation.Operation;
-import type.typetype.ArrayType;
-import type.typetype.FunctionType;
-import type.typetype.Type;
-import type.typetype.TypeBuilder;
+import type.typetype.*;
 
 import java.util.List;
 
@@ -122,6 +119,10 @@ public class TypeCheckerAndInference {
 
     public static boolean checkAssignment(Type type1, Type type2) {
         return type1.equals(type2);
+    }
+
+    public static boolean checkConditionValue(Type type) {
+        return type instanceof BoolType;
     }
 
 }

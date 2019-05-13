@@ -3,8 +3,7 @@ package ast;
 import ast.node.*;
 import ast.node.definition.*;
 import ast.node.reference.*;
-import ast.node.structrue.HasScope;
-import ast.node.structrue.ProgramNode;
+import ast.node.structrue.*;
 import ast.node.value.InfixExpressionNode;
 import ast.node.value.UnaryExpressionNode;
 import ast.node.value.ValueNode;
@@ -25,19 +24,17 @@ import parser.rulesLexer;
 import parser.rulesParser;
 import symbol.Scope;
 import symbol.ScopeHandler;
+import symbol.ScopeType;
 import symbol.SymbolTableGenerator;
 import type.TypeCheckerAndInference;
 import type.typetype.*;
 
 import java.util.List;
-import java.util.zip.DeflaterInputStream;
 
 public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     private ScopeHandler scopeHandler = new ScopeHandler();
     private CommonTokenStream commonTokenStream;
     private SymbolTableGenerator symbolTableGenerator = new SymbolTableGenerator(scopeHandler, this);
-
-
 
     public AstGenerator(CommonTokenStream commonTokenStream) {
         this.commonTokenStream = commonTokenStream;
@@ -48,7 +45,8 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         scopeHandler.enterScope(
                 new VisitLater(ctx, symbolTableGenerator),
                 "Global",
-                false);
+                false,
+                ScopeType.GLOBAL);
         ProgramNode thisNode = new ProgramNode(scopeHandler.getCurrentScope());
         for (rulesParser.NamespaceDefinitionContext context: ctx.namespaceDefinition()) {
             AstGeneratorResult visitResult = visit(context);
@@ -64,7 +62,8 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         scopeHandler.enterScope(
                 new VisitLater(ctx, symbolTableGenerator),
                 namespaceName,
-                true);
+                true,
+                ScopeType.NAMESPACE);
         NamespaceNode thisNode = DefinitionNodeBuilder.generateNamespaceNode(namespaceName, scopeHandler.getCurrentScope(), scopeHandler.getRestrictParentScope());
         thisNode.setThisScope(scopeHandler.getCurrentScope());
         for (rulesParser.CodeContentContext context: ctx.codeContent()) {
@@ -95,8 +94,17 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         Type type = variableNameNode.getType();
         List<String> restrictNames = scopeHandler.getRestrictNames();
         String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(variableNameNode.getName(), restrictNames);
-        VariableDefinitionNode thisNode = DefinitionNodeBuilder.generateVariableDefinitionNode(fullRestrictName, type, scopeHandler.getRestrictCurrentScope());
-//        thisNode.setType(type);
+        ScopeType scopeType = scopeHandler.getScopeType();
+        VariableDefinitionNode thisNode;
+        if (scopeType == ScopeType.ANONYMOUS || scopeType == ScopeType.FUNCTION) {
+            thisNode = DefinitionNodeBuilder.generateVariableDefinitionNodeNotBuf(type,
+                    scopeHandler.getRestrictCurrentScope());
+        } else {
+            //get node from buffer
+            thisNode = DefinitionNodeBuilder.generateVariableDefinitionNode(fullRestrictName,
+                    type,
+                    scopeHandler.getRestrictCurrentScope());
+        }
         thisNode.addChild(variableNameNode);
         AstGeneratorResult visitResult = visit(ctx.rValue());
         Node rightSideNode = visitResult.getNodes().get(0);
@@ -197,7 +205,10 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         String returnTypeStr = ctx.getChild(1).getText();
         List<String> restrictNames = scopeHandler.getRestrictNames();
         String functionName = ctx.getChild(2).getText();
-        scopeHandler.enterScope(new VisitLater(ctx, symbolTableGenerator), functionName, false);
+        scopeHandler.enterScope(new VisitLater(ctx, symbolTableGenerator),
+                functionName,
+                false,
+                ScopeType.FUNCTION);
 
         ParameterListNode parametersNode = (ParameterListNode) visit(ctx.getChild(3)).getNode();
         List<Type> parameterTypes = parametersNode.getTypes();
@@ -306,7 +317,9 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         String structName = ctx.IDENTIFIER().getText();
         List<String> restrictNames = scopeHandler.getRestrictNames();
         ObjectType type = TypeBuilder.generateObjectType(structName, restrictNames);
-        scopeHandler.enterScope(new VisitLater(ctx, symbolTableGenerator), structName, true);
+        scopeHandler.enterScope(new VisitLater(ctx, symbolTableGenerator),
+                structName,
+                true, ScopeType.STRUCT);
         String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(structName, restrictNames);
         StructureDefinitionNode thisNode = DefinitionNodeBuilder.generateStructureDefinitionNode(fullRestrictName, type, scopeHandler.getCurrentScope(), scopeHandler.getRestrictParentScope());
         StructFieldListNode fieldDefinitionNode = (StructFieldListNode)
@@ -384,5 +397,97 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         thisNode.addChild(functionNameNode);
         thisNode.addChild(argumentListNode);
         return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitAssignment(rulesParser.AssignmentContext ctx) {
+        AssignmentNode thisNode = new AssignmentNode();
+        Node leftNode = visit(ctx.lValue()).getNode();
+        Node rightNode = visit(ctx.rValue()).getNode();
+        Type leftType = ((HasType) leftNode).getType();
+        Type rightType = ((HasType) rightNode).getType();
+        boolean result = TypeCheckerAndInference.checkAssignment(leftType, rightType);
+        if (!result) {
+            int[] errPosition = getTokenPosition(ctx, ctx.ASSIGN_SYMBOL().getSymbol());
+            throw new TypeMismatchException(errPosition, leftType, rightType);
+        }
+        thisNode.addChild(leftNode);
+        thisNode.addChild(rightNode);
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitBlock(rulesParser.BlockContext ctx) {
+        return visit(ctx.getChild(0));
+    }
+
+    @Override
+    public AstGeneratorResult visitLogicBlock(rulesParser.LogicBlockContext ctx) {
+        LogicBlockNode thisNode = new LogicBlockNode();
+        for (ParseTree parseTree: ctx.children) {
+            Node node = visit(parseTree).getNode();
+            thisNode.addChild(node);
+        }
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitIfBlock(rulesParser.IfBlockContext ctx) {
+        Node conditionNode = visit(ctx.rValue()).getNode();
+        Type conditionType = ((HasType) conditionNode).getType();
+        boolean isConditionValid = TypeCheckerAndInference.checkConditionValue(conditionType);
+        if (!isConditionValid) {
+            int[] errPosition = getTokenPosition(ctx, ctx.IF_SYMBOL().getSymbol());
+            throw new TypeMismatchException(errPosition, conditionType, "bool");
+        }
+        scopeHandler.enterScope(VisitLater.newEmptyVisitLater(),
+                "if-block" ,
+                false,
+                ScopeType.ANONYMOUS);
+        Node blockBodyNode = visit(ctx.blockBodyCode()).getNode();
+        scopeHandler.exitScope();
+        IfNode thisNode = new IfNode();
+        thisNode.addChild(conditionNode);
+        thisNode.addChild(blockBodyNode);
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitElseIfBlock(rulesParser.ElseIfBlockContext ctx) {
+        Node conditionNode = visit(ctx.rValue()).getNode();
+        Type conditionType = ((HasType) conditionNode).getType();
+        boolean isConditionValid = TypeCheckerAndInference.checkConditionValue(conditionType);
+        if (!isConditionValid) {
+            int[] errPosition = getTokenPosition(ctx, ctx.ELSE_IF_SYMBOL().getSymbol());
+            throw new TypeMismatchException(errPosition, conditionType, "bool");
+        }
+        scopeHandler.enterScope(VisitLater.newEmptyVisitLater(),
+                "elif-block",
+                false,
+                ScopeType.ANONYMOUS);
+        Node blockBodyNode = visit(ctx.blockBodyCode()).getNode();
+        scopeHandler.exitScope();
+        ElseIfNode thisNode = new ElseIfNode();
+        thisNode.addChild(conditionNode);
+        thisNode.addChild(blockBodyNode);
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitElseBlock(rulesParser.ElseBlockContext ctx) {
+        ElseNode thisNode = new ElseNode();
+        scopeHandler.enterScope(VisitLater.newEmptyVisitLater(),
+                "else-block",
+                false,
+                ScopeType.ANONYMOUS);
+        Node blockBodyNode = visit(ctx.blockBodyCode()).getNode();
+        scopeHandler.exitScope();
+        thisNode.addChild(blockBodyNode);
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitWhileBlock(rulesParser.WhileBlockContext ctx) {
+        return super.visitWhileBlock(ctx);
     }
 }

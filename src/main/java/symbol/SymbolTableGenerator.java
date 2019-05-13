@@ -46,7 +46,7 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
             Scope parentScope = scopeHandler.getCurrentScope();
             DefinitionNode node;
             if (definitionType == DefinitionType.STRUCT) {
-                Scope structInnerScope =  new Scope(result.getTable(), parentScope, name,true);
+                Scope structInnerScope =  new Scope(result.getTable(), parentScope, name,true, ScopeType.STRUCT);
                 node = DefinitionNodeBuilder.generateStructureDefinitionNode(fullRestrictName,
                         (ObjectType) result.getType(),
                         structInnerScope,
@@ -152,7 +152,7 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
     @Override
     public SymbolTableResult visitStructDefinition(rulesParser.StructDefinitionContext ctx) {
         String structName = ctx.IDENTIFIER().getText();
-        scopeHandler.enterScope(new VisitLater(null, null), structName, true);//TODO
+        scopeHandler.enterScope(new VisitLater(null, null), structName, true, ScopeType.STRUCT);//TODO
         Map<String, DefinitionNode> table = visit(ctx.structFieldStatementList()).getTable();
         scopeHandler.exitScope();
         List<String> restrictNames = scopeHandler.getRestrictNames();

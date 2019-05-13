@@ -150,6 +150,9 @@ expression:
     | expression LESS_OR_EQUAL_THAN expression # infixExpression
     | expression GREATER_OR_EQUAL_THAN expression # infixExpression
     | expression EQUAL_SYMBOL expression # infixExpression
+    | LOGIC_NOT expression # unaryExpression
+	| expression LOGIC_OR expression # infixExpression
+	| expression LOGIC_AND expression # infixExpression
     ;
 
 
@@ -161,9 +164,8 @@ block:
 	forBlock
 	| whileBlock
 	| logicBlock
-	//	| functionDefinitionBlock
-	| pureBlock
-	| structDefinition
+//	| pureBlock
+//	| structDefinition
 	;
 
 pureBlock: LEFT_CURLY_BRACE blockBodyCode RIGHT_CURLY_BRACE;
@@ -262,8 +264,6 @@ structFieldStatementList: (variableDefinition ';')*;
 
 structDefinition:
 	CLASS_DEFINITION_SYMNOL IDENTIFIER '{' structFieldStatementList '}';
-
-//TODO: identifier.identifier
 
 structReference:
     structReference '.' IDENTIFIER

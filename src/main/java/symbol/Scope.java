@@ -11,6 +11,7 @@ public class Scope {
     private Scope upperScope;
     private String scopeName;
     private boolean isRestrictDescriptiveScope;
+    private ScopeType scopeType;
 
     public DefinitionNode get(String key) {
         return symbolTable.get(key);
@@ -20,21 +21,27 @@ public class Scope {
         symbolTable.put(key, node);
     }
 
-    public Scope(Map<String, DefinitionNode> symbolTable, Scope upperScope, String scopeName, boolean isRestrictDescriptiveScope) {
+    public Scope(Map<String, DefinitionNode> symbolTable, Scope upperScope, String scopeName, boolean isRestrictDescriptiveScope, ScopeType scopeType) {
         this.symbolTable = symbolTable;
         this.upperScope = upperScope;
         this.scopeName = scopeName;
         this.isRestrictDescriptiveScope = isRestrictDescriptiveScope;
+        this.scopeType = scopeType;
     }
 
-    public Scope(Scope upperScope, String scopeName, boolean isRestrictDescriptiveScope) {
+    public ScopeType getScopeType() {
+        return scopeType;
+    }
+
+    public Scope(Scope upperScope, String scopeName, boolean isRestrictDescriptiveScope, ScopeType scopeType) {
         this.upperScope = upperScope;
         this.scopeName = scopeName;
         this.isRestrictDescriptiveScope = isRestrictDescriptiveScope;
+        this.scopeType = scopeType;
     }
 
-    public void setSymbolTable(Map<String, DefinitionNode> symbolTable) {
-        this.symbolTable = symbolTable;
+    public void mergeSymbolTable(Map<String, DefinitionNode> symbolTable) {
+        this.symbolTable.putAll(symbolTable);
     }
 
     public String getScopeName() {

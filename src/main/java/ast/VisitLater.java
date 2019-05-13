@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import symbol.SymbolTableGenerator;
 import symbol.SymbolTableResult;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class VisitLater {
@@ -16,10 +17,14 @@ public class VisitLater {
         this.symbolTableGenerator = symbolTableGenerator;
     }
 
+    public static VisitLater newEmptyVisitLater() {
+        return new VisitLater(null, null);
+    }
+
     public Map<String, DefinitionNode> visit() {
         if (symbolTableGenerator == null || context == null) {
             //empty visitLater
-            return null;
+            return new HashMap<>();
         }
         return symbolTableGenerator.visit(context).getTable();
     }
