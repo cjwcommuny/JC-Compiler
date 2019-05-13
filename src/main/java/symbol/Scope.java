@@ -1,5 +1,6 @@
 package symbol;
 
+import ast.node.Node;
 import ast.node.definition.DefinitionNode;
 import org.antlr.v4.runtime.ParserRuleContext;
 
@@ -12,6 +13,11 @@ public class Scope {
     private String scopeName;
     private boolean isRestrictDescriptiveScope;
     private ScopeType scopeType;
+    private Node correspondingNode;
+
+    public Node getCorrespondingNode() {
+        return correspondingNode;
+    }
 
     public DefinitionNode get(String key) {
         return symbolTable.get(key);
@@ -38,6 +44,10 @@ public class Scope {
         this.scopeName = scopeName;
         this.isRestrictDescriptiveScope = isRestrictDescriptiveScope;
         this.scopeType = scopeType;
+    }
+
+    public void setCorrespondingNode(Node correspondingNode) {
+        this.correspondingNode = correspondingNode;
     }
 
     public void mergeSymbolTable(Map<String, DefinitionNode> symbolTable) {

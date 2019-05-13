@@ -1,7 +1,10 @@
 package symbol;
 
 import ast.VisitLater;
+import ast.node.Node;
 import ast.node.definition.DefinitionNode;
+import ast.node.structrue.ForBlockNode;
+import ast.node.structrue.WhileBlockNode;
 
 import java.util.*;
 
@@ -22,6 +25,10 @@ public class ScopeHandler {
         scopeStack.push(new Scope(upperScope, scopeName, asRestrictiveDescriptor, scopeType));
         Map<String, DefinitionNode> table = visitLater.visit();
         scopeStack.peek().mergeSymbolTable(table);
+    }
+
+    public void setNodeToCurrentScope(Node node) {
+        scopeStack.peek().setCorrespondingNode(node);
     }
 
     public Scope getCurrentScope() {
@@ -82,5 +89,18 @@ public class ScopeHandler {
 
     public ScopeType getScopeType() {
         return scopeStack.peek().getScopeType();
+    }
+
+    public Scope getClosestLoopBlockScope() {
+        for (int i = scopeStack.size() - 1; i >= 0; --i) {
+            Scope scope = scopeStack.get(i);
+            Node node = scope.getCorrespondingNode();
+            if (node == null) {
+                return null;
+            } else if (node instanceof ForBlockNode || node instanceof WhileBlockNode) {
+                return scope;
+            }
+        }
+        return null;
     }
 }

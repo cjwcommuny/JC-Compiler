@@ -8,8 +8,10 @@ import ast.node.value.InfixExpressionNode;
 import ast.node.value.UnaryExpressionNode;
 import ast.node.value.ValueNode;
 import common.CommonInfrastructure;
+import error.exception.LoopControlException;
 import error.exception.SymbolNotResolvedException;
 import error.exception.TypeMismatchException;
+import jdk.nashorn.internal.ir.WhileNode;
 import operation.InfixOperation;
 import operation.Operation;
 import operation.UnaryOperation;
@@ -65,6 +67,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 true,
                 ScopeType.NAMESPACE);
         NamespaceNode thisNode = DefinitionNodeBuilder.generateNamespaceNode(namespaceName, scopeHandler.getCurrentScope(), scopeHandler.getRestrictParentScope());
+        scopeHandler.setNodeToCurrentScope(thisNode);
         thisNode.setThisScope(scopeHandler.getCurrentScope());
         for (rulesParser.CodeContentContext context: ctx.codeContent()) {
             AstGeneratorResult visitResult = visit(context);
@@ -212,15 +215,16 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 
         ParameterListNode parametersNode = (ParameterListNode) visit(ctx.getChild(3)).getNode();
         List<Type> parameterTypes = parametersNode.getTypes();
-        StatementListNode statements = (StatementListNode) visit(ctx.getChild(4)).getNode();
         FunctionType functionType = TypeBuilder.generateFunctionType(returnTypeStr,
                 restrictNames,
                 parameterTypes);
         String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(functionName, restrictNames);
         FunctionDefinitionNode thisNode = DefinitionNodeBuilder.generateFunctionDefinitionNode(fullRestrictName, functionType, scopeHandler.getRestrictParentScope());
+        scopeHandler.setNodeToCurrentScope(thisNode);
         FunctionNameNode functionNameNode = new FunctionNameNode(functionName, null, functionType);
         thisNode.addChild(functionNameNode);
         thisNode.addChild(parametersNode);
+        StatementListNode statements = (StatementListNode) visit(ctx.getChild(4)).getNode();
         thisNode.addChild(statements);
         scopeHandler.exitScope();
         return new AstGeneratorResult(thisNode);
@@ -322,6 +326,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 true, ScopeType.STRUCT);
         String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(structName, restrictNames);
         StructureDefinitionNode thisNode = DefinitionNodeBuilder.generateStructureDefinitionNode(fullRestrictName, type, scopeHandler.getCurrentScope(), scopeHandler.getRestrictParentScope());
+        scopeHandler.setNodeToCurrentScope(thisNode);
         StructFieldListNode fieldDefinitionNode = (StructFieldListNode)
                 visit(ctx.structFieldStatementList()).getNode();
         scopeHandler.exitScope();
@@ -444,9 +449,10 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 "if-block" ,
                 false,
                 ScopeType.ANONYMOUS);
+        IfNode thisNode = new IfNode();
+        scopeHandler.setNodeToCurrentScope(thisNode);
         Node blockBodyNode = visit(ctx.blockBodyCode()).getNode();
         scopeHandler.exitScope();
-        IfNode thisNode = new IfNode();
         thisNode.addChild(conditionNode);
         thisNode.addChild(blockBodyNode);
         return new AstGeneratorResult(thisNode);
@@ -465,9 +471,11 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 "elif-block",
                 false,
                 ScopeType.ANONYMOUS);
+        ElseIfNode thisNode = new ElseIfNode();
+        scopeHandler.setNodeToCurrentScope(thisNode);
         Node blockBodyNode = visit(ctx.blockBodyCode()).getNode();
         scopeHandler.exitScope();
-        ElseIfNode thisNode = new ElseIfNode();
+
         thisNode.addChild(conditionNode);
         thisNode.addChild(blockBodyNode);
         return new AstGeneratorResult(thisNode);
@@ -480,6 +488,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 "else-block",
                 false,
                 ScopeType.ANONYMOUS);
+        scopeHandler.setNodeToCurrentScope(thisNode);
         Node blockBodyNode = visit(ctx.blockBodyCode()).getNode();
         scopeHandler.exitScope();
         thisNode.addChild(blockBodyNode);
@@ -488,6 +497,44 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 
     @Override
     public AstGeneratorResult visitWhileBlock(rulesParser.WhileBlockContext ctx) {
-        return super.visitWhileBlock(ctx);
+        Node conditionNode = visit(ctx.rValue()).getNode();
+        Type conditionType = ((HasType) conditionNode).getType();
+        if (!TypeCheckerAndInference.checkConditionValue(conditionType)) {
+            int[] errPosition = getTokenPosition(ctx, ctx.WHILE_SYMBOL().getSymbol());
+            throw new TypeMismatchException(errPosition, conditionType, new BoolType());
+        }
+        WhileBlockNode thisNode = new WhileBlockNode();
+        scopeHandler.enterScope(VisitLater.newEmptyVisitLater(),
+                "while-block",
+                false,
+                ScopeType.ANONYMOUS);
+        scopeHandler.setNodeToCurrentScope(thisNode);
+        Node blockBodyNode = visit(ctx.blockBodyCode()).getNode();
+        scopeHandler.exitScope();
+        thisNode.addChild(conditionNode);
+        thisNode.addChild(blockBodyNode);
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitBreakStatement(rulesParser.BreakStatementContext ctx) {
+        Node loopBlockNode = scopeHandler.getClosestLoopBlockScope().getCorrespondingNode();
+        if (loopBlockNode == null) {
+            int[] errPosition = getTokenPosition(ctx, ctx.BREAK_SYMBOL().getSymbol());
+            throw new LoopControlException(errPosition);
+        }
+        BreakNode thisNode = new BreakNode(loopBlockNode);
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitContinueStatement(rulesParser.ContinueStatementContext ctx) {
+        Node loopBlockNode = scopeHandler.getClosestLoopBlockScope().getCorrespondingNode();
+        if (loopBlockNode == null) {
+            int[] errPosition = getTokenPosition(ctx, ctx.CONTINUE_SYMBOL().getSymbol());
+            throw new LoopControlException(errPosition);
+        }
+        ContinueNode thisNode = new ContinueNode(loopBlockNode);
+        return new AstGeneratorResult(thisNode);
     }
 }

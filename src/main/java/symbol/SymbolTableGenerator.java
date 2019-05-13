@@ -51,6 +51,7 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
                         (ObjectType) result.getType(),
                         structInnerScope,
                         parentScope);
+                structInnerScope.setCorrespondingNode(node);
             } else if (definitionType == DefinitionType.VARIABLE) {
                 node = DefinitionNodeBuilder.generateVariableDefinitionNode(fullRestrictName,
                         result.getType(),
@@ -152,7 +153,7 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
     @Override
     public SymbolTableResult visitStructDefinition(rulesParser.StructDefinitionContext ctx) {
         String structName = ctx.IDENTIFIER().getText();
-        scopeHandler.enterScope(new VisitLater(null, null), structName, true, ScopeType.STRUCT);//TODO
+        scopeHandler.enterScope(new VisitLater(null, null), structName, true, ScopeType.STRUCT);
         Map<String, DefinitionNode> table = visit(ctx.structFieldStatementList()).getTable();
         scopeHandler.exitScope();
         List<String> restrictNames = scopeHandler.getRestrictNames();
