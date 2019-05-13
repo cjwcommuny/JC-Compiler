@@ -103,4 +103,8 @@ public class ScopeHandler {
         }
         return null;
     }
+
+    public boolean existInCurrentScope(String name) {
+        return scopeStack.peek().get(name) != null;
+    }
 }

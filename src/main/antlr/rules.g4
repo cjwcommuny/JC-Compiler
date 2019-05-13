@@ -218,7 +218,7 @@ elseIfBlock:
 elseBlock: ELSE_SYMBOL '{' blockBodyCode '}';
 
 //loop ============================================================== TODO: do-while
-forBlock: FOR_SYMBOL '(' initOrStepCondition ';' terminateCondition ';' initOrStepCondition ')' '{' blockBodyCode '}';
+forBlock: FOR_SYMBOL '(' initOrStepCondition SEMICOLON terminateCondition SEMICOLON initOrStepCondition ')' '{' blockBodyCode '}';
 
 initOrStepCondition:
 	| ((statementWithoutSemicolon ',')* statementWithoutSemicolon)?

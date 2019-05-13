@@ -9,6 +9,7 @@ import ast.node.value.UnaryExpressionNode;
 import ast.node.value.ValueNode;
 import common.CommonInfrastructure;
 import error.exception.LoopControlException;
+import error.exception.NameDuplicateException;
 import error.exception.SymbolNotResolvedException;
 import error.exception.TypeMismatchException;
 import jdk.nashorn.internal.ir.WhileNode;
@@ -277,6 +278,10 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             type = definitionNode.getType();
         }
         String variableName = ctx.IDENTIFIER(1).getText();
+        if (scopeHandler.existInCurrentScope(variableName)) {
+            int[] errPosition = getTokenPosition(ctx, ctx.IDENTIFIER(1).getSymbol());
+            throw new NameDuplicateException(errPosition, variableName);
+        }
         List<String> restrictNames = scopeHandler.getRestrictNames();
         VariableNameNode nameNode = new VariableNameNode(variableName, null, type);
         VariableDefinitionNode thisNode = DefinitionNodeBuilder.generateVariableDefinitionNodeNotBuf(nameNode.getType(), scopeHandler.getRestrictCurrentScope());
@@ -518,23 +523,47 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 
     @Override
     public AstGeneratorResult visitBreakStatement(rulesParser.BreakStatementContext ctx) {
-        Node loopBlockNode = scopeHandler.getClosestLoopBlockScope().getCorrespondingNode();
-        if (loopBlockNode == null) {
+        Scope loopBlockScope = scopeHandler.getClosestLoopBlockScope();
+        if (loopBlockScope == null) {
             int[] errPosition = getTokenPosition(ctx, ctx.BREAK_SYMBOL().getSymbol());
             throw new LoopControlException(errPosition);
         }
+        Node loopBlockNode = loopBlockScope.getCorrespondingNode();
         BreakNode thisNode = new BreakNode(loopBlockNode);
         return new AstGeneratorResult(thisNode);
     }
 
     @Override
     public AstGeneratorResult visitContinueStatement(rulesParser.ContinueStatementContext ctx) {
-        Node loopBlockNode = scopeHandler.getClosestLoopBlockScope().getCorrespondingNode();
-        if (loopBlockNode == null) {
+        Scope loopBlockScope = scopeHandler.getClosestLoopBlockScope();
+        if (loopBlockScope == null) {
             int[] errPosition = getTokenPosition(ctx, ctx.CONTINUE_SYMBOL().getSymbol());
             throw new LoopControlException(errPosition);
         }
+        Node loopBlockNode = loopBlockScope.getCorrespondingNode();
         ContinueNode thisNode = new ContinueNode(loopBlockNode);
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitForBlock(rulesParser.ForBlockContext ctx) {
+        scopeHandler.enterScope(VisitLater.newEmptyVisitLater(), "for-block", false, ScopeType.ANONYMOUS);
+        ForBlockNode thisNode = new ForBlockNode();
+        scopeHandler.setNodeToCurrentScope(thisNode);
+        Node initConditionNode = visit(ctx.initOrStepCondition(0)).getNode();
+        Node terminateConditionNode = visit(ctx.terminateCondition()).getNode();
+        Type terminateConditionType = ((HasType) terminateConditionNode).getType();
+        if (!TypeCheckerAndInference.checkConditionValue(terminateConditionType)) {
+            int[] errPosition = getTokenPosition(ctx, ctx.SEMICOLON(0).getSymbol());
+            throw new TypeMismatchException(errPosition, terminateConditionType, new BoolType());
+        }
+        Node stepConditionNode = visit(ctx.initOrStepCondition(1)).getNode();
+        Node blockBodyNode = visit(ctx.blockBodyCode()).getNode();
+        thisNode.addChild(initConditionNode);
+        thisNode.addChild(terminateConditionNode);
+        thisNode.addChild(stepConditionNode);
+        thisNode.addChild(blockBodyNode);
+        scopeHandler.exitScope();
         return new AstGeneratorResult(thisNode);
     }
 }

@@ -2,12 +2,9 @@ namespace MyNamespace {
     bool b = false;
     def int f() {
         bool b = true;
-        while (true) {
-            bool b = false;
-            if (b) {
+        for (int i = 0; i < 5; i = i + 1) {
+            if (i == 3) {
                 break;
-            } else {
-                continue;
             }
         }
     }
