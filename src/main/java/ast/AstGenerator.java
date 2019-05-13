@@ -99,8 +99,8 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 //        thisNode.setType(type);
         thisNode.addChild(variableNameNode);
         AstGeneratorResult visitResult = visit(ctx.rValue());
-        ValueNode rightSideNode = (ValueNode) visitResult.getNodes().get(0);
-        Type rightSideType = rightSideNode.getType();
+        Node rightSideNode = visitResult.getNodes().get(0);
+        Type rightSideType = ((HasType) rightSideNode).getType();
         if (!TypeCheckerAndInference.checkAssignment(type, rightSideType)) {
             Token assignToken = ctx.ASSIGN_SYMBOL().getSymbol();
             int[] tokenPosition = getTokenPosition(ctx, assignToken);
@@ -358,5 +358,31 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         return new AstGeneratorResult(thisNode);
     }
 
-
+    @Override
+    public AstGeneratorResult visitFunctionCall(rulesParser.FunctionCallContext ctx) {
+        String functionName = ctx.IDENTIFIER().getText();
+        FunctionDefinitionNode refNode = (FunctionDefinitionNode) scopeHandler.getNode(functionName);
+        if (refNode == null) {
+            int[] errPosition = getTokenPosition(ctx, ctx.IDENTIFIER().getSymbol());
+            throw new SymbolNotResolvedException(errPosition, functionName);
+        }
+        FunctionType functionType = (FunctionType) refNode.getType();
+        FunctionNameNode functionNameNode = new FunctionNameNode(functionName,
+                refNode,
+                functionType);
+        ArgumentListNode argumentListNode = new ArgumentListNode();
+        for (rulesParser.RValueContext context: ctx.rValue()) {
+            Node node = visit(context).getNode();
+            argumentListNode.addChild(node);
+        }
+        Type resultType = TypeCheckerAndInference.checkFunctionParameter(functionType, argumentListNode.getTypes());
+        if (resultType == null) {
+            int[] errPosition = getTokenPosition(ctx, ctx.IDENTIFIER().getSymbol());
+            throw new TypeMismatchException(errPosition, functionName);
+        }
+        FunctionCallNode thisNode = new FunctionCallNode(resultType);
+        thisNode.addChild(functionNameNode);
+        thisNode.addChild(argumentListNode);
+        return new AstGeneratorResult(thisNode);
+    }
 }

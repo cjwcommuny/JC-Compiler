@@ -138,6 +138,20 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitReturnInStatement(rulesParser.ReturnInStatementContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code breakStatementLabel}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBreakStatementLabel(rulesParser.BreakStatementLabelContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code continueStatementLabel}
+	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitContinueStatementLabel(rulesParser.ContinueStatementLabelContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code assignmentInStatement}
 	 * labeled alternative in {@link rulesParser#statementWithoutSemicolon}.
 	 * @param ctx the parse tree
@@ -158,6 +172,18 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitRValueInStatement(rulesParser.RValueInStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#breakStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitBreakStatement(rulesParser.BreakStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#continueStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitContinueStatement(rulesParser.ContinueStatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#statementList}.
 	 * @param ctx the parse tree

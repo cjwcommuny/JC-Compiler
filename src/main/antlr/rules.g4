@@ -170,19 +170,22 @@ pureBlock: LEFT_CURLY_BRACE blockBodyCode RIGHT_CURLY_BRACE;
 
 statementWithoutSemicolon: //TODO
 	returnStatement # returnInStatement
+	| breakStatement # breakStatementLabel
+	| continueStatement # continueStatementLabel
 	| assignment # assignmentInStatement
 	| variableDefinition # variableDefinitionInStatement
 	| rValue # rValueInStatement
 	;
 
+breakStatement:
+    BREAK_SYMBOL
+    ;
+
+continueStatement:
+    CONTINUE_SYMBOL
+    ;
 
 statementList: (block | statement)*;
-
-//statementOrBlock:
-//    block
-//    | statement
-//    ;
-
 
 statement: statementWithoutSemicolon SEMICOLON;
 

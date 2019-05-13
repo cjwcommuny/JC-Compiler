@@ -1,6 +1,7 @@
 package type;
 
 
+import error.exception.TypeMismatchException;
 import operation.Operation;
 import type.typetype.ArrayType;
 import type.typetype.FunctionType;
@@ -108,12 +109,8 @@ public class TypeCheckerAndInference {
         }
     }
 
-    public static Type checkFunctionParameter(Type type,
+    public static Type checkFunctionParameter(FunctionType functionType,
                                                  List<Type> argumentTypes) {
-        if (!(type instanceof FunctionType)) {
-            return null;
-        }
-        FunctionType functionType = (FunctionType) type;
         List<Type> parameterTypes = functionType.getParameterTypes();
         if (!parameterTypes.equals(argumentTypes)) {
             return null;
