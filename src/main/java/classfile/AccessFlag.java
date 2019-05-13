@@ -17,7 +17,7 @@ enum AccessFlag {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
+    public int value() {
+        return this.value;
     }
 }

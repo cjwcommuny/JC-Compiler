@@ -1,0 +1,5 @@
+namespace MyNamespace {
+    def void main() {
+        println("hello world!", 1);
+    }
+}
