@@ -21,13 +21,11 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import parser.rulesBaseVisitor;
 import parser.rulesLexer;
 import parser.rulesParser;
-import symbol.Scope;
-import symbol.ScopeHandler;
-import symbol.ScopeType;
-import symbol.SymbolTableGenerator;
+import symbol.*;
 import type.TypeCheckerAndInference;
 import type.typetype.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
@@ -156,9 +154,10 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 return new AstGeneratorResult(node);
             }
             case rulesLexer.STRING_LITERAL: {
-                //TODO
+                ObjectType type = TypeBuilder.generateObjectType(InitSymbolImporter.getStringTypeName(), InitSymbolImporter.getStringRestrictNames());
+                LiteralNode<String> node = new LiteralNode<>(type, symbol.substring(1, symbol.length() - 1));
+                return new AstGeneratorResult(node);
             }
-                return null;
             case rulesLexer.IDENTIFIER: {
                 DefinitionNode defNode = scopeHandler.getNode(symbol);
                 if (defNode == null) {

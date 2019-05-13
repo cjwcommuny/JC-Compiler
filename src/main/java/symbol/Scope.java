@@ -65,4 +65,8 @@ public class Scope {
     public boolean containsKey(String key) {
         return symbolTable.containsKey(key);
     }
+
+    public void putAll(Map<String, ? extends DefinitionNode> table) {
+        symbolTable.putAll(table);
+    }
 }

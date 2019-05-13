@@ -10,7 +10,7 @@ public class LiteralNode<T> extends ValueNode {
 
     @Override
     protected String visualInfo() {
-        return type.getClass().getSimpleName() + ": " + value;
+        return type.visualInfo() + ": " + value;
     }
 
     public T getValue() {

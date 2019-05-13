@@ -6,6 +6,7 @@ import ast.node.definition.DefinitionNode;
 import ast.node.definition.FunctionDefinitionNode;
 import ast.node.structrue.ForBlockNode;
 import ast.node.structrue.WhileBlockNode;
+import type.typetype.ObjectType;
 
 import java.util.*;
 
@@ -13,7 +14,9 @@ public class ScopeHandler {
     private Stack<Scope> scopeStack = new Stack<>();
 
     public ScopeHandler() {
-//        scopeStack.push(new Scope(new HashMap<>(), null, "Global", false));
+        InitSymbolImporter initSymbolImporter = new InitSymbolImporter();
+        scopeStack.push(new Scope(new HashMap<>(), null, "OuterScope", false, ScopeType.ANONYMOUS));
+        initSymbolImporter.importInitNames(scopeStack.peek());
     }
 
     public void enterScope(VisitLater visitLater, String scopeName, boolean asRestrictiveDescriptor, ScopeType scopeType) {
@@ -122,4 +125,6 @@ public class ScopeHandler {
     public boolean existInCurrentScope(String name) {
         return scopeStack.peek().get(name) != null;
     }
+
+
 }
