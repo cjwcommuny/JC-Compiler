@@ -125,4 +125,7 @@ public class TypeCheckerAndInference {
         return type instanceof BoolType;
     }
 
+    public static boolean areEquivalentType(Type type1, Type type2) {
+        return type1.getClass() == type2.getClass();
+    }
 }

@@ -3,6 +3,7 @@ package symbol;
 import ast.VisitLater;
 import ast.node.Node;
 import ast.node.definition.DefinitionNode;
+import ast.node.definition.FunctionDefinitionNode;
 import ast.node.structrue.ForBlockNode;
 import ast.node.structrue.WhileBlockNode;
 
@@ -41,7 +42,8 @@ public class ScopeHandler {
 
 
     public DefinitionNode getNode(String key) {
-        for (Scope scope: scopeStack) {
+        for (int i = scopeStack.size() - 1; i >= 0; --i) {
+            Scope scope = scopeStack.get(i);
             DefinitionNode result = scope.get(key);
             if (result != null) {
                 return result;
@@ -98,6 +100,19 @@ public class ScopeHandler {
             if (node == null) {
                 return null;
             } else if (node instanceof ForBlockNode || node instanceof WhileBlockNode) {
+                return scope;
+            }
+        }
+        return null;
+    }
+
+    public Scope getClosestFunctionScope() {
+        for (int i = scopeStack.size() - 1; i >= 0; --i) {
+            Scope scope = scopeStack.get(i);
+            Node node = scope.getCorrespondingNode();
+            if (node == null) {
+                return null;
+            } else if (node instanceof FunctionDefinitionNode) {
                 return scope;
             }
         }

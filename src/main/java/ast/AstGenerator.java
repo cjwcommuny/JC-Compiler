@@ -8,11 +8,7 @@ import ast.node.value.InfixExpressionNode;
 import ast.node.value.UnaryExpressionNode;
 import ast.node.value.ValueNode;
 import common.CommonInfrastructure;
-import error.exception.LoopControlException;
-import error.exception.NameDuplicateException;
-import error.exception.SymbolNotResolvedException;
-import error.exception.TypeMismatchException;
-import jdk.nashorn.internal.ir.WhileNode;
+import error.exception.*;
 import operation.InfixOperation;
 import operation.Operation;
 import operation.UnaryOperation;
@@ -170,7 +166,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                             thisNode.getSymbol());
                     throw new SymbolNotResolvedException(errorPosition, symbol);
                 }
-                RefNode refNode = RefNodeBuilder.generateProperReNode(symbol, defNode);
+                RefNode refNode = RefNodeBuilder.generateProperRefNode(symbol, defNode);
                 return new AstGeneratorResult(refNode);
             }
             default:
@@ -566,4 +562,31 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         scopeHandler.exitScope();
         return new AstGeneratorResult(thisNode);
     }
+
+    @Override
+    public AstGeneratorResult visitReturnStatement(rulesParser.ReturnStatementContext ctx) {
+        ReturnNode thisNode = new ReturnNode();
+        Scope functionScope = scopeHandler.getClosestFunctionScope();
+        int[] errPosition = getTokenPosition(ctx, ctx.RETURN_SYMBOL().getSymbol());
+        if (functionScope == null) {
+            throw new SyntaxErrorException(errPosition, "wrong return statement position");
+        }
+        Type expectReturnType = ((FunctionDefinitionNode) functionScope.getCorrespondingNode()).getReturnType();
+        if (ctx.getChildCount() == 2) {
+            //has return value
+            Node rValueNode = visit(ctx.rValue()).getNode();
+            Type realReturnType = ((HasType) rValueNode).getType();
+            if (!TypeCheckerAndInference.areEquivalentType(realReturnType, expectReturnType)) {
+                throw new TypeMismatchException(errPosition, realReturnType, expectReturnType);
+            }
+            thisNode.addChild(rValueNode);
+        } else {
+            //return nothing
+            if (!(expectReturnType instanceof VoidType)) {
+                throw new TypeMismatchException(errPosition, new VoidType(), expectReturnType);
+            }
+        }
+        return new AstGeneratorResult(thisNode);
+    }
+
 }

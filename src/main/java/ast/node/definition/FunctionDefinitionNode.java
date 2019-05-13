@@ -23,4 +23,9 @@ public class FunctionDefinitionNode extends DefinitionNode {
     FunctionDefinitionNode(Type type, Scope parentScope) {
         super(type, parentScope);
     }
+
+    public Type getReturnType() {
+        FunctionType functionType = (FunctionType) getType();
+        return functionType.getReturnType();
+    }
 }

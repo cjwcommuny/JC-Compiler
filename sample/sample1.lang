@@ -1,11 +1,13 @@
 namespace MyNamespace {    
-    bool b = false;
-    def int f() {
-        bool b = true;
-        for (int i = 0; i < 5; i = i + 1) {
-            if (i == 3) {
-                break;
-            }
+    def int sum(int limit) {
+        int sum = 0;
+        for (int i = 0; i < limit; i = i + 1) {
+            sum = sum + i;
         }
+        return sum;
+    }
+
+    def void main() {
+        sum(10);
     }
 }
