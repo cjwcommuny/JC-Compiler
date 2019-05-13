@@ -17,4 +17,8 @@ public class RefNodeBuilder {
             return new VariableNameNode(name, defNode, type);
         }
     }
+
+    public static FunctionNameNode generateFunctionNameNode(String name, DefinitionNode reference, FunctionType type) {
+        return new FunctionNameNode(name, reference, type);
+    }
 }

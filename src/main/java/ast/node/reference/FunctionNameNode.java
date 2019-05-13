@@ -16,4 +16,8 @@ public class FunctionNameNode extends RefNode {
         super(type, reference);
         this.name = name;
     }
+
+    public String getName() {
+        return name;
+    }
 }
