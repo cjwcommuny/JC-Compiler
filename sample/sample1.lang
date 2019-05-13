@@ -15,6 +15,6 @@ namespace MyNamespace {
         //sum(10);
         String s = "hahah";
         //S s;
-        print(s);
+        println(s, 10);
     }
 }
