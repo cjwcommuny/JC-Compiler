@@ -17,7 +17,6 @@ public class InfixExpressionNode extends ValueNode {
 
     @Override
     protected String visualInfo() {
-        return "InfixExpression: " + operation;
+        return operation.visualInfo() + ": " + getType().visualInfo();
     }
-
 }

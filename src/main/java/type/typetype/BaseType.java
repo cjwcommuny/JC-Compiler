@@ -8,6 +8,7 @@ import java.util.Objects;
 
 public abstract class BaseType extends Type {
     private static HashSet<String> baseTypes = new HashSet<>(Arrays.asList("int", "bool", "char", "double"));
+    private String simpleName;
 
     public static boolean isBaseType(String typeName) {
         return baseTypes.contains(typeName);
@@ -26,5 +27,14 @@ public abstract class BaseType extends Type {
     @Override
     public int hashCode() {
         return Objects.hash(getClass().getSimpleName());
+    }
+
+    public BaseType(String simpleName) {
+        this.simpleName = simpleName;
+    }
+
+    @Override
+    public String visualInfo() {
+        return simpleName;
     }
 }

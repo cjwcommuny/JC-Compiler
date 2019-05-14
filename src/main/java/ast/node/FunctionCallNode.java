@@ -16,4 +16,9 @@ public class FunctionCallNode extends Node implements HasType {
     public FunctionCallNode(Type type) {
         this.type = type;
     }
+
+    @Override
+    protected String visualInfo() {
+        return "FunctionCall: " + type.visualInfo();
+    }
 }

@@ -1,0 +1,9 @@
+namespace MyNamespace {
+    def int exp(int base, int exponential) {
+        if (exponential == 0) {
+            return base;
+        } else {
+            return base * exp(base, exponential - 1);
+        }
+    }
+}

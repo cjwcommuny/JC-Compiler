@@ -12,7 +12,7 @@ public class StructRefNode extends RefNode {
     @Override
     protected String visualInfo() {
         VariableDefinitionNode variableDefinitionNode = (VariableDefinitionNode) reference;
-        return reference.getType().visualInfo() + ": "+ variableDefinitionNode.getParentScope().getScopeName()
-                + "." + variableDefinitionNode.getVariableName();
+        return variableDefinitionNode.getParentScope().getScopeName()
+                + "." + variableDefinitionNode.getVariableName() + ": " + reference.getType().visualInfo();
     }
 }

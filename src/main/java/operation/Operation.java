@@ -11,4 +11,8 @@ public abstract class Operation {
     public Operation(String operation) {
         this.operation = operation;
     }
+
+    public String visualInfo() {
+        return this.toString();
+    }
 }

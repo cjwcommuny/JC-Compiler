@@ -14,7 +14,7 @@ public class VariableNameNode extends RefNode {
 
     @Override
     protected String visualInfo() {
-        return type.visualInfo() + ": " + name;
+        return name + ": " + type.visualInfo();
     }
 
     @Override

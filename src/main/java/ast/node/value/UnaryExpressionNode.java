@@ -15,6 +15,6 @@ public class UnaryExpressionNode extends ValueNode {
 
     @Override
     protected String visualInfo() {
-        return "UnaryExpression: " + operation;
+        return operation.visualInfo() + ": " + getType().visualInfo();
     }
 }
