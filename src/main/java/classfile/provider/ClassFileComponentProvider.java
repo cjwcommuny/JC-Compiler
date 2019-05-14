@@ -1,5 +1,7 @@
 package classfile.provider;
 
+import classfile.AccessFlag;
+
 import java.util.List;
 
 public interface ClassFileComponentProvider {
@@ -7,4 +9,5 @@ public interface ClassFileComponentProvider {
     List<FieldInfoProvided> getAllFieldsInfo();
     String getFullRestrictClassName();
     String getFullRestrictSuperClassName();
+    List<AccessFlag> getClassAccessFlags();
 }

@@ -8,4 +8,5 @@ public interface MethodInfoProvided {
     String getMethodName();
     String getDescriptor();
     List<AccessFlag> getAccessFlags();
+    List<ParameterInfoProvided> getParameterInfoProvided();
 }

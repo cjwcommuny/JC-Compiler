@@ -1,8 +1,4 @@
-namespace MyNamespace {
-    struct S {
-
-    }
-
+namespace Sum {
     def int sum(int limit) {
         int sum = 0;
         for (int i = 0; i < limit; i = i + 1) {
@@ -12,9 +8,7 @@ namespace MyNamespace {
     }
 
     def void main() {
-        //sum(10);
-        String s = "hahah";
-        //S s;
-        println(s, 10);
+        int s = sum(10);
+        println("", s);
     }
 }

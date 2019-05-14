@@ -4,8 +4,7 @@ import classfile.AccessFlag;
 
 import java.util.List;
 
-public interface FieldInfoProvided {
-    String getFieldName();
-    String getTypeDescriptor();
+public interface ParameterInfoProvided {
+    String getName();
     List<AccessFlag> getAccessFlags();
 }

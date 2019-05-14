@@ -1,10 +1,13 @@
 package classfile;
 
 import classfile.attribute.AttributeInfo;
+import classfile.attribute.InnerClassesAttribute;
+import classfile.attribute.MethodParametersAttribute;
 import classfile.constantpool.ConstantClassInfo;
 import classfile.constantpool.ConstantPoolInfo;
 import classfile.constantpool.ConstantUtf8Info;
-import classfile.provider.ClassFileComponentProvider;
+import classfile.provider.*;
+import com.sun.xml.internal.bind.v2.model.core.ClassInfo;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
@@ -32,8 +35,12 @@ public class ClassFileFactory {
     }
 
     public ClassFile generateClassFile() {
+        //TODO
         generateClassMetaInfo();
-
+        generateClassAccessFlag();
+        generateFieldInfo();
+        generateMethodInfo();
+        generateClassAttributes();
         return classFile;
     }
 
@@ -72,5 +79,94 @@ public class ClassFileFactory {
             result &= flag.value();
         }
         return result;
+    }
+
+    private void generateClassAccessFlag() {
+        int index = generateAccessFlag(provider.getClassAccessFlags());
+        classFile.setAccessFlag(index);
+    }
+
+    private void generateFieldInfo() {
+        List<FieldInfoProvided> fieldsInfo = provider.getAllFieldsInfo();
+        List<FieldInfo> fieldInfos = new LinkedList<>();
+        for (FieldInfoProvided fieldProvided: fieldsInfo) {
+            FieldInfo fieldInfo = generateFieldInfo(fieldProvided);
+            fieldInfos.add(fieldInfo);
+        }
+        classFile.setFields(fieldInfos);
+    }
+
+    private FieldInfo generateFieldInfo(FieldInfoProvided fieldProvided) {
+        int accessFlags = generateAccessFlag(fieldProvided.getAccessFlags());
+        int nameIndex = addConstantUtf8Info(fieldProvided.getFieldName());
+        int descriptorIndex = addConstantUtf8Info(fieldProvided.getTypeDescriptor());
+        List<AttributeInfo> attributeInfos = new LinkedList<>();
+        /*
+        * TODO: attributeInfos
+        * ConstantValue
+        *
+        * */
+        return new FieldInfo(accessFlags, nameIndex, descriptorIndex, attributeInfos);
+    }
+
+    private void generateMethodInfo() {
+        List<MethodInfo> methodInfos = new LinkedList<>();
+        for (MethodInfoProvided methodProvided: provider.getAllMethodsInfo()) {
+            MethodInfo methodInfo = generateMethodInfo(methodProvided);
+            methodInfos.add(methodInfo);
+        }
+        classFile.setMethods(methods);
+    }
+
+    private MethodInfo generateMethodInfo(MethodInfoProvided methodProvided) {
+        int accessFlags = generateAccessFlag(methodProvided.getAccessFlags());
+        int nameIndex = addConstantUtf8Info(methodProvided.getMethodName());
+        int descriptorIndex = addConstantUtf8Info(methodProvided.getDescriptor());
+        List<AttributeInfo> attributeInfos = new LinkedList<>();
+        List<ParameterInfoProvided> parametersProvided = methodProvided.getParameterInfoProvided();
+        attributeInfos.add(generateMethodParametersAttribute(parametersProvided));
+        /*
+        * TODO: attributeInfos
+        *
+        *
+        * */
+        return new MethodInfo(accessFlags, nameIndex, descriptorIndex, attributeInfos);
+    }
+
+    private MethodParametersAttribute generateMethodParametersAttribute(
+            List<ParameterInfoProvided> parametersProvided) {
+        int attributeNameIndex = addConstantUtf8Info("MethodParameters");
+        List<MethodParametersAttribute.ParameterInfo> parameterInfos = new LinkedList<>();
+        for (ParameterInfoProvided parameterProvided: parametersProvided) {
+            MethodParametersAttribute.ParameterInfo parameterInfo = generateParameterInfo(parameterProvided);
+            parameterInfos.add(parameterInfo);
+        }
+        return new MethodParametersAttribute(attributeNameIndex, parameterInfos);
+    }
+
+    private MethodParametersAttribute.ParameterInfo generateParameterInfo(ParameterInfoProvided parameterProvided) {
+        int index = addConstantUtf8Info(parameterProvided.getName());
+        int accessFlags = generateAccessFlag(parameterProvided.getAccessFlags());
+        return new MethodParametersAttribute.ParameterInfo(index, accessFlags);
+    }
+
+    private void generateClassAttributes() {
+        List<AttributeInfo> attributes = new LinkedList<>();
+
+        classFile.setAttributes(attributes);
+    }
+
+    private InnerClassesAttribute generateInnerClassesAttribute(List<ClassInfoProvided> classesInfoProvided) {
+         int nameIndex = addConstantUtf8Info("InnerClasses");
+         List<InnerClassesAttribute.InnerClassInfo> innerClasses = new LinkedList<>();
+         for (ClassInfoProvided innerClass: classesInfoProvided) {
+             InnerClassesAttribute.InnerClassInfo innerClassInfo = generateInnerClassInfo(innerClass);
+             innerClasses.add(innerClassInfo);
+         }
+         return new InnerClassesAttribute(nameIndex, innerClasses);
+    }
+
+    private InnerClassesAttribute.InnerClassInfo generateInnerClassInfo(ClassInfoProvided innerClass) {
+
     }
 }
