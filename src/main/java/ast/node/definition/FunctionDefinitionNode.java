@@ -1,6 +1,7 @@
 package ast.node.definition;
 
 import ast.node.definition.DefinitionNode;
+import ast.node.reference.FunctionNameNode;
 import ast.node.structrue.HasScope;
 import symbol.Scope;
 import type.typetype.FunctionType;
@@ -22,5 +23,14 @@ public class FunctionDefinitionNode extends DefinitionNode {
 
     FunctionDefinitionNode(Type type, Scope parentScope) {
         super(type, parentScope);
+    }
+
+    public Type getReturnType() {
+        FunctionType functionType = (FunctionType) getType();
+        return functionType.getReturnType();
+    }
+
+    public String getFunctionName() {
+        return ((FunctionNameNode) getChild(0)).getName();
     }
 }

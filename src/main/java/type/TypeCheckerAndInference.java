@@ -1,11 +1,9 @@
 package type;
 
 
+import error.exception.TypeMismatchException;
 import operation.Operation;
-import type.typetype.ArrayType;
-import type.typetype.FunctionType;
-import type.typetype.Type;
-import type.typetype.TypeBuilder;
+import type.typetype.*;
 
 import java.util.List;
 
@@ -108,12 +106,8 @@ public class TypeCheckerAndInference {
         }
     }
 
-    public static Type checkFunctionParameter(Type type,
+    public static Type checkFunctionParameter(FunctionType functionType,
                                                  List<Type> argumentTypes) {
-        if (!(type instanceof FunctionType)) {
-            return null;
-        }
-        FunctionType functionType = (FunctionType) type;
         List<Type> parameterTypes = functionType.getParameterTypes();
         if (!parameterTypes.equals(argumentTypes)) {
             return null;
@@ -127,4 +121,11 @@ public class TypeCheckerAndInference {
         return type1.equals(type2);
     }
 
+    public static boolean checkConditionValue(Type type) {
+        return type instanceof BoolType;
+    }
+
+    public static boolean areEquivalentType(Type type1, Type type2) {
+        return type1.getClass() == type2.getClass();
+    }
 }

@@ -1,9 +1,6 @@
 package ast.node.value;
 
-import ast.node.definition.DefinitionNode;
-import ast.node.value.ValueNode;
 import operation.Operation;
-import sun.tools.jstat.Operator;
 import type.typetype.Type;
 
 public class InfixExpressionNode extends ValueNode {
@@ -20,7 +17,6 @@ public class InfixExpressionNode extends ValueNode {
 
     @Override
     protected String visualInfo() {
-        return "InfixExpression: " + operation;
+        return operation.visualInfo() + ": " + getType().visualInfo();
     }
-
 }

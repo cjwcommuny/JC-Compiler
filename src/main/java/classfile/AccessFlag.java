@@ -1,6 +1,6 @@
 package classfile;
 
-enum AccessFlag {
+public enum AccessFlag {
     PUBLIC(0x0001),
     FINAL(0x0010),
     SUPER(0x0020),
@@ -17,7 +17,7 @@ enum AccessFlag {
         this.value = value;
     }
 
-    public int getValue() {
-        return value;
+    public int value() {
+        return this.value;
     }
 }

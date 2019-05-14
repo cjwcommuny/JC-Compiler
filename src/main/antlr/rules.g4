@@ -150,6 +150,9 @@ expression:
     | expression LESS_OR_EQUAL_THAN expression # infixExpression
     | expression GREATER_OR_EQUAL_THAN expression # infixExpression
     | expression EQUAL_SYMBOL expression # infixExpression
+    | LOGIC_NOT expression # unaryExpression
+	| expression LOGIC_OR expression # infixExpression
+	| expression LOGIC_AND expression # infixExpression
     ;
 
 
@@ -161,28 +164,30 @@ block:
 	forBlock
 	| whileBlock
 	| logicBlock
-	//	| functionDefinitionBlock
-	| pureBlock
-	| structDefinition
+//	| pureBlock
+//	| structDefinition
 	;
 
 pureBlock: LEFT_CURLY_BRACE blockBodyCode RIGHT_CURLY_BRACE;
 
 statementWithoutSemicolon: //TODO
 	returnStatement # returnInStatement
+	| breakStatement # breakStatementLabel
+	| continueStatement # continueStatementLabel
 	| assignment # assignmentInStatement
 	| variableDefinition # variableDefinitionInStatement
 	| rValue # rValueInStatement
 	;
 
+breakStatement:
+    BREAK_SYMBOL
+    ;
+
+continueStatement:
+    CONTINUE_SYMBOL
+    ;
 
 statementList: (block | statement)*;
-
-//statementOrBlock:
-//    block
-//    | statement
-//    ;
-
 
 statement: statementWithoutSemicolon SEMICOLON;
 
@@ -213,7 +218,7 @@ elseIfBlock:
 elseBlock: ELSE_SYMBOL '{' blockBodyCode '}';
 
 //loop ============================================================== TODO: do-while
-forBlock: FOR_SYMBOL '(' initOrStepCondition ';' terminateCondition ';' initOrStepCondition ')' '{' blockBodyCode '}';
+forBlock: FOR_SYMBOL '(' initOrStepCondition SEMICOLON terminateCondition SEMICOLON initOrStepCondition ')' '{' blockBodyCode '}';
 
 initOrStepCondition:
 	| ((statementWithoutSemicolon ',')* statementWithoutSemicolon)?
@@ -259,8 +264,6 @@ structFieldStatementList: (variableDefinition ';')*;
 
 structDefinition:
 	CLASS_DEFINITION_SYMNOL IDENTIFIER '{' structFieldStatementList '}';
-
-//TODO: identifier.identifier
 
 structReference:
     structReference '.' IDENTIFIER

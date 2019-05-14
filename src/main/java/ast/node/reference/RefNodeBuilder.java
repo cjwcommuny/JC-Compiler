@@ -4,7 +4,7 @@ import ast.node.definition.DefinitionNode;
 import type.typetype.*;
 
 public class RefNodeBuilder {
-    public static RefNode generateProperReNode(String name, DefinitionNode defNode) {
+    public static RefNode generateProperRefNode(String name, DefinitionNode defNode) {
         Type type = defNode.getType();
         if (type instanceof ArrayType) {
             return new ArrayNameNode(name, defNode, (ArrayType) type);
@@ -16,5 +16,9 @@ public class RefNodeBuilder {
             //base type or object type
             return new VariableNameNode(name, defNode, type);
         }
+    }
+
+    public static FunctionNameNode generateFunctionNameNode(String name, DefinitionNode reference, FunctionType type) {
+        return new FunctionNameNode(name, reference, type);
     }
 }

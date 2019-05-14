@@ -16,11 +16,10 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-//        if (args.length != 1) {
-//            System.err.println("args: input file path!");
-//        }
-//        String inputFile = args[0];
-        String inputFile = "./sample/sample1.lang";
+        if (args.length != 1) {
+            System.err.println("args: input file path!");
+        }
+        String inputFile = args[0];
         Lexer lexer = new rulesLexer(CharStreams.fromStream(new FileInputStream(inputFile)));
 
         SyntaxErrorListener lexListener = new SyntaxErrorListener();

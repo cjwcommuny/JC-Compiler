@@ -1,4 +1,4 @@
 package classfile.attribute;
 
-public class ConstantValueAttribute {
+public class ConstantValueAttribute extends AttributeInfo {
 }
