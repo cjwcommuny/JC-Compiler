@@ -6,5 +6,5 @@ public interface ClassFileComponentProvider {
     List<MethodInfoProvided> getAllMethodsInfo();
     List<FieldInfoProvided> getAllFieldsInfo();
     String getFullRestrictClassName();
-
+    String getFullRestrictSuperClassName();
 }

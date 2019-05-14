@@ -1,5 +1,7 @@
 package classfile;
 
+import classfile.attribute.AttributeInfo;
+
 import java.util.List;
 
 public class FieldInfo {
