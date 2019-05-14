@@ -177,11 +177,11 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     public AstGeneratorResult visitInfixExpression(rulesParser.InfixExpressionContext ctx) {
         String operationStr = ctx.getChild(1).getText();
         Operation operation = new InfixOperation(operationStr);
-        ValueNode leftNode = (ValueNode) visit(ctx.getChild(0)).getNode();
-        ValueNode rightNode = (ValueNode) visit(ctx.getChild(2)).getNode();
+        Node leftNode = visit(ctx.getChild(0)).getNode();
+        Node rightNode = visit(ctx.getChild(2)).getNode();
         Type resultType = TypeCheckerAndInference.checkInfixComputation(operation,
-                leftNode.getType(),
-                rightNode.getType());
+                ((HasType) leftNode).getType(),
+                ((HasType) rightNode).getType());
         InfixExpressionNode thisNode = new InfixExpressionNode(operation, resultType);
         thisNode.addChild(leftNode);
         thisNode.addChild(rightNode);
