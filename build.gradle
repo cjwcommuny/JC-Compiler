@@ -15,6 +15,7 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     antlr "org.antlr:antlr4:4.7.2"
+    compile group: 'org.ow2.asm', name: 'asm', version: '7.1'
 }
 
 generateGrammarSource {

@@ -7,24 +7,26 @@ import classfile.constantpool.ConstantClassInfo;
 import classfile.constantpool.ConstantPoolInfo;
 import classfile.constantpool.ConstantUtf8Info;
 import classfile.provider.*;
-import com.sun.xml.internal.bind.v2.model.core.ClassInfo;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class ClassFileFactory {
-    private ClassFileComponentProvider provider;
+    private ClassComponentProvider provider;
     private List<ConstantPoolInfo> constantPool = new ArrayList<>();
-    private Map<ConstantPoolInfo, Integer> constantPoolIndexer = new HashMap<>();
     private List<Integer> interfaces = new ArrayList<>();
     private List<FieldInfo> fields = new ArrayList<>();
     private List<MethodInfo> methods = new ArrayList<>();
     private List<AttributeInfo> attributes = new ArrayList<>();
     private ClassFile classFile = new ClassFile();
+    private int thisClassIndex;
+
+    private Map<String, Integer> constantStringIndexer = new HashMap<>();
+    private Map<ConstantPoolInfo, Integer> constantPoolIndexer = new HashMap<>();
 
 
-    public ClassFileFactory(ClassFileComponentProvider provider) {
+    public ClassFileFactory(ClassComponentProvider provider) {
         this.provider = provider;
     }
 
@@ -41,13 +43,19 @@ public class ClassFileFactory {
         generateFieldInfo();
         generateMethodInfo();
         generateClassAttributes();
+        generateConstantPool();
         return classFile;
+    }
+
+    private void generateConstantPool() {
+        classFile.setConstantPool(constantPool);
     }
 
     private void generateClassMetaInfo() {
         String className = provider.getFullRestrictClassName();
         String superClassName = provider.getFullRestrictSuperClassName();
-        classFile.setThisClass(generateConstantClassInfo(className));
+        this.thisClassIndex = generateConstantClassInfo(className);
+        classFile.setThisClass(thisClassIndex);
         classFile.setSuperClass(generateConstantClassInfo(superClassName));
     }
 
@@ -65,10 +73,16 @@ public class ClassFileFactory {
     }
 
     private int addConstantUtf8Info(String str) {
-        ConstantUtf8Info utf8Info = generateConstantUtf8Info(str);
-        int index = getNextConstantPoolIndex();
-        constantPool.add(utf8Info);
-        constantPoolIndexer.put(utf8Info, index);
+        int index;
+        if (constantStringIndexer.containsKey(str)) {
+            index = constantStringIndexer.get(str);
+        } else {
+            ConstantUtf8Info utf8Info = generateConstantUtf8Info(str);
+            index = getNextConstantPoolIndex();
+            constantPool.add(utf8Info);
+            constantPoolIndexer.put(utf8Info, index);
+            constantStringIndexer.put(str, index);
+        }
         return index;
     }
 
@@ -152,7 +166,7 @@ public class ClassFileFactory {
 
     private void generateClassAttributes() {
         List<AttributeInfo> attributes = new LinkedList<>();
-
+        attributes.add(generateInnerClassesAttribute(provider.getAllInnerClasses()));
         classFile.setAttributes(attributes);
     }
 
@@ -167,6 +181,10 @@ public class ClassFileFactory {
     }
 
     private InnerClassesAttribute.InnerClassInfo generateInnerClassInfo(ClassInfoProvided innerClass) {
-
+        int nameIndex = addConstantUtf8Info(innerClass.getClassName());
+        int accessFlags = generateAccessFlag(innerClass.getAccessFlags());
+        int outerClassIndex = thisClassIndex;
+        int innerClassIndex = generateConstantClassInfo(innerClass.getClassName());
+        return new InnerClassesAttribute.InnerClassInfo(innerClassIndex, outerClassIndex, nameIndex, accessFlags);
     }
 }

@@ -2,12 +2,7 @@ package classfile;
 
 import classfile.attribute.AttributeInfo;
 import classfile.constantpool.ConstantPoolInfo;
-import classfile.constantpool.ConstantUtf8Info;
-import classfile.provider.ClassFileComponentProvider;
 
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ClassFile {
