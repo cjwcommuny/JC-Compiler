@@ -1,5 +1,7 @@
 package type.typetype;
 
+import org.objectweb.asm.Type;
+
 public class BoolType extends BaseType {
     private static BoolType boolType = new BoolType();
 
@@ -20,5 +22,10 @@ public class BoolType extends BaseType {
     @Override
     public Object generateDefaultValue() {
         return false;
+    }
+
+    @Override
+    public Type getAsmType() {
+        return Type.BOOLEAN_TYPE;
     }
 }

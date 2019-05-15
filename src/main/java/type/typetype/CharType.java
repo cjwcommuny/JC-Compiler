@@ -1,5 +1,7 @@
 package type.typetype;
 
+import org.objectweb.asm.Type;
+
 public class CharType extends BaseType {
     private static CharType charType = new CharType();
 
@@ -14,6 +16,11 @@ public class CharType extends BaseType {
 
     static CharType getInstance() {
         return charType;
+    }
+
+    @Override
+    public Type getAsmType() {
+        return Type.CHAR_TYPE;
     }
 
     @Override

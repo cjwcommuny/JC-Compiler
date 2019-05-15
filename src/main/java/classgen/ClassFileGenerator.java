@@ -19,7 +19,7 @@ public class ClassFileGenerator {
         generateMetaInfo(classWriter);
         generateFieldsInfo(classWriter);
         generateInnerClasses(classWriter);
-        //TODO
+        generateMethodsInfo(classWriter);
         return classWriter.toByteArray();
     }
 

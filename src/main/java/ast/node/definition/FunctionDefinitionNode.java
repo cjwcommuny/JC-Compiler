@@ -1,6 +1,7 @@
 package ast.node.definition;
 
 import ast.node.ParameterListNode;
+import ast.node.StatementListNode;
 import ast.node.definition.DefinitionNode;
 import ast.node.reference.FunctionNameNode;
 import ast.node.structrue.HasScope;
@@ -8,6 +9,8 @@ import symbol.Scope;
 import type.typetype.FunctionType;
 import type.typetype.ObjectType;
 import type.typetype.Type;
+
+import java.util.List;
 
 /**
  * child: functionName
@@ -37,5 +40,13 @@ public class FunctionDefinitionNode extends DefinitionNode {
 
     public ParameterListNode getParameterListNode() {
         return (ParameterListNode) getChild(1);
+    }
+
+    public List<Type> getLocalTypeList() {
+        //TODO
+    }
+
+    public StatementListNode getStatementListNode() {
+        return (StatementListNode) getChild(2);
     }
 }

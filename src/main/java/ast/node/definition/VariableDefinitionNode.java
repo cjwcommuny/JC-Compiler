@@ -29,4 +29,16 @@ public class VariableDefinitionNode extends DefinitionNode {
             return ((LiteralNode) getChild(1)).getValue();
         }
     }
+
+    public int getLocalIndex() {
+
+    }
+
+    public boolean beAssigned() {
+        return getChildrenCount() != 1;
+    }
+
+    public Node getRightSide() {
+        return getChild(1);
+    }
 }

@@ -2,18 +2,20 @@ package codegen;
 
 import ast.node.Node;
 import ast.node.ParameterListNode;
+import ast.node.StatementListNode;
 import ast.node.definition.FunctionDefinitionNode;
 import ast.node.definition.StructureDefinitionNode;
 import ast.node.definition.VariableDefinitionNode;
-import classgen.provider.ClassRaw;
-import classgen.provider.CodeInfo;
-import classgen.provider.FieldInfo;
-import classgen.provider.MethodInfo;
+import classgen.provider.*;
 import org.objectweb.asm.Opcodes;
+import type.typetype.DoubleType;
 import type.typetype.Type;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 public class AstInfo implements ClassRaw {
     private Node ast;
@@ -84,13 +86,41 @@ public class AstInfo implements ClassRaw {
 
     private CodeInfo generateCodeInfo(FunctionDefinitionNode functionNode) {
         DefaultCodeInfo codeInfo = new DefaultCodeInfo();
-        addParametersToLocalSymbolsMap(codeInfo, functionNode.getParameterListNode());
-        //TODO
+        Map<Integer, Integer> localIndexRemap = generateLocalIndexer(codeInfo, functionNode);
+        List<InstructionInfo> instructions = generateInstructions(localIndexRemap,
+                functionNode.getStatementListNode());
+        codeInfo.setInstructions(instructions);
         return codeInfo;
     }
 
-    private void addParametersToLocalSymbolsMap(CodeInfo codeInfo, ParameterListNode parameterListNode) {
+    private Map<Integer, Integer> generateLocalIndexer(DefaultCodeInfo codeInfo,
+                                                       FunctionDefinitionNode functionNode) {
+        List<Type> localTypeList = functionNode.getLocalTypeList();
+        //map variable index in FunctionDefinitionNode to JVM locals index
+        Map<Integer, Integer> indexMap = new HashMap<>();
+        int NextJvmLocalIndex = 0;
+        for (int i = 0; i < localTypeList.size(); ++i) {
+            Type type = localTypeList.get(i);
+            indexMap.put(i, NextJvmLocalIndex);
+            if (type instanceof DoubleType) {
+                NextJvmLocalIndex += 2;
+            } else {
+                NextJvmLocalIndex += 1;
+            }
+        }
+        codeInfo.setMaxLocals(NextJvmLocalIndex);
+        return indexMap;
+    }
 
+    private List<InstructionInfo> generateInstructions(Map<Integer, Integer> localIndexRemap,
+                                                       StatementListNode statementListNode) {
+        List<InstructionInfo> instructions = new LinkedList<>();
+        for (Node statement: statementListNode.getChildren()) {
+            List<InstructionInfo> partInstructions =
+                    new MethodInstructionGenerator(statement, localIndexRemap).generate();
+            instructions.addAll(partInstructions);
+        }
+        return instructions;
     }
 
     @Override

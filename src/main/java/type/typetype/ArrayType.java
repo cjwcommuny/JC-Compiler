@@ -43,4 +43,5 @@ public class ArrayType extends Type {
     public Type extractComponentType() {
         return componentType;
     }
+
 }

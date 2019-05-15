@@ -1,5 +1,7 @@
 package type.typetype;
 
+import org.objectweb.asm.Type;
+
 public class DoubleType extends BaseType {
     private static DoubleType doubleType = new DoubleType();
 
@@ -14,6 +16,11 @@ public class DoubleType extends BaseType {
 
     static DoubleType getInstance() {
         return doubleType;
+    }
+
+    @Override
+    public Type getAsmType() {
+        return Type.DOUBLE_TYPE;
     }
 
     @Override

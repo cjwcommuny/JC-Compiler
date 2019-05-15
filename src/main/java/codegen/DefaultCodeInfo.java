@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class DefaultCodeInfo implements CodeInfo {
     private List<InstructionInfo> instructions = new LinkedList<>();
-    private Map<String, Integer> localSymbols = new HashMap<>();
     private int maxStack;
+    private int maxLocals;
 
     @Override
     public int getMaxStack() {
@@ -21,7 +21,7 @@ public class DefaultCodeInfo implements CodeInfo {
 
     @Override
     public int getMaxLocals() {
-        return localSymbols.size();
+        return maxLocals;
     }
 
     @Override
@@ -33,11 +33,16 @@ public class DefaultCodeInfo implements CodeInfo {
         instructions.add(instruction);
     }
 
-    public void addLocal(String localName) {
-        localSymbols.put(localName, getNextLocalIndex());
+
+    public void setMaxLocals(int maxLocals) {
+        this.maxLocals = maxLocals;
     }
 
-    private int getNextLocalIndex() {
-        return localSymbols.size();
+    public void setInstructions(List<InstructionInfo> instructions) {
+        this.instructions = instructions;
+    }
+
+    public void setMaxStack(int maxStack) {
+        this.maxStack = maxStack;
     }
 }

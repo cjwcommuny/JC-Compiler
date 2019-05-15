@@ -1,5 +1,7 @@
 package type.typetype;
 
+import org.objectweb.asm.Type;
+
 public class IntType extends BaseType {
     private static IntType intType = new IntType();
 
@@ -14,6 +16,11 @@ public class IntType extends BaseType {
 
     static IntType getInstance() {
         return intType;
+    }
+
+    @Override
+    public Type getAsmType() {
+        return Type.INT_TYPE;
     }
 
     @Override

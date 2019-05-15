@@ -2,9 +2,14 @@ package ast.node;
 
 import ast.node.Node;
 import ast.node.definition.DefinitionNode;
+import ast.node.reference.FunctionNameNode;
 import type.typetype.FunctionType;
 import type.typetype.Type;
 
+/**
+ * child: functionNameNode
+ * child: argumentListNode
+ * */
 public class FunctionCallNode extends Node implements HasType {
     private Type type;
 
@@ -20,5 +25,9 @@ public class FunctionCallNode extends Node implements HasType {
     @Override
     protected String visualInfo() {
         return "FunctionCall: " + type.visualInfo();
+    }
+
+    public String getFunctionName() {
+        return ((FunctionNameNode) getChild(0)).getName();
     }
 }

@@ -1,5 +1,7 @@
 package type.typetype;
 
+import org.objectweb.asm.Type;
+
 public class VoidType extends BaseType {
     private static VoidType voidType = new VoidType();
 
@@ -14,6 +16,11 @@ public class VoidType extends BaseType {
 
     static VoidType getInstance() {
         return voidType;
+    }
+
+    @Override
+    public Type getAsmType() {
+        return Type.VOID_TYPE;
     }
 
     @Override
