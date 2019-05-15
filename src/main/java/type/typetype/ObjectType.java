@@ -11,7 +11,7 @@ public class ObjectType extends Type {
     private String fullRestrictClassName;
 
     @Override
-    public String generateFieldDescriptor() {
+    public String generateDescriptor() {
         return "L" + fullRestrictClassName + ";";
     }
 
@@ -40,7 +40,14 @@ public class ObjectType extends Type {
     }
 
     @Override
+    public Object generateDefaultValue() {
+        return null;
+    }
+
+    @Override
     public String getSimpleName() {
         return simpleClassName;
     }
+
+
 }

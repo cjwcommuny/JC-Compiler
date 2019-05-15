@@ -8,14 +8,14 @@ public class FunctionType extends Type {
     private Type returnType;
 
     @Override
-    public String generateFieldDescriptor() {
-        return "(" + generateParameterDescriptor() + ")" + returnType.generateFieldDescriptor();
+    public String generateDescriptor() {
+        return "(" + generateParameterDescriptor() + ")" + returnType.generateDescriptor();
     }
 
     private String generateParameterDescriptor() {
         StringBuilder sb = new StringBuilder();
         for (Type type: parameterTypes) {
-            sb.append(type.generateFieldDescriptor());
+            sb.append(type.generateDescriptor());
         }
         return sb.toString();
     }
@@ -65,5 +65,10 @@ public class FunctionType extends Type {
             sb.delete(len - 2, len);
         }
         return sb.toString();
+    }
+
+    @Override
+    public Object generateDefaultValue() {
+        return null;
     }
 }

@@ -8,11 +8,16 @@ public class VoidType extends BaseType {
     }
 
     @Override
-    public String generateFieldDescriptor() {
+    public String generateDescriptor() {
         return "V";
     }
 
     static VoidType getInstance() {
         return voidType;
+    }
+
+    @Override
+    public Object generateDefaultValue() {
+        return null;
     }
 }

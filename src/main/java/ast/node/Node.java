@@ -41,4 +41,8 @@ public abstract class Node {
     public final Node getChild(int i) {
         return children.get(i);
     }
+
+    public final int getChildrenCount() {
+        return children.size();
+    }
 }

@@ -8,11 +8,16 @@ public class IntType extends BaseType {
     }
 
     @Override
-    public String generateFieldDescriptor() {
+    public String generateDescriptor() {
         return "I";
     }
 
     static IntType getInstance() {
         return intType;
+    }
+
+    @Override
+    public Object generateDefaultValue() {
+        return 0;
     }
 }

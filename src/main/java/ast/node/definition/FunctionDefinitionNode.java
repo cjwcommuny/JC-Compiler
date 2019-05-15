@@ -1,5 +1,6 @@
 package ast.node.definition;
 
+import ast.node.ParameterListNode;
 import ast.node.definition.DefinitionNode;
 import ast.node.reference.FunctionNameNode;
 import ast.node.structrue.HasScope;
@@ -32,5 +33,9 @@ public class FunctionDefinitionNode extends DefinitionNode {
 
     public String getFunctionName() {
         return ((FunctionNameNode) getChild(0)).getName();
+    }
+
+    public ParameterListNode getParameterListNode() {
+        return (ParameterListNode) getChild(1);
     }
 }

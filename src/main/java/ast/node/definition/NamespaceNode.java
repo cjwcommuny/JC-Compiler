@@ -12,7 +12,7 @@ public class NamespaceNode extends DefinitionNode implements HasScope {
     private Scope thisScope;
 
     public String getName() {
-        return ((NamespaceType) type).generateFieldDescriptor();
+        return ((NamespaceType) type).generateDescriptor();
     }
 
     public NamespaceNode(String name, Scope thisScope, Scope parentScope) {

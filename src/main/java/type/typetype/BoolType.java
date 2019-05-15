@@ -9,11 +9,16 @@ public class BoolType extends BaseType {
     }
 
     @Override
-    public String generateFieldDescriptor() {
+    public String generateDescriptor() {
         return "Z";
     }
 
     static BoolType getInstance() {
         return boolType;
+    }
+
+    @Override
+    public Object generateDefaultValue() {
+        return false;
     }
 }

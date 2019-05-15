@@ -11,8 +11,8 @@ public class NamespaceType extends Type {
     }
 
     @Override
-    public String generateFieldDescriptor() {
-        return objectType.generateFieldDescriptor();
+    public String generateDescriptor() {
+        return objectType.generateDescriptor();
     }
 
     @Override
@@ -31,5 +31,10 @@ public class NamespaceType extends Type {
     @Override
     public String visualInfo() {
         return objectType.visualInfo();
+    }
+
+    @Override
+    public Object generateDefaultValue() {
+        return null;
     }
 }

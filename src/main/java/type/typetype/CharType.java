@@ -8,11 +8,16 @@ public class CharType extends BaseType {
     }
 
     @Override
-    public String generateFieldDescriptor() {
+    public String generateDescriptor() {
         return "C";
     }
 
     static CharType getInstance() {
         return charType;
+    }
+
+    @Override
+    public Object generateDefaultValue() {
+        return '\u0000';
     }
 }

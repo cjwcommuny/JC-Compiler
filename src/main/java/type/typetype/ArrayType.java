@@ -7,13 +7,18 @@ public class ArrayType extends Type {
     private int dimension;
 
     @Override
-    public String generateFieldDescriptor() {
+    public String generateDescriptor() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < dimension; ++i) {
             sb.append("[");
         }
-        sb.append(componentType.generateFieldDescriptor());
+        sb.append(componentType.generateDescriptor());
         return sb.toString();
+    }
+
+    @Override
+    public Object generateDefaultValue() {
+        return null;
     }
 
     ArrayType(Type componentType, int dimension) {

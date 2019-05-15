@@ -8,11 +8,16 @@ public class DoubleType extends BaseType {
     }
 
     @Override
-    public String generateFieldDescriptor() {
+    public String generateDescriptor() {
         return "D";
     }
 
     static DoubleType getInstance() {
         return doubleType;
+    }
+
+    @Override
+    public Object generateDefaultValue() {
+        return 0;
     }
 }
