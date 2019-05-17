@@ -1,9 +1,9 @@
 package classgen;
 
 import classgen.provider.*;
-import jdk.internal.org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
 
 import java.util.List;
 
@@ -79,7 +79,45 @@ public class ClassFileGenerator {
         Object[] arguments = instruction.getArguments();
         int opcode = instruction.getOpcode();
         switch (opcode) {
-            //TODO
+            case Opcodes.GETSTATIC:
+                case Opcodes.PUTSTATIC:
+                    case Opcodes.GETFIELD:
+                        case Opcodes.PUTFIELD:
+                methodVisitor.visitFieldInsn(opcode,
+                        (String) arguments[0],
+                        (String) arguments[1],
+                        (String) arguments[2]);
+                break;
+            case Opcodes.BIPUSH: case Opcodes.SIPUSH: case Opcodes.NEWARRAY:
+                methodVisitor.visitIntInsn(opcode, (int) arguments[0]);
+                break;
+            case Opcodes.LDC:
+                methodVisitor.visitLdcInsn(arguments[0]);
+                break;
+            case Opcodes.INVOKEVIRTUAL:
+                case Opcodes.INVOKESPECIAL:
+                    case Opcodes.INVOKESTATIC:
+                        case Opcodes.INVOKEINTERFACE:
+                methodVisitor.visitMethodInsn(opcode,
+                        (String) arguments[0],
+                        (String) arguments[1],
+                        (String) arguments[2],
+                        (boolean) arguments[3]);
+                break;
+            case Opcodes.ILOAD: case Opcodes.LLOAD: case Opcodes.FLOAD: case Opcodes.DLOAD: case Opcodes.ALOAD: case Opcodes.ISTORE: case Opcodes.LSTORE: case Opcodes.FSTORE: case Opcodes.DSTORE: case Opcodes.ASTORE: case Opcodes.RET:
+                methodVisitor.visitVarInsn(opcode, (int) arguments[0]);
+                break;
+//            case :
+//                methodVisitor.visitJumpInsn();
+//                break;
+            default:
+                if (instruction.isLabel()) {
+                    methodVisitor.visitLabel(instruction.getLabel());
+                } else {
+                    //zero parameter
+                    methodVisitor.visitInsn(opcode);
+                    break;
+                }
         }
     }
 

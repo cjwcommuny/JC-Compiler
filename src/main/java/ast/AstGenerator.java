@@ -33,6 +33,27 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     private CommonTokenStream commonTokenStream;
     private SymbolTableGenerator symbolTableGenerator = new SymbolTableGenerator(scopeHandler, this);
 
+    private String simpleClassName; // only one namespace one file
+    private List<FunctionDefinitionNode> functionNodes = new LinkedList<>();
+    private List<StructureDefinitionNode> structNodes= new LinkedList<>();
+    private List<VariableDefinitionNode> fieldNodes = new LinkedList<>();
+
+    public String getSimpleClassName() {
+        return simpleClassName;
+    }
+
+    public List<FunctionDefinitionNode> getFunctionNodes() {
+        return functionNodes;
+    }
+
+    public List<StructureDefinitionNode> getStructNodes() {
+        return structNodes;
+    }
+
+    public List<VariableDefinitionNode> getFieldNodes() {
+        return fieldNodes;
+    }
+
     public AstGenerator(CommonTokenStream commonTokenStream) {
         this.commonTokenStream = commonTokenStream;
     }
@@ -56,6 +77,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     @Override
     public AstGeneratorResult visitNamespaceDefinition(rulesParser.NamespaceDefinitionContext ctx) {
         String namespaceName = ctx.IDENTIFIER().getText();
+        this.simpleClassName = namespaceName;
         scopeHandler.enterScope(
                 new VisitLater(ctx, symbolTableGenerator),
                 namespaceName,
@@ -66,7 +88,11 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         thisNode.setThisScope(scopeHandler.getCurrentScope());
         for (rulesParser.CodeContentContext context: ctx.codeContent()) {
             AstGeneratorResult visitResult = visit(context);
-            thisNode.addChildren(visitResult.getNodes());
+            Node node = visitResult.getNode();
+            if (node instanceof VariableDefinitionNode) {
+                this.fieldNodes.add((VariableDefinitionNode) node);
+            }
+            thisNode.addChild(node);
         }
         scopeHandler.exitScope();
         return new AstGeneratorResult(thisNode);
@@ -220,8 +246,10 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         FunctionNameNode functionNameNode = new FunctionNameNode(functionName, null, functionType);
         thisNode.addChild(functionNameNode);
         thisNode.addChild(parametersNode);
+        thisNode.addParameterToLocalTypeList();
         StatementListNode statements = (StatementListNode) visit(ctx.getChild(4)).getNode();
         thisNode.addChild(statements);
+        this.functionNodes.add(thisNode);
         scopeHandler.exitScope();
         return new AstGeneratorResult(thisNode);
     }
@@ -246,7 +274,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 //            VariableDefinitionNode definitionNode =
 //                    DefinitionNodeBuilder.generateVariableDefinitionNodeNotBuf(definitionNode.getType(),
 //                        scopeHandler.getRestrictParentScope());
-            scopeHandler.putSymbol(definitionNode.getName(), definitionNode);
+            scopeHandler.putSymbol(definitionNode.getVariableName(), definitionNode);
             thisNode.addChild(definitionNode);
         }
         return new AstGeneratorResult(thisNode);
@@ -287,16 +315,32 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     @Override
     public AstGeneratorResult visitStatementList(rulesParser.StatementListContext ctx) {
         StatementListNode statementListNode = new StatementListNode();
-        for (int i = 0; i < ctx.getChildCount(); ++i) {
-            ParseTree parseTree = ctx.getChild(i);
-            Node node = visit(parseTree).getNode();
+        for (rulesParser.BlockOrStatementContext context: ctx.blockOrStatement()) {
+            AstGeneratorResult result = visit(context);
+            Node node = result.getNode();
             statementListNode.addChild(node);
         }
         return new AstGeneratorResult(statementListNode);
     }
 
     @Override
-    public AstGeneratorResult visitStatement(rulesParser.StatementContext ctx) {
+    public AstGeneratorResult visitBlockOrStatement(rulesParser.BlockOrStatementContext ctx) {
+        if (ctx.block() != null) {
+            return visit(ctx.block());
+        } else {
+            return visit(ctx.statementNode());
+        }
+    }
+
+    @Override
+    public AstGeneratorResult visitReturnInStatement(rulesParser.ReturnInStatementContext ctx) {
+        return visit(ctx.returnStatement());
+    }
+
+
+
+    @Override
+    public AstGeneratorResult visitStatementNode(rulesParser.StatementNodeContext ctx) {
         return visit(ctx.statementWithoutSemicolon());
     }
 
@@ -331,6 +375,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 visit(ctx.structFieldStatementList()).getNode();
         scopeHandler.exitScope();
         thisNode.addChild(fieldDefinitionNode);
+        this.structNodes.add(thisNode);
         return new AstGeneratorResult(thisNode);
     }
 
@@ -341,7 +386,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             AstGeneratorResult visitResult = visit(context);
             VariableDefinitionNode definitionNode = (VariableDefinitionNode) visitResult.getNode();
             fieldsNode.addChild(definitionNode);
-            scopeHandler.putSymbol(definitionNode.getName(), definitionNode);
+            scopeHandler.putSymbol(definitionNode.getVariableName(), definitionNode);
         }
         return new AstGeneratorResult(fieldsNode);
     }
@@ -423,7 +468,8 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 
     @Override
     public AstGeneratorResult visitBlock(rulesParser.BlockContext ctx) {
-        return visit(ctx.getChild(0));
+        AstGeneratorResult result = visit(ctx.getChild(0));
+        return result;
     }
 
     @Override

@@ -10,6 +10,7 @@ import type.typetype.FunctionType;
 import type.typetype.ObjectType;
 import type.typetype.Type;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +19,7 @@ import java.util.List;
  * child: statementListNode: function body
  * */
 public class FunctionDefinitionNode extends DefinitionNode {
+    private List<Type> typeList = new ArrayList<>();
 
     @Override
     protected String visualInfo() {
@@ -43,10 +45,25 @@ public class FunctionDefinitionNode extends DefinitionNode {
     }
 
     public List<Type> getLocalTypeList() {
-        //TODO
+        return typeList;
     }
 
     public StatementListNode getStatementListNode() {
         return (StatementListNode) getChild(2);
+    }
+
+    private int getNextLocalVariableIndex() {
+        return typeList.size();
+    }
+
+    public int addLocalVariableTypeAndReturnIndex(Type type) {
+        int nextIndex = getNextLocalVariableIndex();
+        typeList.add(type);
+        return nextIndex;
+    }
+
+    public void addParameterToLocalTypeList() {
+        ParameterListNode parameterListNode = (ParameterListNode) getChild(1);
+        typeList.addAll(parameterListNode.getTypes());
     }
 }

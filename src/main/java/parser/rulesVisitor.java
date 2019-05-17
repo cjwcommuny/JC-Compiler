@@ -191,11 +191,17 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatementList(rulesParser.StatementListContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link rulesParser#statement}.
+	 * Visit a parse tree produced by {@link rulesParser#blockOrStatement}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStatement(rulesParser.StatementContext ctx);
+	T visitBlockOrStatement(rulesParser.BlockOrStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#statementNode}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStatementNode(rulesParser.StatementNodeContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#blockBodyCode}.
 	 * @param ctx the parse tree

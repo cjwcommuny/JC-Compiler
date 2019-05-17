@@ -12,4 +12,9 @@ public class ArrayIndexNode extends RefNode {
     public ArrayIndexNode(DefinitionNode reference, IntType type) {
         super(type, reference);
     }
+
+    @Override
+    public String getName() {
+        return null;
+    }
 }

@@ -342,13 +342,25 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStatement(rulesParser.StatementContext ctx) { }
+	@Override public void enterBlockOrStatement(rulesParser.BlockOrStatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStatement(rulesParser.StatementContext ctx) { }
+	@Override public void exitBlockOrStatement(rulesParser.BlockOrStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStatementNode(rulesParser.StatementNodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStatementNode(rulesParser.StatementNodeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

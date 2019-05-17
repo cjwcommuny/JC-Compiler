@@ -11,4 +11,9 @@ public class NamespaceNameNode extends RefNode {
         super(type, reference);
         this.name = name;
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 }

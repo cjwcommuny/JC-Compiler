@@ -10,4 +10,9 @@ public class StructNameNode extends RefNode {
         super(type, reference);
         this.name = name;
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 }

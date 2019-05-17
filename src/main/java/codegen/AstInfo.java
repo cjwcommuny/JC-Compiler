@@ -24,8 +24,12 @@ public class AstInfo implements ClassRaw {
     private List<StructureDefinitionNode> structNodes; //TODO
     private List<VariableDefinitionNode> fieldNodes;
 
-    public AstInfo(Node ast) {
+    public AstInfo(Node ast, String simpleClassName, List<FunctionDefinitionNode> functionNodes, List<StructureDefinitionNode> structNodes, List<VariableDefinitionNode> fieldNodes) {
         this.ast = ast;
+        this.simpleClassName = simpleClassName;
+        this.functionNodes = functionNodes;
+        this.structNodes = structNodes;
+        this.fieldNodes = fieldNodes;
     }
 
     @Override
@@ -86,6 +90,7 @@ public class AstInfo implements ClassRaw {
 
     private CodeInfo generateCodeInfo(FunctionDefinitionNode functionNode) {
         DefaultCodeInfo codeInfo = new DefaultCodeInfo();
+        codeInfo.setMaxStack(20); // TODO: change max stacks
         Map<Integer, Integer> localIndexRemap = generateLocalIndexer(codeInfo, functionNode);
         List<InstructionInfo> instructions = generateInstructions(localIndexRemap,
                 functionNode.getStatementListNode());
@@ -137,6 +142,6 @@ public class AstInfo implements ClassRaw {
 
     @Override
     public List<ClassRaw> getInnerClasses() {
-        return null;
+        return new LinkedList<>();
     }
 }

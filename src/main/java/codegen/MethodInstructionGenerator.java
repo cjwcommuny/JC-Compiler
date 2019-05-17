@@ -55,9 +55,20 @@ public class MethodInstructionGenerator {
             return null;
         } else if (statementNode instanceof BreakNode) {
             return null;
+        } else if (statementNode instanceof VariableNameNode) {
+            return handleVariableName((VariableNameNode) statementNode);
         } else {
             return null;
         }
+    }
+
+    private List<InstructionInfo> handleVariableName(VariableNameNode node) {
+        List<InstructionInfo> instructions = new LinkedList<>();
+        int localIndex = localIndexRemap.get(((VariableDefinitionNode) node.getReference()).getLocalIndex());
+        org.objectweb.asm.Type asmType = node.getType().getAsmType();
+        int opcode = asmType.getOpcode(Opcodes.ILOAD);
+        instructions.add(new DefaultInstruction(opcode, new Object[]{localIndex}));
+        return instructions;
     }
 
     private List<InstructionInfo> handleAssignment(AssignmentNode node) {

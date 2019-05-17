@@ -12,9 +12,14 @@ import type.typetype.Type;
  * (child: rightSide)? if child_count == 1, then use default value, not allowed to use function
  * */
 public class VariableDefinitionNode extends DefinitionNode {
+    private int localIndex;
 
     VariableDefinitionNode(Type type, Scope parentScope) {
         super(type, parentScope);
+        Node parentNode = parentScope.getCorrespondingNode();
+        if (parentNode instanceof FunctionDefinitionNode) {
+            localIndex = ((FunctionDefinitionNode) parentNode).addLocalVariableTypeAndReturnIndex(type);
+        }
     }
 
     public String getVariableName() {
@@ -31,7 +36,7 @@ public class VariableDefinitionNode extends DefinitionNode {
     }
 
     public int getLocalIndex() {
-
+        return localIndex;
     }
 
     public boolean beAssigned() {

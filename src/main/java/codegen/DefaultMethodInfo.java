@@ -18,21 +18,21 @@ public class DefaultMethodInfo implements MethodInfo {
 
     @Override
     public String getMethodName() {
-        return null;
+        return name;
     }
 
     @Override
     public int getAccessFlag() {
-        return 0;
+        return accessFlags;
     }
 
     @Override
     public String getDescriptor() {
-        return null;
+        return descriptor;
     }
 
     @Override
     public CodeInfo getCodeInfo() {
-        return null;
+        return codeInfo;
     }
 }

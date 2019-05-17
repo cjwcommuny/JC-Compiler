@@ -37,4 +37,9 @@ public class NamespaceType extends Type {
     public Object generateDefaultValue() {
         return null;
     }
+
+    @Override
+    public org.objectweb.asm.Type getAsmType() {
+        return org.objectweb.asm.Type.getObjectType(generateDescriptor());
+    }
 }

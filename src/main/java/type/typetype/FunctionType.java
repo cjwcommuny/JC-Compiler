@@ -20,7 +20,10 @@ public class FunctionType extends Type {
         return sb.toString();
     }
 
-
+    @Override
+    public org.objectweb.asm.Type getAsmType() {
+        return org.objectweb.asm.Type.getObjectType(generateDescriptor());
+    }
 
     @Override
     public boolean equals(Object o) {

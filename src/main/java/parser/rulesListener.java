@@ -312,15 +312,25 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitStatementList(rulesParser.StatementListContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link rulesParser#statement}.
+	 * Enter a parse tree produced by {@link rulesParser#blockOrStatement}.
 	 * @param ctx the parse tree
 	 */
-	void enterStatement(rulesParser.StatementContext ctx);
+	void enterBlockOrStatement(rulesParser.BlockOrStatementContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link rulesParser#statement}.
+	 * Exit a parse tree produced by {@link rulesParser#blockOrStatement}.
 	 * @param ctx the parse tree
 	 */
-	void exitStatement(rulesParser.StatementContext ctx);
+	void exitBlockOrStatement(rulesParser.BlockOrStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#statementNode}.
+	 * @param ctx the parse tree
+	 */
+	void enterStatementNode(rulesParser.StatementNodeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#statementNode}.
+	 * @param ctx the parse tree
+	 */
+	void exitStatementNode(rulesParser.StatementNodeContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#blockBodyCode}.
 	 * @param ctx the parse tree

@@ -187,7 +187,12 @@ continueStatement:
     CONTINUE_SYMBOL
     ;
 
-statementList: (block | statementNode)*;
+statementList: blockOrStatement*;
+
+blockOrStatement:
+    block
+    | statementNode
+    ;
 
 statementNode: statementWithoutSemicolon SEMICOLON;
 

@@ -1,6 +1,8 @@
 import ast.AstGenerator;
 import ast.AstGeneratorResult;
 import ast.node.Node;
+import classgen.ClassFileGenerator;
+import codegen.AstInfo;
 import error.SyntaxError;
 import error.SyntaxErrorListener;
 import error.exception.ParseException;
@@ -11,6 +13,7 @@ import parser.*;
 
 import javax.swing.*;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,7 +50,18 @@ public class Main {
             AstGeneratorResult visitResult = astGenerator.visit(tree);
             Node ast = visitResult.getNodes().get(0);
             ast.printTree();
-            showAstInGUI(parser, tree);
+//            showAstInGUI(parser, tree);
+            AstInfo astInfo = new AstInfo(ast,
+                    astGenerator.getSimpleClassName(),
+                    astGenerator.getFunctionNodes(),
+                    astGenerator.getStructNodes(),
+                    astGenerator.getFieldNodes());
+            ClassFileGenerator classFileGenerator = new ClassFileGenerator(astInfo);
+            byte[] bytes = classFileGenerator.generateByteArray();
+            String pathName = "./" + astGenerator.getSimpleClassName() + ".class";
+            try (FileOutputStream stream = new FileOutputStream(pathName)) {
+                stream.write(bytes);
+            }
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
