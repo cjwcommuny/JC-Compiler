@@ -7,14 +7,14 @@ import ast.node.definition.FunctionDefinitionNode;
 import ast.node.definition.StructureDefinitionNode;
 import ast.node.definition.VariableDefinitionNode;
 import classgen.provider.*;
+import com.sun.org.apache.bcel.internal.generic.IRETURN;
 import org.objectweb.asm.Opcodes;
+import type.typetype.BaseType;
 import type.typetype.DoubleType;
 import type.typetype.Type;
+import type.typetype.VoidType;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 public class AstInfo implements ClassRaw {
@@ -89,6 +89,18 @@ public class AstInfo implements ClassRaw {
         Map<Integer, Integer> localIndexRemap = generateLocalIndexer(codeInfo, functionNode);
         List<InstructionInfo> instructions = generateInstructions(localIndexRemap,
                 functionNode.getStatementListNode());
+        //add a return statement at the end of the code
+        Type returnType = functionNode.getReturnType();
+        if (returnType instanceof VoidType) {
+            instructions.add(new DefaultInstruction(Opcodes.RETURN, null));
+        } else if (returnType instanceof BaseType) {
+            org.objectweb.asm.Type type = ((BaseType) returnType).getAsmType();
+            instructions.add(new DefaultInstruction(type.getOpcode(Opcodes.IRETURN), null));
+        } else {
+            //object type
+            instructions.add(new DefaultInstruction(Opcodes.ACONST_NULL, null));
+            instructions.add(new DefaultInstruction(Opcodes.ARETURN, null));
+        }
         codeInfo.setInstructions(instructions);
         return codeInfo;
     }
@@ -117,7 +129,7 @@ public class AstInfo implements ClassRaw {
         List<InstructionInfo> instructions = new LinkedList<>();
         for (Node statement: statementListNode.getChildren()) {
             List<InstructionInfo> partInstructions =
-                    new MethodInstructionGenerator(statement, localIndexRemap).generate();
+                    new MethodInstructionGenerator(statement, localIndexRemap, simpleClassName).generate();
             instructions.addAll(partInstructions);
         }
         return instructions;

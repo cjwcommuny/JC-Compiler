@@ -1,19 +1,22 @@
 package codegen;
 
-import ast.node.FunctionCallNode;
-import ast.node.Node;
-import ast.node.ReturnNode;
+import ast.node.*;
 import ast.node.definition.VariableDefinitionNode;
+import ast.node.reference.RefNode;
+import ast.node.reference.StructRefNode;
+import ast.node.reference.VariableNameNode;
 import ast.node.structrue.ForBlockNode;
 import ast.node.structrue.LogicBlockNode;
 import ast.node.structrue.WhileBlockNode;
 import classgen.provider.InstructionInfo;
 import jdk.internal.org.objectweb.asm.Opcodes;
+import symbol.InitSymbolImporter;
 import type.typetype.ArrayType;
 import type.typetype.BaseType;
 import type.typetype.ObjectType;
 import type.typetype.Type;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -44,16 +47,58 @@ public class MethodInstructionGenerator {
             return null;
         } else if (statementNode instanceof WhileBlockNode) {
             return null;
+        } else if (statementNode instanceof AssignmentNode) {
+            return handleAssignment((AssignmentNode) statementNode);
+        } else if (statementNode instanceof StructRefNode) {
+            return null;
+        } else if (statementNode instanceof ContinueNode) {
+            return null;
+        } else if (statementNode instanceof BreakNode) {
+            return null;
         } else {
             return null;
         }
     }
 
+    private List<InstructionInfo> handleAssignment(AssignmentNode node) {
+        List<InstructionInfo> result = new LinkedList<>();
+        Node leftNode = node.getLeftNode();
+        Node rightNode = node.getRightNode();
+
+        //right side
+        List<InstructionInfo> rightSideInstruction = new MethodInstructionGenerator(rightNode,
+                localIndexRemap, namespaceName).generate();
+
+        //left side
+        if (leftNode instanceof VariableNameNode) {
+            VariableNameNode variableNameNode = (VariableNameNode) leftNode;
+            int localIndex = ((VariableDefinitionNode) variableNameNode.getReference()).getLocalIndex();
+            org.objectweb.asm.Type asmType = variableNameNode.getType().getAsmType();
+            result.addAll(rightSideInstruction);
+            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ISTORE), new Object[]{localIndex}));
+        } else if (leftNode instanceof StructRefNode) {
+            StructRefNode structRefNode = (StructRefNode) leftNode;
+            Node objectNode = structRefNode.getLeftSideNode();
+            RefNode fieldNode = structRefNode.getRightSideNode();
+            String classInternalName = ((HasType) objectNode).getType().generateDescriptor();
+            String fieldName = fieldNode.getName();
+            String fieldDescriptor = fieldNode.getType().generateDescriptor();
+            result.addAll(new MethodInstructionGenerator(objectNode,
+                    localIndexRemap, namespaceName).generate());//push objectRef to ValueStack
+            result.addAll(rightSideInstruction);
+            result.add(new DefaultInstruction(Opcodes.PUTFIELD, new String[]{classInternalName, fieldName, fieldDescriptor}));
+        } else {
+            //TODO: array index node
+        }
+        return result;
+    }
+
+//    private List<InstructionInfo> handleStructRefAsLeftSide()
+
     private List<InstructionInfo> handleVariableDefinitionNode(VariableDefinitionNode node) {
         List<InstructionInfo> instructions = new LinkedList<>();
         int localIndex = localIndexRemap.get(node.getLocalIndex());
-        List<Object> storeArguments = new LinkedList<>();
-        storeArguments.add(localIndex);
+        Object[] storeArguments = new Object[]{localIndex};
         Type type = node.getType();
         int loadOpcode;
         int constOpcode;
@@ -71,7 +116,7 @@ public class MethodInstructionGenerator {
         }
         if (node.beAssigned()) {
             List<InstructionInfo> rightSideInstructions = new MethodInstructionGenerator(node.getRightSide(),
-                    localIndexRemap).generate();
+                    localIndexRemap, namespaceName).generate();
             instructions.addAll(rightSideInstructions);
         } else {
             instructions.add(new DefaultInstruction(constOpcode, storeArguments));
@@ -84,8 +129,7 @@ public class MethodInstructionGenerator {
         List<InstructionInfo> instructions = new LinkedList<>();
         if (node.isReturnSomething()) {
             Type type = node.getType();
-            List<InstructionInfo> returnValueInstructions = new MethodInstructionGenerator(node.getReturnValueNode(),
-                    localIndexRemap).generate();
+            List<InstructionInfo> returnValueInstructions = new MethodInstructionGenerator(node.getReturnValueNode(), localIndexRemap, namespaceName).generate();
             instructions.addAll(returnValueInstructions);
             int returnOpcode;
             if (type instanceof ObjectType || type instanceof ArrayType) {
@@ -102,9 +146,43 @@ public class MethodInstructionGenerator {
     }
 
     private List<InstructionInfo> handleFunctionCall(FunctionCallNode node) {
+        //TODO: handle
         String methodName = node.getFunctionName();
-        String className = namespaceName;
-        String descriptor = node.getType().generateDescriptor();
+        List<InstructionInfo> result = new LinkedList<>();
+        ArgumentListNode arguments = node.getArguments();
+        if (InitSymbolImporter.printFunctionName.equals(methodName)) {
+            result.addAll(handlePrintFunction(arguments));
+        } else {
+            String className = namespaceName;
+            String descriptor = node.getType().generateDescriptor();
+            for (Node argument: arguments.getChildren()) {
+                List<InstructionInfo> argumentInstructions = new MethodInstructionGenerator(argument,
+                        localIndexRemap,
+                        namespaceName).generate();
+                result.addAll(argumentInstructions);
+            }
+            InstructionInfo instruction = new DefaultInstruction(Opcodes.INVOKESTATIC, new Object[]{className,
+                    methodName,
+                    descriptor});
+            result.add(instruction);
+        }
+        return result;
+    }
 
+    private List<InstructionInfo> handlePrintFunction(ArgumentListNode arguments) {
+        List<InstructionInfo> result = new LinkedList<>();
+        Object[] printStreamInstructionArguments = new Object[]{"java/lang/System",
+                "out",
+                "Ljava/io/PrintStream;"
+        };
+        List<InstructionInfo> argumentInstruction = new MethodInstructionGenerator(arguments.getChild(0),
+                localIndexRemap, namespaceName).generate();
+        result.addAll(argumentInstruction);
+        result.add(new DefaultInstruction(Opcodes.GETSTATIC, printStreamInstructionArguments));
+        Object[] printInstructionArguments = new Object[]{"java/io/PrintStream",
+                "print",
+                "(Ljava/lang/String;)V"};
+        result.add(new DefaultInstruction(Opcodes.INVOKEVIRTUAL, printInstructionArguments));
+        return result;
     }
 }

@@ -14,15 +14,15 @@ public class InitSymbolImporter {
     private static List<String> stringRestrictNames = new LinkedList<>(Arrays.asList("java", "lang"));
     private static ObjectType stringType = TypeBuilder.generateObjectType(stringTypeName, stringRestrictNames);
 
-    private static String printlnFunctionName = "println";
+    public static String printFunctionName = "print";
     private static Type returnTypeOfPrintln = new VoidType();
     private static List<Type> parametersTypeOfPrintln = new LinkedList<>(Arrays.asList(stringType, new IntType()));
 
     public void importInitNames(Scope scope) {
         Map<String, DefinitionNode> table = new HashMap<>();
         table.put(stringTypeName, generatePlaceholderNode(stringTypeName, getStringRestrictNames()));
-        table.put(printlnFunctionName,
-                generateFunctionNode(printlnFunctionName,
+        table.put(printFunctionName,
+                generateFunctionNode(printFunctionName,
                         returnTypeOfPrintln,
                         parametersTypeOfPrintln));
         scope.putAll(table);

@@ -16,4 +16,9 @@ public class ArrayNameNode extends RefNode {
     protected String visualInfo() {
         return "ARRAY: " + name;
     }
+
+    @Override
+    public String getName() {
+        return name;
+    }
 }

@@ -17,6 +17,7 @@ public class FunctionNameNode extends RefNode {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }

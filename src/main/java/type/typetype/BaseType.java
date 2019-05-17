@@ -37,6 +37,4 @@ public abstract class BaseType extends Type {
     public String visualInfo() {
         return simpleName;
     }
-
-    abstract public org.objectweb.asm.Type getAsmType();
 }

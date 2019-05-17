@@ -15,4 +15,6 @@ public abstract class Type {
     }
 
     abstract public Object generateDefaultValue();
+
+    abstract public org.objectweb.asm.Type getAsmType();
 }

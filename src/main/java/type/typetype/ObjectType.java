@@ -49,5 +49,8 @@ public class ObjectType extends Type {
         return simpleClassName;
     }
 
-
+    @Override
+    public org.objectweb.asm.Type getAsmType() {
+        return org.objectweb.asm.Type.getObjectType(generateDescriptor());
+    }
 }

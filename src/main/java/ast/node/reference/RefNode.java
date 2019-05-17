@@ -22,4 +22,6 @@ public abstract class RefNode extends ValueNode implements HasType {
         super(type);
         this.reference = reference;
     }
+
+    abstract public String getName();
 }

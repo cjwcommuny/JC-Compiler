@@ -44,4 +44,8 @@ public class ArrayType extends Type {
         return componentType;
     }
 
+    @Override
+    public org.objectweb.asm.Type getAsmType() {
+        return org.objectweb.asm.Type.getObjectType(generateDescriptor());
+    }
 }

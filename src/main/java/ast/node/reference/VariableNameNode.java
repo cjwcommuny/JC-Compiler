@@ -22,6 +22,7 @@ public class VariableNameNode extends RefNode {
         return type;
     }
 
+    @Override
     public String getName() {
         return name;
     }

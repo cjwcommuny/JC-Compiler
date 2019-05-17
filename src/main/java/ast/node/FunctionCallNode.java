@@ -30,4 +30,8 @@ public class FunctionCallNode extends Node implements HasType {
     public String getFunctionName() {
         return ((FunctionNameNode) getChild(0)).getName();
     }
+
+    public ArgumentListNode getArguments() {
+        return ((ArgumentListNode) getChild(1));
+    }
 }
