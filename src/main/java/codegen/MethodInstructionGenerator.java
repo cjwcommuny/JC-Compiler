@@ -296,7 +296,7 @@ public class MethodInstructionGenerator {
             result.addAll(handlePrintFunction(arguments));
         } else {
             String className = namespaceName;
-            String descriptor = node.getType().generateDescriptor();
+            String descriptor = node.getFunctionType().generateDescriptor();
             for (Node argument: arguments.getChildren()) {
                 List<InstructionInfo> argumentInstructions = new MethodInstructionGenerator(argument,
                         localIndexRemap,

@@ -1,13 +1,11 @@
-namespace MyNamespace {
-    /*
-    int x = 0;
+namespace TestClass {
+    //int x = 0;
 
     def int inc(int m) {
         return m;
     }
-    */
-
+    
     def void main(String[] args) {
-        print(3 -2);
+        print(inc(3));
     }
 }

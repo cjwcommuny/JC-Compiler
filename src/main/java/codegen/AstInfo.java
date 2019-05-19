@@ -94,6 +94,14 @@ public class AstInfo implements ClassRaw {
         Map<Integer, Integer> localIndexRemap = generateLocalIndexer(codeInfo, functionNode);
         List<InstructionInfo> instructions = generateInstructions(localIndexRemap,
                 functionNode.getStatementListNode());
+//        InstructionInfo lastInstruction = instructions.get(instructions.size() - 1)
+//        if ()
+        generateReturnAtEnd(functionNode, instructions);
+        codeInfo.setInstructions(instructions);
+        return codeInfo;
+    }
+
+    private void generateReturnAtEnd(FunctionDefinitionNode functionNode, List<InstructionInfo> instructions) {
         //add a return statement at the end of the code
         Type returnType = functionNode.getReturnType();
         if (returnType instanceof VoidType) {
@@ -106,8 +114,6 @@ public class AstInfo implements ClassRaw {
             instructions.add(new DefaultInstruction(Opcodes.ACONST_NULL, null));
             instructions.add(new DefaultInstruction(Opcodes.ARETURN, null));
         }
-        codeInfo.setInstructions(instructions);
-        return codeInfo;
     }
 
     private Map<Integer, Integer> generateLocalIndexer(DefaultCodeInfo codeInfo,

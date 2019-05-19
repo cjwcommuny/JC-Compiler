@@ -1,7 +1,11 @@
 public class TestClass {
-    private int m = 0;
+    public int m = 0;
 
-    public int inc() {
-        return m + 1;
+    public static void inc(int m) {
+        //return m;
+    }
+    
+    public static void main(String[] args) {
+        inc(3);
     }
 }

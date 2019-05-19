@@ -1,9 +1,6 @@
 package ast.node;
 
-import ast.node.Node;
-import ast.node.definition.DefinitionNode;
 import ast.node.reference.FunctionNameNode;
-import type.typetype.FunctionType;
 import type.typetype.Type;
 
 /**
@@ -11,20 +8,20 @@ import type.typetype.Type;
  * child: argumentListNode
  * */
 public class FunctionCallNode extends Node implements HasType {
-    private Type type;
+    private Type returnType;
 
     @Override
     public Type getType() {
-        return type;
+        return returnType;
     }
 
-    public FunctionCallNode(Type type) {
-        this.type = type;
+    public FunctionCallNode(Type returnType) {
+        this.returnType = returnType;
     }
 
     @Override
     protected String visualInfo() {
-        return "FunctionCall: " + type.visualInfo();
+        return "FunctionCall: " + returnType.visualInfo();
     }
 
     public String getFunctionName() {
@@ -33,5 +30,9 @@ public class FunctionCallNode extends Node implements HasType {
 
     public ArgumentListNode getArguments() {
         return ((ArgumentListNode) getChild(1));
+    }
+
+    public Type getFunctionType() {
+        return ((FunctionNameNode) getChild(0)).getType();
     }
 }

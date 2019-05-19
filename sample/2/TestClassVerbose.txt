@@ -1,0 +1,76 @@
+Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/sample/2/TestClass.class
+  Last modified 2019年5月19日; size 368 bytes
+  MD5 checksum db8affdefdc29533ec74cb2bf512cbbe
+  Compiled from "TestClass.java"
+public class TestClass
+  minor version: 0
+  major version: 55
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #4                          // TestClass
+  super_class: #5                         // java/lang/Object
+  interfaces: 0, fields: 1, methods: 3, attributes: 1
+Constant pool:
+   #1 = Methodref          #5.#18         // java/lang/Object."<init>":()V
+   #2 = Fieldref           #4.#19         // TestClass.m:I
+   #3 = Methodref          #4.#20         // TestClass.inc:(I)V
+   #4 = Class              #21            // TestClass
+   #5 = Class              #22            // java/lang/Object
+   #6 = Utf8               m
+   #7 = Utf8               I
+   #8 = Utf8               <init>
+   #9 = Utf8               ()V
+  #10 = Utf8               Code
+  #11 = Utf8               LineNumberTable
+  #12 = Utf8               inc
+  #13 = Utf8               (I)V
+  #14 = Utf8               main
+  #15 = Utf8               ([Ljava/lang/String;)V
+  #16 = Utf8               SourceFile
+  #17 = Utf8               TestClass.java
+  #18 = NameAndType        #8:#9          // "<init>":()V
+  #19 = NameAndType        #6:#7          // m:I
+  #20 = NameAndType        #12:#13        // inc:(I)V
+  #21 = Utf8               TestClass
+  #22 = Utf8               java/lang/Object
+{
+  public int m;
+    descriptor: I
+    flags: (0x0001) ACC_PUBLIC
+
+  public TestClass();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #1                  // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: iconst_0
+         6: putfield      #2                  // Field m:I
+         9: return
+      LineNumberTable:
+        line 1: 0
+        line 2: 4
+
+  public static void inc(int);
+    descriptor: (I)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=0, locals=1, args_size=1
+         0: return
+      LineNumberTable:
+        line 6: 0
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: iconst_3
+         1: invokestatic  #3                  // Method inc:(I)V
+         4: return
+      LineNumberTable:
+        line 9: 0
+        line 10: 4
+}
+SourceFile: "TestClass.java"

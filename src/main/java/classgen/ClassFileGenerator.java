@@ -58,10 +58,6 @@ public class ClassFileGenerator {
     }
 
     private void generateMethodInfo(ClassWriter classWriter, MethodInfo methodInfo) {
-        generateOrdinaryMethodInfo(classWriter, methodInfo);
-    }
-
-    private void generateOrdinaryMethodInfo(ClassWriter classWriter, MethodInfo methodInfo) {
         MethodVisitor methodVisitor = classWriter.visitMethod(
                 methodInfo.getAccessFlag(),
                 methodInfo.getMethodName(),

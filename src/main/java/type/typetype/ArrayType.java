@@ -48,4 +48,14 @@ public class ArrayType extends Type {
     public org.objectweb.asm.Type getAsmType() {
         return org.objectweb.asm.Type.getObjectType(generateDescriptor());
     }
+
+    @Override
+    public String visualInfo() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(componentType.visualInfo());
+        for (int i = 0; i < dimension; ++i) {
+            sb.append("[]");
+        }
+        return sb.toString();
+    }
 }
