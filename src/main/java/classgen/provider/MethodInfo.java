@@ -1,5 +1,7 @@
 package classgen.provider;
 
+import ast.node.ParameterListNode;
+
 public interface MethodInfo {
     String getMethodName();
     int getAccessFlag();

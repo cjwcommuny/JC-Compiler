@@ -122,12 +122,12 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         VariableDefinitionNode thisNode;
         if (scopeType == ScopeType.ANONYMOUS || scopeType == ScopeType.FUNCTION) {
             thisNode = DefinitionNodeBuilder.generateVariableDefinitionNodeNotBuf(type,
-                    scopeHandler.getRestrictCurrentScope());
+                    scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
         } else {
             //get node from buffer
             thisNode = DefinitionNodeBuilder.generateVariableDefinitionNode(fullRestrictName,
                     type,
-                    scopeHandler.getRestrictCurrentScope());
+                    scopeHandler.getCurrentScope());
         }
         thisNode.addChild(variableNameNode);
         AstGeneratorResult visitResult = visit(ctx.rValue());
@@ -282,7 +282,8 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 
     @Override
     public AstGeneratorResult visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) {
-        return visit(ctx.getChild(0));
+        AstGeneratorResult result = visit(ctx.getChild(0));
+        return result;
     }
 
     @Override
@@ -307,7 +308,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         }
         List<String> restrictNames = scopeHandler.getRestrictNames();
         VariableNameNode nameNode = new VariableNameNode(variableName, null, type);
-        VariableDefinitionNode thisNode = DefinitionNodeBuilder.generateVariableDefinitionNodeNotBuf(nameNode.getType(), scopeHandler.getRestrictCurrentScope());
+        VariableDefinitionNode thisNode = DefinitionNodeBuilder.generateVariableDefinitionNodeNotBuf(nameNode.getType(), scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
         thisNode.addChild(nameNode);
         return new AstGeneratorResult(thisNode, ctx);
     }

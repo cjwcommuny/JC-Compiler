@@ -4,6 +4,7 @@ import classgen.provider.*;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
+import type.typetype.FunctionType;
 
 import java.util.List;
 
@@ -57,6 +58,16 @@ public class ClassFileGenerator {
     }
 
     private void generateMethodInfo(ClassWriter classWriter, MethodInfo methodInfo) {
+        //TODO
+        if ("main".equals(methodInfo.getMethodName())) {
+            //handle illegal main method
+            generateMainMethodInfo(classWriter, methodInfo);
+        } else {
+            generateOrdinaryMethodInfo(classWriter, methodInfo);
+        }
+    }
+
+    private void generateOrdinaryMethodInfo(ClassWriter classWriter, MethodInfo methodInfo) {
         MethodVisitor methodVisitor = classWriter.visitMethod(
                 methodInfo.getAccessFlag(),
                 methodInfo.getMethodName(),
@@ -65,6 +76,20 @@ public class ClassFileGenerator {
                 methodInfo.getExceptions());
         generateMethodCodeInfo(methodVisitor, methodInfo.getCodeInfo());
         methodVisitor.visitEnd();
+    }
+
+    private void generateMainMethodInfo(ClassWriter classWriter, MethodInfo methodInfo) {
+//        methodInfo.get
+//        MethodVisitor methodVisitor = classWriter.visitMethod(
+//                methodInfo.getAccessFlag(),
+//                methodInfo.getMethodName(),
+//                FunctionType.mainFunctionDescriptor,
+//                methodInfo.getSignature(),
+//                methodInfo.getExceptions()
+//        );
+//        generateMethodCodeInfo(methodVisitor, methodInfo.getCodeInfo());
+//        methodVisitor.visitEnd();
+        generateOrdinaryMethodInfo(classWriter, methodInfo);
     }
 
     private void generateMethodCodeInfo(MethodVisitor methodVisitor, CodeInfo codeInfo) {

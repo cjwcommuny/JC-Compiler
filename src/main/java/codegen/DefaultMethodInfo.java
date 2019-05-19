@@ -1,5 +1,6 @@
 package codegen;
 
+import ast.node.ParameterListNode;
 import classgen.provider.CodeInfo;
 import classgen.provider.MethodInfo;
 

@@ -239,7 +239,7 @@ whileBlock: WHILE_SYMBOL '(' rValue ')' '{' blockBodyCode '}';
 // semicolon
 variableDefinition:
 	ordinaryVariableDefinition
-//	| arrayDefinition
+	| arrayDefinition
 	| variableDeclaration
 	;
 
@@ -258,8 +258,9 @@ ordinaryVariableDeclaration:
 arrayDeclaration:
 	IDENTIFIER (LEFT_BRACKET RIGHT_BRACKET)* IDENTIFIER;
 
-//arrayDefinition:
-//    IDENTIFIER (LEFT_BRACKET RIGHT_BRACKET)* IDENTIFIER ASSIGN_SYMBOL rValue;
+arrayDefinition:
+    arrayDeclaration ASSIGN_SYMBOL rValue;
+
 
 //call function ==============================================================
 functionCall: IDENTIFIER '(' ((rValue ',')* rValue)? ')';

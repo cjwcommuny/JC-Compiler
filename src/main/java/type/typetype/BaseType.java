@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Objects;
 
 public abstract class BaseType extends Type {
-    private static HashSet<String> baseTypes = new HashSet<>(Arrays.asList("int", "bool", "char", "double"));
+    private static HashSet<String> baseTypes = new HashSet<>(Arrays.asList("int", "bool", "char", "double", "void"));
     private String simpleName;
 
     public static boolean isBaseType(String typeName) {

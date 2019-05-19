@@ -1,7 +1,12 @@
 namespace MyNamespace {
-    int x = 0;
-
+    //int x = 0;
+    /*
     def int inc(int m) {
         return m;
+    }
+    */
+
+    def void f() {
+        String s;
     }
 }

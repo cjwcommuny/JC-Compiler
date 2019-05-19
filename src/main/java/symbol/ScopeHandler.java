@@ -4,6 +4,8 @@ import ast.VisitLater;
 import ast.node.Node;
 import ast.node.definition.DefinitionNode;
 import ast.node.definition.FunctionDefinitionNode;
+import ast.node.definition.NamespaceNode;
+import ast.node.definition.StructureDefinitionNode;
 import ast.node.structrue.ForBlockNode;
 import ast.node.structrue.WhileBlockNode;
 import type.typetype.ObjectType;
@@ -41,6 +43,21 @@ public class ScopeHandler {
 
     public void exitScope() {
         scopeStack.pop();
+    }
+
+    public Scope getCurrentFunctionOrStructOrNamespaceScope() {
+        for (int i = scopeStack.size() - 1; i >= 0; --i) {
+            Scope scope = scopeStack.get(i);
+            Node node = scope.getCorrespondingNode();
+            if (node == null) {
+                return null;
+            } else if (node instanceof FunctionDefinitionNode
+                    || node instanceof NamespaceNode
+                    || node instanceof StructureDefinitionNode) {
+                return scope;
+            }
+        }
+        return null;
     }
 
 

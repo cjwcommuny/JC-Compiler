@@ -7,6 +7,8 @@ public class FunctionType extends Type {
     private List<Type> parameterTypes;
     private Type returnType;
 
+    public static String mainFunctionDescriptor = "([Ljava/lang/String;)V";
+
     @Override
     public String generateDescriptor() {
         return "(" + generateParameterDescriptor() + ")" + returnType.generateDescriptor();

@@ -1,37 +1,28 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/MyNamespace.class
-  Last modified 2019年5月17日; size 157 bytes
-  MD5 checksum 03d7d8323503492e172ab8f2a128d487
+  Last modified 2019年5月19日; size 109 bytes
+  MD5 checksum 9b4673c1c938c84f81b488788dcbd78a
 public class MyNamespace
   minor version: 0
   major version: 49
   flags: (0x0021) ACC_PUBLIC, ACC_SUPER
   this_class: #2                          // MyNamespace
   super_class: #4                         // java/lang/Object
-  interfaces: 0, fields: 1, methods: 1, attributes: 0
+  interfaces: 0, fields: 0, methods: 1, attributes: 0
 Constant pool:
-   #1 = Utf8               MyNamespace
-   #2 = Class              #1             // MyNamespace
-   #3 = Utf8               java/lang/Object
-   #4 = Class              #3             // java/lang/Object
-   #5 = Utf8               x
-   #6 = Utf8               I
-   #7 = Integer            0
-   #8 = Utf8               inc
-   #9 = Utf8               (I)I
-  #10 = Utf8               ConstantValue
-  #11 = Utf8               Code
+  #1 = Utf8               MyNamespace
+  #2 = Class              #1              // MyNamespace
+  #3 = Utf8               java/lang/Object
+  #4 = Class              #3              // java/lang/Object
+  #5 = Utf8               f
+  #6 = Utf8               ()V
+  #7 = Utf8               Code
 {
-  public static int x;
-    descriptor: I
-    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
-    ConstantValue: int 0
-
-  public static int inc(int);
-    descriptor: (I)I
+  public static void f();
+    descriptor: ()V
     flags: (0x0009) ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=0, locals=1, args_size=1
-         0: iload_0
-         1: ireturn
-         2: ireturn
+      stack=20, locals=1, args_size=0
+         0: aconst_null
+         1: astore_0
+         2: return
 }
