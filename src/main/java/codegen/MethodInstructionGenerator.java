@@ -47,7 +47,7 @@ public class MethodInstructionGenerator {
         } else if (statementNode instanceof ReturnNode) {
             return handleReturnStatement((ReturnNode) statementNode);
         } else if (statementNode instanceof LogicBlockNode) {
-            return null;
+            return handleLogicBlock((LogicBlockNode) statementNode);
         } else if (statementNode instanceof ForBlockNode) {
             return null;
         } else if (statementNode instanceof WhileBlockNode) {
@@ -72,6 +72,10 @@ public class MethodInstructionGenerator {
         else {
             return null;
         }
+    }
+
+    private List<InstructionInfo> handleLogicBlock(LogicBlockNode node) {
+
     }
 
     private List<InstructionInfo> handleInfixExpression(InfixExpressionNode node) {
@@ -107,20 +111,34 @@ public class MethodInstructionGenerator {
         return result;
     }
 
-    private InstructionInfo handleInfixOperation(Operation op, org.objectweb.asm.Type asmType) {
+    private List<InstructionInfo> handleInfixOperation(Operation op, org.objectweb.asm.Type asmType) {
+        List<InstructionInfo> result = new LinkedList<>();
         if (op.equals(InfixOperation.ADD)) {
-            return new DefaultInstruction(asmType.getOpcode(Opcodes.IADD), null);
+            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.IADD), null));
         } else if (op.equals(InfixOperation.SUB)) {
-            return new DefaultInstruction(asmType.getOpcode(Opcodes.ISUB), null);
+            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ISUB), null));
         } else if (op.equals(InfixOperation.MUL)) {
-            return new DefaultInstruction(asmType.getOpcode(Opcodes.IMUL), null);
+            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.IMUL), null));
         } else if (op.equals(InfixOperation.DIV)) {
-            return new DefaultInstruction(asmType.getOpcode(Opcodes.IDIV), null);
+            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.IDIV), null));
         } else if (op.equals(InfixOperation.AND)) {
-            return new DefaultInstruction(Opcodes.IAND, null);
+            result.add(new DefaultInstruction(Opcodes.IAND, null));
         } else if (op.equals(InfixOperation.OR)) {
-            return new DefaultInstruction(Opcodes.IOR, null);
-        } else {
+            result.add(new DefaultInstruction(Opcodes.IOR, null));
+        } else if (op.equals(InfixOperation.EQUAL)) {
+            //a == b <=> ~(a XOR b)
+            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.IXOR), null));
+            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.INEG), null));
+        } else if (op.equals(InfixOperation.GREATER)) {
+
+        } else if (op.equals(InfixOperation.LESS)) {
+
+        } else if (op.equals(InfixOperation.GREATER_EQUAL)) {
+
+        } else if (op.equals(InfixOperation.LESS_EQUAL)) {
+
+        }
+        else {
             //error
             return null;
         }
@@ -134,6 +152,7 @@ public class MethodInstructionGenerator {
         if (resultType.equals(TypeBuilder.generateDoubleType())
                 && leftType.equals(TypeBuilder.generateIntType())) {
             InstructionInfo instructionInfo = new DefaultInstruction(Opcodes.I2D, null);
+            result.add(instructionInfo);
         }
         return result;
     }
