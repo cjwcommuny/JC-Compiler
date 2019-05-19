@@ -31,17 +31,7 @@ public class TypeChecker {
 
     private static Type checkAddition(Type type1, Type type2) {
         //TODO: support String
-        Type type = checkIntDoubleExpression(type1, type2);
-        if (type != null) {
-            return type;
-        }
-        boolean oneString = type1.equals(InitSymbolImporter.getStringType())
-                || type2.equals(InitSymbolImporter.getStringType());
-        if (oneString) {
-            return InitSymbolImporter.getStringType();
-        } else {
-            return null;
-        }
+        return checkIntDoubleExpression(type1, type2);
     }
 
     private static Type checkIntDoubleExpression(Type type1, Type type2) {

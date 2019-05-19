@@ -33,26 +33,13 @@ LOGIC_OR: '||';
 LOGIC_AND: '&&';
 LOGIC_NOT: '!';
 
-ADD: '+';
-SUB: '-';
-MUL: '*';
-DIV: '/';
-XOR: '^';
-AND: '&';
-OR: '|';
-NOT: '~';
+
 
 LESS_THAN: '<';
 LESS_OR_EQUAL_THAN: '<=';
 GREATER_THAN: '>';
 GREATER_OR_EQUAL_THAN: '>=';
 EQUAL_SYMBOL: '==';
-
-//TODO: scientific notation support
-INT_LITERAL: [+-]? [0-9]+;
-DOUBLE_LITERAL: [+-]? [0-9]* '.'? [0-9]+;
-//TODO: unicode support
-CHAR_LITERAL: '\'' [a-zA-Z\\] '\'';
 
 //TODO: unicode support
 STRING_LITERAL: '"' [a-zA-Z0-9 \t\\]* '"';
@@ -276,3 +263,19 @@ structReference:
     structReference '.' IDENTIFIER
     | (IDENTIFIER | functionCall) '.' IDENTIFIER
     ;
+
+ADD: '+';
+SUB: '-';
+MUL: '*';
+DIV: '/';
+XOR: '^';
+AND: '&';
+OR: '|';
+NOT: '~';
+
+//TODO: scientific notation support
+INT_LITERAL: [+-]? [0-9]+;
+DOUBLE_LITERAL: [+-]? [0-9]* '.'? [0-9]+;
+//TODO: unicode support
+CHAR_LITERAL: '\'' [a-zA-Z\\] '\'';
+

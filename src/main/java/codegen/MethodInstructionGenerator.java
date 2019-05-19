@@ -127,24 +127,19 @@ public class MethodInstructionGenerator {
     }
 
     private List<InstructionInfo> adjustLeftValue(Type leftType, Type resultType, Operation op)  {
+        List<InstructionInfo> result = new LinkedList<>();
         if (op.equals(InfixOperation.AND) || op.equals(InfixOperation.OR)) {
-            return new LinkedList<>();
+            return result;
         }
         if (resultType.equals(TypeBuilder.generateDoubleType())
                 && leftType.equals(TypeBuilder.generateIntType())) {
-
-        } else if (resultType.equals(InitSymbolImporter.getStringType()) ) {
-            //convert to string
-            //TODO
+            InstructionInfo instructionInfo = new DefaultInstruction(Opcodes.I2D, null);
         }
-        return null;
+        return result;
     }
 
     private List<InstructionInfo> adjustRightValue(Type rightType, Type resultType, Operation op)  {
-        if (op.equals(InfixOperation.AND) || op.equals(InfixOperation.OR)) {
-            return new LinkedList<>();
-        }
-        return null;//TODO
+        return adjustLeftValue(rightType, resultType, op);
     }
 
 
