@@ -9,5 +9,6 @@ namespace MyNamespace {
 
     def void main(String[] args) {
         print("hello");
+        print("\n");
     }
 }

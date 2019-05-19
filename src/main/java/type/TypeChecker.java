@@ -128,8 +128,10 @@ public class TypeChecker {
     public static Type checkFunctionParameter(FunctionType functionType,
                                                  List<Type> argumentTypes) {
         List<Type> parameterTypes = functionType.getParameterTypes();
-        if (!parameterTypes.equals(argumentTypes)) {
-            return null;
+        for (Type parameterType: parameterTypes) {
+            if (!(parameterType instanceof AnyType) && !parameterTypes.equals(argumentTypes)) {
+                return null;
+            }
         }
         return functionType.getReturnType();
     }

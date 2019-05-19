@@ -16,7 +16,8 @@ public class InitSymbolImporter {
 
     public static String printFunctionName = "print";
     private static Type returnTypeOfPrintln = new VoidType();
-    private static List<Type> parametersTypeOfPrintln = new LinkedList<>(Arrays.asList(stringType));
+    private static List<Type> parametersTypeOfPrintln =
+            new LinkedList<>(Arrays.asList(TypeBuilder.generateAnyType()));
 
     public void importInitNames(Scope scope) {
         Map<String, DefinitionNode> table = new HashMap<>();

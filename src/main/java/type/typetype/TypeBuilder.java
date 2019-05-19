@@ -95,4 +95,8 @@ public class TypeBuilder {
     public static NamespaceType generateNamespaceType(String name) {
         return new NamespaceType(name);
     }
+
+    public static AnyType generateAnyType() {
+        return AnyType.getInstance();
+    }
 }

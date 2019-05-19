@@ -14,7 +14,7 @@ public class DoubleType extends BaseType {
         return "D";
     }
 
-    static DoubleType getInstance() {
+    public static DoubleType getInstance() {
         return doubleType;
     }
 
@@ -26,5 +26,9 @@ public class DoubleType extends BaseType {
     @Override
     public Object generateDefaultValue() {
         return 0;
+    }
+
+    public static DoubleType getDoubleType() {
+        return doubleType;
     }
 }

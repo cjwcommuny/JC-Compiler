@@ -14,7 +14,7 @@ public class IntType extends BaseType {
         return "I";
     }
 
-    static IntType getInstance() {
+    public static IntType getInstance() {
         return intType;
     }
 

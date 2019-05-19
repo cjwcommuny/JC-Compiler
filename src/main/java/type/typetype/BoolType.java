@@ -15,7 +15,7 @@ public class BoolType extends BaseType {
         return "Z";
     }
 
-    static BoolType getInstance() {
+    public static BoolType getInstance() {
         return boolType;
     }
 

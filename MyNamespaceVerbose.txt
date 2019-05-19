@@ -1,6 +1,6 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/MyNamespace.class
-  Last modified 2019年5月19日; size 277 bytes
-  MD5 checksum c6db77c4dfeb5dec3b7178836aa4d691
+  Last modified 2019年5月19日; size 424 bytes
+  MD5 checksum 3cc1b9f309a613e6d17a6b1ea3b87fe0
 public class MyNamespace
   minor version: 0
   major version: 49
@@ -29,7 +29,22 @@ Constant pool:
   #18 = Utf8               (Ljava/lang/String;)V
   #19 = NameAndType        #17:#18        // print:(Ljava/lang/String;)V
   #20 = Methodref          #16.#19        // java/io/PrintStream.print:(Ljava/lang/String;)V
-  #21 = Utf8               Code
+  #21 = Utf8               \\n
+  #22 = String             #21            // \\n
+  #23 = Integer            1
+  #24 = Utf8               (I)V
+  #25 = NameAndType        #17:#24        // print:(I)V
+  #26 = Methodref          #16.#25        // java/io/PrintStream.print:(I)V
+  #27 = Utf8               \\\\n
+  #28 = String             #27            // \\\\n
+  #29 = Double             3.0d
+  #31 = Utf8               (D)V
+  #32 = NameAndType        #17:#31        // print:(D)V
+  #33 = Methodref          #16.#32        // java/io/PrintStream.print:(D)V
+  #34 = Utf8               (Z)V
+  #35 = NameAndType        #17:#34        // print:(Z)V
+  #36 = Methodref          #16.#35        // java/io/PrintStream.print:(Z)V
+  #37 = Utf8               Code
 {
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
@@ -39,5 +54,29 @@ Constant pool:
          0: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
          3: ldc           #14                 // String hello
          5: invokevirtual #20                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-         8: return
+         8: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        11: ldc           #22                 // String \\n
+        13: invokevirtual #20                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
+        16: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        19: ldc           #23                 // int 1
+        21: invokevirtual #26                 // Method java/io/PrintStream.print:(I)V
+        24: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        27: ldc           #22                 // String \\n
+        29: invokevirtual #20                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
+        32: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        35: ldc           #28                 // String \\\\n
+        37: invokevirtual #20                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
+        40: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        43: ldc2_w        #29                 // double 3.0d
+        46: invokevirtual #33                 // Method java/io/PrintStream.print:(D)V
+        49: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        52: ldc           #22                 // String \\n
+        54: invokevirtual #20                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
+        57: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        60: ldc           #23                 // int 1
+        62: invokevirtual #36                 // Method java/io/PrintStream.print:(Z)V
+        65: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        68: ldc           #22                 // String \\n
+        70: invokevirtual #20                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
+        73: return
 }
