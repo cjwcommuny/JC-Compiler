@@ -60,10 +60,20 @@ public class MethodInstructionGenerator {
             return null;
         } else if (statementNode instanceof VariableNameNode) {
             return handleVariableName((VariableNameNode) statementNode);
+        } else if (statementNode instanceof LiteralNode) {
+            return handleLiteral((LiteralNode) statementNode);
         }
         else {
             return null;
         }
+    }
+
+    private List<InstructionInfo> handleLiteral(LiteralNode statementNode) {
+        List<InstructionInfo> result = new LinkedList<>();
+        int opcode = Opcodes.LDC;
+        InstructionInfo instructionInfo = new DefaultInstruction(opcode, new Object[]{statementNode.getValue()});
+        result.add(instructionInfo);
+        return result;
     }
 
     private List<InstructionInfo> handleArrayDefinition(ArrayDefinitionNode node) {
@@ -209,8 +219,8 @@ public class MethodInstructionGenerator {
         };
         List<InstructionInfo> argumentInstruction = new MethodInstructionGenerator(arguments.getChild(0),
                 localIndexRemap, namespaceName).generate();
-        result.addAll(argumentInstruction);
         result.add(new DefaultInstruction(Opcodes.GETSTATIC, printStreamInstructionArguments));
+        result.addAll(argumentInstruction);
         Object[] printInstructionArguments = new Object[]{"java/io/PrintStream",
                 "print",
                 "(Ljava/lang/String;)V"};

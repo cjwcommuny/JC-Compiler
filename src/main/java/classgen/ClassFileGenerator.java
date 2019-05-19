@@ -58,13 +58,7 @@ public class ClassFileGenerator {
     }
 
     private void generateMethodInfo(ClassWriter classWriter, MethodInfo methodInfo) {
-        //TODO
-        if ("main".equals(methodInfo.getMethodName())) {
-            //handle illegal main method
-            generateMainMethodInfo(classWriter, methodInfo);
-        } else {
-            generateOrdinaryMethodInfo(classWriter, methodInfo);
-        }
+        generateOrdinaryMethodInfo(classWriter, methodInfo);
     }
 
     private void generateOrdinaryMethodInfo(ClassWriter classWriter, MethodInfo methodInfo) {
@@ -76,20 +70,6 @@ public class ClassFileGenerator {
                 methodInfo.getExceptions());
         generateMethodCodeInfo(methodVisitor, methodInfo.getCodeInfo());
         methodVisitor.visitEnd();
-    }
-
-    private void generateMainMethodInfo(ClassWriter classWriter, MethodInfo methodInfo) {
-//        methodInfo.get
-//        MethodVisitor methodVisitor = classWriter.visitMethod(
-//                methodInfo.getAccessFlag(),
-//                methodInfo.getMethodName(),
-//                FunctionType.mainFunctionDescriptor,
-//                methodInfo.getSignature(),
-//                methodInfo.getExceptions()
-//        );
-//        generateMethodCodeInfo(methodVisitor, methodInfo.getCodeInfo());
-//        methodVisitor.visitEnd();
-        generateOrdinaryMethodInfo(classWriter, methodInfo);
     }
 
     private void generateMethodCodeInfo(MethodVisitor methodVisitor, CodeInfo codeInfo) {
@@ -127,7 +107,7 @@ public class ClassFileGenerator {
                         (String) arguments[0],
                         (String) arguments[1],
                         (String) arguments[2],
-                        (boolean) arguments[3]);
+                        false);
                 break;
             case Opcodes.ILOAD: case Opcodes.LLOAD: case Opcodes.FLOAD: case Opcodes.DLOAD: case Opcodes.ALOAD: case Opcodes.ISTORE: case Opcodes.LSTORE: case Opcodes.FSTORE: case Opcodes.DSTORE: case Opcodes.ASTORE: case Opcodes.RET:
                 methodVisitor.visitVarInsn(opcode, (int) arguments[0]);

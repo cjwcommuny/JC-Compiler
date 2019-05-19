@@ -1,6 +1,6 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/MyNamespace.class
-  Last modified 2019年5月19日; size 129 bytes
-  MD5 checksum 00fa64a1411ec6a76968326b15e77c7d
+  Last modified 2019年5月19日; size 277 bytes
+  MD5 checksum c6db77c4dfeb5dec3b7178836aa4d691
 public class MyNamespace
   minor version: 0
   major version: 49
@@ -9,18 +9,35 @@ public class MyNamespace
   super_class: #4                         // java/lang/Object
   interfaces: 0, fields: 0, methods: 1, attributes: 0
 Constant pool:
-  #1 = Utf8               MyNamespace
-  #2 = Class              #1              // MyNamespace
-  #3 = Utf8               java/lang/Object
-  #4 = Class              #3              // java/lang/Object
-  #5 = Utf8               main
-  #6 = Utf8               ([Ljava/lang/String;)V
-  #7 = Utf8               Code
+   #1 = Utf8               MyNamespace
+   #2 = Class              #1             // MyNamespace
+   #3 = Utf8               java/lang/Object
+   #4 = Class              #3             // java/lang/Object
+   #5 = Utf8               main
+   #6 = Utf8               ([Ljava/lang/String;)V
+   #7 = Utf8               java/lang/System
+   #8 = Class              #7             // java/lang/System
+   #9 = Utf8               out
+  #10 = Utf8               Ljava/io/PrintStream;
+  #11 = NameAndType        #9:#10         // out:Ljava/io/PrintStream;
+  #12 = Fieldref           #8.#11         // java/lang/System.out:Ljava/io/PrintStream;
+  #13 = Utf8               hello
+  #14 = String             #13            // hello
+  #15 = Utf8               java/io/PrintStream
+  #16 = Class              #15            // java/io/PrintStream
+  #17 = Utf8               print
+  #18 = Utf8               (Ljava/lang/String;)V
+  #19 = NameAndType        #17:#18        // print:(Ljava/lang/String;)V
+  #20 = Methodref          #16.#19        // java/io/PrintStream.print:(Ljava/lang/String;)V
+  #21 = Utf8               Code
 {
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
     flags: (0x0009) ACC_PUBLIC, ACC_STATIC
     Code:
       stack=20, locals=2, args_size=1
-         0: return
+         0: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
+         3: ldc           #14                 // String hello
+         5: invokevirtual #20                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
+         8: return
 }
