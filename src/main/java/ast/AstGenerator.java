@@ -234,15 +234,15 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 functionName,
                 false,
                 ScopeType.FUNCTION);
-
+        String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(functionName, restrictNames);
+        FunctionDefinitionNode thisNode = DefinitionNodeBuilder.generateFunctionDefinitionNode(fullRestrictName, null, scopeHandler.getRestrictParentScope());
+        scopeHandler.setNodeToCurrentScope(thisNode);
         ParameterListNode parametersNode = (ParameterListNode) visit(ctx.getChild(3)).getNode();
         List<Type> parameterTypes = parametersNode.getTypes();
         FunctionType functionType = TypeBuilder.generateFunctionType(returnTypeStr,
                 restrictNames,
                 parameterTypes);
-        String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(functionName, restrictNames);
-        FunctionDefinitionNode thisNode = DefinitionNodeBuilder.generateFunctionDefinitionNode(fullRestrictName, functionType, scopeHandler.getRestrictParentScope());
-        scopeHandler.setNodeToCurrentScope(thisNode);
+        thisNode.setType(functionType);
         FunctionNameNode functionNameNode = new FunctionNameNode(functionName, null, functionType);
         thisNode.addChild(functionNameNode);
         thisNode.addChild(parametersNode);

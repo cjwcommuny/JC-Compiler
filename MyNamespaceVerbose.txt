@@ -1,6 +1,6 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/MyNamespace.class
-  Last modified 2019年5月19日; size 109 bytes
-  MD5 checksum 07adb08487acc8a75d89007f22352309
+  Last modified 2019年5月19日; size 129 bytes
+  MD5 checksum 00fa64a1411ec6a76968326b15e77c7d
 public class MyNamespace
   minor version: 0
   major version: 49
@@ -13,16 +13,14 @@ Constant pool:
   #2 = Class              #1              // MyNamespace
   #3 = Utf8               java/lang/Object
   #4 = Class              #3              // java/lang/Object
-  #5 = Utf8               f
-  #6 = Utf8               ()V
+  #5 = Utf8               main
+  #6 = Utf8               ([Ljava/lang/String;)V
   #7 = Utf8               Code
 {
-  public static void f();
-    descriptor: ()V
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
     flags: (0x0009) ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=20, locals=1, args_size=0
-         0: aconst_null
-         1: aload_0
-         2: return
+      stack=20, locals=2, args_size=1
+         0: return
 }

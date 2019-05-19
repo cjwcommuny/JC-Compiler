@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import parser.*;
+import type.typetype.ArrayType;
 import type.typetype.ObjectType;
 import type.typetype.Type;
 import type.typetype.TypeBuilder;
@@ -57,6 +58,7 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
                         result.getType(),
                         parentScope);
             } else {
+                //function type
                 node = DefinitionNodeBuilder.generateFunctionDefinitionNode(fullRestrictName,
                         result.getType(),
                         parentScope);
@@ -117,6 +119,15 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
         return new SymbolTableResult(TypeBuilder.generateBaseOrObjectType(typeToken.getText(), restrictNames), tokens, ctx);
     }
 
+    @Override
+    public SymbolTableResult visitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx) {
+        String componentTypeStr = ctx.IDENTIFIER(0).getText();
+        List<String> restrictNames = scopeHandler.getRestrictNames();
+        Type componentType = TypeBuilder.generateBaseOrObjectType(componentTypeStr, restrictNames);
+        int dimension = ctx.LEFT_BRACKET().size();
+        ArrayType arrayType = TypeBuilder.generateArrayType(componentType, dimension);
+        return new SymbolTableResult(arrayType, new LinkedList<>(), ctx);
+    }
 
     /**
      * only add parameter declarations

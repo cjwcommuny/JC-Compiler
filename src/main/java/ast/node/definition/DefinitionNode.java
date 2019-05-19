@@ -21,7 +21,7 @@ public class DefinitionNode extends Node {
         return parentScope;
     }
 
-    void setType(Type type) {
+    public void setType(Type type) {
         this.type = type;
     }
 }
