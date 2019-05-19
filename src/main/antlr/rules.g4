@@ -79,8 +79,8 @@ LINE_COMMENT: '//' ~[\r\n]* -> skip;
 
 COMMENT: '/*' .*? '*/' -> skip;
 
-literal: INT_LITERAL
-    | DOUBLE_LITERAL
+literal: int_literal
+    | double_literal
     | CHAR_LITERAL
     | STRING_LITERAL
     | BOOL_LITERAL
@@ -123,11 +123,11 @@ expression:
 	IDENTIFIER # identifier
     | literal # literalLabel
 	| functionCall # functionCallLabel
-	| expression ADD expression # infixExpression
-	| expression SUB expression # infixExpression
+	| expression add expression # infixExpression
+	| expression sub expression # infixExpression
 	| expression MUL expression # infixExpression
 	| expression DIV expression # infixExpression
-	| SUB expression # unaryExpression
+	| sub expression # unaryExpression
 	| expression XOR expression # infixExpression
 	| expression OR expression # infixExpression
 	| expression AND expression # infixExpression
@@ -264,8 +264,8 @@ structReference:
     | (IDENTIFIER | functionCall) '.' IDENTIFIER
     ;
 
-ADD: '+';
-SUB: '-';
+add: '+';
+sub: '-';
 MUL: '*';
 DIV: '/';
 XOR: '^';
@@ -274,8 +274,9 @@ OR: '|';
 NOT: '~';
 
 //TODO: scientific notation support
-INT_LITERAL: [+-]? [0-9]+;
-DOUBLE_LITERAL: [+-]? [0-9]* '.'? [0-9]+;
+int_literal: ('+' | '-')? DIGIT+;
+double_literal: ('+' | '-')? DIGIT* '.'? DIGIT+;
 //TODO: unicode support
 CHAR_LITERAL: '\'' [a-zA-Z\\] '\'';
 
+DIGIT: [0-9];

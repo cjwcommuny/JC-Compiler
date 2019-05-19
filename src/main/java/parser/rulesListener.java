@@ -571,4 +571,44 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStructReference(rulesParser.StructReferenceContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#add}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdd(rulesParser.AddContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#add}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdd(rulesParser.AddContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#sub}.
+	 * @param ctx the parse tree
+	 */
+	void enterSub(rulesParser.SubContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#sub}.
+	 * @param ctx the parse tree
+	 */
+	void exitSub(rulesParser.SubContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#int_literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterInt_literal(rulesParser.Int_literalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#int_literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitInt_literal(rulesParser.Int_literalContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#double_literal}.
+	 * @param ctx the parse tree
+	 */
+	void enterDouble_literal(rulesParser.Double_literalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#double_literal}.
+	 * @param ctx the parse tree
+	 */
+	void exitDouble_literal(rulesParser.Double_literalContext ctx);
 }

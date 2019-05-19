@@ -152,6 +152,22 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         return visit(ctx.getChild(0));
     }
 
+    @Override
+    public AstGeneratorResult visitInt_literal(rulesParser.Int_literalContext ctx) {
+        String symbol = ctx.getText();
+        LiteralNode<Integer> node = new LiteralNode<>(TypeBuilder.generateIntType(),
+                Integer.valueOf(symbol));
+        return new AstGeneratorResult(node);
+    }
+
+    @Override
+    public AstGeneratorResult visitDouble_literal(rulesParser.Double_literalContext ctx) {
+        String symbol = ctx.getText();
+        LiteralNode<Double> node = new LiteralNode<>(TypeBuilder.generateDoubleType(),
+                Double.parseDouble(symbol));
+        return new AstGeneratorResult(node);
+    }
+
     /**
      * handle token
      * */
@@ -159,16 +175,16 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     public AstGeneratorResult visitTerminal(TerminalNode thisNode) {
         String symbol = thisNode.getSymbol().getText();
         switch (thisNode.getSymbol().getType()) {
-            case rulesLexer.INT_LITERAL: {
-                LiteralNode<Integer> node = new LiteralNode<>(TypeBuilder.generateIntType(),
-                        Integer.valueOf(symbol));
-                return new AstGeneratorResult(node);
-            }
-            case rulesLexer.DOUBLE_LITERAL: {
-                LiteralNode<Double> node = new LiteralNode<>(TypeBuilder.generateDoubleType(),
-                        Double.parseDouble(symbol));
-                return new AstGeneratorResult(node);
-            }
+//            case rulesLexer.INT_LITERAL: {
+//                LiteralNode<Integer> node = new LiteralNode<>(TypeBuilder.generateIntType(),
+//                        Integer.valueOf(symbol));
+//                return new AstGeneratorResult(node);
+//            }
+//            case rulesLexer.DOUBLE_LITERAL: {
+//                LiteralNode<Double> node = new LiteralNode<>(TypeBuilder.generateDoubleType(),
+//                        Double.parseDouble(symbol));
+//                return new AstGeneratorResult(node);
+//            }
             case rulesLexer.BOOL_LITERAL: {
                 LiteralNode<Boolean> node = new LiteralNode<>(TypeBuilder.generateBoolType(),
                         Boolean.parseBoolean(symbol));
