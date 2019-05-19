@@ -5,8 +5,12 @@ import symbol.Scope;
 import type.typetype.Type;
 import type.typetype.TypeBuilder;
 
-public class ArrayDefinitionNode extends DefinitionNode {
-    public ArrayDefinitionNode(Type componentType, int dimension, Scope parentScope) {
-        super(TypeBuilder.generateArrayType(componentType, dimension), parentScope);
+/**
+ * child: NameNode
+ * child: (rValue)?
+ * */
+public class ArrayDefinitionNode extends VariableDefinitionNode {
+    public ArrayDefinitionNode(Type arrayType, Scope parentScope) {
+        super(arrayType, parentScope);
     }
 }

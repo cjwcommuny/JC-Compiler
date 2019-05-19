@@ -317,6 +317,12 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link rulesParser#arrayDefinition}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayDefinition(rulesParser.ArrayDefinitionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link rulesParser#functionCall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

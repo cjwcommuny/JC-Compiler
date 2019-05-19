@@ -1,6 +1,7 @@
 package codegen;
 
 import ast.node.*;
+import ast.node.definition.ArrayDefinitionNode;
 import ast.node.definition.VariableDefinitionNode;
 import ast.node.reference.RefNode;
 import ast.node.reference.StructRefNode;
@@ -35,7 +36,9 @@ public class MethodInstructionGenerator {
     }
 
     public List<InstructionInfo> generate() {
-        if (statementNode instanceof VariableDefinitionNode) {
+        if (statementNode instanceof ArrayDefinitionNode) {
+            return handleArrayDefinition((ArrayDefinitionNode) statementNode);
+        } else if (statementNode instanceof VariableDefinitionNode) {
             return handleVariableDefinitionNode((VariableDefinitionNode) statementNode);
         } else if (statementNode instanceof FunctionCallNode) {
             return handleFunctionCall((FunctionCallNode) statementNode);
@@ -57,9 +60,27 @@ public class MethodInstructionGenerator {
             return null;
         } else if (statementNode instanceof VariableNameNode) {
             return handleVariableName((VariableNameNode) statementNode);
-        } else {
+        }
+        else {
             return null;
         }
+    }
+
+    private List<InstructionInfo> handleArrayDefinition(ArrayDefinitionNode node) {
+        List<InstructionInfo> instructions = new LinkedList<>();
+        int localIndex = localIndexRemap.get(node.getLocalIndex());
+        Object[] storeArguments = new Object[]{localIndex};
+        int constOpcode = Opcodes.ACONST_NULL;
+        int storeOpcode = Opcodes.ALOAD;
+        if (node.beAssigned()) {
+            List<InstructionInfo> rightSideInstructions = new MethodInstructionGenerator(node.getRightSide(),
+                    localIndexRemap, namespaceName).generate();
+            instructions.addAll(rightSideInstructions);
+        } else {
+            instructions.add(new DefaultInstruction(constOpcode, storeArguments));
+        }
+        instructions.add(new DefaultInstruction(storeOpcode, storeArguments)); //store value to local variable
+        return instructions;
     }
 
     private List<InstructionInfo> handleVariableName(VariableNameNode node) {
@@ -109,20 +130,20 @@ public class MethodInstructionGenerator {
     private List<InstructionInfo> handleVariableDefinitionNode(VariableDefinitionNode node) {
         List<InstructionInfo> instructions = new LinkedList<>();
         int localIndex = localIndexRemap.get(node.getLocalIndex());
-        Object[] storeArguments = new Object[]{localIndex};
         Type type = node.getType();
-        int loadOpcode;
+        Object[] storeArguments = new Object[]{localIndex};
+        int storeOpcode;
         int constOpcode;
         if (type instanceof ObjectType) {
-            loadOpcode = Opcodes.ASTORE;
+            storeOpcode = Opcodes.ASTORE;
             constOpcode = Opcodes.ACONST_NULL;
         } else if (type instanceof BaseType) {
             org.objectweb.asm.Type asmType = ((BaseType) type).getAsmType();
-            loadOpcode = asmType.getOpcode(Opcodes.ISTORE);
+            storeOpcode = asmType.getOpcode(Opcodes.ISTORE);
             constOpcode = asmType.getOpcode(Opcodes.ICONST_0);
         } else {
             //error
-            loadOpcode = 0;
+            storeOpcode = 0;
             constOpcode = 0;
         }
         if (node.beAssigned()) {
@@ -132,7 +153,7 @@ public class MethodInstructionGenerator {
         } else {
             instructions.add(new DefaultInstruction(constOpcode, storeArguments));
         }
-        instructions.add(new DefaultInstruction(loadOpcode, storeArguments));
+        instructions.add(new DefaultInstruction(storeOpcode, storeArguments));
         return instructions;
     }
 

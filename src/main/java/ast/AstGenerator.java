@@ -112,7 +112,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     public AstGeneratorResult visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
         AstGeneratorResult declarationVisitResult = visit(ctx.variableDeclaration());
         VariableDefinitionNode declarationNode = (VariableDefinitionNode) declarationVisitResult.getNode();
-        VariableNameNode variableNameNode = (VariableNameNode) declarationNode.getChild(0);
+        VariableNameNode variableNameNode = (VariableNameNode) declarationNode.getVariableNameNode();
         ParserRuleContext declarationContext = declarationVisitResult.getContext();
 
         Type type = variableNameNode.getType();
@@ -289,24 +289,12 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     @Override
     public AstGeneratorResult visitOrdinaryVariableDeclaration(rulesParser.OrdinaryVariableDeclarationContext ctx) {
         String typeName = ctx.IDENTIFIER(0).getText();
-        Type type;
-        if (BaseType.isBaseType(typeName)) {
-            type = TypeBuilder.generateBaseType(typeName);
-        } else {
-            //object type
-            DefinitionNode definitionNode = scopeHandler.getNode(typeName);
-            if (definitionNode == null) {
-                int[] errorPosition = getTokenPosition(ctx, ctx.IDENTIFIER(0).getSymbol());
-                throw new SymbolNotResolvedException(errorPosition, typeName);
-            }
-            type = definitionNode.getType();
-        }
+        Type type = generateTypeForDeclaration(typeName, ctx, ctx.IDENTIFIER(0).getSymbol());
         String variableName = ctx.IDENTIFIER(1).getText();
         if (scopeHandler.existInCurrentScope(variableName)) {
             int[] errPosition = getTokenPosition(ctx, ctx.IDENTIFIER(1).getSymbol());
             throw new NameDuplicateException(errPosition, variableName);
         }
-        List<String> restrictNames = scopeHandler.getRestrictNames();
         VariableNameNode nameNode = new VariableNameNode(variableName, null, type);
         VariableDefinitionNode thisNode = DefinitionNodeBuilder.generateVariableDefinitionNodeNotBuf(nameNode.getType(), scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
         thisNode.addChild(nameNode);
@@ -635,4 +623,72 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         return new AstGeneratorResult(thisNode);
     }
 
+    @Override
+    public AstGeneratorResult visitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx) {
+        String componentTypeName = ctx.IDENTIFIER(0).getText();
+        Type componentType = generateTypeForDeclaration(componentTypeName, ctx, ctx.IDENTIFIER(0).getSymbol());
+        int dimension = ctx.LEFT_BRACKET().size();
+        String variableName = ctx.IDENTIFIER(1).getText();
+        if (scopeHandler.existInCurrentScope(variableName)) {
+            int[] errPosition = getTokenPosition(ctx, ctx.IDENTIFIER(1).getSymbol());
+            throw new NameDuplicateException(errPosition, variableName);
+        }
+        ArrayType arrayType = TypeBuilder.generateArrayType(componentType, dimension);
+        VariableNameNode nameNode = new VariableNameNode(variableName, null, arrayType);
+        ArrayDefinitionNode thisNode = DefinitionNodeBuilder.generateArrayDefinitionNodeNotBuf(
+                nameNode.getType(),
+                scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
+        thisNode.addChild(nameNode);
+        return new AstGeneratorResult(thisNode, ctx);
+    }
+
+    private Type generateTypeForDeclaration(String typeName, ParserRuleContext ctx, Token errToken) {
+        Type type;
+        if (BaseType.isBaseType(typeName)) {
+            type = TypeBuilder.generateBaseType(typeName);
+        } else {
+            //object type
+            DefinitionNode definitionNode = scopeHandler.getNode(typeName);
+            if (definitionNode == null) {
+                int[] errorPosition = getTokenPosition(ctx, errToken);
+                throw new SymbolNotResolvedException(errorPosition, typeName);
+            }
+            type = definitionNode.getType();
+        }
+        return type;
+    }
+
+    @Override
+    public AstGeneratorResult visitArrayDefinition(rulesParser.ArrayDefinitionContext ctx) {
+        AstGeneratorResult visitDeclarationResult = visit(ctx.arrayDeclaration());
+        ArrayDefinitionNode arrayDefinitionNode = (ArrayDefinitionNode) visitDeclarationResult.getNode();
+        VariableNameNode variableNameNode = arrayDefinitionNode.getVariableNameNode();
+        ParserRuleContext declarationContext = visitDeclarationResult.getContext();
+
+        ArrayType arrayType = (ArrayType) variableNameNode.getType();
+        List<String> restrictNames = scopeHandler.getRestrictNames();
+        String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(variableNameNode.getName(), restrictNames);
+        ScopeType scopeType = scopeHandler.getScopeType();
+        ArrayDefinitionNode thisNode;
+        if (scopeType == ScopeType.ANONYMOUS || scopeType == ScopeType.FUNCTION) {
+            thisNode = DefinitionNodeBuilder.generateArrayDefinitionNodeNotBuf(arrayType,
+                    scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
+        } else {
+            //get node from buffer
+            thisNode = DefinitionNodeBuilder.generateArrayDefinitionNode(fullRestrictName,
+                    arrayType,
+                    scopeHandler.getCurrentScope());
+        }
+        thisNode.addChild(variableNameNode);
+        AstGeneratorResult visitResult = visit(ctx.rValue());
+        Node rightSideNode = visitResult.getNode();
+        Type rightSideType = ((HasType) rightSideNode).getType();
+        if (!TypeCheckerAndInference.checkAssignment(arrayType, rightSideType)) {
+            Token assignToken = ctx.ASSIGN_SYMBOL().getSymbol();
+            int[] tokenPosition = getTokenPosition(ctx, assignToken);
+            throw new TypeMismatchException(tokenPosition, arrayType, rightSideType);
+        }
+        thisNode.addChild(rightSideNode);
+        return new AstGeneratorResult(thisNode, declarationContext);
+    }
 }

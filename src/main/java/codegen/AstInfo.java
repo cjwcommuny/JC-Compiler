@@ -132,9 +132,9 @@ public class AstInfo implements ClassRaw {
     private List<InstructionInfo> generateInstructions(Map<Integer, Integer> localIndexRemap,
                                                        StatementListNode statementListNode) {
         List<InstructionInfo> instructions = new LinkedList<>();
-        for (Node statement: statementListNode.getChildren()) {
+        for (Node statementNode: statementListNode.getChildren()) {
             List<InstructionInfo> partInstructions =
-                    new MethodInstructionGenerator(statement, localIndexRemap, simpleClassName).generate();
+                    new MethodInstructionGenerator(statementNode, localIndexRemap, simpleClassName).generate();
             instructions.addAll(partInstructions);
         }
         return instructions;

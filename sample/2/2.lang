@@ -6,7 +6,7 @@ namespace MyNamespace {
     }
     */
 
-    def void f() {
-        String s;
+    def void main(String[] args) {
+        
     }
 }

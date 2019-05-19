@@ -1,6 +1,6 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/MyNamespace.class
   Last modified 2019年5月19日; size 109 bytes
-  MD5 checksum 9b4673c1c938c84f81b488788dcbd78a
+  MD5 checksum 07adb08487acc8a75d89007f22352309
 public class MyNamespace
   minor version: 0
   major version: 49
@@ -23,6 +23,6 @@ Constant pool:
     Code:
       stack=20, locals=1, args_size=0
          0: aconst_null
-         1: astore_0
+         1: aload_0
          2: return
 }

@@ -522,6 +522,16 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link rulesParser#arrayDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayDefinition(rulesParser.ArrayDefinitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#arrayDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayDefinition(rulesParser.ArrayDefinitionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link rulesParser#functionCall}.
 	 * @param ctx the parse tree
 	 */

@@ -46,4 +46,8 @@ public class VariableDefinitionNode extends DefinitionNode {
     public Node getRightSide() {
         return getChild(1);
     }
+
+    public VariableNameNode getVariableNameNode() {
+        return (VariableNameNode) getChild(0);
+    }
 }
