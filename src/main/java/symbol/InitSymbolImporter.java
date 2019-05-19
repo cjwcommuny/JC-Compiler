@@ -52,4 +52,8 @@ public class InitSymbolImporter {
         thisNode.addChild(functionNameNode);
         return thisNode;
     }
+
+    public static ObjectType getStringType() {
+        return stringType;
+    }
 }

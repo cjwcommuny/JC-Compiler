@@ -3,11 +3,12 @@ package type;
 
 import error.exception.TypeMismatchException;
 import operation.Operation;
+import symbol.InitSymbolImporter;
 import type.typetype.*;
 
 import java.util.List;
 
-public class TypeCheckerAndInference {
+public class TypeChecker {
 
     public static Type checkInfixComputation(Operation operation, Type type1, Type type2) {
         switch (operation.toString()) {
@@ -30,32 +31,50 @@ public class TypeCheckerAndInference {
 
     private static Type checkAddition(Type type1, Type type2) {
         //TODO: support String
-        if (type1.equals(TypeBuilder.generateIntType())
-                && type2.equals(TypeBuilder.generateIntType())) {
+        Type type = checkIntDoubleExpression(type1, type2);
+        if (type != null) {
+            return type;
+        }
+        boolean oneString = type1.equals(InitSymbolImporter.getStringType())
+                || type2.equals(InitSymbolImporter.getStringType());
+        if (oneString) {
+            return InitSymbolImporter.getStringType();
+        } else {
+            return null;
+        }
+    }
+
+    private static Type checkIntDoubleExpression(Type type1, Type type2) {
+        boolean bothInt = type1.equals(TypeBuilder.generateIntType())
+                && type2.equals(TypeBuilder.generateIntType());
+        boolean oneIntOneDouble = (type1.equals(TypeBuilder.generateIntType())
+                && type2.equals(TypeBuilder.generateDoubleType()))
+                || (type1.equals(TypeBuilder.generateDoubleType())
+                && type2.equals(TypeBuilder.generateIntType()))
+                || (type1.equals(TypeBuilder.generateDoubleType())
+                && type2.equals(TypeBuilder.generateDoubleType()));
+        if (bothInt) {
             return TypeBuilder.generateIntType();
-        } else if ((type1.equals(TypeBuilder.generateIntType()) && type2.equals(TypeBuilder.generateDoubleType()))
-                || (type1.equals(TypeBuilder.generateDoubleType()) && type2.equals(TypeBuilder.generateIntType()))
-                || (type1.equals(TypeBuilder.generateDoubleType()) && type2.equals(TypeBuilder.generateDoubleType()))) {
+        } else if (oneIntOneDouble) {
             return TypeBuilder.generateDoubleType();
         } else {
             //type match error
-
             return null;
         }
     }
 
     private static Type checkSubtraction(Type type1, Type type2) {
         //TODO support char
-        return checkAddition(type1, type2);
+        return checkIntDoubleExpression(type1, type2);
     }
 
     private static Type checkMultiplication(Type type1, Type type2) {
         //TODO: support String * int
-        return checkAddition(type1, type2);
+        return checkIntDoubleExpression(type1, type2);
     }
 
     private static Type checkDivision(Type type1, Type type2) {
-        return checkAddition(type1, type2);
+        return checkIntDoubleExpression(type1, type2);
     }
 
     private static Type checkBoolExpression(Type type1, Type type2) {

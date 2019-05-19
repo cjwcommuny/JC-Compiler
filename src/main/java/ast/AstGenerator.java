@@ -22,7 +22,7 @@ import parser.rulesBaseVisitor;
 import parser.rulesLexer;
 import parser.rulesParser;
 import symbol.*;
-import type.TypeCheckerAndInference;
+import type.TypeChecker;
 import type.typetype.*;
 
 import java.util.LinkedList;
@@ -133,7 +133,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         AstGeneratorResult visitResult = visit(ctx.rValue());
         Node rightSideNode = visitResult.getNodes().get(0);
         Type rightSideType = ((HasType) rightSideNode).getType();
-        if (!TypeCheckerAndInference.checkAssignment(type, rightSideType)) {
+        if (!TypeChecker.checkAssignment(type, rightSideType)) {
             Token assignToken = ctx.ASSIGN_SYMBOL().getSymbol();
             int[] tokenPosition = getTokenPosition(ctx, assignToken);
             throw new TypeMismatchException(tokenPosition, type, rightSideType);
@@ -205,7 +205,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         Operation operation = new InfixOperation(operationStr);
         Node leftNode = visit(ctx.getChild(0)).getNode();
         Node rightNode = visit(ctx.getChild(2)).getNode();
-        Type resultType = TypeCheckerAndInference.checkInfixComputation(operation,
+        Type resultType = TypeChecker.checkInfixComputation(operation,
                 ((HasType) leftNode).getType(),
                 ((HasType) rightNode).getType());
         InfixExpressionNode thisNode = new InfixExpressionNode(operation, resultType);
@@ -219,7 +219,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         String operationStr = ctx.getChild(0).getText();
         Operation operation = new UnaryOperation(operationStr);
         ValueNode valueNode = (ValueNode) visit(ctx.getChild(1)).getNode();
-        Type resultType = TypeCheckerAndInference.checkUnaryComputation(operation, valueNode.getType());
+        Type resultType = TypeChecker.checkUnaryComputation(operation, valueNode.getType());
         UnaryExpressionNode thisNode = new UnaryExpressionNode(operation, resultType);
         thisNode.addChild(valueNode);
         return new AstGeneratorResult(thisNode);
@@ -427,7 +427,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             Node node = visit(context).getNode();
             argumentListNode.addChild(node);
         }
-        Type resultType = TypeCheckerAndInference.checkFunctionParameter(functionType, argumentListNode.getTypes());
+        Type resultType = TypeChecker.checkFunctionParameter(functionType, argumentListNode.getTypes());
         if (resultType == null) {
             int[] errPosition = getTokenPosition(ctx, ctx.IDENTIFIER().getSymbol());
             throw new TypeMismatchException(errPosition, functionName);
@@ -445,7 +445,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         Node rightNode = visit(ctx.rValue()).getNode();
         Type leftType = ((HasType) leftNode).getType();
         Type rightType = ((HasType) rightNode).getType();
-        boolean result = TypeCheckerAndInference.checkAssignment(leftType, rightType);
+        boolean result = TypeChecker.checkAssignment(leftType, rightType);
         if (!result) {
             int[] errPosition = getTokenPosition(ctx, ctx.ASSIGN_SYMBOL().getSymbol());
             throw new TypeMismatchException(errPosition, leftType, rightType);
@@ -475,7 +475,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     public AstGeneratorResult visitIfBlock(rulesParser.IfBlockContext ctx) {
         Node conditionNode = visit(ctx.rValue()).getNode();
         Type conditionType = ((HasType) conditionNode).getType();
-        boolean isConditionValid = TypeCheckerAndInference.checkConditionValue(conditionType);
+        boolean isConditionValid = TypeChecker.checkConditionValue(conditionType);
         if (!isConditionValid) {
             int[] errPosition = getTokenPosition(ctx, ctx.IF_SYMBOL().getSymbol());
             throw new TypeMismatchException(errPosition, conditionType, "bool");
@@ -497,7 +497,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     public AstGeneratorResult visitElseIfBlock(rulesParser.ElseIfBlockContext ctx) {
         Node conditionNode = visit(ctx.rValue()).getNode();
         Type conditionType = ((HasType) conditionNode).getType();
-        boolean isConditionValid = TypeCheckerAndInference.checkConditionValue(conditionType);
+        boolean isConditionValid = TypeChecker.checkConditionValue(conditionType);
         if (!isConditionValid) {
             int[] errPosition = getTokenPosition(ctx, ctx.ELSE_IF_SYMBOL().getSymbol());
             throw new TypeMismatchException(errPosition, conditionType, "bool");
@@ -534,7 +534,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     public AstGeneratorResult visitWhileBlock(rulesParser.WhileBlockContext ctx) {
         Node conditionNode = visit(ctx.rValue()).getNode();
         Type conditionType = ((HasType) conditionNode).getType();
-        if (!TypeCheckerAndInference.checkConditionValue(conditionType)) {
+        if (!TypeChecker.checkConditionValue(conditionType)) {
             int[] errPosition = getTokenPosition(ctx, ctx.WHILE_SYMBOL().getSymbol());
             throw new TypeMismatchException(errPosition, conditionType, new BoolType());
         }
@@ -583,7 +583,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         Node initConditionNode = visit(ctx.initOrStepCondition(0)).getNode();
         Node terminateConditionNode = visit(ctx.terminateCondition()).getNode();
         Type terminateConditionType = ((HasType) terminateConditionNode).getType();
-        if (!TypeCheckerAndInference.checkConditionValue(terminateConditionType)) {
+        if (!TypeChecker.checkConditionValue(terminateConditionType)) {
             int[] errPosition = getTokenPosition(ctx, ctx.SEMICOLON(0).getSymbol());
             throw new TypeMismatchException(errPosition, terminateConditionType, new BoolType());
         }
@@ -610,7 +610,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             //has return value
             Node rValueNode = visit(ctx.rValue()).getNode();
             Type realReturnType = ((HasType) rValueNode).getType();
-            if (!TypeCheckerAndInference.areEquivalentType(realReturnType, expectReturnType)) {
+            if (!TypeChecker.areEquivalentType(realReturnType, expectReturnType)) {
                 throw new TypeMismatchException(errPosition, realReturnType, expectReturnType);
             }
             thisNode.addChild(rValueNode);
@@ -683,7 +683,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         AstGeneratorResult visitResult = visit(ctx.rValue());
         Node rightSideNode = visitResult.getNode();
         Type rightSideType = ((HasType) rightSideNode).getType();
-        if (!TypeCheckerAndInference.checkAssignment(arrayType, rightSideType)) {
+        if (!TypeChecker.checkAssignment(arrayType, rightSideType)) {
             Token assignToken = ctx.ASSIGN_SYMBOL().getSymbol();
             int[] tokenPosition = getTokenPosition(ctx, assignToken);
             throw new TypeMismatchException(tokenPosition, arrayType, rightSideType);
