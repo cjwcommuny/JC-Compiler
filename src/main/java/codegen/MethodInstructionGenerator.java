@@ -50,7 +50,7 @@ public class MethodInstructionGenerator {
         } else if (statementNode instanceof ForBlockNode) {
             return handleForBlock((ForBlockNode) statementNode);
         } else if (statementNode instanceof WhileBlockNode) {
-            return null;
+            return handleWhileBlock((WhileBlockNode) statementNode);
         } else if (statementNode instanceof AssignmentNode) {
             return handleAssignment((AssignmentNode) statementNode);
         } else if (statementNode instanceof StructRefNode) {
@@ -73,6 +73,21 @@ public class MethodInstructionGenerator {
         else {
             return null;
         }
+    }
+
+    private List<InstructionInfo> handleWhileBlock(WhileBlockNode whileBlockNode) {
+        List<InstructionInfo> result = new LinkedList<>();
+        Label loopLabel = new Label();
+        result.add(new DefaultInstruction(loopLabel));
+        result.addAll(new MethodInstructionGenerator(whileBlockNode.getConditionNode(),
+                localIndexRemap, namespaceName).generate());
+        Label endLabel = new Label();
+        result.add(new DefaultInstruction(Opcodes.IFEQ, new Object[]{endLabel}));
+        result.addAll(new MethodInstructionGenerator(whileBlockNode.getBlockCode(),
+                localIndexRemap, namespaceName).generate());
+        result.add(new DefaultInstruction(Opcodes.GOTO, new Object[]{loopLabel}));
+        result.add(new DefaultInstruction(endLabel));
+        return result;
     }
 
     private List<InstructionInfo> handleForBlock(ForBlockNode forLoopNode) {

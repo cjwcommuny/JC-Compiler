@@ -115,3 +115,17 @@ loop_label:
     goto loop_label
 end_label:
     ...
+
+
+
+while (condition) {
+    Block
+}
+==>
+loop_label:
+    //condition
+    ifeq end_label
+    //block
+    goto loop_label
+end_label:
+    ...

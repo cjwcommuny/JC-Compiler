@@ -89,8 +89,9 @@ public class AstInfo implements ClassRaw {
     }
 
     private CodeInfo generateCodeInfo(FunctionDefinitionNode functionNode) {
+        final int NOT_MATTER = 20;
         DefaultCodeInfo codeInfo = new DefaultCodeInfo();
-        codeInfo.setMaxStack(20); // TODO: change max stacks
+        codeInfo.setMaxStack(NOT_MATTER); // ASM lib will generate it automatically
         Map<Integer, Integer> localIndexRemap = generateLocalIndexer(codeInfo, functionNode);
         List<InstructionInfo> instructions = generateInstructions(localIndexRemap,
                 functionNode.getStatementListNode());
