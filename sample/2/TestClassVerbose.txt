@@ -1,37 +1,36 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/sample/2/TestClass.class
-  Last modified 2019年5月19日; size 368 bytes
-  MD5 checksum db8affdefdc29533ec74cb2bf512cbbe
+  Last modified 2019年5月20日; size 438 bytes
+  MD5 checksum 5aac38e2cc263a879bacbba3df26369d
   Compiled from "TestClass.java"
 public class TestClass
   minor version: 0
   major version: 55
   flags: (0x0021) ACC_PUBLIC, ACC_SUPER
-  this_class: #4                          // TestClass
-  super_class: #5                         // java/lang/Object
+  this_class: #3                          // TestClass
+  super_class: #4                         // java/lang/Object
   interfaces: 0, fields: 1, methods: 3, attributes: 1
 Constant pool:
-   #1 = Methodref          #5.#18         // java/lang/Object."<init>":()V
-   #2 = Fieldref           #4.#19         // TestClass.m:I
-   #3 = Methodref          #4.#20         // TestClass.inc:(I)V
-   #4 = Class              #21            // TestClass
-   #5 = Class              #22            // java/lang/Object
-   #6 = Utf8               m
-   #7 = Utf8               I
-   #8 = Utf8               <init>
-   #9 = Utf8               ()V
-  #10 = Utf8               Code
-  #11 = Utf8               LineNumberTable
-  #12 = Utf8               inc
-  #13 = Utf8               (I)V
+   #1 = Methodref          #4.#18         // java/lang/Object."<init>":()V
+   #2 = Fieldref           #3.#19         // TestClass.m:I
+   #3 = Class              #20            // TestClass
+   #4 = Class              #21            // java/lang/Object
+   #5 = Utf8               m
+   #6 = Utf8               I
+   #7 = Utf8               <init>
+   #8 = Utf8               ()V
+   #9 = Utf8               Code
+  #10 = Utf8               LineNumberTable
+  #11 = Utf8               inc
+  #12 = Utf8               (I)Z
+  #13 = Utf8               StackMapTable
   #14 = Utf8               main
   #15 = Utf8               ([Ljava/lang/String;)V
   #16 = Utf8               SourceFile
   #17 = Utf8               TestClass.java
-  #18 = NameAndType        #8:#9          // "<init>":()V
-  #19 = NameAndType        #6:#7          // m:I
-  #20 = NameAndType        #12:#13        // inc:(I)V
-  #21 = Utf8               TestClass
-  #22 = Utf8               java/lang/Object
+  #18 = NameAndType        #7:#8          // "<init>":()V
+  #19 = NameAndType        #5:#6          // m:I
+  #20 = Utf8               TestClass
+  #21 = Utf8               java/lang/Object
 {
   public int m;
     descriptor: I
@@ -52,25 +51,57 @@ Constant pool:
         line 1: 0
         line 2: 4
 
-  public static void inc(int);
-    descriptor: (I)V
+  public static boolean inc(int);
+    descriptor: (I)Z
     flags: (0x0009) ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=0, locals=1, args_size=1
-         0: return
+      stack=2, locals=1, args_size=1
+         0: iload_0
+         1: iconst_3
+         2: if_icmple     15
+         5: iload_0
+         6: bipush        6
+         8: if_icmpge     15
+        11: iconst_1
+        12: goto          16
+        15: iconst_0
+        16: ireturn
       LineNumberTable:
-        line 6: 0
+        line 5: 0
+      StackMapTable: number_of_entries = 2
+        frame_type = 15 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
 
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
     flags: (0x0009) ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=1, locals=1, args_size=1
-         0: iconst_3
-         1: invokestatic  #3                  // Method inc:(I)V
-         4: return
+      stack=2, locals=4, args_size=1
+         0: bipush        7
+         2: istore_1
+         3: iload_1
+         4: iconst_m1
+         5: iadd
+         6: istore_2
+         7: iload_1
+         8: iload_2
+         9: if_icmple     16
+        12: iconst_1
+        13: goto          17
+        16: iconst_0
+        17: istore_3
+        18: return
       LineNumberTable:
         line 9: 0
-        line 10: 4
+        line 10: 3
+        line 14: 7
+        line 15: 18
+      StackMapTable: number_of_entries = 2
+        frame_type = 253 /* append */
+          offset_delta = 16
+          locals = [ int, int ]
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
 }
 SourceFile: "TestClass.java"

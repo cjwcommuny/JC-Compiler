@@ -13,6 +13,18 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link rulesParser#add}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAdd(rulesParser.AddContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link rulesParser#sub}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSub(rulesParser.SubContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code simpleArrayInitialization}
 	 * labeled alternative in {@link rulesParser#arrayInitialization}.
 	 * @param ctx the parse tree
@@ -346,18 +358,6 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStructReference(rulesParser.StructReferenceContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link rulesParser#add}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAdd(rulesParser.AddContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link rulesParser#sub}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSub(rulesParser.SubContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#int_literal}.
 	 * @param ctx the parse tree

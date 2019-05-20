@@ -37,4 +37,8 @@ public class CommonInfrastructure {
     public static String constructDefaultFullRestrictName(String simpleName, List<String> restrictNames) {
         return constructFullRestrictClassName(simpleName, restrictNames);
     }
+
+    public static int getLineNumber() {
+        return Thread.currentThread().getStackTrace()[2].getLineNumber();
+    }
 }

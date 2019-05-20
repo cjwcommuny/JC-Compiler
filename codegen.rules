@@ -1,0 +1,71 @@
+a > b:
+    //push a
+    //push b
+    if_icmple tag1
+    iconst_1
+    goto tag2
+tag1:
+    iconst_0
+tag2:
+    ...
+
+
+a < b:
+    //push a
+    //push b
+    if_icmpge tag1
+    iconst_1
+    goto tag2
+tag1:
+    iconst_0
+tag2:
+
+a >= b:
+    //push a
+    //push b
+    if_icmplt tag1
+    iconst_1
+    goto tag2
+tag1:
+    iconst_0
+tag2:
+
+a <= b:
+    //push a
+    //push b
+    if_icmpgt tag1
+    iconst_1
+    goto tag2
+tag1:
+    iconst_0
+tag2:
+
+a == b:
+    //push a
+    //push b
+    if_icmpne tag1
+    iconst_1
+    goto tag2
+tag1:
+    iconst_0
+tag2:
+
+a != b:
+    //push a
+    //push b
+    if_icmpeq tag1
+    iconst_1
+    goto tag2
+tag1:
+    iconst_0
+tag2:
+
+!b:
+    //push b
+    iconst_0
+    if_icmpeq tag1
+    iconst_0
+    goto tag2
+tag1:
+    iconst_1
+tag2:

@@ -17,4 +17,16 @@ public abstract class Type {
     abstract public Object generateDefaultValue();
 
     abstract public org.objectweb.asm.Type getAsmType();
+
+    public static Type getLowestUpperType(Type type1, Type type2) {
+        Type result;
+        if (type1 instanceof DoubleType) {
+            result = TypeBuilder.generateDoubleType();
+        } else if (type2 instanceof DoubleType) {
+            result = TypeBuilder.generateDoubleType();
+        } else {
+            result = TypeBuilder.generateIntType();
+        }
+        return result;
+    }
 }

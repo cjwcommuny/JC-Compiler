@@ -10,6 +10,26 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface rulesListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@link rulesParser#add}.
+	 * @param ctx the parse tree
+	 */
+	void enterAdd(rulesParser.AddContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#add}.
+	 * @param ctx the parse tree
+	 */
+	void exitAdd(rulesParser.AddContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link rulesParser#sub}.
+	 * @param ctx the parse tree
+	 */
+	void enterSub(rulesParser.SubContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link rulesParser#sub}.
+	 * @param ctx the parse tree
+	 */
+	void exitSub(rulesParser.SubContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code simpleArrayInitialization}
 	 * labeled alternative in {@link rulesParser#arrayInitialization}.
 	 * @param ctx the parse tree
@@ -571,26 +591,6 @@ public interface rulesListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStructReference(rulesParser.StructReferenceContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link rulesParser#add}.
-	 * @param ctx the parse tree
-	 */
-	void enterAdd(rulesParser.AddContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link rulesParser#add}.
-	 * @param ctx the parse tree
-	 */
-	void exitAdd(rulesParser.AddContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link rulesParser#sub}.
-	 * @param ctx the parse tree
-	 */
-	void enterSub(rulesParser.SubContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link rulesParser#sub}.
-	 * @param ctx the parse tree
-	 */
-	void exitSub(rulesParser.SubContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#int_literal}.
 	 * @param ctx the parse tree

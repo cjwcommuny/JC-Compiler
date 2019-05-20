@@ -2,6 +2,7 @@ package classgen;
 
 import classgen.provider.*;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import type.typetype.FunctionType;
@@ -105,8 +106,17 @@ public class ClassFileGenerator {
                         (String) arguments[2],
                         false);
                 break;
-            case Opcodes.ILOAD: case Opcodes.LLOAD: case Opcodes.FLOAD: case Opcodes.DLOAD: case Opcodes.ALOAD: case Opcodes.ISTORE: case Opcodes.LSTORE: case Opcodes.FSTORE: case Opcodes.DSTORE: case Opcodes.ASTORE: case Opcodes.RET:
+            case Opcodes.ILOAD: case Opcodes.LLOAD: case Opcodes.FLOAD: case Opcodes.DLOAD:
+                case Opcodes.ALOAD: case Opcodes.ISTORE: case Opcodes.LSTORE: case Opcodes.FSTORE:
+                    case Opcodes.DSTORE: case Opcodes.ASTORE: case Opcodes.RET:
                 methodVisitor.visitVarInsn(opcode, (int) arguments[0]);
+                break;
+            case Opcodes.IFEQ: case Opcodes.IFNE: case Opcodes.IFLT: case Opcodes.IFGE:
+                case Opcodes.IFGT:  case Opcodes.IFLE:  case Opcodes.IF_ICMPEQ:  case Opcodes.IF_ICMPNE:
+                    case Opcodes.IF_ICMPLT:  case Opcodes.IF_ICMPGE:  case Opcodes.IF_ICMPGT: case Opcodes.IF_ICMPLE:
+                        case Opcodes.IF_ACMPEQ: case Opcodes.IF_ACMPNE: case Opcodes.GOTO:  case Opcodes.JSR:
+                            case Opcodes.IFNULL: case Opcodes.IFNONNULL:
+                methodVisitor.visitJumpInsn(opcode, (Label) arguments[0]);
                 break;
 //            case :
 //                methodVisitor.visitJumpInsn();

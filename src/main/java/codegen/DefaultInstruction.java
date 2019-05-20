@@ -6,12 +6,15 @@ import org.objectweb.asm.Label;
 public class DefaultInstruction implements InstructionInfo {
     private int opcode;
     private Object[] arguments;
-    private boolean isLabel;
     private Label label;
 
     public DefaultInstruction(int opcode, Object[] arguments) {
         this.opcode = opcode;
         this.arguments = arguments;
+    }
+
+    public DefaultInstruction(Label label) {
+        this.label = label;
     }
 
     @Override
@@ -26,11 +29,7 @@ public class DefaultInstruction implements InstructionInfo {
 
     @Override
     public boolean isLabel() {
-        return isLabel;
-    }
-
-    public void setLabel(boolean label) {
-        isLabel = label;
+        return label != null;
     }
 
     @Override

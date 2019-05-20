@@ -33,13 +33,21 @@ LOGIC_OR: '||';
 LOGIC_AND: '&&';
 LOGIC_NOT: '!';
 
-
+add: '+';
+sub: '-';
+MUL: '*';
+DIV: '/';
+XOR: '^';
+AND: '&';
+OR: '|';
+NOT: '~';
 
 LESS_THAN: '<';
 LESS_OR_EQUAL_THAN: '<=';
 GREATER_THAN: '>';
 GREATER_OR_EQUAL_THAN: '>=';
 EQUAL_SYMBOL: '==';
+NOT_EQUAL_SYMBOL: '!=';
 
 //TODO: unicode support
 STRING_LITERAL: '"' [a-zA-Z0-9 \t\\]* '"';
@@ -138,6 +146,7 @@ expression:
     | expression LESS_OR_EQUAL_THAN expression # infixExpression
     | expression GREATER_OR_EQUAL_THAN expression # infixExpression
     | expression EQUAL_SYMBOL expression # infixExpression
+    | expression NOT_EQUAL_SYMBOL expression # infixExpression
     | LOGIC_NOT expression # unaryExpression
 	| expression LOGIC_OR expression # infixExpression
 	| expression LOGIC_AND expression # infixExpression
@@ -263,15 +272,6 @@ structReference:
     structReference '.' IDENTIFIER
     | (IDENTIFIER | functionCall) '.' IDENTIFIER
     ;
-
-add: '+';
-sub: '-';
-MUL: '*';
-DIV: '/';
-XOR: '^';
-AND: '&';
-OR: '|';
-NOT: '~';
 
 //TODO: scientific notation support
 int_literal: ('+' | '-')? DIGIT+;

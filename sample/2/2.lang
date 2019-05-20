@@ -1,11 +1,11 @@
 namespace TestClass {
     //int x = 0;
-
+    /*
     def int inc(int m) {
         return m;
     }
+    */
     
     def void main(String[] args) {
-        print(inc(3));
     }
 }

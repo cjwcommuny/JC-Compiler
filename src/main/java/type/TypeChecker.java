@@ -20,7 +20,7 @@ public class TypeChecker {
                 return checkMultiplication(type1, type2);
             case "/":
                 return checkDivision(type1, type2);
-            case "<": case ">": case ">=": case "<=": case "==":
+            case "<": case ">": case ">=": case "<=": case "==": case "!=":
                 return checkCompareExpression(type1, type2);
             case "||": case "&&":
                 return checkBoolExpression(type1, type2);

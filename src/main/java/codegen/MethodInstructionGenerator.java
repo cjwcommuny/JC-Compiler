@@ -12,14 +12,15 @@ import ast.node.structrue.WhileBlockNode;
 import ast.node.value.InfixExpressionNode;
 import ast.node.value.UnaryExpressionNode;
 import classgen.provider.InstructionInfo;
+import common.CommonInfrastructure;
 import jdk.internal.org.objectweb.asm.Opcodes;
 import operation.InfixOperation;
 import operation.Operation;
 import operation.UnaryOperation;
+import org.objectweb.asm.Label;
 import symbol.InitSymbolImporter;
 import type.typetype.*;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +76,7 @@ public class MethodInstructionGenerator {
     }
 
     private List<InstructionInfo> handleLogicBlock(LogicBlockNode node) {
-
+        return null;
     }
 
     private List<InstructionInfo> handleInfixExpression(InfixExpressionNode node) {
@@ -106,42 +107,68 @@ public class MethodInstructionGenerator {
         result.addAll(adjustRightValue(type2, resultType, op));
 
         //operation instruction
-        org.objectweb.asm.Type asmType = resultType.getAsmType();
-        result.add(handleInfixOperation(op, asmType));
+        org.objectweb.asm.Type asmType = Type.getLowestUpperType(type1, type2).getAsmType();
+        result.addAll(handleInfixOperation(op, asmType));
         return result;
     }
 
-    private List<InstructionInfo> handleInfixOperation(Operation op, org.objectweb.asm.Type asmType) {
+    private List<InstructionInfo> handleInfixOperation(Operation op, org.objectweb.asm.Type operatorAsmType) {
         List<InstructionInfo> result = new LinkedList<>();
         if (op.equals(InfixOperation.ADD)) {
-            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.IADD), null));
+            result.add(new DefaultInstruction(operatorAsmType.getOpcode(Opcodes.IADD), null));
         } else if (op.equals(InfixOperation.SUB)) {
-            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ISUB), null));
+            result.add(new DefaultInstruction(operatorAsmType.getOpcode(Opcodes.ISUB), null));
         } else if (op.equals(InfixOperation.MUL)) {
-            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.IMUL), null));
+            result.add(new DefaultInstruction(operatorAsmType.getOpcode(Opcodes.IMUL), null));
         } else if (op.equals(InfixOperation.DIV)) {
-            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.IDIV), null));
+            result.add(new DefaultInstruction(operatorAsmType.getOpcode(Opcodes.IDIV), null));
         } else if (op.equals(InfixOperation.AND)) {
             result.add(new DefaultInstruction(Opcodes.IAND, null));
         } else if (op.equals(InfixOperation.OR)) {
             result.add(new DefaultInstruction(Opcodes.IOR, null));
-        } else if (op.equals(InfixOperation.EQUAL)) {
-            //a == b <=> ~(a XOR b)
-            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.IXOR), null));
-            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.INEG), null));
+        }
+        result.addAll(handleCompareExpression(op, operatorAsmType));
+        return result;
+    }
+
+    private List<InstructionInfo> handleCompareExpression(Operation op, org.objectweb.asm.Type compareAsmType) {
+        List<InstructionInfo> result = new LinkedList<>();
+        boolean isBoolExpression = op.equals(InfixOperation.EQUAL)
+                || op.equals(InfixOperation.GREATER)
+                || op.equals(InfixOperation.LESS)
+                || op.equals(InfixOperation.GREATER_EQUAL)
+                || op.equals(InfixOperation.LESS_EQUAL)
+                || op.equals(InfixOperation.NOT_EQUAL);
+        if (!isBoolExpression) {
+            return result;
+        }
+        if (compareAsmType.equals(org.objectweb.asm.Type.DOUBLE_TYPE)) {
+            //firstly compare double and generate int value
+            result.add(new DefaultInstruction(Opcodes.DCMPG, null));
+            result.add(new DefaultInstruction(Opcodes.ICONST_0, null));
+        }
+        Label label1 = new Label();
+        Object[] branchLabel1Argument = new Object[]{label1};
+        if (op.equals(InfixOperation.EQUAL)) {
+            result.add(new DefaultInstruction(compareAsmType.getOpcode(Opcodes.IF_ICMPNE), branchLabel1Argument));
         } else if (op.equals(InfixOperation.GREATER)) {
-
+            result.add(new DefaultInstruction(compareAsmType.getOpcode(Opcodes.IF_ICMPLE), branchLabel1Argument));
         } else if (op.equals(InfixOperation.LESS)) {
-
+            result.add(new DefaultInstruction(compareAsmType.getOpcode(Opcodes.IF_ICMPGE), branchLabel1Argument));
         } else if (op.equals(InfixOperation.GREATER_EQUAL)) {
-
+            result.add(new DefaultInstruction(compareAsmType.getOpcode(Opcodes.IF_ICMPLT), branchLabel1Argument));
         } else if (op.equals(InfixOperation.LESS_EQUAL)) {
-
+            result.add(new DefaultInstruction(compareAsmType.getOpcode(Opcodes.IF_ICMPGT), branchLabel1Argument));
+        } else if (op.equals(InfixOperation.NOT_EQUAL)) {
+            result.add(new DefaultInstruction(compareAsmType.getOpcode(Opcodes.IF_ICMPEQ), branchLabel1Argument));
         }
-        else {
-            //error
-            return null;
-        }
+        result.add(new DefaultInstruction(Opcodes.ICONST_1, null));
+        Label label2 = new Label();
+        result.add(new DefaultInstruction(Opcodes.GOTO, new Object[]{label2}));
+        result.add(new DefaultInstruction(label1));
+        result.add(new DefaultInstruction(Opcodes.ICONST_0, null));
+        result.add(new DefaultInstruction(label2));
+        return result;
     }
 
     private List<InstructionInfo> adjustLeftValue(Type leftType, Type resultType, Operation op)  {
@@ -171,12 +198,20 @@ public class MethodInstructionGenerator {
                 namespaceName).generate();
         result.addAll(loadInstructions);
 
-        if (operation == UnaryOperation.NOT) {
-            int opcode = ((HasType) valueNode).getType().getAsmType().getOpcode(Opcodes.INEG);
-            result.add(opcode, null);
+        org.objectweb.asm.Type asmType = ((HasType) valueNode).getType().getAsmType();
+        if (operation.equals(UnaryOperation.NOT)) {
+            result.add(new DefaultInstruction(Opcodes.ICONST_0, null));
+            Label label1 = new Label();
+            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.IF_ICMPEQ), new Object[]{label1}));
+            result.add(new DefaultInstruction(Opcodes.ICONST_0, null));
+            Label label2 = new Label();
+            result.add(new DefaultInstruction(Opcodes.GOTO, new Object[]{label2}));
+            result.add(new DefaultInstruction(label1));
+            result.add(new DefaultInstruction(Opcodes.ICONST_1, null));
+            result.add(new DefaultInstruction(label2));
         } else if (operation == UnaryOperation.NEGATIVE) {
-            result.add(Opcodes.ICONST_1, null); //load 1 to value stack
-            result.add(Opcodes.IXOR, null); // exp ^ 1
+            int opcode = asmType.getOpcode(Opcodes.INEG);
+            result.add(opcode, null);
         } else {
             //error
         }
