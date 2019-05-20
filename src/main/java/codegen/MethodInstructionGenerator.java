@@ -48,7 +48,7 @@ public class MethodInstructionGenerator {
         } else if (statementNode instanceof LogicBlockNode) {
             return handleLogicBlock((LogicBlockNode) statementNode);
         } else if (statementNode instanceof ForBlockNode) {
-            return null;
+            return handleForBlock((ForBlockNode) statementNode);
         } else if (statementNode instanceof WhileBlockNode) {
             return null;
         } else if (statementNode instanceof AssignmentNode) {
@@ -73,6 +73,25 @@ public class MethodInstructionGenerator {
         else {
             return null;
         }
+    }
+
+    private List<InstructionInfo> handleForBlock(ForBlockNode forLoopNode) {
+        List<InstructionInfo> result = new LinkedList<>();
+        result.addAll(new MethodInstructionGenerator(forLoopNode.getInitConditionNode(),
+                localIndexRemap, namespaceName).generate());
+        Label loopLabel = new Label();
+        result.add(new DefaultInstruction(loopLabel));
+        result.addAll(new MethodInstructionGenerator(forLoopNode.getTerminateConditionNode(),
+                localIndexRemap, namespaceName).generate());
+        Label endLabel = new Label();
+        result.add(new DefaultInstruction(Opcodes.IFEQ, new Object[]{endLabel}));
+        result.addAll(new MethodInstructionGenerator(forLoopNode.getBlockBodyNode(),
+                localIndexRemap, namespaceName).generate());
+        result.addAll(new MethodInstructionGenerator(forLoopNode.getStepConditionNode(),
+                localIndexRemap, namespaceName).generate());
+        result.add(new DefaultInstruction(Opcodes.GOTO, new Object[]{loopLabel}));
+        result.add(new DefaultInstruction(endLabel));
+        return result;
     }
 
     private List<InstructionInfo> handleStatementListNode(StatementListNode statementListNode) {

@@ -17,7 +17,7 @@ public class ClassFileGenerator {
     }
 
     public byte[] generateByteArray() {
-        ClassWriter classWriter = new ClassWriter(0);
+        ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         generateMetaInfo(classWriter);
         generateFieldsInfo(classWriter);
         generateInnerClasses(classWriter);

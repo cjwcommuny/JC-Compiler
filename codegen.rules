@@ -99,3 +99,19 @@ else_label2:
     B3
 end_label:
     ...
+
+
+//for-loop
+for (initStatements; condition; stepStatements) {
+    BlockCode
+}
+==>
+    //do initStatements
+loop_label:
+    //push condition
+    ifeq end_label
+    //BlockCode
+    //stepStatements
+    goto loop_label
+end_label:
+    ...

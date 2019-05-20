@@ -604,6 +604,15 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     }
 
     @Override
+    public AstGeneratorResult visitInitOrStepCondition(rulesParser.InitOrStepConditionContext ctx) {
+        StatementListNode thisNode = new StatementListNode();
+        for (rulesParser.StatementWithoutSemicolonContext context: ctx.statementWithoutSemicolon()) {
+            thisNode.addChild(visit(context).getNode());
+        }
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
     public AstGeneratorResult visitReturnStatement(rulesParser.ReturnStatementContext ctx) {
         ReturnNode thisNode = new ReturnNode();
         Scope functionScope = scopeHandler.getClosestFunctionScope();

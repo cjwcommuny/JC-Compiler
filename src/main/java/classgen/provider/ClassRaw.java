@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ClassRaw {
     default int getClassVersion() {
-        return Opcodes.V1_5; //Java 1.5
+        return Opcodes.V1_6; //Java 1.5
     }
 
     int getClassAccessFlags();

@@ -1,13 +1,10 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/TestClass.class
-  Last modified 2019年5月20日; size 322 bytes
-  MD5 checksum 27b3e88ba1c1f2dd163a4079c63feae7
+  Last modified 2019-5-20; size 185 bytes
+  MD5 checksum 8448773d82d51c78f206f6758f52c017
 public class TestClass
   minor version: 0
-  major version: 49
-  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
-  this_class: #2                          // TestClass
-  super_class: #4                         // java/lang/Object
-  interfaces: 0, fields: 0, methods: 1, attributes: 0
+  major version: 50
+  flags: ACC_PUBLIC, ACC_SUPER
 Constant pool:
    #1 = Utf8               TestClass
    #2 = Class              #1             // TestClass
@@ -15,43 +12,31 @@ Constant pool:
    #4 = Class              #3             // java/lang/Object
    #5 = Utf8               main
    #6 = Utf8               ([Ljava/lang/String;)V
-   #7 = Utf8               java/lang/System
-   #8 = Class              #7             // java/lang/System
-   #9 = Utf8               out
-  #10 = Utf8               Ljava/io/PrintStream;
-  #11 = NameAndType        #9:#10         // out:Ljava/io/PrintStream;
-  #12 = Fieldref           #8.#11         // java/lang/System.out:Ljava/io/PrintStream;
-  #13 = Integer            1
-  #14 = Utf8               java/io/PrintStream
-  #15 = Class              #14            // java/io/PrintStream
-  #16 = Utf8               print
-  #17 = Utf8               (Z)V
-  #18 = NameAndType        #16:#17        // print:(Z)V
-  #19 = Methodref          #15.#18        // java/io/PrintStream.print:(Z)V
-  #20 = Utf8               \n
-  #21 = String             #20            // \n
-  #22 = Utf8               (Ljava/lang/String;)V
-  #23 = NameAndType        #16:#22        // print:(Ljava/lang/String;)V
-  #24 = Methodref          #15.#23        // java/io/PrintStream.print:(Ljava/lang/String;)V
-  #25 = Integer            0
-  #26 = Utf8               Code
+   #7 = Integer            0
+   #8 = Utf8               Code
+   #9 = Utf8               StackMapTable
 {
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
-    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    flags: ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=20, locals=2, args_size=1
-         0: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
-         3: ldc           #13                 // int 1
-         5: invokevirtual #19                 // Method java/io/PrintStream.print:(Z)V
-         8: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        11: ldc           #21                 // String \n
-        13: invokevirtual #24                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-        16: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        19: ldc           #25                 // int 0
-        21: invokevirtual #19                 // Method java/io/PrintStream.print:(Z)V
-        24: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        27: ldc           #21                 // String \n
-        29: invokevirtual #24                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-        32: return
+      stack=2, locals=4, args_size=1
+         0: ldc           #7                  // int 0
+         2: istore_3
+         3: iload_3
+         4: ldc           #7                  // int 0
+         6: if_icmpge     13
+         9: iconst_1
+        10: goto          14
+        13: iconst_0
+        14: ifeq          20
+        17: goto          14
+        20: return
+      StackMapTable: number_of_entries = 3
+        frame_type = 254 /* append */
+          offset_delta = 13
+          locals = [ top, top, int ]
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 5 /* same */
 }
