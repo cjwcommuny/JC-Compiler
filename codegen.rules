@@ -69,3 +69,33 @@ tag2:
 tag1:
     iconst_1
 tag2:
+
+
+//logic block
+if (C1) {
+    B1
+} else if (C21) {
+    B21
+}
+...
+else if (C2N) {
+    B2N
+}
+else {
+    B3
+}
+
+    //push C1
+    ifeq else_label1
+    B1
+    goto end_label
+else_label1:
+    //push C21
+    ifeq else_label2
+    B21
+    goto end_label
+else_label2:
+    //else part
+    B3
+end_label:
+    ...

@@ -6,9 +6,7 @@ import ast.node.definition.VariableDefinitionNode;
 import ast.node.reference.RefNode;
 import ast.node.reference.StructRefNode;
 import ast.node.reference.VariableNameNode;
-import ast.node.structrue.ForBlockNode;
-import ast.node.structrue.LogicBlockNode;
-import ast.node.structrue.WhileBlockNode;
+import ast.node.structrue.*;
 import ast.node.value.InfixExpressionNode;
 import ast.node.value.UnaryExpressionNode;
 import classgen.provider.InstructionInfo;
@@ -69,14 +67,69 @@ public class MethodInstructionGenerator {
             return handleInfixExpression((InfixExpressionNode) statementNode);
         } else if (statementNode instanceof UnaryExpressionNode) {
             return handleUnaryExpression((UnaryExpressionNode) statementNode);
+        } else if (statementNode instanceof StatementListNode) {
+            return handleStatementListNode((StatementListNode) statementNode);
         }
         else {
             return null;
         }
     }
 
+    private List<InstructionInfo> handleStatementListNode(StatementListNode statementListNode) {
+        List<InstructionInfo> result = new LinkedList<>();
+        for (Node node: statementListNode.getStatements()) {
+            result.addAll(new MethodInstructionGenerator(node, localIndexRemap, namespaceName).generate());
+        }
+        return result;
+    }
+
     private List<InstructionInfo> handleLogicBlock(LogicBlockNode node) {
-        return null;
+        List<InstructionInfo> result = new LinkedList<>();
+        IfNode ifNode = node.getIfNode();
+        List<ElseIfNode> elseIfNodes = node.getElseIfNodes();
+        ElseNode elseNode = node.getElseNode();
+        Label endLabel = new Label();
+        result.addAll(handleIfNode(ifNode, endLabel));
+        result.addAll(handleElseIfNodes(elseIfNodes, endLabel));
+        if (elseNode != null) {
+            result.addAll(handleElseNode(elseNode, endLabel));
+        }
+        result.add(new DefaultInstruction(endLabel));
+        return result;
+    }
+
+    private List<InstructionInfo> handleIfNode(IfNode ifNode, Label endLabel) {
+        return handleGeneralIfStructure(ifNode.getCondition(), ifNode.getStatementListNode(), endLabel);
+    }
+
+    private List<InstructionInfo> handleElseIfNodes(List<ElseIfNode> elseIfNodes, Label endLabel) {
+        List<InstructionInfo> result = new LinkedList<>();
+        for (ElseIfNode elseIfNode: elseIfNodes) {
+            result.addAll(handleElseIfNode(elseIfNode, endLabel));
+        }
+        return result;
+    }
+
+    private List<InstructionInfo> handleGeneralIfStructure(Node conditionNode, Node statementListNode, Label endLabel) {
+        List<InstructionInfo> result = new LinkedList<>();
+        result.addAll(new MethodInstructionGenerator(conditionNode, localIndexRemap, namespaceName).generate());
+        Label elseLabel = new Label();
+        result.add(new DefaultInstruction(Opcodes.IFEQ, new Object[]{elseLabel}));
+        result.addAll(new MethodInstructionGenerator(statementListNode,
+                localIndexRemap,
+                namespaceName).generate());
+        result.add(new DefaultInstruction(Opcodes.GOTO, new Object[]{endLabel}));
+        result.add(new DefaultInstruction(elseLabel));
+        return result;
+    }
+
+    private List<InstructionInfo> handleElseIfNode(ElseIfNode elseIfNode, Label endLabel) {
+        return handleGeneralIfStructure(elseIfNode.getCondition(), elseIfNode.getStatementListNode(), endLabel);
+    }
+
+    private List<InstructionInfo> handleElseNode(ElseNode elseNode, Label endLabel) {
+        return new MethodInstructionGenerator(elseNode.getStatementListNode(),
+                localIndexRemap, namespaceName).generate();
     }
 
     private List<InstructionInfo> handleInfixExpression(InfixExpressionNode node) {

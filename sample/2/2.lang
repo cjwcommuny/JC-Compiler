@@ -7,5 +7,15 @@ namespace TestClass {
     */
     
     def void main(String[] args) {
+        int m = 3;
+        if (m == 1) {
+            print(m + 1);
+        } elif (m == 2) {
+            print(m + 2);
+        } elif (m == 3) {
+            print(m + 3);
+        } else {
+            print(m + 4);
+        }
     }
 }
