@@ -1,9 +1,13 @@
 package ast.node.definition;
 
+import ast.node.StructFieldListNode;
 import ast.node.structrue.HasScope;
 import symbol.Scope;
 import type.typetype.ObjectType;
 
+/**
+ * child: StructFieldListNode
+ * */
 public class StructureDefinitionNode extends DefinitionNode implements HasScope {
     public void setThisScope(Scope thisScope) {
         this.thisScope = thisScope;
@@ -24,5 +28,9 @@ public class StructureDefinitionNode extends DefinitionNode implements HasScope 
     @Override
     protected String visualInfo() {
         return "Struct: " + type.visualInfo();
+    }
+
+    public StructFieldListNode getStructFieldListNode() {
+        return (StructFieldListNode) getChild(0);
     }
 }

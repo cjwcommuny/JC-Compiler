@@ -3,6 +3,7 @@ package codegen;
 import ast.node.Node;
 import ast.node.ParameterListNode;
 import ast.node.StatementListNode;
+import ast.node.StructFieldListNode;
 import ast.node.definition.FunctionDefinitionNode;
 import ast.node.definition.StructureDefinitionNode;
 import ast.node.definition.VariableDefinitionNode;
@@ -149,6 +150,23 @@ public class AstInfo implements ClassRaw {
 
     @Override
     public List<ClassRaw> getInnerClasses() {
-        return new LinkedList<>();
+        List<ClassRaw> classRaws = new LinkedList<>();
+        for (StructureDefinitionNode node: structNodes) {
+            classRaws.add(generateInnerClass(node));
+        }
+        return classRaws;
+    }
+
+    private ClassRaw generateInnerClass(StructureDefinitionNode structNode) {
+        List<Node> variableNodes = structNode.getStructFieldListNode().getVariableDefinitionNodes();
+        for (Node variableNode: variableNodes) {
+            VariableDefinitionNode variableDefinitionNode = (VariableDefinitionNode) variableNode;
+            //TODO
+        }
+    }
+
+    @Override
+    public String getClassFileName() {
+        return getSimpleName();
     }
 }

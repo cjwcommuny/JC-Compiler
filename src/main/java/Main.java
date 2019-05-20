@@ -2,6 +2,7 @@ import ast.AstGenerator;
 import ast.AstGeneratorResult;
 import ast.node.Node;
 import classgen.ClassFileGenerator;
+import classgen.OutputClassFile;
 import codegen.AstInfo;
 import error.SyntaxError;
 import error.SyntaxErrorListener;
@@ -57,10 +58,14 @@ public class Main {
                     astGenerator.getStructNodes(),
                     astGenerator.getFieldNodes());
             ClassFileGenerator classFileGenerator = new ClassFileGenerator(astInfo);
-            byte[] bytes = classFileGenerator.generateByteArray();
-            String pathName = "./" + astGenerator.getSimpleClassName() + ".class";
-            try (FileOutputStream stream = new FileOutputStream(pathName)) {
-                stream.write(bytes);
+            List<OutputClassFile> outputClassFiles = classFileGenerator.generateOutputFilesInfo();
+            for (OutputClassFile outputClassFile: outputClassFiles) {
+                byte[] bytes = outputClassFile.getBytes();
+                String fileName = outputClassFile.getFileName();
+                String pathName = "./" + fileName + ".class";
+                try (FileOutputStream stream = new FileOutputStream(pathName)) {
+                    stream.write(bytes);
+                }
             }
         } catch (ParseException e) {
             System.out.println(e.getMessage());

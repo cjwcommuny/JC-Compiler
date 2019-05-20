@@ -5,24 +5,26 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import type.typetype.FunctionType;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class ClassFileGenerator {
     private ClassRaw classRaw;
+    private List<OutputClassFile> outputClassFiles = new LinkedList<>();
 
     public ClassFileGenerator(ClassRaw classRaw) {
         this.classRaw = classRaw;
     }
 
-    public byte[] generateByteArray() {
+    public List<OutputClassFile> generateOutputFilesInfo() {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         generateMetaInfo(classWriter);
         generateFieldsInfo(classWriter);
         generateInnerClasses(classWriter);
         generateMethodsInfo(classWriter);
-        return classWriter.toByteArray();
+        outputClassFiles.add(new OutputClassFile(classWriter.toByteArray(), classRaw.getClassFileName()));
+        return outputClassFiles;
     }
 
     private void generateMetaInfo(ClassWriter classWriter) {
@@ -145,5 +147,6 @@ public class ClassFileGenerator {
                 classRaw.getInternalClassName(),
                 innerClass.getSimpleName(),
                 innerClass.getClassAccessFlags());
+        this.outputClassFiles.addAll(new ClassFileGenerator(innerClass).generateOutputFilesInfo());
     }
 }

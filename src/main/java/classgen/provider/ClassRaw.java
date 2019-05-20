@@ -30,4 +30,5 @@ public interface ClassRaw {
     List<FieldInfo> getFieldsInfo();
     List<MethodInfo> getMethodsInfo();
     List<ClassRaw> getInnerClasses();
+    String getClassFileName();
 }
