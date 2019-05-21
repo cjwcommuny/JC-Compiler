@@ -1,6 +1,9 @@
 namespace TestClass {
+    struct S1 {
+
+    }
     struct MyStruct {
-        
+        int a = 0;
     }
     
     def void main(String[] args) {

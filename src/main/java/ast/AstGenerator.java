@@ -297,7 +297,8 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         String typeName = ctx.IDENTIFIER(0).getText();
         Type type = generateTypeForDeclaration(typeName, ctx, ctx.IDENTIFIER(0).getSymbol());
         String variableName = ctx.IDENTIFIER(1).getText();
-        if (scopeHandler.existInCurrentScope(variableName)) {
+        if (!scopeHandler.getCurrentScope().isRestrictDescriptiveScope()
+                && scopeHandler.existInCurrentScope(variableName)) {
             int[] errPosition = getTokenPosition(ctx, ctx.IDENTIFIER(1).getSymbol());
             throw new NameDuplicateException(errPosition, variableName);
         }

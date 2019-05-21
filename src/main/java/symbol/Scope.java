@@ -69,4 +69,8 @@ public class Scope {
     public void putAll(Map<String, ? extends DefinitionNode> table) {
         symbolTable.putAll(table);
     }
+
+    public boolean isRestrictDescriptiveScope() {
+        return isRestrictDescriptiveScope;
+    }
 }
