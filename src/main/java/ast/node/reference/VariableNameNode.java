@@ -1,6 +1,7 @@
 package ast.node.reference;
 
 import ast.node.definition.DefinitionNode;
+import ast.node.definition.VariableDefinitionNode;
 import ast.node.reference.RefNode;
 import type.typetype.Type;
 
@@ -25,5 +26,9 @@ public class VariableNameNode extends RefNode {
     @Override
     public String getName() {
         return name;
+    }
+
+    public int getLocalIndex() {
+        return ((VariableDefinitionNode) reference).getLocalIndex();
     }
 }

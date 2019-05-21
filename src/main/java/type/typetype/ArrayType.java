@@ -7,12 +7,12 @@ public class ArrayType extends Type {
     private int dimension;
 
     @Override
-    public String generateDescriptor() {
+    public String getDescriptor() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < dimension; ++i) {
             sb.append("[");
         }
-        sb.append(componentType.generateDescriptor());
+        sb.append(componentType.getDescriptor());
         return sb.toString();
     }
 
@@ -46,7 +46,7 @@ public class ArrayType extends Type {
 
     @Override
     public org.objectweb.asm.Type getAsmType() {
-        return org.objectweb.asm.Type.getObjectType(generateDescriptor());
+        return org.objectweb.asm.Type.getObjectType(getDescriptor());
     }
 
     @Override

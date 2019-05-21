@@ -11,8 +11,8 @@ public class NamespaceType extends Type {
     }
 
     @Override
-    public String generateDescriptor() {
-        return objectType.generateDescriptor();
+    public String getDescriptor() {
+        return objectType.getDescriptor();
     }
 
     @Override
@@ -40,6 +40,6 @@ public class NamespaceType extends Type {
 
     @Override
     public org.objectweb.asm.Type getAsmType() {
-        return org.objectweb.asm.Type.getObjectType(generateDescriptor());
+        return org.objectweb.asm.Type.getObjectType(getDescriptor());
     }
 }

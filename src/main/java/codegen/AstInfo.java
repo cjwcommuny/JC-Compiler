@@ -1,14 +1,11 @@
 package codegen;
 
 import ast.node.Node;
-import ast.node.ParameterListNode;
 import ast.node.StatementListNode;
-import ast.node.StructFieldListNode;
 import ast.node.definition.FunctionDefinitionNode;
 import ast.node.definition.StructureDefinitionNode;
 import ast.node.definition.VariableDefinitionNode;
 import classgen.provider.*;
-import com.sun.org.apache.bcel.internal.generic.IRETURN;
 import org.objectweb.asm.Opcodes;
 import type.typetype.BaseType;
 import type.typetype.DoubleType;
@@ -16,7 +13,6 @@ import type.typetype.Type;
 import type.typetype.VoidType;
 
 import java.util.*;
-import java.util.function.Function;
 
 import static codegen.DefaultFieldInfo.generateFieldInfo;
 
@@ -76,7 +72,7 @@ public class AstInfo implements ClassRaw {
     private MethodInfo generateMethodInfo(FunctionDefinitionNode functionNode) {
         String name = functionNode.getFunctionName();
         Type type = functionNode.getType();
-        String descriptor = type.generateDescriptor();
+        String descriptor = type.getDescriptor();
         int accessFlags = Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC;
         CodeInfo codeInfo = generateCodeInfo(functionNode);
         return new DefaultMethodInfo(name, accessFlags, descriptor, codeInfo);

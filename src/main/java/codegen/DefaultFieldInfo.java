@@ -2,8 +2,6 @@ package codegen;
 
 import ast.node.definition.VariableDefinitionNode;
 import classgen.provider.FieldInfo;
-import org.objectweb.asm.Opcodes;
-import sun.jvm.hotspot.oops.AccessFlags;
 import type.typetype.Type;
 
 public class DefaultFieldInfo implements FieldInfo {
@@ -42,7 +40,7 @@ public class DefaultFieldInfo implements FieldInfo {
     public static FieldInfo generateFieldInfo(VariableDefinitionNode fieldNode, int accessFlags) {
         String fieldName = fieldNode.getVariableName();
         Type type = fieldNode.getType();
-        String descriptor = type.generateDescriptor();
+        String descriptor = type.getDescriptor();
         Object value = fieldNode.getLiteralValue();
         return new DefaultFieldInfo(fieldName, descriptor, accessFlags, value);
     }

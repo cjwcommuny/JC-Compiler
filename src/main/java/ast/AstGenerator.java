@@ -421,6 +421,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             throw new SymbolNotResolvedException(errorLocation, rightIdentifierName);
         }
         StructRefNode thisNode = new StructRefNode(fieldDefinitionNode.getType(), fieldDefinitionNode);
+        thisNode.addChild(leftNode);
         return new AstGeneratorResult(thisNode);
     }
 

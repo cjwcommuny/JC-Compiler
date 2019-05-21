@@ -11,7 +11,7 @@ public class ObjectType extends Type {
     private String fullRestrictClassName;
 
     @Override
-    public String generateDescriptor() {
+    public String getDescriptor() {
         return "L" + fullRestrictClassName + ";";
     }
 
@@ -51,6 +51,6 @@ public class ObjectType extends Type {
 
     @Override
     public org.objectweb.asm.Type getAsmType() {
-        return org.objectweb.asm.Type.getObjectType(generateDescriptor());
+        return org.objectweb.asm.Type.getObjectType(getDescriptor());
     }
 }

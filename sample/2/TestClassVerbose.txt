@@ -1,103 +1,65 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/sample/2/TestClass.class
-  Last modified 2019-5-21; size 684 bytes
-  MD5 checksum d8c4fadc1c8827eef007147a660f7e8d
+  Last modified 2019-5-21; size 375 bytes
+  MD5 checksum a5c44600955c8477f091a454026ad768
   Compiled from "TestClass.java"
 public class TestClass
   minor version: 0
   major version: 52
   flags: ACC_PUBLIC, ACC_SUPER
 Constant pool:
-   #1 = Methodref          #12.#25        // java/lang/Object."<init>":()V
-   #2 = Class              #26            // java/lang/String
-   #3 = String             #27            // haha
-   #4 = Methodref          #2.#28         // java/lang/String."<init>":(Ljava/lang/String;)V
-   #5 = Fieldref           #11.#29        // TestClass.s:Ljava/lang/String;
-   #6 = Fieldref           #30.#31        // java/lang/System.out:Ljava/io/PrintStream;
-   #7 = Class              #32            // TestClass$InnerTest
-   #8 = Methodref          #33.#34        // java/lang/Class.getName:()Ljava/lang/String;
-   #9 = Methodref          #35.#36        // java/io/PrintStream.println:(Ljava/lang/String;)V
-  #10 = Methodref          #33.#37        // java/lang/Class.getSimpleName:()Ljava/lang/String;
-  #11 = Class              #38            // TestClass
-  #12 = Class              #39            // java/lang/Object
-  #13 = Utf8               InnerTest
-  #14 = Utf8               InnerClasses
-  #15 = Utf8               s
-  #16 = Utf8               Ljava/lang/String;
-  #17 = Utf8               <init>
-  #18 = Utf8               ()V
-  #19 = Utf8               Code
-  #20 = Utf8               LineNumberTable
-  #21 = Utf8               main
-  #22 = Utf8               ([Ljava/lang/String;)V
-  #23 = Utf8               SourceFile
-  #24 = Utf8               TestClass.java
-  #25 = NameAndType        #17:#18        // "<init>":()V
-  #26 = Utf8               java/lang/String
-  #27 = Utf8               haha
-  #28 = NameAndType        #17:#40        // "<init>":(Ljava/lang/String;)V
-  #29 = NameAndType        #15:#16        // s:Ljava/lang/String;
-  #30 = Class              #41            // java/lang/System
-  #31 = NameAndType        #42:#43        // out:Ljava/io/PrintStream;
-  #32 = Utf8               TestClass$InnerTest
-  #33 = Class              #44            // java/lang/Class
-  #34 = NameAndType        #45:#46        // getName:()Ljava/lang/String;
-  #35 = Class              #47            // java/io/PrintStream
-  #36 = NameAndType        #48:#40        // println:(Ljava/lang/String;)V
-  #37 = NameAndType        #49:#46        // getSimpleName:()Ljava/lang/String;
-  #38 = Utf8               TestClass
-  #39 = Utf8               java/lang/Object
-  #40 = Utf8               (Ljava/lang/String;)V
-  #41 = Utf8               java/lang/System
-  #42 = Utf8               out
-  #43 = Utf8               Ljava/io/PrintStream;
-  #44 = Utf8               java/lang/Class
-  #45 = Utf8               getName
-  #46 = Utf8               ()Ljava/lang/String;
-  #47 = Utf8               java/io/PrintStream
-  #48 = Utf8               println
-  #49 = Utf8               getSimpleName
+   #1 = Methodref          #6.#17         // java/lang/Object."<init>":()V
+   #2 = Class              #18            // TestClass$InnerTest
+   #3 = Methodref          #2.#17         // TestClass$InnerTest."<init>":()V
+   #4 = Fieldref           #2.#19         // TestClass$InnerTest.a:I
+   #5 = Class              #20            // TestClass
+   #6 = Class              #21            // java/lang/Object
+   #7 = Utf8               InnerTest
+   #8 = Utf8               InnerClasses
+   #9 = Utf8               <init>
+  #10 = Utf8               ()V
+  #11 = Utf8               Code
+  #12 = Utf8               LineNumberTable
+  #13 = Utf8               main
+  #14 = Utf8               ([Ljava/lang/String;)V
+  #15 = Utf8               SourceFile
+  #16 = Utf8               TestClass.java
+  #17 = NameAndType        #9:#10         // "<init>":()V
+  #18 = Utf8               TestClass$InnerTest
+  #19 = NameAndType        #22:#23        // a:I
+  #20 = Utf8               TestClass
+  #21 = Utf8               java/lang/Object
+  #22 = Utf8               a
+  #23 = Utf8               I
 {
-  java.lang.String s;
-    descriptor: Ljava/lang/String;
-    flags:
-
   public TestClass();
     descriptor: ()V
     flags: ACC_PUBLIC
     Code:
-      stack=4, locals=1, args_size=1
+      stack=1, locals=1, args_size=1
          0: aload_0
          1: invokespecial #1                  // Method java/lang/Object."<init>":()V
-         4: aload_0
-         5: new           #2                  // class java/lang/String
-         8: dup //duplicate the reference, not the space
-         9: ldc           #3                  // String haha
-        11: invokespecial #4                  // Method java/lang/String."<init>":(Ljava/lang/String;)V
-        14: putfield      #5                  // Field s:Ljava/lang/String;
-        17: return
+         4: return
       LineNumberTable:
         line 1: 0
-        line 2: 4
 
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
     flags: ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=2, locals=1, args_size=1
-         0: getstatic     #6                  // Field java/lang/System.out:Ljava/io/PrintStream;
-         3: ldc           #7                  // class TestClass$InnerTest
-         5: invokevirtual #8                  // Method java/lang/Class.getName:()Ljava/lang/String;
-         8: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-        11: getstatic     #6                  // Field java/lang/System.out:Ljava/io/PrintStream;
-        14: ldc           #7                  // class TestClass$InnerTest
-        16: invokevirtual #10                 // Method java/lang/Class.getSimpleName:()Ljava/lang/String;
-        19: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V
-        22: return
+      stack=2, locals=3, args_size=1
+         0: new           #2                  // class TestClass$InnerTest
+         3: dup
+         4: invokespecial #3                  // Method TestClass$InnerTest."<init>":()V
+         7: astore_1
+         8: aload_1
+         9: getfield      #4                  // Field TestClass$InnerTest.a:I
+        12: istore_2
+        13: return
       LineNumberTable:
         line 4: 0
-        line 5: 11
-        line 6: 22
+        line 5: 8
+        line 6: 13
 }
 SourceFile: "TestClass.java"
 InnerClasses:
-     public static #13= #7 of #11; //InnerTest=class TestClass$InnerTest of class TestClass
+     public static #7= #2 of #5; //InnerTest=class TestClass$InnerTest of class TestClass

@@ -27,12 +27,17 @@ public class StructRefNode extends RefNode {
         return getChild(0);
     }
 
-    public RefNode getRightSideNode() {
-        return (RefNode) getChild(1);
+    public Type getType() {
+        return reference.getType();
     }
 
     @Override
     public String getName() {
-        return ((RefNode) getChild(1)).getName();
+        VariableDefinitionNode variableDefinitionNode = (VariableDefinitionNode) reference;
+        return variableDefinitionNode.getParentScope().getScopeName();
+    }
+
+    public String getFieldName() {
+        return ((VariableDefinitionNode) reference).getVariableName();
     }
 }

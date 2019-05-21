@@ -10,7 +10,7 @@ public class CharType extends BaseType {
     }
 
     @Override
-    public String generateDescriptor() {
+    public String getDescriptor() {
         return "C";
     }
 

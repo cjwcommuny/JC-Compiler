@@ -7,7 +7,7 @@ public class AnyType extends Type {
     public static AnyType anyType = new AnyType();
 
     @Override
-    public String generateDescriptor() {
+    public String getDescriptor() {
         return "**ANY**";
     }
 

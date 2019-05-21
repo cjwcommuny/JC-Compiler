@@ -6,10 +6,6 @@ import ast.node.definition.ArrayDefinitionNode;
 import ast.node.definition.Assignable;
 import ast.node.definition.VariableDefinitionNode;
 import classgen.provider.*;
-import com.sun.tools.classfile.Method;
-import com.sun.tools.classfile.Opcode;
-import com.sun.xml.internal.ws.wsdl.parser.InaccessibleWSDLException;
-import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import type.typetype.ArrayType;
 import type.typetype.ObjectType;
@@ -120,7 +116,7 @@ public class InnerClassInfo implements ClassRaw {
         result.addAll(new MethodInstructionGenerator(node.getRightSide(),
                 null, outerClassName).generate());
         result.add(new DefaultInstruction(Opcodes.PUTFIELD,
-                new Object[]{getInternalClassName(), fieldName, type.generateDescriptor()}));
+                new Object[]{getInternalClassName(), fieldName, type.getDescriptor()}));
         return result;
     }
 
@@ -129,12 +125,12 @@ public class InnerClassInfo implements ClassRaw {
         String fieldName = definitionNode.getVariableName();
         List<InstructionInfo> result = new LinkedList<>();
         result.add(new DefaultInstruction(Opcodes.ALOAD, new Object[]{0})); //load this pointer
-        result.add(new DefaultInstruction(Opcodes.NEW, new Object[]{type.generateDescriptor()}));
+        result.add(new DefaultInstruction(Opcodes.NEW, new Object[]{type.getDescriptor()}));
         result.add(new DefaultInstruction(Opcodes.DUP, null));
         result.add(new DefaultInstruction(Opcodes.INVOKESPECIAL,
-                new Object[]{type.generateDescriptor(), "<init>", "()V"}));
+                new Object[]{type.getDescriptor(), "<init>", "()V"}));
         result.add(new DefaultInstruction(Opcodes.PUTFIELD,
-                new Object[]{getInternalClassName(), fieldName, type.generateDescriptor()}));
+                new Object[]{getInternalClassName(), fieldName, type.getDescriptor()}));
         return result;
     }
 

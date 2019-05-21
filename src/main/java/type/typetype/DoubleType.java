@@ -10,7 +10,7 @@ public class DoubleType extends BaseType {
     }
 
     @Override
-    public String generateDescriptor() {
+    public String getDescriptor() {
         return "D";
     }
 

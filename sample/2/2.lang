@@ -8,7 +8,8 @@ namespace TestClass {
     }
 
     def void main(String[] args) {
-        S1 s;
-        S1 s2 = s;
+        S1 s1;
+        int a = s1.s;
+        print(a);
     }
 }

@@ -11,7 +11,7 @@ public class BoolType extends BaseType {
     }
 
     @Override
-    public String generateDescriptor() {
+    public String getDescriptor() {
         return "Z";
     }
 

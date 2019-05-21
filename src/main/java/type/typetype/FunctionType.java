@@ -10,21 +10,21 @@ public class FunctionType extends Type {
     public static String mainFunctionDescriptor = "([Ljava/lang/String;)V";
 
     @Override
-    public String generateDescriptor() {
-        return "(" + generateParameterDescriptor() + ")" + returnType.generateDescriptor();
+    public String getDescriptor() {
+        return "(" + generateParameterDescriptor() + ")" + returnType.getDescriptor();
     }
 
     private String generateParameterDescriptor() {
         StringBuilder sb = new StringBuilder();
         for (Type type: parameterTypes) {
-            sb.append(type.generateDescriptor());
+            sb.append(type.getDescriptor());
         }
         return sb.toString();
     }
 
     @Override
     public org.objectweb.asm.Type getAsmType() {
-        return org.objectweb.asm.Type.getObjectType(generateDescriptor());
+        return org.objectweb.asm.Type.getObjectType(getDescriptor());
     }
 
     @Override
