@@ -47,11 +47,12 @@ public class Main {
             }
             return;
         }
+//        showAstInGUI(parser, tree);
         try {
             AstGeneratorResult visitResult = astGenerator.visit(tree);
             Node ast = visitResult.getNodes().get(0);
             ast.printTree();
-//            showAstInGUI(parser, tree);
+
             AstInfo astInfo = new AstInfo(ast,
                     astGenerator.getSimpleClassName(),
                     astGenerator.getFunctionNodes(),

@@ -1,5 +1,6 @@
 package type.typetype;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 public class CharType extends BaseType {
@@ -26,5 +27,10 @@ public class CharType extends BaseType {
     @Override
     public Object generateDefaultValue() {
         return '\u0000';
+    }
+
+    @Override
+    public int getConstFieldValueType() {
+        return Opcodes.T_CHAR;
     }
 }

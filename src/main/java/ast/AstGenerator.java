@@ -110,7 +110,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 
     @Override
     public AstGeneratorResult visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
-        AstGeneratorResult declarationVisitResult = visit(ctx.variableDeclaration());
+        AstGeneratorResult declarationVisitResult = visit(ctx.ordinaryVariableDeclaration());
         VariableDefinitionNode declarationNode = (VariableDefinitionNode) declarationVisitResult.getNode();
         VariableNameNode variableNameNode = (VariableNameNode) declarationNode.getVariableNameNode();
         ParserRuleContext declarationContext = declarationVisitResult.getContext();
@@ -290,12 +290,6 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     @Override
     public AstGeneratorResult visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) {
         AstGeneratorResult result = visit(ctx.getChild(0));
-        VariableDefinitionNode node = (VariableDefinitionNode) result.getNode();
-        Node parentNode = node.getParentScope().getCorrespondingNode();
-        Type type = node.getType();
-        if (parentNode instanceof FunctionDefinitionNode) {
-            node.setLocalIndex(((FunctionDefinitionNode) parentNode).addLocalVariableTypeAndReturnIndex(type));
-        }
         return result;
     }
 
@@ -312,6 +306,11 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         VariableNameNode nameNode = new VariableNameNode(variableName, null, type);
         VariableDefinitionNode thisNode = DefinitionNodeBuilder.generateVariableDefinitionNodeNotBuf(nameNode.getType(), scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
         thisNode.addChild(nameNode);
+        Node parentNode = thisNode.getParentScope().getCorrespondingNode();
+        if (parentNode instanceof FunctionDefinitionNode) {
+            thisNode.setLocalIndex(((FunctionDefinitionNode) parentNode)
+                    .addLocalVariableTypeAndReturnIndex(type));
+        }
         return new AstGeneratorResult(thisNode, ctx);
     }
 
@@ -653,7 +652,8 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         Type componentType = generateTypeForDeclaration(componentTypeName, ctx, ctx.IDENTIFIER(0).getSymbol());
         int dimension = 1; //only support 1-dimension array
         String variableName = ctx.IDENTIFIER(1).getText();
-        if (scopeHandler.existInCurrentScope(variableName)) {
+        if (!scopeHandler.getCurrentScope().isRestrictDescriptiveScope()
+                && scopeHandler.existInCurrentScope(variableName)) {
             int[] errPosition = getTokenPosition(ctx, ctx.IDENTIFIER(1).getSymbol());
             throw new NameDuplicateException(errPosition, variableName);
         }
@@ -663,6 +663,12 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 nameNode.getType(),
                 scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
         thisNode.addChild(nameNode);
+
+        Node parentNode = thisNode.getParentScope().getCorrespondingNode();
+        if (parentNode instanceof FunctionDefinitionNode) {
+            thisNode.setLocalIndex(((FunctionDefinitionNode) parentNode)
+                    .addLocalVariableTypeAndReturnIndex(arrayType));
+        }
         return new AstGeneratorResult(thisNode, ctx);
     }
 
@@ -703,6 +709,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                     arrayType,
                     scopeHandler.getCurrentScope());
         }
+        thisNode.setLocalIndex(arrayDefinitionNode.getLocalIndex());
         thisNode.addChild(variableNameNode);
         AstGeneratorResult visitResult = visit(ctx.rValue());
         Node rightSideNode = visitResult.getNode();
@@ -722,7 +729,17 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         int dimension = 1;
         String componentTypeStr = ctx.IDENTIFIER().getText();
         List<String> restrictNames = scopeHandler.getRestrictNames();
-        Type componentType = TypeBuilder.generateBaseOrObjectType(componentTypeStr, restrictNames);
+        Type componentType;
+        if (BaseType.isBaseType(componentTypeStr)) {
+            componentType = TypeBuilder.generateBaseType(componentTypeStr);
+        } else {
+            DefinitionNode definitionNode = scopeHandler.getNode(componentTypeStr);
+            if (definitionNode == null) {
+                int[] errPosition = getTokenPosition(ctx, ctx.IDENTIFIER().getSymbol());
+                throw new SymbolNotResolvedException(errPosition, componentTypeStr);
+            }
+            componentType = definitionNode.getType();
+        }
         Type arrayType = TypeBuilder.generateArrayType(componentType, dimension);
         ArrayInitNode thisNode = new ArrayInitNode(true, arrLen, arrayType);
         return new AstGeneratorResult(thisNode);
@@ -739,7 +756,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             int[] errPosition = getTokenPosition(ctx, ctx.LEFT_CURLY_BRACE().getSymbol());
             throw new TypeMismatchException(errPosition, "array");
         }
-        ArrayInitNode thisNode = new ArrayInitNode(resultType);
+        ArrayInitNode thisNode = new ArrayInitNode(initNodes.size(), resultType);
         thisNode.addChildren(initNodes);
         return new AstGeneratorResult(thisNode);
     }

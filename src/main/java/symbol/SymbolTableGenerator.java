@@ -39,7 +39,7 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
             String name = result.getTokenText();
             if (table.containsKey(name)) {
                 int[] errorPosition = astGenerator.getTokenPosition(ctx, result.getToken());
-                throw new SymbolNotResolvedException(errorPosition, name);
+                throw new NameDuplicateException(errorPosition, name);
             }
             List<String> restrictNames = scopeHandler.getRestrictNames();
             String fullRestrictName = CommonInfrastructure.constructFullRestrictClassName(name, restrictNames, "$");
@@ -55,6 +55,7 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
                         parentScope);
                 structInnerScope.setCorrespondingNode(node);
             } else if (definitionType == DefinitionType.VARIABLE) {
+                //ordinary variable or array
                 node = DefinitionNodeBuilder.generateVariableDefinitionNode(fullRestrictName,
                         result.getType(),
                         parentScope);
@@ -101,7 +102,7 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
 
     @Override
     public SymbolTableResult visitOrdinaryVariableDefinition(rulesParser.OrdinaryVariableDefinitionContext ctx) {
-        return visit(ctx.variableDeclaration());
+        return visit(ctx.ordinaryVariableDeclaration());
     }
 
     @Override
@@ -125,9 +126,11 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
         String componentTypeStr = ctx.IDENTIFIER(0).getText();
         List<String> restrictNames = scopeHandler.getRestrictNames();
         Type componentType = TypeBuilder.generateBaseOrObjectType(componentTypeStr, restrictNames);
-        int dimension = ctx.LEFT_BRACKET().size();
+        int dimension = 1;
         ArrayType arrayType = TypeBuilder.generateArrayType(componentType, dimension);
-        return new SymbolTableResult(arrayType, new LinkedList<>(), ctx);
+        List<Token> tokens = new LinkedList<>();
+        tokens.add(ctx.IDENTIFIER(1).getSymbol());
+        return new SymbolTableResult(arrayType,tokens, ctx);
     }
 
     /**
@@ -188,5 +191,10 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
             types.add(type);
         }
         return new SymbolTableResult(parameterSymbolTable, types);
+    }
+
+    @Override
+    public SymbolTableResult visitArrayDefinition(rulesParser.ArrayDefinitionContext ctx) {
+        return visit(ctx.arrayDeclaration());
     }
 }

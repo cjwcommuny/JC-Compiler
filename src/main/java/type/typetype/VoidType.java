@@ -27,4 +27,9 @@ public class VoidType extends BaseType {
     public Object generateDefaultValue() {
         return null;
     }
+
+    @Override
+    public int getConstFieldValueType() {
+        return 0;//meaningless
+    }
 }

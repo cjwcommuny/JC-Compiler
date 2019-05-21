@@ -2916,8 +2916,8 @@ public class rulesParser extends Parser {
 	}
 
 	public static class OrdinaryVariableDefinitionContext extends ParserRuleContext {
-		public VariableDeclarationContext variableDeclaration() {
-			return getRuleContext(VariableDeclarationContext.class,0);
+		public OrdinaryVariableDeclarationContext ordinaryVariableDeclaration() {
+			return getRuleContext(OrdinaryVariableDeclarationContext.class,0);
 		}
 		public TerminalNode ASSIGN_SYMBOL() { return getToken(rulesParser.ASSIGN_SYMBOL, 0); }
 		public RValueContext rValue() {
@@ -2949,7 +2949,7 @@ public class rulesParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(377);
-			variableDeclaration();
+			ordinaryVariableDeclaration();
 			setState(378);
 			match(ASSIGN_SYMBOL);
 			setState(379);
@@ -3874,7 +3874,7 @@ public class rulesParser extends Parser {
 		"\u0170\7\t\2\2\u0170\u0171\5\n\6\2\u0171\u0172\7\n\2\2\u0172\u0173\7\5"+
 		"\2\2\u0173\u0174\5*\26\2\u0174\u0175\7\6\2\2\u0175E\3\2\2\2\u0176\u017a"+
 		"\5H%\2\u0177\u017a\5P)\2\u0178\u017a\5J&\2\u0179\u0176\3\2\2\2\u0179\u0177"+
-		"\3\2\2\2\u0179\u0178\3\2\2\2\u017aG\3\2\2\2\u017b\u017c\5J&\2\u017c\u017d"+
+		"\3\2\2\2\u0179\u0178\3\2\2\2\u017aG\3\2\2\2\u017b\u017c\5L\'\2\u017c\u017d"+
 		"\7\16\2\2\u017d\u017e\5\n\6\2\u017eI\3\2\2\2\u017f\u0182\5L\'\2\u0180"+
 		"\u0182\5N(\2\u0181\u017f\3\2\2\2\u0181\u0180\3\2\2\2\u0182K\3\2\2\2\u0183"+
 		"\u0184\7+\2\2\u0184\u0185\7+\2\2\u0185M\3\2\2\2\u0186\u0187\7+\2\2\u0187"+

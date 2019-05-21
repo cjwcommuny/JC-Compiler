@@ -152,6 +152,6 @@ public class TypeChecker {
                 return null;
             }
         }
-        return resultType;
+        return TypeBuilder.generateArrayType(resultType, 1);
     }
 }

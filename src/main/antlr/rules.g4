@@ -244,7 +244,7 @@ variableDefinition:
 	;
 
 ordinaryVariableDefinition:
-	variableDeclaration ASSIGN_SYMBOL rValue;
+	ordinaryVariableDeclaration ASSIGN_SYMBOL rValue;
 
 variableDeclaration:
 	ordinaryVariableDeclaration

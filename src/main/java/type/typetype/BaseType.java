@@ -37,4 +37,6 @@ public abstract class BaseType extends Type {
     public String visualInfo() {
         return simpleName;
     }
+
+    abstract public int getConstFieldValueType();
 }

@@ -1,5 +1,6 @@
 package type.typetype;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 public class DoubleType extends BaseType {
@@ -30,5 +31,10 @@ public class DoubleType extends BaseType {
 
     public static DoubleType getDoubleType() {
         return doubleType;
+    }
+
+    @Override
+    public int getConstFieldValueType() {
+        return Opcodes.T_DOUBLE;
     }
 }

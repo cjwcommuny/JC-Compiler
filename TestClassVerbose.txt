@@ -1,6 +1,6 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/TestClass.class
-  Last modified 2019-5-21; size 334 bytes
-  MD5 checksum 7e587c4d4ac5cb25d42d55b6f4ec99e3
+  Last modified 2019-5-21; size 160 bytes
+  MD5 checksum d52b74f897f5445363843497d52a7892
 public class TestClass
   minor version: 0
   major version: 50
@@ -10,48 +10,20 @@ Constant pool:
    #2 = Class              #1             // TestClass
    #3 = Utf8               java/lang/Object
    #4 = Class              #3             // java/lang/Object
-   #5 = Utf8               TestClass$S1
-   #6 = Class              #5             // TestClass$S1
-   #7 = Utf8               S1
-   #8 = Utf8               f
-   #9 = Utf8               ()I
-  #10 = Integer            3
-  #11 = Utf8               java/lang/Throwable
-  #12 = Class              #11            // java/lang/Throwable
-  #13 = Utf8               main
-  #14 = Utf8               ([Ljava/lang/String;)V
-  #15 = Utf8               java/lang/String
-  #16 = Class              #15            // java/lang/String
-  #17 = Utf8               <init>
-  #18 = Utf8               ()V
-  #19 = NameAndType        #17:#18        // "<init>":()V
-  #20 = Methodref          #16.#19        // java/lang/String."<init>":()V
-  #21 = Utf8               Code
-  #22 = Utf8               StackMapTable
-  #23 = Utf8               InnerClasses
+   #5 = Utf8               main
+   #6 = Utf8               ([Ljava/lang/String;)V
+   #7 = Integer            3
+   #8 = Utf8               java/lang/String
+   #9 = Class              #8             // java/lang/String
+  #10 = Utf8               Code
 {
-  public static int f();
-    descriptor: ()I
-    flags: ACC_PUBLIC, ACC_STATIC
-    Code:
-      stack=1, locals=0, args_size=0
-         0: ldc           #10                 // int 3
-         2: ireturn
-         3: athrow
-      StackMapTable: number_of_entries = 1
-        frame_type = 67 /* same_locals_1_stack_item */
-          stack = [ class java/lang/Throwable ]
-
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
     flags: ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=2, locals=2, args_size=1
-         0: new           #16                 // class java/lang/String
-         3: dup
-         4: invokespecial #20                 // Method java/lang/String."<init>":()V
-         7: astore_1
-         8: return
+      stack=1, locals=1, args_size=1
+         0: ldc           #7                  // int 3
+         2: anewarray     #9                  // class java/lang/String
+         5: astore_0
+         6: return
 }
-InnerClasses:
-     public static #7= #6 of #2; //S1=class TestClass$S1 of class TestClass

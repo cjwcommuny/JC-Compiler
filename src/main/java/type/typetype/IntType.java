@@ -1,5 +1,6 @@
 package type.typetype;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 public class IntType extends BaseType {
@@ -26,5 +27,10 @@ public class IntType extends BaseType {
     @Override
     public Object generateDefaultValue() {
         return 0;
+    }
+
+    @Override
+    public int getConstFieldValueType() {
+        return Opcodes.T_INT;
     }
 }

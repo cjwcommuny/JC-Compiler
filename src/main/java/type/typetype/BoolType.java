@@ -1,5 +1,6 @@
 package type.typetype;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
 public class BoolType extends BaseType {
@@ -27,5 +28,10 @@ public class BoolType extends BaseType {
     @Override
     public Type getAsmType() {
         return Type.BOOLEAN_TYPE;
+    }
+
+    @Override
+    public int getConstFieldValueType() {
+        return Opcodes.T_BOOLEAN;
     }
 }

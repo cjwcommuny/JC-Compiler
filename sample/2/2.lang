@@ -1,8 +1,7 @@
 namespace TestClass {
-    int[] arr = {1,2,3};
 
     def void main(String[] args) {
-        String str = "hahaha\n";
-        print(str);
+        String[] la = String[3];
+        //String[] arr = {"haha","lala","kaka"};
     }
 }

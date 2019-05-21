@@ -58,7 +58,7 @@ public class MethodInstructionGenerator {
         this.endLabel = endLabel;
     }
 
-    public List<InstructionInfo> generate() {
+    List<InstructionInfo> generate() {
         if (statementNode instanceof ArrayDefinitionNode) {
             return handleArrayDefinition((ArrayDefinitionNode) statementNode);
         } else if (statementNode instanceof VariableDefinitionNode) {
@@ -96,10 +96,56 @@ public class MethodInstructionGenerator {
             return handleUnaryExpression((UnaryExpressionNode) statementNode);
         } else if (statementNode instanceof StatementListNode) {
             return handleStatementListNode((StatementListNode) statementNode);
+        } else if (statementNode instanceof ArrayInitNode) {
+            return handleArrayInit((ArrayInitNode) statementNode);
         }
         else {
             return null;
         }
+    }
+
+    private List<InstructionInfo> handleArrayInit(ArrayInitNode arrayInitNode) {
+        if (arrayInitNode.isNewArray()) {
+            return handleNewArray(arrayInitNode);
+        } else {
+            //literal init
+            return handleArrayLiteralInit(arrayInitNode);
+        }
+    }
+
+    private List<InstructionInfo> handleNewArray(ArrayInitNode arrayInitNode) {
+        List<InstructionInfo> result = new LinkedList<>();
+        Type componentType = arrayInitNode.getComponentType();
+        int arrLen = arrayInitNode.getLen();
+        result.add(new DefaultInstruction(Opcodes.LDC, new Object[]{arrLen}));
+        if (componentType instanceof BaseType) {
+            result.add(new DefaultInstruction(Opcodes.NEWARRAY,
+                    new Object[]{((BaseType) componentType).getConstFieldValueType()}));
+        } else {
+            //component is reference
+            result.add(new DefaultInstruction(Opcodes.ANEWARRAY,
+                    new Object[]{((ObjectType) componentType).getInternalName()}));
+        }
+        return result;
+    }
+
+    private List<InstructionInfo> handleArrayLiteralInit(ArrayInitNode arrayInitNode) {
+        List<InstructionInfo> result = new LinkedList<>();
+        int arrLen = arrayInitNode.getLen();
+        Type componentType = arrayInitNode.getComponentType();
+        List<Node> elements = arrayInitNode.getElements();
+
+        result.addAll(handleNewArray(arrayInitNode));
+        for (int i = 0; i < arrLen; ++i) {
+            Node element = elements.get(i);
+            result.add(new DefaultInstruction(Opcodes.DUP, null));
+            result.add(new DefaultInstruction(Opcodes.LDC, new Object[]{i}));
+            result.addAll(new MethodInstructionGenerator(element,
+                    localIndexRemap, namespaceName).generate());
+            result.add(new DefaultInstruction(componentType.getAsmType().getOpcode(Opcodes.IASTORE),
+                    null));
+        }
+        return result;
     }
 
     private List<InstructionInfo> handleStructRefNodeRValue(StructRefNode structNode) {
@@ -381,7 +427,7 @@ public class MethodInstructionGenerator {
         int localIndex = localIndexRemap.get(node.getLocalIndex());
         Object[] storeArguments = new Object[]{localIndex};
         int constOpcode = Opcodes.ACONST_NULL;
-        int storeOpcode = Opcodes.ALOAD;
+        int storeOpcode = Opcodes.ASTORE;
         if (node.beAssigned()) {
             List<InstructionInfo> rightSideInstructions = new MethodInstructionGenerator(node.getRightSide(),
                     localIndexRemap, namespaceName).generate();
@@ -401,19 +447,6 @@ public class MethodInstructionGenerator {
         instructions.add(new DefaultInstruction(opcode, new Object[]{localIndex}));
         return instructions;
     }
-
-//    private List<InstructionInfo> handleAssignment(AssignmentNode node) {
-//        Node leftNode = node.getLeftNode();
-//        if (leftNode instanceof StructRefNode) {
-//            return handleAssignmentLeftSideIsStructRef(node);
-//        } else {
-//            return handleAssignmentLeftSideWithoutArrayIndexOrStructRef(node);
-//        }
-//    }
-//
-//    private List<InstructionInfo> handleAssignmentLeftSideIsStructRef(AssignmentNode node) {
-//
-//    }
 
     private List<InstructionInfo> handleAssignment(AssignmentNode node) {
         List<InstructionInfo> result = new LinkedList<>();
