@@ -115,7 +115,7 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
         Token typeToken = ctx.IDENTIFIER(0).getSymbol();
         Token variableNameToken = ctx.IDENTIFIER(1).getSymbol();
         List<Token> tokens = new LinkedList<>();
-        tokens.add(typeToken);
+//        tokens.add(typeToken);
         tokens.add(variableNameToken);
         List<String> restrictNames = scopeHandler.getRestrictNames();
         return new SymbolTableResult(TypeBuilder.generateBaseOrObjectType(typeToken.getText(), restrictNames), tokens, ctx);
@@ -153,14 +153,19 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
         for (rulesParser.VariableDefinitionContext context: ctx.variableDefinition()) {
             SymbolTableResult result = visit(context);
             Type type = result.getType();
-            String variableName = result.getTokenText(1);
+            String variableName = result.getTokenText();
             if (table.containsKey(variableName)) {
                 int[] errorPosition = astGenerator.getTokenPosition(ctx, result.getToken());
                 throw new NameDuplicateException(errorPosition, variableName);
             }
             List<String> restrictNames = scopeHandler.getRestrictNames();
             String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(variableName, restrictNames);
-            table.put(variableName, DefinitionNodeBuilder.generateVariableDefinitionNode(fullRestrictName, type, scopeHandler.getCurrentScope()));
+            if (type instanceof ArrayType) {
+                table.put(variableName, DefinitionNodeBuilder.generateArrayDefinitionNode(fullRestrictName,
+                        type, scopeHandler.getCurrentScope()));
+            } else {
+                table.put(variableName, DefinitionNodeBuilder.generateVariableDefinitionNode(fullRestrictName, type, scopeHandler.getCurrentScope()));
+            }
         }
         return new SymbolTableResult(table);
     }

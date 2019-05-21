@@ -136,7 +136,7 @@ public class InnerClassInfo implements ClassRaw {
 
 
     private List<InstructionInfo> generateArrayFieldInitInstruction(ArrayDefinitionNode definitionNode) {
-        ObjectType type = (ObjectType) definitionNode.getType();
+        Type type = definitionNode.getType();
         String fieldName = definitionNode.getVariableName();
         List<InstructionInfo> result = new LinkedList<>();
         result.add(new DefaultInstruction(Opcodes.ALOAD, new Object[]{0})); //load this pointer

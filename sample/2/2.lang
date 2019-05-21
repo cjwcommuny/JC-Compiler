@@ -1,7 +1,19 @@
 namespace TestClass {
+    struct MyStruct {
+        int a = f();
+        int[] another = {1,2,3};
+        String[] baba = String[3];
+    }
+
+    MyStruct s;
+    int[] arr = int[10];
+    String[] keke = {"lili", "lulu"};
 
     def void main(String[] args) {
-        String[] la = String[3];
-        //String[] arr = {"haha","lala","kaka"};
+        
+    }
+
+    def int f() {
+        return 3;
     }
 }

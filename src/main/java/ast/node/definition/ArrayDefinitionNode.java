@@ -9,7 +9,6 @@ import type.typetype.TypeBuilder;
 
 /**
  * child: NameNode
- * child: (int_literal)?
  * child: (rValue)?
  * */
 public class ArrayDefinitionNode extends VariableDefinitionNode implements Assignable {
@@ -32,10 +31,5 @@ public class ArrayDefinitionNode extends VariableDefinitionNode implements Assig
             return null;
         }
         return child;
-    }
-
-    @Override
-    public boolean beAssigned() {
-        return getArrayInitNode() != null;
     }
 }
