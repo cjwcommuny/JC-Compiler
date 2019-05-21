@@ -3,6 +3,8 @@ package codegen;
 import ast.node.*;
 import ast.node.definition.ArrayDefinitionNode;
 import ast.node.definition.VariableDefinitionNode;
+import ast.node.reference.ArrayIndexNode;
+import ast.node.reference.ArrayNameNode;
 import ast.node.reference.StructRefNode;
 import ast.node.reference.VariableNameNode;
 import ast.node.structrue.*;
@@ -98,10 +100,40 @@ public class MethodInstructionGenerator {
             return handleStatementListNode((StatementListNode) statementNode);
         } else if (statementNode instanceof ArrayInitNode) {
             return handleArrayInit((ArrayInitNode) statementNode);
-        }
-        else {
+        } else if (statementNode instanceof ArrayIndexNode) {
+            return handleArrayIndexRValue((ArrayIndexNode) statementNode);
+        } else if (statementNode instanceof ArrayNameNode) {
+            if (isLValue) {
+                return handleArrayNameNodeLValue((ArrayNameNode) statementNode);
+            } else {
+                return handleArrayNameNodeRValue((ArrayNameNode) statementNode);
+            }
+        } else {
             return null;
         }
+    }
+
+    private List<InstructionInfo> handleArrayNameNodeRValue(ArrayNameNode node) {
+        List<InstructionInfo> result = new LinkedList<>();
+        int localIndex = localIndexRemap.get(((ArrayDefinitionNode) node.getReference()).getLocalIndex());
+        result.add(new DefaultInstruction(Opcodes.ALOAD, new Object[]{localIndex}));
+        return result;
+    }
+
+    private List<InstructionInfo> handleArrayNameNodeLValue(ArrayNameNode node) {
+        List<InstructionInfo> result = new LinkedList<>();
+        int localIndex = localIndexRemap.get(((ArrayDefinitionNode) node.getReference()).getLocalIndex());
+        result.add(new DefaultInstruction(Opcodes.ASTORE, new Object[]{localIndex}));
+        return result;
+    }
+
+    private List<InstructionInfo> handleArrayIndexRValue(ArrayIndexNode node) {
+        org.objectweb.asm.Type componentAsmType = node.getType().getAsmType();
+        List<InstructionInfo> result = new LinkedList<>();
+        result.addAll(new MethodInstructionGenerator(node.getArrayNode(), localIndexRemap, namespaceName).generate());
+        result.addAll(new MethodInstructionGenerator(node.getIndexNode(), localIndexRemap, namespaceName).generate());
+        result.add(new DefaultInstruction(componentAsmType.getOpcode(Opcodes.IALOAD), null));
+        return result;
     }
 
     private List<InstructionInfo> handleArrayInit(ArrayInitNode arrayInitNode) {
@@ -475,7 +507,14 @@ public class MethodInstructionGenerator {
             result.addAll(rightSideInstruction);
             result.add(new DefaultInstruction(Opcodes.PUTFIELD, new String[]{classInternalName, fieldName, fieldDescriptor}));
         } else {
-            //TODO: array index node
+            //array index node
+            Node arrayNode = ((ArrayIndexNode) leftNode).getArrayNode();
+            Node indexNode = ((ArrayIndexNode) leftNode).getIndexNode();
+            org.objectweb.asm.Type componentAsmType = ((ArrayIndexNode) leftNode).getType().getAsmType();
+            result.addAll(new MethodInstructionGenerator(arrayNode, localIndexRemap, namespaceName, false).generate());
+            result.addAll(new MethodInstructionGenerator(indexNode, localIndexRemap, namespaceName, false).generate());
+            result.addAll(rightSideInstruction);
+            result.add(new DefaultInstruction(componentAsmType.getOpcode(Opcodes.IASTORE), null));
         }
         return result;
     }

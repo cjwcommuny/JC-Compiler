@@ -1,6 +1,6 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/TestClass.class
-  Last modified 2019-5-21; size 160 bytes
-  MD5 checksum d52b74f897f5445363843497d52a7892
+  Last modified 2019-5-21; size 317 bytes
+  MD5 checksum dac493dff46e2fc4024470be8eff611d
 public class TestClass
   minor version: 0
   major version: 50
@@ -12,18 +12,53 @@ Constant pool:
    #4 = Class              #3             // java/lang/Object
    #5 = Utf8               main
    #6 = Utf8               ([Ljava/lang/String;)V
-   #7 = Integer            3
-   #8 = Utf8               java/lang/String
-   #9 = Class              #8             // java/lang/String
-  #10 = Utf8               Code
+   #7 = Integer            10
+   #8 = Integer            3
+   #9 = Integer            4
+  #10 = Integer            6
+  #11 = Utf8               java/lang/System
+  #12 = Class              #11            // java/lang/System
+  #13 = Utf8               out
+  #14 = Utf8               Ljava/io/PrintStream;
+  #15 = NameAndType        #13:#14        // out:Ljava/io/PrintStream;
+  #16 = Fieldref           #12.#15        // java/lang/System.out:Ljava/io/PrintStream;
+  #17 = Utf8               java/io/PrintStream
+  #18 = Class              #17            // java/io/PrintStream
+  #19 = Utf8               print
+  #20 = Utf8               (I)V
+  #21 = NameAndType        #19:#20        // print:(I)V
+  #22 = Methodref          #18.#21        // java/io/PrintStream.print:(I)V
+  #23 = Utf8               <clinit>
+  #24 = Utf8               ()V
+  #25 = Utf8               Code
 {
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
     flags: ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=1, locals=1, args_size=1
-         0: ldc           #7                  // int 3
-         2: anewarray     #9                  // class java/lang/String
-         5: astore_0
-         6: return
+      stack=3, locals=3, args_size=1
+         0: ldc           #7                  // int 10
+         2: newarray       int
+         4: astore_1
+         5: aload_1
+         6: ldc           #8                  // int 3
+         8: iaload
+         9: istore_2
+        10: aload_1
+        11: ldc           #9                  // int 4
+        13: ldc           #10                 // int 6
+        15: iastore
+        16: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        19: iload_2
+        20: invokevirtual #22                 // Method java/io/PrintStream.print:(I)V
+        23: getstatic     #16                 // Field java/lang/System.out:Ljava/io/PrintStream;
+        26: aload_1
+        27: ldc           #9                  // int 4
+        29: iaload
+        30: invokevirtual #22                 // Method java/io/PrintStream.print:(I)V
+        33: return
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
 }

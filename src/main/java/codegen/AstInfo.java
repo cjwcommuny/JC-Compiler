@@ -67,7 +67,7 @@ public class AstInfo implements ClassRaw {
 
     private MethodInfo generateStaticInit() {
         String functionName = "<clinit>";
-        int accessFlags = Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC;
+        int accessFlags = Opcodes.ACC_STATIC;
         String descriptor = "()V";
         CodeInfo codeInfo = generateStaticInitCodeInfo();
         return new DefaultMethodInfo(functionName, accessFlags, descriptor, codeInfo);
@@ -85,6 +85,7 @@ public class AstInfo implements ClassRaw {
                 instructionInfos.addAll(handleObjectStaticInit(variableDefinitionNode));
             }
         }
+        instructionInfos.add(new DefaultInstruction(Opcodes.RETURN, null));
         codeInfo.setInstructions(instructionInfos);
         return codeInfo;
     }

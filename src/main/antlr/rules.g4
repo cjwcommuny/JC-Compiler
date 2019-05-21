@@ -53,7 +53,7 @@ BOOL_LITERAL: 'true' | 'false';
 arrayInitialization:
     '{' (rValue ',')* rValue '}' # simpleArrayInitialization
 //    | '{' (arrayInitialization ',')* arrayInitialization '}' # compoundArrayInitialization
-    | IDENTIFIER LEFT_BRACKET int_literal RIGHT_BRACKET # newArray
+    | 'new' IDENTIFIER LEFT_BRACKET int_literal RIGHT_BRACKET # newArray
     ;
 
 
