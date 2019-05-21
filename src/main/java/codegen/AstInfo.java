@@ -2,15 +2,10 @@ package codegen;
 
 import ast.node.Node;
 import ast.node.StatementListNode;
-import ast.node.definition.FunctionDefinitionNode;
-import ast.node.definition.StructureDefinitionNode;
-import ast.node.definition.VariableDefinitionNode;
+import ast.node.definition.*;
 import classgen.provider.*;
 import org.objectweb.asm.Opcodes;
-import type.typetype.BaseType;
-import type.typetype.DoubleType;
-import type.typetype.Type;
-import type.typetype.VoidType;
+import type.typetype.*;
 
 import java.util.*;
 
@@ -66,7 +61,66 @@ public class AstInfo implements ClassRaw {
         for (FunctionDefinitionNode functionDefinitionNode: functionNodes) {
             methodInfos.add(generateMethodInfo(functionDefinitionNode));
         }
+        methodInfos.add(generateStaticInit());
         return methodInfos;
+    }
+
+    private MethodInfo generateStaticInit() {
+        String functionName = "<clinit>";
+        int accessFlags = Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC;
+        String descriptor = "()V";
+        CodeInfo codeInfo = generateStaticInitCodeInfo();
+        return new DefaultMethodInfo(functionName, accessFlags, descriptor, codeInfo);
+    }
+
+    private CodeInfo generateStaticInitCodeInfo() {
+        DefaultCodeInfo codeInfo = new DefaultCodeInfo();
+        List<InstructionInfo> instructionInfos = new LinkedList<>();
+        for (VariableDefinitionNode variableDefinitionNode: fieldNodes) {
+            if (variableDefinitionNode.beAssigned()) {
+                instructionInfos.addAll(handleAssignmentStaticInit(variableDefinitionNode));
+            } else if (variableDefinitionNode instanceof ArrayDefinitionNode) {
+                instructionInfos.addAll(handleNullArrayStaticInit(variableDefinitionNode));
+            } else {
+                instructionInfos.addAll(handleObjectStaticInit(variableDefinitionNode));
+            }
+        }
+        codeInfo.setInstructions(instructionInfos);
+        return codeInfo;
+    }
+
+    private List<InstructionInfo> handleAssignmentStaticInit(VariableDefinitionNode node) {
+        String fieldName = node.getVariableName();
+        Type type = node.getType();
+        List<InstructionInfo> result = new LinkedList<>();
+        result.addAll(new MethodInstructionGenerator(node.getRightSide(),
+                null, simpleClassName).generate());
+        result.add(new DefaultInstruction(Opcodes.PUTSTATIC,
+                new Object[]{getInternalClassName(), fieldName, type.getDescriptor()}));
+        return result;
+    }
+
+    private List<InstructionInfo> handleNullArrayStaticInit(VariableDefinitionNode definitionNode) {
+        ObjectType type = (ObjectType) definitionNode.getType();
+        String fieldName = definitionNode.getVariableName();
+        List<InstructionInfo> result = new LinkedList<>();
+        result.add(new DefaultInstruction(Opcodes.ACONST_NULL, null));
+        result.add(new DefaultInstruction(Opcodes.PUTSTATIC,
+                new Object[]{getInternalClassName(), fieldName, type.getDescriptor()}));
+        return result;
+    }
+
+    private List<InstructionInfo> handleObjectStaticInit(VariableDefinitionNode definitionNode) {
+        ObjectType type = (ObjectType) definitionNode.getType();
+        String fieldName = definitionNode.getVariableName();
+        List<InstructionInfo> result = new LinkedList<>();
+        result.add(new DefaultInstruction(Opcodes.NEW, new Object[]{type.getInternalName()}));
+        result.add(new DefaultInstruction(Opcodes.DUP, null));
+        result.add(new DefaultInstruction(Opcodes.INVOKESPECIAL,
+                new Object[]{type.getDescriptor(), "<init>", "()V"}));
+        result.add(new DefaultInstruction(Opcodes.PUTSTATIC,
+                new Object[]{getInternalClassName(), fieldName, type.getDescriptor()}));
+        return result;
     }
 
     private MethodInfo generateMethodInfo(FunctionDefinitionNode functionNode) {

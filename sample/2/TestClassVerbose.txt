@@ -1,27 +1,40 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/sample/2/TestClass.class
-  Last modified 2019-5-21; size 283 bytes
-  MD5 checksum da63c599de9a2f6e974c4484535195d8
+  Last modified 2019-5-21; size 421 bytes
+  MD5 checksum 0a37cd07b3e47864229d27bb3887486d
   Compiled from "TestClass.java"
 public class TestClass
   minor version: 0
   major version: 52
   flags: ACC_PUBLIC, ACC_SUPER
 Constant pool:
-   #1 = Methodref          #3.#12         // java/lang/Object."<init>":()V
-   #2 = Class              #13            // TestClass
-   #3 = Class              #14            // java/lang/Object
-   #4 = Utf8               <init>
-   #5 = Utf8               ()V
-   #6 = Utf8               Code
-   #7 = Utf8               LineNumberTable
-   #8 = Utf8               main
-   #9 = Utf8               ([Ljava/lang/String;)V
-  #10 = Utf8               SourceFile
-  #11 = Utf8               TestClass.java
-  #12 = NameAndType        #4:#5          // "<init>":()V
-  #13 = Utf8               TestClass
-  #14 = Utf8               java/lang/Object
+   #1 = Methodref          #5.#19         // java/lang/Object."<init>":()V
+   #2 = Methodref          #4.#20         // TestClass.f:()I
+   #3 = Fieldref           #4.#21         // TestClass.m:I
+   #4 = Class              #22            // TestClass
+   #5 = Class              #23            // java/lang/Object
+   #6 = Utf8               m
+   #7 = Utf8               I
+   #8 = Utf8               <init>
+   #9 = Utf8               ()V
+  #10 = Utf8               Code
+  #11 = Utf8               LineNumberTable
+  #12 = Utf8               main
+  #13 = Utf8               ([Ljava/lang/String;)V
+  #14 = Utf8               f
+  #15 = Utf8               ()I
+  #16 = Utf8               <clinit>
+  #17 = Utf8               SourceFile
+  #18 = Utf8               TestClass.java
+  #19 = NameAndType        #8:#9          // "<init>":()V
+  #20 = NameAndType        #14:#15        // f:()I
+  #21 = NameAndType        #6:#7          // m:I
+  #22 = Utf8               TestClass
+  #23 = Utf8               java/lang/Object
 {
+  static int m;
+    descriptor: I
+    flags: ACC_STATIC
+
   public TestClass();
     descriptor: ()V
     flags: ACC_PUBLIC
@@ -37,25 +50,40 @@ Constant pool:
     descriptor: ([Ljava/lang/String;)V
     flags: ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=4, locals=2, args_size=1
-         0: iconst_3
-         1: newarray       int
-         3: dup
-         4: iconst_0
-         5: iconst_1
-         6: iastore
-         7: dup
-         8: iconst_1
-         9: iconst_2
-        10: iastore
-        11: dup
-        12: iconst_2
-        13: iconst_3
-        14: iastore
-        15: astore_1
-        16: return
+      stack=0, locals=1, args_size=1
+         0: return
       LineNumberTable:
-        line 4: 0
-        line 5: 16
+        line 6: 0
+
+  public static int f();
+    descriptor: ()I
+    flags: ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=2, args_size=0
+         0: iconst_1
+         1: istore_0
+         2: iload_0
+         3: iconst_2
+         4: iadd
+         5: istore_1
+         6: iload_1
+         7: iconst_3
+         8: iadd
+         9: ireturn
+      LineNumberTable:
+        line 9: 0
+        line 10: 2
+        line 11: 6
+
+  static {};
+    descriptor: ()V
+    flags: ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: invokestatic  #2                  // Method f:()I
+         3: putstatic     #3                  // Field m:I
+         6: return
+      LineNumberTable:
+        line 2: 0
 }
 SourceFile: "TestClass.java"

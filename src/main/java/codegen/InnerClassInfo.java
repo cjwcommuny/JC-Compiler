@@ -80,7 +80,7 @@ public class InnerClassInfo implements ClassRaw {
     private List<InstructionInfo> generateDefaultConstructorInstructions() {
         List<InstructionInfo> result = new LinkedList<>();
         result.addAll(generateSuperClassConstructorInstructions());
-        result.addAll(generateFieldInitInstructions());
+        result.addAll(generateFieldInitInstructions(fieldNodes));
         result.add(new DefaultInstruction(Opcodes.RETURN, null));
         return result;
     }
@@ -93,7 +93,7 @@ public class InnerClassInfo implements ClassRaw {
         return instructionInfos;
     }
 
-    private List<InstructionInfo> generateFieldInitInstructions() {
+    private List<InstructionInfo> generateFieldInitInstructions(List<? extends Node> fieldNodes) {
         List<InstructionInfo> result = new LinkedList<>();
         for (Node node: fieldNodes) {
             HasType definitionNode = (HasType) node;
@@ -136,8 +136,14 @@ public class InnerClassInfo implements ClassRaw {
 
 
     private List<InstructionInfo> generateArrayFieldInitInstruction(ArrayDefinitionNode definitionNode) {
-        //TODO
-        return null;
+        ObjectType type = (ObjectType) definitionNode.getType();
+        String fieldName = definitionNode.getVariableName();
+        List<InstructionInfo> result = new LinkedList<>();
+        result.add(new DefaultInstruction(Opcodes.ALOAD, new Object[]{0})); //load this pointer
+        result.add(new DefaultInstruction(Opcodes.ACONST_NULL, null));
+        result.add(new DefaultInstruction(Opcodes.PUTFIELD,
+                new Object[]{getInternalClassName(), fieldName, type.getDescriptor()}));
+        return result;
     }
 
     @Override
