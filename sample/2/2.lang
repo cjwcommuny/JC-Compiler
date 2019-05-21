@@ -1,11 +1,5 @@
 namespace TestClass {
-    struct S1 {
-        int s = f();
-    }
-    
-    def int f() {
-        return 3;
-    }
+    int[] arr = {1,2,3};
 
     def void main(String[] args) {
         String str = "hahaha\n";
