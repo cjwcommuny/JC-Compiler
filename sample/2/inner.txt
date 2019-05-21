@@ -1,5 +1,5 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/sample/2/TestClass.class
-  Last modified 2019年5月20日; size 355 bytes
+  Last modified 2019年5月21日; size 355 bytes
   MD5 checksum 73e9c6402714c6677f8ebcb65ef48bef
   Compiled from "TestClass.java"
 public class TestClass

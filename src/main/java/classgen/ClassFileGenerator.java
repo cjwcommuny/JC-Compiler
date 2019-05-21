@@ -20,11 +20,22 @@ public class ClassFileGenerator {
     public List<OutputClassFile> generateOutputFilesInfo() {
         ClassWriter classWriter = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         generateMetaInfo(classWriter);
+        generateOuterClass(classWriter);
         generateFieldsInfo(classWriter);
         generateInnerClasses(classWriter);
         generateMethodsInfo(classWriter);
         outputClassFiles.add(new OutputClassFile(classWriter.toByteArray(), classRaw.getClassFileName()));
         return outputClassFiles;
+    }
+
+    private void generateOuterClass(ClassWriter classWriter) {
+        OuterClassInfo outerClassInfo = classRaw.getOuterClassesInfo();
+        if (outerClassInfo == null) {
+            return;
+        }
+        classWriter.visitOuterClass(outerClassInfo.getOwner(),
+                outerClassInfo.getName(),
+                outerClassInfo.getDescriptor());
     }
 
     private void generateMetaInfo(ClassWriter classWriter) {

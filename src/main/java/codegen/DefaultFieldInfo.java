@@ -1,6 +1,9 @@
 package codegen;
 
+import ast.node.definition.VariableDefinitionNode;
 import classgen.provider.FieldInfo;
+import org.objectweb.asm.Opcodes;
+import type.typetype.Type;
 
 import java.util.List;
 
@@ -35,5 +38,14 @@ public class DefaultFieldInfo implements FieldInfo {
     @Override
     public Object getValue() {
         return value;
+    }
+
+    public static FieldInfo generateFieldInfo(VariableDefinitionNode fieldNode) {
+        String fieldName = fieldNode.getVariableName();
+        Type type = fieldNode.getType();
+        String descriptor = type.generateDescriptor();
+        int accessFlags = Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC;
+        Object value = fieldNode.getValue();
+        return new DefaultFieldInfo(fieldName, descriptor, accessFlags, value);
     }
 }

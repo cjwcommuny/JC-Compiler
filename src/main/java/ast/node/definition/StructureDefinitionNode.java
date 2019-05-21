@@ -33,4 +33,8 @@ public class StructureDefinitionNode extends DefinitionNode implements HasScope 
     public StructFieldListNode getStructFieldListNode() {
         return (StructFieldListNode) getChild(0);
     }
+
+    public String getStructName() {
+        return thisScope.getScopeName();
+    }
 }

@@ -1,6 +1,6 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/TestClass.class
-  Last modified 2019-5-20; size 185 bytes
-  MD5 checksum 8448773d82d51c78f206f6758f52c017
+  Last modified 2019-5-21; size 172 bytes
+  MD5 checksum 64952e8053ba2a27860c9fbf2c0e80ee
 public class TestClass
   minor version: 0
   major version: 50
@@ -10,33 +10,19 @@ Constant pool:
    #2 = Class              #1             // TestClass
    #3 = Utf8               java/lang/Object
    #4 = Class              #3             // java/lang/Object
-   #5 = Utf8               main
-   #6 = Utf8               ([Ljava/lang/String;)V
-   #7 = Integer            0
-   #8 = Utf8               Code
-   #9 = Utf8               StackMapTable
+   #5 = Utf8               MyStruct
+   #6 = Class              #5             // MyStruct
+   #7 = Utf8               main
+   #8 = Utf8               ([Ljava/lang/String;)V
+   #9 = Utf8               Code
+  #10 = Utf8               InnerClasses
 {
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
     flags: ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=2, locals=4, args_size=1
-         0: ldc           #7                  // int 0
-         2: istore_3
-         3: iload_3
-         4: ldc           #7                  // int 0
-         6: if_icmpge     13
-         9: iconst_1
-        10: goto          14
-        13: iconst_0
-        14: ifeq          20
-        17: goto          14
-        20: return
-      StackMapTable: number_of_entries = 3
-        frame_type = 254 /* append */
-          offset_delta = 13
-          locals = [ top, top, int ]
-        frame_type = 64 /* same_locals_1_stack_item */
-          stack = [ int ]
-        frame_type = 5 /* same */
+      stack=0, locals=1, args_size=1
+         0: return
 }
+InnerClasses:
+     public static #5= #6 of #2; //MyStruct=class MyStruct of class TestClass

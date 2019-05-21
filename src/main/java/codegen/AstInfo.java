@@ -18,6 +18,8 @@ import type.typetype.VoidType;
 import java.util.*;
 import java.util.function.Function;
 
+import static codegen.DefaultFieldInfo.generateFieldInfo;
+
 public class AstInfo implements ClassRaw {
     private Node ast;
     private String simpleClassName;
@@ -60,15 +62,6 @@ public class AstInfo implements ClassRaw {
             fieldInfos.add(generateFieldInfo(fieldNode));
         }
         return fieldInfos;
-    }
-
-    private FieldInfo generateFieldInfo(VariableDefinitionNode fieldNode) {
-        String fieldName = fieldNode.getVariableName();
-        Type type = fieldNode.getType();
-        String descriptor = type.generateDescriptor();
-        int accessFlags = Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC;
-        Object value = fieldNode.getValue();
-        return new DefaultFieldInfo(fieldName, descriptor, accessFlags, value);
     }
 
     @Override
@@ -159,14 +152,23 @@ public class AstInfo implements ClassRaw {
 
     private ClassRaw generateInnerClass(StructureDefinitionNode structNode) {
         List<Node> variableNodes = structNode.getStructFieldListNode().getVariableDefinitionNodes();
-        for (Node variableNode: variableNodes) {
-            VariableDefinitionNode variableDefinitionNode = (VariableDefinitionNode) variableNode;
-            //TODO
-        }
+        OuterClassInfo outerClassInfo = generateThisClassAsOuterClassInfo(structNode.getStructName());
+        InnerClassInfo innerClassInfo =
+                new InnerClassInfo(getInternalClassName(), structNode.getStructName(), variableNodes, outerClassInfo);
+        return innerClassInfo;
+    }
+
+    private OuterClassInfo generateThisClassAsOuterClassInfo(String innerClassName) {
+        return new DefaultOuterClassInfo(getInternalClassName(), null, null);
     }
 
     @Override
     public String getClassFileName() {
         return getSimpleName();
+    }
+
+    @Override
+    public OuterClassInfo getOuterClassesInfo() {
+        return null;
     }
 }
