@@ -651,7 +651,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     public AstGeneratorResult visitArrayDeclaration(rulesParser.ArrayDeclarationContext ctx) {
         String componentTypeName = ctx.IDENTIFIER(0).getText();
         Type componentType = generateTypeForDeclaration(componentTypeName, ctx, ctx.IDENTIFIER(0).getSymbol());
-        int dimension = ctx.LEFT_BRACKET().size();
+        int dimension = 1; //only support 1-dimension array
         String variableName = ctx.IDENTIFIER(1).getText();
         if (scopeHandler.existInCurrentScope(variableName)) {
             int[] errPosition = getTokenPosition(ctx, ctx.IDENTIFIER(1).getSymbol());
@@ -714,5 +714,55 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         }
         thisNode.addChild(rightSideNode);
         return new AstGeneratorResult(thisNode, declarationContext);
+    }
+
+    @Override
+    public AstGeneratorResult visitNewArray(rulesParser.NewArrayContext ctx) {
+        int arrLen = ((LiteralNode<Integer>) visit(ctx.int_literal()).getNode()).getValue();
+        int dimension = 1;
+        String componentTypeStr = ctx.IDENTIFIER().getText();
+        List<String> restrictNames = scopeHandler.getRestrictNames();
+        Type componentType = TypeBuilder.generateBaseOrObjectType(componentTypeStr, restrictNames);
+        Type arrayType = TypeBuilder.generateArrayType(componentType, dimension);
+        ArrayInitNode thisNode = new ArrayInitNode(true, arrLen, arrayType);
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx) {
+        List<Node> initNodes = new LinkedList<>();
+        for (rulesParser.RValueContext context: ctx.rValue()) {
+            initNodes.add(visit(context).getNode());
+        }
+        Type resultType = TypeChecker.checkArrayInit(initNodes);
+        if (resultType == null) {
+            int[] errPosition = getTokenPosition(ctx, ctx.LEFT_CURLY_BRACE().getSymbol());
+            throw new TypeMismatchException(errPosition, "array");
+        }
+        ArrayInitNode thisNode = new ArrayInitNode(resultType);
+        thisNode.addChildren(initNodes);
+        return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitArrayIndex(rulesParser.ArrayIndexContext ctx) {
+        Node arrayNode = visit(ctx.getChild(0)).getNode();
+        if (!(((HasType) arrayNode).getType() instanceof ArrayType)) {
+            int[] errPosition = getTokenPosition(ctx, ctx.LEFT_BRACKET().getSymbol());
+            throw new TypeMismatchException(errPosition, ((HasType) arrayNode).getType(), "array type");
+        }
+
+        Node indexNode = (Node) visit(ctx.expression()).getNode();
+        if (!((HasType) indexNode).getType().equals(TypeBuilder.generateIntType())) {
+            int[] errPosition = getTokenPosition(ctx, ctx.LEFT_BRACKET().getSymbol());
+            throw new TypeMismatchException(errPosition, ((HasType) indexNode).getType(), "int");
+        }
+
+        ArrayIndexNode thisNode = new ArrayIndexNode(
+                ((ArrayType) ((HasType) arrayNode).getType()).getComponentType()
+        );
+        thisNode.addChild(arrayNode);
+        thisNode.addChild(indexNode);
+        return new AstGeneratorResult(thisNode);
     }
 }

@@ -60,7 +60,7 @@ public class ObjectType extends Type {
         return simpleClassName;
     }
 
-    public String getInnerClassInternalName() {
+    public String getInternalName() {
         String separator;
         if (isExternal) {
             separator = "/";

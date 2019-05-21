@@ -125,7 +125,7 @@ public class InnerClassInfo implements ClassRaw {
         String fieldName = definitionNode.getVariableName();
         List<InstructionInfo> result = new LinkedList<>();
         result.add(new DefaultInstruction(Opcodes.ALOAD, new Object[]{0})); //load this pointer
-        result.add(new DefaultInstruction(Opcodes.NEW, new Object[]{type.getInnerClassInternalName()}));
+        result.add(new DefaultInstruction(Opcodes.NEW, new Object[]{type.getInternalName()}));
         result.add(new DefaultInstruction(Opcodes.DUP, null));
         result.add(new DefaultInstruction(Opcodes.INVOKESPECIAL,
                 new Object[]{type.getDescriptor(), "<init>", "()V"}));

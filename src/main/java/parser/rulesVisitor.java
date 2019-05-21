@@ -32,12 +32,12 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code compoundArrayInitialization}
+	 * Visit a parse tree produced by the {@code newArray}
 	 * labeled alternative in {@link rulesParser#arrayInitialization}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx);
+	T visitNewArray(rulesParser.NewArrayContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#literal}.
 	 * @param ctx the parse tree
@@ -51,26 +51,17 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRValue(rulesParser.RValueContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code reference}
-	 * labeled alternative in {@link rulesParser#lValue}.
+	 * Visit a parse tree produced by {@link rulesParser#lValue}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitReference(rulesParser.ReferenceContext ctx);
+	T visitLValue(rulesParser.LValueContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code lValueArrayIndex}
-	 * labeled alternative in {@link rulesParser#lValue}.
+	 * Visit a parse tree produced by {@link rulesParser#arrayIndex}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code lValueIdentifier}
-	 * labeled alternative in {@link rulesParser#lValue}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLValueIdentifier(rulesParser.LValueIdentifierContext ctx);
+	T visitArrayIndex(rulesParser.ArrayIndexContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link rulesParser#namespaceDefinition}.
 	 * @param ctx the parse tree

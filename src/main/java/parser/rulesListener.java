@@ -42,17 +42,17 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitSimpleArrayInitialization(rulesParser.SimpleArrayInitializationContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code compoundArrayInitialization}
+	 * Enter a parse tree produced by the {@code newArray}
 	 * labeled alternative in {@link rulesParser#arrayInitialization}.
 	 * @param ctx the parse tree
 	 */
-	void enterCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx);
+	void enterNewArray(rulesParser.NewArrayContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code compoundArrayInitialization}
+	 * Exit a parse tree produced by the {@code newArray}
 	 * labeled alternative in {@link rulesParser#arrayInitialization}.
 	 * @param ctx the parse tree
 	 */
-	void exitCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx);
+	void exitNewArray(rulesParser.NewArrayContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#literal}.
 	 * @param ctx the parse tree
@@ -74,41 +74,25 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitRValue(rulesParser.RValueContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code reference}
-	 * labeled alternative in {@link rulesParser#lValue}.
+	 * Enter a parse tree produced by {@link rulesParser#lValue}.
 	 * @param ctx the parse tree
 	 */
-	void enterReference(rulesParser.ReferenceContext ctx);
+	void enterLValue(rulesParser.LValueContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code reference}
-	 * labeled alternative in {@link rulesParser#lValue}.
+	 * Exit a parse tree produced by {@link rulesParser#lValue}.
 	 * @param ctx the parse tree
 	 */
-	void exitReference(rulesParser.ReferenceContext ctx);
+	void exitLValue(rulesParser.LValueContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code lValueArrayIndex}
-	 * labeled alternative in {@link rulesParser#lValue}.
+	 * Enter a parse tree produced by {@link rulesParser#arrayIndex}.
 	 * @param ctx the parse tree
 	 */
-	void enterLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx);
+	void enterArrayIndex(rulesParser.ArrayIndexContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code lValueArrayIndex}
-	 * labeled alternative in {@link rulesParser#lValue}.
+	 * Exit a parse tree produced by {@link rulesParser#arrayIndex}.
 	 * @param ctx the parse tree
 	 */
-	void exitLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code lValueIdentifier}
-	 * labeled alternative in {@link rulesParser#lValue}.
-	 * @param ctx the parse tree
-	 */
-	void enterLValueIdentifier(rulesParser.LValueIdentifierContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code lValueIdentifier}
-	 * labeled alternative in {@link rulesParser#lValue}.
-	 * @param ctx the parse tree
-	 */
-	void exitLValueIdentifier(rulesParser.LValueIdentifierContext ctx);
+	void exitArrayIndex(rulesParser.ArrayIndexContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link rulesParser#namespaceDefinition}.
 	 * @param ctx the parse tree

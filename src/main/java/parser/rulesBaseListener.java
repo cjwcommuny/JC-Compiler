@@ -54,13 +54,13 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx) { }
+	@Override public void enterNewArray(rulesParser.NewArrayContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx) { }
+	@Override public void exitNewArray(rulesParser.NewArrayContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -90,37 +90,25 @@ public class rulesBaseListener implements rulesListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterReference(rulesParser.ReferenceContext ctx) { }
+	@Override public void enterLValue(rulesParser.LValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitReference(rulesParser.ReferenceContext ctx) { }
+	@Override public void exitLValue(rulesParser.LValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx) { }
+	@Override public void enterArrayIndex(rulesParser.ArrayIndexContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLValueIdentifier(rulesParser.LValueIdentifierContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLValueIdentifier(rulesParser.LValueIdentifierContext ctx) { }
+	@Override public void exitArrayIndex(rulesParser.ArrayIndexContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

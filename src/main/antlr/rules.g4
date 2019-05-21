@@ -8,9 +8,6 @@ package parser;
     //added component of generated class
 }
 
-//test  ==============================================================
-TEST_SYMBOL: 'TEST';
-
 //basic tokens ==============================================================
 LEFT_CURLY_BRACE: '{';
 RIGHT_CURLY_BRACE: '}';
@@ -55,7 +52,8 @@ BOOL_LITERAL: 'true' | 'false';
 
 arrayInitialization:
     '{' (rValue ',')* rValue '}' # simpleArrayInitialization
-    | '{' (arrayInitialization ',')* arrayInitialization '}' # compoundArrayInitialization
+//    | '{' (arrayInitialization ',')* arrayInitialization '}' # compoundArrayInitialization
+    | IDENTIFIER LEFT_BRACKET int_literal RIGHT_BRACKET # newArray
     ;
 
 
@@ -100,14 +98,19 @@ rValue:
 	| arrayInitialization
 	| functionCall
 	| structReference
+	| arrayIndex
 	;
 
 //TODO
 lValue:
-	IDENTIFIER # lValueIdentifier
+	IDENTIFIER
 	//    | lValue DOT IDENTIFIER
-	| lValue LEFT_BRACKET expression RIGHT_BRACKET # lValueArrayIndex
-	| structReference # reference
+	| arrayIndex
+	| structReference
+    ;
+
+arrayIndex:
+    (structReference | IDENTIFIER | functionCall) LEFT_BRACKET expression RIGHT_BRACKET
     ;
 
 //namespace definition
@@ -253,7 +256,7 @@ ordinaryVariableDeclaration:
     ;
 
 arrayDeclaration:
-	IDENTIFIER (LEFT_BRACKET RIGHT_BRACKET)* IDENTIFIER;
+	IDENTIFIER LEFT_BRACKET RIGHT_BRACKET IDENTIFIER;
 
 arrayDefinition:
     arrayDeclaration ASSIGN_SYMBOL rValue;

@@ -40,7 +40,7 @@ public class rulesBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitCompoundArrayInitialization(rulesParser.CompoundArrayInitializationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitNewArray(rulesParser.NewArrayContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -61,21 +61,14 @@ public class rulesBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitReference(rulesParser.ReferenceContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLValue(rulesParser.LValueContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLValueArrayIndex(rulesParser.LValueArrayIndexContext ctx) { return visitChildren(ctx); }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitLValueIdentifier(rulesParser.LValueIdentifierContext ctx) { return visitChildren(ctx); }
+	@Override public T visitArrayIndex(rulesParser.ArrayIndexContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

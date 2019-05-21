@@ -1,11 +1,14 @@
 package type;
 
 
+import ast.node.HasType;
+import ast.node.Node;
 import error.exception.TypeMismatchException;
 import operation.Operation;
 import symbol.InitSymbolImporter;
 import type.typetype.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class TypeChecker {
@@ -138,5 +141,17 @@ public class TypeChecker {
 
     public static boolean areEquivalentType(Type type1, Type type2) {
         return type1.getClass() == type2.getClass();
+    }
+
+    public static Type checkArrayInit(List<Node> nodes) {
+        Type resultType = ((HasType) nodes.get(0)).getType();
+        for (Node node: nodes) {
+            HasType hasType = (HasType) node;
+            Type type = hasType.getType();
+            if (!type.equals(resultType)) {
+                return null;
+            }
+        }
+        return resultType;
     }
 }

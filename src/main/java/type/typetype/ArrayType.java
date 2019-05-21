@@ -58,4 +58,8 @@ public class ArrayType extends Type {
         }
         return sb.toString();
     }
+
+    public Type getComponentType() {
+        return componentType;
+    }
 }
