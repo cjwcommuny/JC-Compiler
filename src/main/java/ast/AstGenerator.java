@@ -129,6 +129,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                     type,
                     scopeHandler.getCurrentScope());
         }
+        thisNode.setLocalIndex(declarationNode.getLocalIndex());
         thisNode.addChild(variableNameNode);
         AstGeneratorResult visitResult = visit(ctx.rValue());
         Node rightSideNode = visitResult.getNodes().get(0);
@@ -252,7 +253,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         FunctionNameNode functionNameNode = new FunctionNameNode(functionName, null, functionType);
         thisNode.addChild(functionNameNode);
         thisNode.addChild(parametersNode);
-        thisNode.addParameterToLocalTypeList();
+//        thisNode.addParameterToLocalTypeList();
         StatementListNode statements = (StatementListNode) visit(ctx.getChild(4)).getNode();
         thisNode.addChild(statements);
         this.functionNodes.add(thisNode);
@@ -289,6 +290,12 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     @Override
     public AstGeneratorResult visitVariableDeclaration(rulesParser.VariableDeclarationContext ctx) {
         AstGeneratorResult result = visit(ctx.getChild(0));
+        VariableDefinitionNode node = (VariableDefinitionNode) result.getNode();
+        Node parentNode = node.getParentScope().getCorrespondingNode();
+        Type type = node.getType();
+        if (parentNode instanceof FunctionDefinitionNode) {
+            node.setLocalIndex(((FunctionDefinitionNode) parentNode).addLocalVariableTypeAndReturnIndex(type));
+        }
         return result;
     }
 

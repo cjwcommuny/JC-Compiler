@@ -62,8 +62,8 @@ public class FunctionDefinitionNode extends DefinitionNode {
         return nextIndex;
     }
 
-    public void addParameterToLocalTypeList() {
-        ParameterListNode parameterListNode = (ParameterListNode) getChild(1);
-        typeList.addAll(parameterListNode.getTypes());
-    }
+//    public void addParameterToLocalTypeList() {
+//        ParameterListNode parameterListNode = (ParameterListNode) getChild(1);
+//        typeList.addAll(parameterListNode.getTypes());
+//    }
 }

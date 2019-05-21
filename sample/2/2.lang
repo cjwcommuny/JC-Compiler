@@ -1,11 +1,14 @@
 namespace TestClass {
     struct S1 {
-
-    }
-    struct MyStruct {
-        int a = 0;
+        int s = f();
     }
     
+    def int f() {
+        return 3;
+    }
+
     def void main(String[] args) {
+        S1 s;
+        S1 s2 = s;
     }
 }

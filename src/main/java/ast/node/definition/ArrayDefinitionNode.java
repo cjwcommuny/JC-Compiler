@@ -9,8 +9,9 @@ import type.typetype.TypeBuilder;
  * child: NameNode
  * child: (rValue)?
  * */
-public class ArrayDefinitionNode extends VariableDefinitionNode {
+public class ArrayDefinitionNode extends VariableDefinitionNode implements Assignable {
     public ArrayDefinitionNode(Type arrayType, Scope parentScope) {
         super(arrayType, parentScope);
     }
+
 }

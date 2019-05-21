@@ -3,9 +3,8 @@ package codegen;
 import ast.node.definition.VariableDefinitionNode;
 import classgen.provider.FieldInfo;
 import org.objectweb.asm.Opcodes;
+import sun.jvm.hotspot.oops.AccessFlags;
 import type.typetype.Type;
-
-import java.util.List;
 
 public class DefaultFieldInfo implements FieldInfo {
     private String fieldName;
@@ -40,12 +39,11 @@ public class DefaultFieldInfo implements FieldInfo {
         return value;
     }
 
-    public static FieldInfo generateFieldInfo(VariableDefinitionNode fieldNode) {
+    public static FieldInfo generateFieldInfo(VariableDefinitionNode fieldNode, int accessFlags) {
         String fieldName = fieldNode.getVariableName();
         Type type = fieldNode.getType();
         String descriptor = type.generateDescriptor();
-        int accessFlags = Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC;
-        Object value = fieldNode.getValue();
+        Object value = fieldNode.getLiteralValue();
         return new DefaultFieldInfo(fieldName, descriptor, accessFlags, value);
     }
 }

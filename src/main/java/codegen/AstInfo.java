@@ -59,7 +59,7 @@ public class AstInfo implements ClassRaw {
     public List<FieldInfo> getFieldsInfo() {
         List<FieldInfo> fieldInfos = new LinkedList<>();
         for (VariableDefinitionNode fieldNode: fieldNodes) {
-            fieldInfos.add(generateFieldInfo(fieldNode));
+            fieldInfos.add(generateFieldInfo(fieldNode, Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC));
         }
         return fieldInfos;
     }
@@ -89,8 +89,6 @@ public class AstInfo implements ClassRaw {
         Map<Integer, Integer> localIndexRemap = generateLocalIndexer(codeInfo, functionNode);
         List<InstructionInfo> instructions = generateInstructions(localIndexRemap,
                 functionNode.getStatementListNode());
-//        InstructionInfo lastInstruction = instructions.get(instructions.size() - 1)
-//        if ()
         generateReturnAtEnd(functionNode, instructions);
         codeInfo.setInstructions(instructions);
         return codeInfo;

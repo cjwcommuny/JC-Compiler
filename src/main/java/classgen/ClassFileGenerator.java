@@ -131,9 +131,9 @@ public class ClassFileGenerator {
                             case Opcodes.IFNULL: case Opcodes.IFNONNULL:
                 methodVisitor.visitJumpInsn(opcode, (Label) arguments[0]);
                 break;
-//            case :
-//                methodVisitor.visitJumpInsn();
-//                break;
+            case Opcodes.NEW: case Opcodes.ANEWARRAY: case Opcodes.CHECKCAST : case Opcodes.INSTANCEOF:
+                methodVisitor.visitTypeInsn(opcode, (String) arguments[0]);
+                break;
             default:
                 if (instruction.isLabel()) {
                     methodVisitor.visitLabel(instruction.getLabel());

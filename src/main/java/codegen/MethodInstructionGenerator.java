@@ -2,6 +2,7 @@ package codegen;
 
 import ast.node.*;
 import ast.node.definition.ArrayDefinitionNode;
+import ast.node.definition.Assignable;
 import ast.node.definition.VariableDefinitionNode;
 import ast.node.reference.RefNode;
 import ast.node.reference.StructRefNode;
@@ -68,7 +69,7 @@ public class MethodInstructionGenerator {
         } else if (statementNode instanceof AssignmentNode) {
             return handleAssignment((AssignmentNode) statementNode);
         } else if (statementNode instanceof StructRefNode) {
-            return null;
+            return handleStructRefNode((StructRefNode) statementNode);
         } else if (statementNode instanceof ContinueNode) {
             return handleContinueStatement((ContinueNode) statementNode, loopLabel);
         } else if (statementNode instanceof BreakNode) {
@@ -87,6 +88,10 @@ public class MethodInstructionGenerator {
         else {
             return null;
         }
+    }
+
+    private List<InstructionInfo> handleStructRefNode(StructRefNode structRefNode) {
+        return null;//TODO
     }
 
     private List<InstructionInfo> handleBreakStatement(BreakNode breakNode, Label endLabel) {
@@ -408,30 +413,58 @@ public class MethodInstructionGenerator {
         List<InstructionInfo> instructions = new LinkedList<>();
         int localIndex = localIndexRemap.get(node.getLocalIndex());
         Type type = node.getType();
-        Object[] storeArguments = new Object[]{localIndex};
-        int storeOpcode;
-        int constOpcode;
-        if (type instanceof ObjectType) {
-            storeOpcode = Opcodes.ASTORE;
-            constOpcode = Opcodes.ACONST_NULL;
-        } else if (type instanceof BaseType) {
-            org.objectweb.asm.Type asmType = ((BaseType) type).getAsmType();
-            storeOpcode = asmType.getOpcode(Opcodes.ISTORE);
-            constOpcode = asmType.getOpcode(Opcodes.ICONST_0);
-        } else {
-            //error
-            storeOpcode = 0;
-            constOpcode = 0;
-        }
         if (node.beAssigned()) {
-            List<InstructionInfo> rightSideInstructions = new MethodInstructionGenerator(node.getRightSide(),
-                    localIndexRemap, namespaceName).generate();
-            instructions.addAll(rightSideInstructions);
+            if (type instanceof BaseType) {
+                instructions.addAll(handleBaseTypeDefinitionWithAssignment(node, localIndex));
+            } else {
+                instructions.addAll(handleObjectDefinitionWithAssignment(node, localIndex));
+            }
         } else {
-            instructions.add(new DefaultInstruction(constOpcode, storeArguments));
+            if (type instanceof BaseType) {
+                instructions.addAll(handleBaseTypeDefinitionWithoutAssignment(node, localIndex));
+            } else {
+                instructions.addAll(handleObjectDefinitionWithoutAssignment(node, localIndex));
+            }
         }
-        instructions.add(new DefaultInstruction(storeOpcode, storeArguments));
         return instructions;
+    }
+
+    private List<InstructionInfo> handleBaseTypeDefinitionWithoutAssignment(VariableDefinitionNode node, int localIndex) {
+        List<InstructionInfo> result = new LinkedList<>();
+        Type type = node.getType();
+        org.objectweb.asm.Type asmType = type.getAsmType();
+        result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ICONST_0), null));
+        result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ISTORE), new Object[]{localIndex}));
+        return result;
+    }
+
+    private List<InstructionInfo> handleBaseTypeDefinitionWithAssignment(VariableDefinitionNode node, int localIndex) {
+        List<InstructionInfo> result = new LinkedList<>();
+        Type type = node.getType();
+        org.objectweb.asm.Type asmType = type.getAsmType();
+        result.addAll(new MethodInstructionGenerator(node.getRightSide(),
+                localIndexRemap, namespaceName).generate());
+        result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ISTORE), new Object[]{localIndex}));
+        return result;
+    }
+
+    private List<InstructionInfo> handleObjectDefinitionWithoutAssignment(VariableDefinitionNode node, int localIndex) {
+        List<InstructionInfo> result = new LinkedList<>();
+        Type type = node.getType();
+        result.add(new DefaultInstruction(Opcodes.NEW, new Object[]{type.generateDescriptor()}));
+        result.add(new DefaultInstruction(Opcodes.DUP, null));
+        result.add(new DefaultInstruction(Opcodes.INVOKESPECIAL,
+                new Object[]{type.generateDescriptor(), "<init>", "()V"}));
+        result.add(new DefaultInstruction(Opcodes.ASTORE, new Object[]{localIndex}));
+        return result;
+    }
+
+    private List<InstructionInfo> handleObjectDefinitionWithAssignment(VariableDefinitionNode node, int localIndex) {
+        List<InstructionInfo> result = new LinkedList<>();
+        result.addAll(new MethodInstructionGenerator(node.getRightSide(),
+                localIndexRemap, namespaceName).generate());
+        result.add(new DefaultInstruction(Opcodes.ASTORE, new Object[]{localIndex}));
+        return result;
     }
 
     private List<InstructionInfo> handleReturnStatement(ReturnNode node) {

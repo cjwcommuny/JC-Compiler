@@ -1,5 +1,6 @@
 package ast.node.definition;
 
+import ast.node.HasType;
 import ast.node.LiteralNode;
 import ast.node.Node;
 import ast.node.reference.VariableNameNode;
@@ -7,31 +8,39 @@ import ast.node.value.ValueNode;
 import symbol.Scope;
 import type.typetype.Type;
 
+import java.util.List;
+
 /**
  * child: variableNameNode
  * (child: rightSide)? if child_count == 1, then use default value, not allowed to use function
  * */
-public class VariableDefinitionNode extends DefinitionNode {
+public class VariableDefinitionNode extends DefinitionNode implements HasType, Assignable {
     private int localIndex;
+
+    public void setLocalIndex(int localIndex) {
+        this.localIndex = localIndex;
+    }
 
     VariableDefinitionNode(Type type, Scope parentScope) {
         super(type, parentScope);
         Node parentNode = parentScope.getCorrespondingNode();
-        if (parentNode instanceof FunctionDefinitionNode) {
-            localIndex = ((FunctionDefinitionNode) parentNode).addLocalVariableTypeAndReturnIndex(type);
-        }
     }
 
     public String getVariableName() {
         return ((VariableNameNode)getChild(0)).getName();
     }
 
-    public Object getValue() {
+    public Object getLiteralValue() {
         if (getChildrenCount() == 1) {
             //default value;
             return getType().generateDefaultValue();
         } else {
-            return ((LiteralNode) getChild(1)).getValue();
+            Node valueNode = getRightSide();
+            if (valueNode instanceof LiteralNode) {
+                return ((LiteralNode) valueNode).getValue();
+            } else {
+                return getType().generateDefaultValue();
+            }
         }
     }
 
