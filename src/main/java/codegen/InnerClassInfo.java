@@ -121,11 +121,11 @@ public class InnerClassInfo implements ClassRaw {
     }
 
     private List<InstructionInfo> generateObjectFieldInitInstruction(VariableDefinitionNode definitionNode) {
-        Type type = definitionNode.getType();
+        ObjectType type = (ObjectType) definitionNode.getType();
         String fieldName = definitionNode.getVariableName();
         List<InstructionInfo> result = new LinkedList<>();
         result.add(new DefaultInstruction(Opcodes.ALOAD, new Object[]{0})); //load this pointer
-        result.add(new DefaultInstruction(Opcodes.NEW, new Object[]{type.getDescriptor()}));
+        result.add(new DefaultInstruction(Opcodes.NEW, new Object[]{type.getInnerClassInternalName()}));
         result.add(new DefaultInstruction(Opcodes.DUP, null));
         result.add(new DefaultInstruction(Opcodes.INVOKESPECIAL,
                 new Object[]{type.getDescriptor(), "<init>", "()V"}));

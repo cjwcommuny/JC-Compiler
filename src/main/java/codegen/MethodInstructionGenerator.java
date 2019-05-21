@@ -108,7 +108,7 @@ public class MethodInstructionGenerator {
                 localIndexRemap, namespaceName, false).generate());
         String fieldName = structNode.getFieldName();
         String descriptor = structNode.getType().getDescriptor();
-        String structInternalName = ((HasType) structNode.getLeftSideNode()).getType().getDescriptor();
+        String structInternalName = ((ObjectType) ((HasType) structNode.getLeftSideNode()).getType()).getInnerClassInternalName();
         result.add(new DefaultInstruction(Opcodes.GETFIELD,
                 new Object[]{structInternalName, fieldName, descriptor}));
         return result;
@@ -434,7 +434,7 @@ public class MethodInstructionGenerator {
         } else if (leftNode instanceof StructRefNode) {
             StructRefNode structRefNode = (StructRefNode) leftNode;
             Node objectNode = structRefNode.getLeftSideNode();
-            String classInternalName = ((HasType) objectNode).getType().getDescriptor();
+            String classInternalName = ((ObjectType) ((HasType) objectNode).getType()).getInnerClassInternalName();
             String fieldName = structRefNode.getFieldName();
             String fieldDescriptor = structRefNode.getType().getDescriptor();
             result.addAll(new MethodInstructionGenerator(objectNode,
@@ -488,11 +488,11 @@ public class MethodInstructionGenerator {
 
     private List<InstructionInfo> handleObjectDefinitionWithoutAssignment(VariableDefinitionNode node, int localIndex) {
         List<InstructionInfo> result = new LinkedList<>();
-        Type type = node.getType();
-        result.add(new DefaultInstruction(Opcodes.NEW, new Object[]{type.getDescriptor()}));
+        ObjectType type = (ObjectType) node.getType();
+        result.add(new DefaultInstruction(Opcodes.NEW, new Object[]{type.getInnerClassInternalName()}));
         result.add(new DefaultInstruction(Opcodes.DUP, null));
         result.add(new DefaultInstruction(Opcodes.INVOKESPECIAL,
-                new Object[]{type.getDescriptor(), "<init>", "()V"}));
+                new Object[]{type.getInnerClassInternalName(), "<init>", "()V"}));
         result.add(new DefaultInstruction(Opcodes.ASTORE, new Object[]{localIndex}));
         return result;
     }

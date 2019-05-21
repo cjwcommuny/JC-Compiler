@@ -55,6 +55,10 @@ public class TypeBuilder {
         return new ObjectType(simpleClassName, restrictNames);
     }
 
+    public static ObjectType generateObjectType(String simpleClassName, List<String> restrictNames, boolean isExternal) {
+        return new ObjectType(simpleClassName, restrictNames, isExternal);
+    }
+
     public static BoolType generateBoolType() {
         return BoolType.getInstance();
     }

@@ -42,14 +42,15 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
                 throw new SymbolNotResolvedException(errorPosition, name);
             }
             List<String> restrictNames = scopeHandler.getRestrictNames();
-            String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(name, restrictNames);
+            String fullRestrictName = CommonInfrastructure.constructFullRestrictClassName(name, restrictNames, "$");
             DefinitionType definitionType = result.getDefinitionType();
             Scope parentScope = scopeHandler.getCurrentScope();
             DefinitionNode node;
             if (definitionType == DefinitionType.STRUCT) {
                 Scope structInnerScope =  new Scope(result.getTable(), parentScope, name,true, ScopeType.STRUCT);
+                ObjectType type = (ObjectType) result.getType();
                 node = DefinitionNodeBuilder.generateStructureDefinitionNode(fullRestrictName,
-                        (ObjectType) result.getType(),
+                        type,
                         structInnerScope,
                         parentScope);
                 structInnerScope.setCorrespondingNode(node);
@@ -168,7 +169,7 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
         Map<String, DefinitionNode> table = visit(ctx.structFieldStatementList()).getTable();
         scopeHandler.exitScope();
         List<String> restrictNames = scopeHandler.getRestrictNames();
-        Type type = TypeBuilder.generateObjectType(structName, restrictNames);
+        Type type = TypeBuilder.generateObjectType( structName, restrictNames);
         return new SymbolTableResult(table, ctx.IDENTIFIER().getSymbol(), DefinitionType.STRUCT, ctx, type);
     }
 

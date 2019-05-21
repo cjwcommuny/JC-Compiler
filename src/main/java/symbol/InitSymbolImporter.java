@@ -12,7 +12,9 @@ import java.util.*;
 public class InitSymbolImporter {
     private static String stringTypeName = "String";
     private static List<String> stringRestrictNames = new LinkedList<>(Arrays.asList("java", "lang"));
-    private static ObjectType stringType = TypeBuilder.generateObjectType(stringTypeName, stringRestrictNames);
+    private static ObjectType stringType = TypeBuilder.generateObjectType(stringTypeName,
+            stringRestrictNames,
+            true);
 
     public static String printFunctionName = "print";
     private static Type returnTypeOfPrintln = new VoidType();

@@ -9,6 +9,7 @@ public class ObjectType extends Type {
     private String simpleClassName;
     private List<String> restrictNames;
     private String fullRestrictClassName;
+    private boolean isExternal;
 
     @Override
     public String getDescriptor() {
@@ -16,9 +17,19 @@ public class ObjectType extends Type {
     }
 
     ObjectType(String simpleClassName, List<String> restrictNames) {
+        if ("String".equals(simpleClassName)) {
+            isExternal = true;
+        }
         this.simpleClassName = simpleClassName;
         this.restrictNames = restrictNames;
         this.fullRestrictClassName = CommonInfrastructure.constructFullRestrictClassName(simpleClassName, restrictNames);
+    }
+
+    ObjectType(String simpleClassName, List<String> restrictNames, boolean isExternal) {
+        this.simpleClassName = simpleClassName;
+        this.restrictNames = restrictNames;
+        this.fullRestrictClassName = CommonInfrastructure.constructFullRestrictClassName(simpleClassName, restrictNames);
+        this.isExternal = isExternal;
     }
 
     @Override
@@ -47,6 +58,19 @@ public class ObjectType extends Type {
     @Override
     public String getSimpleName() {
         return simpleClassName;
+    }
+
+    public String getInnerClassInternalName() {
+        String separator;
+        if (isExternal) {
+            separator = "/";
+        } else {
+            separator = "$";
+        }
+        return CommonInfrastructure.constructFullRestrictClassName(simpleClassName,
+                restrictNames,
+                separator);
+
     }
 
     @Override
