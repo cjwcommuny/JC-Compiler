@@ -319,7 +319,7 @@ public class MethodInstructionGenerator {
         result.addAll(leftSideInstructions);
 
         //adjust left value
-        result.addAll(adjustLeftValue(type1, resultType, op));
+        result.addAll(adjustLeftValue(type1, Type.getLowestUpperType(type1, type2), op));
 
         //right-side value
         List<InstructionInfo> rightSideInstructions = new MethodInstructionGenerator(rightNode,
@@ -328,7 +328,7 @@ public class MethodInstructionGenerator {
         result.addAll(rightSideInstructions);
 
         //adjust right value
-        result.addAll(adjustRightValue(type2, resultType, op));
+        result.addAll(adjustRightValue(type2, Type.getLowestUpperType(type1, type2), op));
 
         //operation instruction
         org.objectweb.asm.Type asmType = Type.getLowestUpperType(type1, type2).getAsmType();
@@ -374,17 +374,17 @@ public class MethodInstructionGenerator {
         Label label1 = new Label();
         Object[] branchLabel1Argument = new Object[]{label1};
         if (op.equals(InfixOperation.EQUAL)) {
-            result.add(new DefaultInstruction(compareAsmType.getOpcode(Opcodes.IF_ICMPNE), branchLabel1Argument));
+            result.add(new DefaultInstruction(Opcodes.IF_ICMPNE, branchLabel1Argument));
         } else if (op.equals(InfixOperation.GREATER)) {
-            result.add(new DefaultInstruction(compareAsmType.getOpcode(Opcodes.IF_ICMPLE), branchLabel1Argument));
+            result.add(new DefaultInstruction(Opcodes.IF_ICMPLE, branchLabel1Argument));
         } else if (op.equals(InfixOperation.LESS)) {
-            result.add(new DefaultInstruction(compareAsmType.getOpcode(Opcodes.IF_ICMPGE), branchLabel1Argument));
+            result.add(new DefaultInstruction(Opcodes.IF_ICMPGE, branchLabel1Argument));
         } else if (op.equals(InfixOperation.GREATER_EQUAL)) {
-            result.add(new DefaultInstruction(compareAsmType.getOpcode(Opcodes.IF_ICMPLT), branchLabel1Argument));
+            result.add(new DefaultInstruction(Opcodes.IF_ICMPLT, branchLabel1Argument));
         } else if (op.equals(InfixOperation.LESS_EQUAL)) {
-            result.add(new DefaultInstruction(compareAsmType.getOpcode(Opcodes.IF_ICMPGT), branchLabel1Argument));
+            result.add(new DefaultInstruction(Opcodes.IF_ICMPGT, branchLabel1Argument));
         } else if (op.equals(InfixOperation.NOT_EQUAL)) {
-            result.add(new DefaultInstruction(compareAsmType.getOpcode(Opcodes.IF_ICMPEQ), branchLabel1Argument));
+            result.add(new DefaultInstruction(Opcodes.IF_ICMPEQ, branchLabel1Argument));
         }
         result.add(new DefaultInstruction(Opcodes.ICONST_1, null));
         Label label2 = new Label();
@@ -395,12 +395,12 @@ public class MethodInstructionGenerator {
         return result;
     }
 
-    private List<InstructionInfo> adjustLeftValue(Type leftType, Type resultType, Operation op)  {
+    private List<InstructionInfo> adjustLeftValue(Type leftType, Type expectType, Operation op)  {
         List<InstructionInfo> result = new LinkedList<>();
         if (op.equals(InfixOperation.AND) || op.equals(InfixOperation.OR)) {
             return result;
         }
-        if (resultType.equals(TypeBuilder.generateDoubleType())
+        if (expectType.equals(TypeBuilder.generateDoubleType())
                 && leftType.equals(TypeBuilder.generateIntType())) {
             InstructionInfo instructionInfo = new DefaultInstruction(Opcodes.I2D, null);
             result.add(instructionInfo);

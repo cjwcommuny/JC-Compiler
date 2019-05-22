@@ -3,10 +3,11 @@ namespace ComplexOperation {
         double real;
         double imagine;
     }
-    /*
+    
     def void main(String[] args) {
-        //test();
+        test();
     }
+    
     def void test() {
         Complex c1;
         c1.real = 3.0;
@@ -38,22 +39,21 @@ namespace ComplexOperation {
         printComplex(div(c1, c2));
         print("\n");
     }
-    */
+    
     
     
     def void printComplex(Complex c) {
-        /*
         if (c.real != 0.0) {
             print(c.real);
         }
-        */
+        
         
         if (c.imagine > 0.0) {
             print("+");
-            //print(c.imagine);
-            //print("i");
+            print(c.imagine);
+            print("i");
         } elif (c.imagine < 0.0) {
-            //print(c.imagine);
+            print(c.imagine);
             print("i");
         }
         
@@ -61,7 +61,7 @@ namespace ComplexOperation {
     
     
     
-    /*
+    
     def Complex add(Complex c1, Complex c2) {
         Complex c;
         c.real = c1.real + c2.real;
@@ -96,5 +96,5 @@ namespace ComplexOperation {
         c.imagine = c.imagine / denominator;
         return c;
     }
-    */
+    
 }
