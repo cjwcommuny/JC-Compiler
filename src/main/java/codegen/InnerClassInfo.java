@@ -118,9 +118,8 @@ public class InnerClassInfo implements ClassRaw {
         //up-cast int to double
         if (!node.getLeftType().equals(node.getRightType())) {
             assert(node.getRightType() instanceof IntType && node.getLeftType() instanceof DoubleType);
+            result.add(new DefaultInstruction(Opcodes.I2D, null));
         }
-        result.add(new DefaultInstruction(Opcodes.I2D, null));
-
         result.add(new DefaultInstruction(Opcodes.PUTFIELD,
                 new Object[]{getInternalClassName(), fieldName, type.getDescriptor()}));
         return result;
@@ -134,7 +133,7 @@ public class InnerClassInfo implements ClassRaw {
         result.add(new DefaultInstruction(Opcodes.NEW, new Object[]{type.getInternalName()}));
         result.add(new DefaultInstruction(Opcodes.DUP, null));
         result.add(new DefaultInstruction(Opcodes.INVOKESPECIAL,
-                new Object[]{type.getDescriptor(), "<init>", "()V"}));
+                new Object[]{type.getInternalName(), "<init>", "()V"}));
         result.add(new DefaultInstruction(Opcodes.PUTFIELD,
                 new Object[]{getInternalClassName(), fieldName, type.getDescriptor()}));
         return result;

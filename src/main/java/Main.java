@@ -14,9 +14,12 @@ import org.apache.commons.cli.*;
 import parser.*;
 
 import javax.swing.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -61,8 +64,10 @@ public class Main {
         for (OutputClassFile outputClassFile: outputClassFiles) {
             byte[] bytes = outputClassFile.getBytes();
             String fileName = outputClassFile.getFileName();
-            String pathName = "./" + fileName + ".class";
-            try (FileOutputStream stream = new FileOutputStream(pathName)) {
+            String directory = Paths.get(inputFile).toAbsolutePath().getParent().toString();
+            try (FileOutputStream stream =
+                         new FileOutputStream(new File(directory, fileName + ".class"))
+            ) {
                 stream.write(bytes);
             }
         }

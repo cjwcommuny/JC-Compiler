@@ -111,6 +111,7 @@ loop_label:
     //push condition
     ifeq end_label
     //BlockCode
+continue_label:    
     //stepStatements
     goto loop_label
 end_label:

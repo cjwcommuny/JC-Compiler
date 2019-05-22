@@ -1,0 +1,23 @@
+namespace MyNamespace {
+    def int exp(int base, int exponential) {
+        if (exponential == 0) {
+            return 1;
+        } elif (exponential == 1) {
+            return base;
+        } else {
+            return base * exp(base, exponential - 1);
+        }
+    }
+
+    def void main(String[] args) {
+        print(exp(4, 3));
+        print("\n");
+        print(exp(10, 0));
+        print("\n");
+    }
+}
+/*
+output:
+64
+1
+*/

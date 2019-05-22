@@ -1,0 +1,75 @@
+Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/test-samples/TestClass.class
+  Last modified 2019年5月22日; size 492 bytes
+  MD5 checksum 1de8cbb7104daab45112014968d16c9b
+public class TestClass
+  minor version: 0
+  major version: 50
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #2                          // TestClass
+  super_class: #4                         // java/lang/Object
+  interfaces: 0, fields: 1, methods: 2, attributes: 1
+Constant pool:
+   #1 = Utf8               TestClass
+   #2 = Class              #1             // TestClass
+   #3 = Utf8               java/lang/Object
+   #4 = Class              #3             // java/lang/Object
+   #5 = Utf8               s2
+   #6 = Utf8               Ljava/lang/String;
+   #7 = Utf8               hello2\\n
+   #8 = String             #7             // hello2\\n
+   #9 = Utf8               TestClass$S
+  #10 = Class              #9             // TestClass$S
+  #11 = Utf8               S
+  #12 = Utf8               main
+  #13 = Utf8               ([Ljava/lang/String;)V
+  #14 = Utf8               java/lang/System
+  #15 = Class              #14            // java/lang/System
+  #16 = Utf8               out
+  #17 = Utf8               Ljava/io/PrintStream;
+  #18 = NameAndType        #16:#17        // out:Ljava/io/PrintStream;
+  #19 = Fieldref           #15.#18        // java/lang/System.out:Ljava/io/PrintStream;
+  #20 = Utf8               LTestClass/String;
+  #21 = NameAndType        #5:#20         // s2:LTestClass/String;
+  #22 = Fieldref           #2.#21         // TestClass.s2:LTestClass/String;
+  #23 = Utf8               java/io/PrintStream
+  #24 = Class              #23            // java/io/PrintStream
+  #25 = Utf8               print
+  #26 = Utf8               (LTestClass/String;)V
+  #27 = NameAndType        #25:#26        // print:(LTestClass/String;)V
+  #28 = Methodref          #24.#27        // java/io/PrintStream.print:(LTestClass/String;)V
+  #29 = Utf8               <clinit>
+  #30 = Utf8               ()V
+  #31 = Utf8               hello2\n
+  #32 = String             #31            // hello2\n
+  #33 = NameAndType        #5:#6          // s2:Ljava/lang/String;
+  #34 = Fieldref           #2.#33         // TestClass.s2:Ljava/lang/String;
+  #35 = Utf8               ConstantValue
+  #36 = Utf8               Code
+  #37 = Utf8               InnerClasses
+{
+  public static java.lang.String s2;
+    descriptor: Ljava/lang/String;
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    ConstantValue: String hello2\\n
+
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
+         3: getstatic     #22                 // Field s2:LTestClass/String;
+         6: invokevirtual #28                 // Method java/io/PrintStream.print:(LTestClass/String;)V
+         9: return
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: ldc           #32                 // String hello2\n
+         2: putstatic     #34                 // Field s2:Ljava/lang/String;
+         5: return
+}
+InnerClasses:
+  public static #11= #10 of #2;           // S=class TestClass$S of class TestClass

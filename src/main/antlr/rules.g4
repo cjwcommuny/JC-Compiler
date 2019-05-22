@@ -9,7 +9,7 @@ package parser;
 }
 
 //basic tokens ==============================================================
-STRING_LITERAL: '"' ([a-zA-Z0-9 \t\\] | '+' | '-' | '*' | '/' | ':')* '"';
+STRING_LITERAL: '"' ([a-zA-Z0-9 \t\\] | '+' | '-' | '*' | '/' | ':' | '!')* '"';
 
 LEFT_CURLY_BRACE: '{';
 RIGHT_CURLY_BRACE: '}';
@@ -112,7 +112,7 @@ lValue:
     ;
 
 arrayIndex:
-    (structReference | IDENTIFIER | functionCall) LEFT_BRACKET expression RIGHT_BRACKET
+    (/*structReference |*/ IDENTIFIER | functionCall) LEFT_BRACKET expression RIGHT_BRACKET
     ;
 
 //namespace definition
@@ -284,7 +284,7 @@ structDefinition:
 
 structReference:
     structReference '.' IDENTIFIER
-    | (IDENTIFIER | functionCall) '.' IDENTIFIER
+    | (IDENTIFIER | functionCall | arrayIndex) '.' IDENTIFIER
     ;
 
 //TODO: scientific notation support

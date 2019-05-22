@@ -1,0 +1,33 @@
+namespace TestClass {
+    struct T {
+
+    }
+
+    struct S {
+        int t = 7;
+        T l;
+        String str = "haha";
+    }
+
+    int t = 4;
+
+    def void main(String[] args) {
+        print(t);
+        print("\n");
+        S s;
+        print(s.t);
+        print("\n");
+        double t = 8.7;
+        print(t);
+        print("\n");
+        print(s.str);
+        print("\n");
+    }
+}
+/*
+output:
+4
+7
+8.7
+haha
+*/

@@ -435,7 +435,10 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             throw new SymbolNotResolvedException(errorLocation, rightIdentifierName);
         }
         StructRefNode thisNode = new StructRefNode(fieldDefinitionNode.getType(), fieldDefinitionNode);
+
+        VariableNameNode fieldNameNode = new VariableNameNode(rightIdentifierName, fieldDefinitionNode, fieldDefinitionNode.getType());
         thisNode.addChild(leftNode);
+        thisNode.addChild(fieldNameNode);
         return new AstGeneratorResult(thisNode);
     }
 
@@ -732,7 +735,9 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                     scopeHandler.getCurrentScope());
         }
         thisNode.setLocalIndex(arrayDefinitionNode.getLocalIndex());
-        thisNode.addChild(variableNameNode);
+        if (!thisNode.hasNameNode()) {
+            thisNode.addChild(variableNameNode);
+        }
         AstGeneratorResult visitResult = visit(ctx.rValue());
         Node rightSideNode = visitResult.getNode();
         Type rightSideType = ((HasType) rightSideNode).getType();
@@ -746,6 +751,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public AstGeneratorResult visitNewArray(rulesParser.NewArrayContext ctx) {
         int arrLen = ((LiteralNode<Integer>) visit(ctx.int_literal()).getNode()).getValue();
         int dimension = 1;

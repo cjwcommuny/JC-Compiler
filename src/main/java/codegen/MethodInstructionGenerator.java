@@ -11,7 +11,7 @@ import ast.node.structrue.*;
 import ast.node.value.InfixExpressionNode;
 import ast.node.value.UnaryExpressionNode;
 import classgen.provider.InstructionInfo;
-import jdk.internal.org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Opcodes;
 import operation.InfixOperation;
 import operation.Operation;
 import operation.UnaryOperation;
@@ -28,7 +28,7 @@ public class MethodInstructionGenerator {
     private Node statementNode;
     private Map<Integer, Integer> localIndexRemap;
     private String namespaceName;
-    private Label loopLabel;
+    private Label continueLabel;
     private Label endLabel;
     private boolean isLValue;
 
@@ -52,12 +52,12 @@ public class MethodInstructionGenerator {
     public MethodInstructionGenerator(Node statementNode,
                                       Map<Integer, Integer> localIndexRemap,
                                       String namespaceName,
-                                      Label loopLabel,
+                                      Label continueLabel,
                                       Label endLabel) {
         this.statementNode = statementNode;
         this.localIndexRemap = localIndexRemap;
         this.namespaceName = namespaceName;
-        this.loopLabel = loopLabel;
+        this.continueLabel = continueLabel;
         this.endLabel = endLabel;
     }
 
@@ -82,7 +82,7 @@ public class MethodInstructionGenerator {
             //must be rValue
             return handleStructRefNodeRValue((StructRefNode) statementNode);
         } else if (statementNode instanceof ContinueNode) {
-            return handleContinueStatement((ContinueNode) statementNode, loopLabel);
+            return handleContinueStatement((ContinueNode) statementNode, continueLabel);
         } else if (statementNode instanceof BreakNode) {
             return handleBreakStatement((BreakNode) statementNode, endLabel);
         } else if (statementNode instanceof VariableNameNode) {
@@ -116,8 +116,15 @@ public class MethodInstructionGenerator {
 
     private List<InstructionInfo> handleArrayNameNodeRValue(ArrayNameNode node) {
         List<InstructionInfo> result = new LinkedList<>();
-        int localIndex = localIndexRemap.get(((ArrayDefinitionNode) node.getReference()).getLocalIndex());
-        result.add(new DefaultInstruction(Opcodes.ALOAD, new Object[]{localIndex}));
+        if (node.getReference().getParentScope().getScopeType() == ScopeType.NAMESPACE) {
+            //array in namespace
+            result.add(new DefaultInstruction(Opcodes.GETSTATIC, new Object[]{namespaceName, node.getName(), node.getType().getDescriptor()}));
+        } else {
+            //local variable
+            int localIndex = localIndexRemap.get(((ArrayDefinitionNode) node.getReference()).getLocalIndex());
+            result.add(new DefaultInstruction(Opcodes.ALOAD, new Object[]{localIndex}));
+        }
+
         return result;
     }
 
@@ -247,8 +254,10 @@ public class MethodInstructionGenerator {
                 localIndexRemap, namespaceName).generate());
         Label endLabel = new Label();
         result.add(new DefaultInstruction(Opcodes.IFEQ, new Object[]{endLabel}));
+        Label continueLabel = new Label();
         result.addAll(new MethodInstructionGenerator(forLoopNode.getBlockBodyNode(),
-                localIndexRemap, namespaceName, loopLabel, endLabel).generate());
+                localIndexRemap, namespaceName, continueLabel, endLabel).generate());
+        result.add(new DefaultInstruction(continueLabel));
         result.addAll(new MethodInstructionGenerator(forLoopNode.getStepConditionNode(),
                 localIndexRemap, namespaceName).generate());
         result.add(new DefaultInstruction(Opcodes.GOTO, new Object[]{loopLabel}));
@@ -259,7 +268,7 @@ public class MethodInstructionGenerator {
     private List<InstructionInfo> handleStatementListNode(StatementListNode statementListNode) {
         List<InstructionInfo> result = new LinkedList<>();
         for (Node node: statementListNode.getStatements()) {
-            result.addAll(new MethodInstructionGenerator(node, localIndexRemap, namespaceName, this.loopLabel, this.endLabel).generate());
+            result.addAll(new MethodInstructionGenerator(node, localIndexRemap, namespaceName, this.continueLabel, this.endLabel).generate());
         }
         return result;
     }
@@ -298,7 +307,7 @@ public class MethodInstructionGenerator {
         result.add(new DefaultInstruction(Opcodes.IFEQ, new Object[]{elseLabel}));
         result.addAll(new MethodInstructionGenerator(statementListNode,
                 localIndexRemap,
-                namespaceName, this.loopLabel, this.endLabel).generate());
+                namespaceName, this.continueLabel, this.endLabel).generate());
         result.add(new DefaultInstruction(Opcodes.GOTO, new Object[]{endLabel}));
         result.add(new DefaultInstruction(elseLabel));
         return result;
@@ -310,7 +319,7 @@ public class MethodInstructionGenerator {
 
     private List<InstructionInfo> handleElseNode(ElseNode elseNode, Label endLabel) {
         return new MethodInstructionGenerator(elseNode.getStatementListNode(),
-                localIndexRemap, namespaceName, this.loopLabel, this.endLabel).generate();
+                localIndexRemap, namespaceName, this.continueLabel, this.endLabel).generate();
     }
 
     private List<InstructionInfo> handleInfixExpression(InfixExpressionNode node) {

@@ -28,5 +28,5 @@ generateGrammarSource {
 
 run {
     mainClassName = 'Main'
-    args = ["./sample/exp.lang"]
+    args = ["./test-samples/fib.jc"]
 }

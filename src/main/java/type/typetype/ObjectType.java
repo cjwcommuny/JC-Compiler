@@ -1,6 +1,7 @@
 package type.typetype;
 
 import common.CommonInfrastructure;
+import symbol.InitSymbolImporter;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,9 +20,11 @@ public class ObjectType extends Type {
     ObjectType(String simpleClassName, List<String> restrictNames) {
         if ("String".equals(simpleClassName)) {
             isExternal = true;
+            this.restrictNames = InitSymbolImporter.getStringRestrictNames();
+        } else {
+            this.restrictNames = restrictNames;
         }
         this.simpleClassName = simpleClassName;
-        this.restrictNames = restrictNames;
         this.fullRestrictClassName = CommonInfrastructure.constructFullRestrictClassName(simpleClassName, restrictNames);
     }
 

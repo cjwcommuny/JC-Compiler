@@ -40,4 +40,8 @@ public class StructRefNode extends RefNode {
     public String getFieldName() {
         return ((VariableDefinitionNode) reference).getVariableName();
     }
+
+    public Node getVariableNameNode() {
+        return getChild(1);
+    }
 }

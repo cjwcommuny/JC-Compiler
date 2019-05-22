@@ -1,0 +1,33 @@
+namespace TestClass {
+    struct S {
+        int[] arr1 = {1, 2, 3};
+        String[] arr2 = {"hello", "world", "!"};
+    }
+
+    double[] arr3 = {3.1, 2.4, 3.5};
+    S[] arr4 = new S[5];
+
+    def void main(String[] args) {
+        int[] arr5 = new int[4];
+        arr5[3] = 4;
+        S s;
+        int[] arr6 = s.arr1;
+        String[] arr7 = s.arr2;
+        print(arr6[2]);
+        print("\n");
+        print(arr7[0]);
+        print("\n");
+        print(arr3[2]);
+        print("\n");
+        print(arr5[3]);
+        print("\n");
+    }
+}
+
+/*
+output:
+3
+hello
+3.5
+4
+*/
