@@ -1,5 +1,6 @@
 package codegen;
 
+import ast.node.HasType;
 import ast.node.Node;
 import ast.node.StatementListNode;
 import ast.node.definition.*;
@@ -92,12 +93,20 @@ public class AstInfo implements ClassRaw {
 
     private List<InstructionInfo> handleAssignmentStaticInit(VariableDefinitionNode node) {
         String fieldName = node.getVariableName();
-        Type type = node.getType();
+        Type leftType = node.getType();
         List<InstructionInfo> result = new LinkedList<>();
         result.addAll(new MethodInstructionGenerator(node.getRightSide(),
                 null, simpleClassName).generate());
+
+        //cast int to double if needed
+        Type rightType = ((HasType) node.getRightSide()).getType();
+        if (!rightType.equals(leftType)) {
+            assert(rightType instanceof IntType && leftType instanceof DoubleType);
+            result.add(new DefaultInstruction(Opcodes.I2D, null));
+        }
+
         result.add(new DefaultInstruction(Opcodes.PUTSTATIC,
-                new Object[]{getInternalClassName(), fieldName, type.getDescriptor()}));
+                new Object[]{getInternalClassName(), fieldName, leftType.getDescriptor()}));
         return result;
     }
 

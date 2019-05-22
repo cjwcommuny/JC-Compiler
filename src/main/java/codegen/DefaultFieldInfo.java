@@ -2,6 +2,7 @@ package codegen;
 
 import ast.node.definition.VariableDefinitionNode;
 import classgen.provider.FieldInfo;
+import type.typetype.DoubleType;
 import type.typetype.Type;
 
 public class DefaultFieldInfo implements FieldInfo {
@@ -42,6 +43,9 @@ public class DefaultFieldInfo implements FieldInfo {
         Type type = fieldNode.getType();
         String descriptor = type.getDescriptor();
         Object value = fieldNode.getLiteralValue();
+        if (type instanceof DoubleType && value instanceof Integer) {
+            value = (double) ((Integer) value).intValue();
+        }
         return new DefaultFieldInfo(fieldName, descriptor, accessFlags, value);
     }
 }

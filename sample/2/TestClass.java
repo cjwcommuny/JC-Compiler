@@ -1,13 +1,7 @@
 class ComplexOperation {
-    void main(String[] args) {
-        char ch;
-        boolean b;
-        ch = f();
-        // b = true;
-    }
+    static int a = 3;
 
-    char f() {
-        String s = "hello";
-        return s.charAt(2);
+    void main(String[] args) {
+        a = 3;
     }
 }

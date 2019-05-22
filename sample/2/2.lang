@@ -1,6 +1,9 @@
 namespace ComplexOperation {    
+    double a = 5;
+
     def void main(String[] args) {
-        double[] arr = {1, 2.0, 4, 3};
-        print(arr[2]);
+        print(a);
+        a = 4;
+        print(a);
     }
 }

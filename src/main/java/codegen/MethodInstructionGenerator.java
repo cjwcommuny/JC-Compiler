@@ -17,6 +17,7 @@ import operation.Operation;
 import operation.UnaryOperation;
 import org.objectweb.asm.Label;
 import symbol.InitSymbolImporter;
+import symbol.ScopeType;
 import type.typetype.*;
 
 import java.util.LinkedList;
@@ -201,6 +202,7 @@ public class MethodInstructionGenerator {
     }
 
     private List<InstructionInfo> handleVariableNameLValue(VariableNameNode node) {
+        //must be function local variable
         List<InstructionInfo> result = new LinkedList<>();
         int localIndex = localIndexRemap.get(node.getLocalIndex());
         org.objectweb.asm.Type asmType = node.getType().getAsmType();
@@ -481,10 +483,20 @@ public class MethodInstructionGenerator {
 
     private List<InstructionInfo> handleVariableNameRValue(VariableNameNode node) {
         List<InstructionInfo> instructions = new LinkedList<>();
-        int localIndex = localIndexRemap.get(((VariableDefinitionNode) node.getReference()).getLocalIndex());
-        org.objectweb.asm.Type asmType = node.getType().getAsmType();
-        int opcode = asmType.getOpcode(Opcodes.ILOAD);
-        instructions.add(new DefaultInstruction(opcode, new Object[]{localIndex}));
+        if (node.getReference().getParentScope().getScopeType() == ScopeType.NAMESPACE) {
+            //ref from namespace
+            String variableName = node.getName();
+            String namespaceName = this.namespaceName;
+            String descriptor = node.getType().getDescriptor();
+            instructions.add(new DefaultInstruction(Opcodes.GETSTATIC,
+                    new Object[]{namespaceName, variableName, descriptor}));
+        } else {
+            //local ref
+            int localIndex = localIndexRemap.get(((VariableDefinitionNode) node.getReference()).getLocalIndex());
+            org.objectweb.asm.Type asmType = node.getType().getAsmType();
+            int opcode = asmType.getOpcode(Opcodes.ILOAD);
+            instructions.add(new DefaultInstruction(opcode, new Object[]{localIndex}));
+        }
         return instructions;
     }
 
@@ -500,10 +512,7 @@ public class MethodInstructionGenerator {
         //left side
         if (leftNode instanceof VariableNameNode) {
             VariableNameNode variableNameNode = (VariableNameNode) leftNode;
-            int localIndex = ((VariableDefinitionNode) variableNameNode.getReference()).getLocalIndex();
-            org.objectweb.asm.Type asmType = variableNameNode.getType().getAsmType();
             result.addAll(rightSideInstruction);
-
             //up-cast
             Type leftType = ((HasType) leftNode).getType();
             Type rightType = ((HasType) rightNode).getType();
@@ -513,7 +522,19 @@ public class MethodInstructionGenerator {
                 result.add(new DefaultInstruction(Opcodes.I2D, null));
             }
 
-            result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ISTORE), new Object[]{localIndex}));
+            if (variableNameNode.getReference().getParentScope().getScopeType() == ScopeType.NAMESPACE) {
+                //ref from namespace
+                String namespaceString = this.namespaceName;
+                String variableName = variableNameNode.getName();
+                String descriptor = variableNameNode.getType().getDescriptor();
+                result.add(new DefaultInstruction(Opcodes.PUTSTATIC,
+                        new Object[]{namespaceString, variableName, descriptor}));
+            } else {
+                //local variable
+                int localIndex = ((VariableDefinitionNode) variableNameNode.getReference()).getLocalIndex();
+                org.objectweb.asm.Type asmType = variableNameNode.getType().getAsmType();
+                result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ISTORE), new Object[]{localIndex}));
+            }
         } else if (leftNode instanceof StructRefNode) {
             StructRefNode structRefNode = (StructRefNode) leftNode;
             Node objectNode = structRefNode.getLeftSideNode();

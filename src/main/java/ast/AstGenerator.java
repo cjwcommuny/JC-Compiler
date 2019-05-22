@@ -128,7 +128,9 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                     scopeHandler.getCurrentScope());
         }
         thisNode.setLocalIndex(declarationNode.getLocalIndex());
-        thisNode.addChild(variableNameNode);
+        if (!thisNode.hasNameNode()) {
+            thisNode.addChild(variableNameNode);
+        }
         AstGeneratorResult visitResult = visit(ctx.rValue());
         Node rightSideNode = visitResult.getNodes().get(0);
         Type rightSideType = ((HasType) rightSideNode).getType();
