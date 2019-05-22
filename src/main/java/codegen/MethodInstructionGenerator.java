@@ -174,6 +174,14 @@ public class MethodInstructionGenerator {
             result.add(new DefaultInstruction(Opcodes.LDC, new Object[]{i}));
             result.addAll(new MethodInstructionGenerator(element,
                     localIndexRemap, namespaceName).generate());
+
+            //cast int to double
+            Type elementType = ((HasType) element).getType();
+            if (!elementType.equals(componentType)) {
+                assert(elementType instanceof IntType && componentType instanceof DoubleType);
+                result.add(new DefaultInstruction(Opcodes.I2D, null));
+            }
+
             result.add(new DefaultInstruction(componentType.getAsmType().getOpcode(Opcodes.IASTORE),
                     null));
         }
@@ -495,6 +503,16 @@ public class MethodInstructionGenerator {
             int localIndex = ((VariableDefinitionNode) variableNameNode.getReference()).getLocalIndex();
             org.objectweb.asm.Type asmType = variableNameNode.getType().getAsmType();
             result.addAll(rightSideInstruction);
+
+            //up-cast
+            Type leftType = ((HasType) leftNode).getType();
+            Type rightType = ((HasType) rightNode).getType();
+            if (!leftType.equals(rightType)) {
+                //left is double, right is int
+                assert(rightType instanceof IntType && leftType instanceof DoubleType);
+                result.add(new DefaultInstruction(Opcodes.I2D, null));
+            }
+
             result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ISTORE), new Object[]{localIndex}));
         } else if (leftNode instanceof StructRefNode) {
             StructRefNode structRefNode = (StructRefNode) leftNode;
@@ -559,10 +577,18 @@ public class MethodInstructionGenerator {
 
     private List<InstructionInfo> handleBaseTypeDefinitionWithAssignment(VariableDefinitionNode node, int localIndex) {
         List<InstructionInfo> result = new LinkedList<>();
-        Type type = node.getType();
-        org.objectweb.asm.Type asmType = type.getAsmType();
+        Type leftType = node.getType();
+        org.objectweb.asm.Type asmType = leftType.getAsmType();
         result.addAll(new MethodInstructionGenerator(node.getRightSide(),
                 localIndexRemap, namespaceName, false).generate());
+
+        //up-cast int to double
+        Type rightType = ((HasType) node.getRightSide()).getType();
+        if (!rightType.equals(leftType)) {
+            assert(rightType instanceof IntType && leftType instanceof DoubleType);
+            result.add(new DefaultInstruction(Opcodes.I2D, null));
+        }
+
         result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ISTORE), new Object[]{localIndex}));
         return result;
     }
@@ -587,6 +613,7 @@ public class MethodInstructionGenerator {
     }
 
     private List<InstructionInfo> handleReturnStatement(ReturnNode node) {
+        //TODO: support int up-cast to double
         List<InstructionInfo> instructions = new LinkedList<>();
         if (node.isReturnSomething()) {
             Type type = node.getType();
@@ -597,7 +624,7 @@ public class MethodInstructionGenerator {
                 returnOpcode = Opcodes.ARETURN;
             } else {
                 //baseType
-                returnOpcode = ((BaseType) type).getAsmType().getOpcode(Opcodes.IRETURN);
+                returnOpcode = type.getAsmType().getOpcode(Opcodes.IRETURN);
             }
             instructions.add(new DefaultInstruction(returnOpcode, null));
         } else {

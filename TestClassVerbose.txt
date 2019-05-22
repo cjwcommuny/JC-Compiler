@@ -1,6 +1,6 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/ComplexOperation.class
-  Last modified 2019年5月22日; size 193 bytes
-  MD5 checksum e038adc64104736b618fe964adab765f
+  Last modified 2019年5月22日; size 308 bytes
+  MD5 checksum 004d64c7acd0b78bb99ab0bbf82ea71a
 public class ComplexOperation
   minor version: 0
   major version: 50
@@ -15,21 +15,37 @@ Constant pool:
    #4 = Class              #3             // java/lang/Object
    #5 = Utf8               main
    #6 = Utf8               ([Ljava/lang/String;)V
-   #7 = Double             1.0d
-   #9 = Utf8               <clinit>
-  #10 = Utf8               ()V
-  #11 = Utf8               Code
+   #7 = Integer            1
+   #8 = Utf8               java/lang/System
+   #9 = Class              #8             // java/lang/System
+  #10 = Utf8               out
+  #11 = Utf8               Ljava/io/PrintStream;
+  #12 = NameAndType        #10:#11        // out:Ljava/io/PrintStream;
+  #13 = Fieldref           #9.#12         // java/lang/System.out:Ljava/io/PrintStream;
+  #14 = Utf8               java/io/PrintStream
+  #15 = Class              #14            // java/io/PrintStream
+  #16 = Utf8               print
+  #17 = Utf8               (D)V
+  #18 = NameAndType        #16:#17        // print:(D)V
+  #19 = Methodref          #15.#18        // java/io/PrintStream.print:(D)V
+  #20 = Utf8               <clinit>
+  #21 = Utf8               ()V
+  #22 = Utf8               Code
 {
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
     flags: (0x0009) ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=2, locals=3, args_size=1
+      stack=3, locals=3, args_size=1
          0: dconst_0
          1: dstore_1
-         2: ldc2_w        #7                  // double 1.0d
+         2: ldc           #7                  // int 1
+         4: i2d
          5: dstore_1
-         6: return
+         6: getstatic     #13                 // Field java/lang/System.out:Ljava/io/PrintStream;
+         9: dload_1
+        10: invokevirtual #19                 // Method java/io/PrintStream.print:(D)V
+        13: return
 
   static {};
     descriptor: ()V

@@ -19,10 +19,12 @@ public abstract class Type {
     abstract public org.objectweb.asm.Type getAsmType();
 
     public static Type getLowestUpperType(Type type1, Type type2) {
+        //assume type1 and type2 are compatible
+        if (type1.equals(type2)) {
+            return type1;
+        }
         Type result;
-        if (type1 instanceof DoubleType) {
-            result = TypeBuilder.generateDoubleType();
-        } else if (type2 instanceof DoubleType) {
+        if (type1 instanceof DoubleType || type2 instanceof DoubleType) {
             result = TypeBuilder.generateDoubleType();
         } else {
             result = TypeBuilder.generateIntType();

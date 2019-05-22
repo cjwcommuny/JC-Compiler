@@ -3,12 +3,9 @@ package type;
 
 import ast.node.HasType;
 import ast.node.Node;
-import error.exception.TypeMismatchException;
 import operation.Operation;
-import symbol.InitSymbolImporter;
 import type.typetype.*;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class TypeChecker {
@@ -121,8 +118,13 @@ public class TypeChecker {
     public static Type checkFunctionParameter(FunctionType functionType,
                                                  List<Type> argumentTypes) {
         List<Type> parameterTypes = functionType.getParameterTypes();
-        for (Type parameterType: parameterTypes) {
-            if (!(parameterType instanceof AnyType) && !parameterTypes.equals(argumentTypes)) {
+        if (argumentTypes.size() != parameterTypes.size()) {
+            return null;
+        }
+        for (int i = 0; i < argumentTypes.size(); ++i) {
+            Type parameterType = parameterTypes.get(i);
+            Type argumentType = argumentTypes.get(i);
+            if (!(parameterType instanceof AnyType) && !canBeConverted(argumentType, parameterType)) {
                 return null;
             }
         }
@@ -132,7 +134,7 @@ public class TypeChecker {
     //other operation: XOR and so on
 
     public static boolean checkAssignment(Type type1, Type type2) {
-        return type1.equals(type2);
+        return canBeConverted(type2, type1);
     }
 
     public static boolean checkConditionValue(Type type) {
@@ -148,14 +150,15 @@ public class TypeChecker {
         for (Node node: nodes) {
             HasType hasType = (HasType) node;
             Type type = hasType.getType();
-            if (!type.equals(resultType)) {
+            if (!areCompatible(type, resultType)) {
                 return null;
             }
+            resultType = Type.getLowestUpperType(type, resultType);
         }
         return TypeBuilder.generateArrayType(resultType, 1);
     }
 
-    private static boolean isConverted(Type convertFrom, Type convertTo) {
+    private static boolean canBeConverted(Type convertFrom, Type convertTo) {
         if (convertFrom.equals(convertTo)) {
             return true;
         }
@@ -163,5 +166,9 @@ public class TypeChecker {
             return true;
         }
         return false;
+    }
+
+    private static boolean areCompatible(Type type1, Type type2) {
+        return canBeConverted(type1, type2) || canBeConverted(type2, type1);
     }
 }
