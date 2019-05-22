@@ -25,6 +25,7 @@ import symbol.*;
 import type.TypeChecker;
 import type.typetype.*;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -66,10 +67,7 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
                 false,
                 ScopeType.GLOBAL);
         ProgramNode thisNode = new ProgramNode(scopeHandler.getCurrentScope());
-        for (rulesParser.NamespaceDefinitionContext context: ctx.namespaceDefinition()) {
-            AstGeneratorResult visitResult = visit(context);
-            thisNode.addChildren(visitResult.getNodes());
-        }
+        thisNode.addChildren(visit(ctx.namespaceDefinition()).getNodes());
         scopeHandler.exitScope();
         return new AstGeneratorResult(thisNode);
     }
@@ -208,6 +206,10 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 
     @Override
     public AstGeneratorResult visitInfixExpression(rulesParser.InfixExpressionContext ctx) {
+        return generateInfix(ctx);
+    }
+
+    private AstGeneratorResult generateInfix(ParserRuleContext ctx) {
         String operationStr = ctx.getChild(1).getText();
         Operation operation = new InfixOperation(operationStr);
         Node leftNode = visit(ctx.getChild(0)).getNode();
@@ -304,8 +306,17 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
             throw new NameDuplicateException(errPosition, variableName);
         }
         VariableNameNode nameNode = new VariableNameNode(variableName, null, type);
-        VariableDefinitionNode thisNode = DefinitionNodeBuilder.generateVariableDefinitionNodeNotBuf(nameNode.getType(), scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
-        thisNode.addChild(nameNode);
+        List<String> restrictNames = scopeHandler.getRestrictNames();
+        String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(variableName, restrictNames);
+        VariableDefinitionNode thisNode;
+        if (scopeHandler.getCurrentScope().getCorrespondingNode() instanceof FunctionDefinitionNode) {
+            thisNode = DefinitionNodeBuilder.generateVariableDefinitionNodeNotBuf(nameNode.getType(), scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
+        } else {
+            thisNode = DefinitionNodeBuilder.generateVariableDefinitionNode(fullRestrictName, nameNode.getType(), scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
+        }
+        if (!thisNode.hasNameNode()) {
+            thisNode.addChild(nameNode);
+        }
         Node parentNode = thisNode.getParentScope().getCorrespondingNode();
         if (parentNode instanceof FunctionDefinitionNode) {
             thisNode.setLocalIndex(((FunctionDefinitionNode) parentNode)
@@ -395,8 +406,8 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
 
     @Override
     public AstGeneratorResult visitStructReference(rulesParser.StructReferenceContext ctx) {
-        RefNode leftNode = (RefNode) visit(ctx.getChild(0)).getNode();
-        Type leftType = leftNode.getType();
+        Node leftNode =  visit(ctx.getChild(0)).getNode();
+        Type leftType = ((HasType) leftNode).getType();
         String rightIdentifierName = ctx.getChild(ctx.getChildCount() - 1).getText();
 
         if (!(leftType instanceof ObjectType)) {
@@ -659,10 +670,17 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         }
         ArrayType arrayType = TypeBuilder.generateArrayType(componentType, dimension);
         VariableNameNode nameNode = new VariableNameNode(variableName, null, arrayType);
-        ArrayDefinitionNode thisNode = DefinitionNodeBuilder.generateArrayDefinitionNodeNotBuf(
-                nameNode.getType(),
-                scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
-        thisNode.addChild(nameNode);
+        List<String> restrictNames = scopeHandler.getRestrictNames();
+        String fullRestrictName = CommonInfrastructure.constructDefaultFullRestrictName(variableName, restrictNames);
+        ArrayDefinitionNode thisNode;
+        if (scopeHandler.getCurrentScope().getCorrespondingNode() instanceof FunctionDefinitionNode) {
+            thisNode = DefinitionNodeBuilder.generateArrayDefinitionNodeNotBuf(nameNode.getType(), scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
+        } else {
+            thisNode = DefinitionNodeBuilder.generateArrayDefinitionNode(fullRestrictName, nameNode.getType(), scopeHandler.getCurrentFunctionOrStructOrNamespaceScope());
+        }
+        if (!thisNode.hasNameNode()) {
+            thisNode.addChild(nameNode);
+        }
 
         Node parentNode = thisNode.getParentScope().getCorrespondingNode();
         if (parentNode instanceof FunctionDefinitionNode) {
@@ -781,5 +799,15 @@ public class AstGenerator extends rulesBaseVisitor<AstGeneratorResult> {
         thisNode.addChild(arrayNode);
         thisNode.addChild(indexNode);
         return new AstGeneratorResult(thisNode);
+    }
+
+    @Override
+    public AstGeneratorResult visitInfixTerms(rulesParser.InfixTermsContext ctx) {
+        return generateInfix(ctx);
+    }
+
+    @Override
+    public AstGeneratorResult visitExpressionInParentheses(rulesParser.ExpressionInParenthesesContext ctx) {
+        return visit(ctx.expression());
     }
 }

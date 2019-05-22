@@ -124,41 +124,17 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitCodeContent(rulesParser.CodeContentContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code identifier}
+	 * Enter a parse tree produced by the {@code termLabel}
 	 * labeled alternative in {@link rulesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterIdentifier(rulesParser.IdentifierContext ctx);
+	void enterTermLabel(rulesParser.TermLabelContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code identifier}
+	 * Exit a parse tree produced by the {@code termLabel}
 	 * labeled alternative in {@link rulesParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitIdentifier(rulesParser.IdentifierContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code functionCallLabel}
-	 * labeled alternative in {@link rulesParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code functionCallLabel}
-	 * labeled alternative in {@link rulesParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code literalLabel}
-	 * labeled alternative in {@link rulesParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterLiteralLabel(rulesParser.LiteralLabelContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code literalLabel}
-	 * labeled alternative in {@link rulesParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitLiteralLabel(rulesParser.LiteralLabelContext ctx);
+	void exitTermLabel(rulesParser.TermLabelContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code infixExpression}
 	 * labeled alternative in {@link rulesParser#expression}.
@@ -172,14 +148,98 @@ public interface rulesListener extends ParseTreeListener {
 	 */
 	void exitInfixExpression(rulesParser.InfixExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code infixTerms}
+	 * labeled alternative in {@link rulesParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void enterInfixTerms(rulesParser.InfixTermsContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code infixTerms}
+	 * labeled alternative in {@link rulesParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void exitInfixTerms(rulesParser.InfixTermsContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code factorLabel}
+	 * labeled alternative in {@link rulesParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void enterFactorLabel(rulesParser.FactorLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code factorLabel}
+	 * labeled alternative in {@link rulesParser#term}.
+	 * @param ctx the parse tree
+	 */
+	void exitFactorLabel(rulesParser.FactorLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code identifier}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 */
+	void enterIdentifier(rulesParser.IdentifierContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code identifier}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 */
+	void exitIdentifier(rulesParser.IdentifierContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code literalLabel}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 */
+	void enterLiteralLabel(rulesParser.LiteralLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code literalLabel}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 */
+	void exitLiteralLabel(rulesParser.LiteralLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code functionCallLabel}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code functionCallLabel}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code structReferenceLabel}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructReferenceLabel(rulesParser.StructReferenceLabelContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code structReferenceLabel}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructReferenceLabel(rulesParser.StructReferenceLabelContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code expressionInParentheses}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 */
+	void enterExpressionInParentheses(rulesParser.ExpressionInParenthesesContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code expressionInParentheses}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 */
+	void exitExpressionInParentheses(rulesParser.ExpressionInParenthesesContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code unaryExpression}
-	 * labeled alternative in {@link rulesParser#expression}.
+	 * labeled alternative in {@link rulesParser#factor}.
 	 * @param ctx the parse tree
 	 */
 	void enterUnaryExpression(rulesParser.UnaryExpressionContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code unaryExpression}
-	 * labeled alternative in {@link rulesParser#expression}.
+	 * labeled alternative in {@link rulesParser#factor}.
 	 * @param ctx the parse tree
 	 */
 	void exitUnaryExpression(rulesParser.UnaryExpressionContext ctx);

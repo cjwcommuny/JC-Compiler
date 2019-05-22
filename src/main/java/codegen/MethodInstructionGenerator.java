@@ -433,9 +433,9 @@ public class MethodInstructionGenerator {
             result.add(new DefaultInstruction(label1));
             result.add(new DefaultInstruction(Opcodes.ICONST_1, null));
             result.add(new DefaultInstruction(label2));
-        } else if (operation == UnaryOperation.NEGATIVE) {
+        } else if (operation.equals(UnaryOperation.NEGATIVE)) {
             int opcode = asmType.getOpcode(Opcodes.INEG);
-            result.add(opcode, null);
+            result.add(new DefaultInstruction(opcode, null));
         } else {
             //error
         }

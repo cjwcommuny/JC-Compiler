@@ -154,4 +154,14 @@ public class TypeChecker {
         }
         return TypeBuilder.generateArrayType(resultType, 1);
     }
+
+    private static boolean isConverted(Type convertFrom, Type convertTo) {
+        if (convertFrom.equals(convertTo)) {
+            return true;
+        }
+        if (convertFrom instanceof IntType && convertTo instanceof DoubleType) {
+            return true;
+        }
+        return false;
+    }
 }

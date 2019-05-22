@@ -13,7 +13,7 @@ public class ObjectType extends Type {
 
     @Override
     public String getDescriptor() {
-        return "L" + fullRestrictClassName + ";";
+        return "L" + getInternalName() + ";";
     }
 
     ObjectType(String simpleClassName, List<String> restrictNames) {

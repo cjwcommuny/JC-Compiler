@@ -1,16 +1,13 @@
-namespace MyNamespace {
-    def int fib(int x) {
-        if (x == 1 || x == 2) {
+namespace Fib {
+
+    def void main(String[] args) {
+        print(fib(10));
+    }
+
+    def int fib(int n) {
+        if (n == 1 || n == 2) {
             return 1;
-        } else {
-            return x * fib(x - 1);
         }
+        return fib(n - 1) + fib(n - 2);
     }
 }
-
-
-/*
-attribute:
-所在作用域：namespace，struct，function或者各种block结构；或者在分析时用 current scope这个状态量替代。
-
-*/

@@ -59,4 +59,8 @@ public class VariableDefinitionNode extends DefinitionNode implements HasType, A
     public VariableNameNode getVariableNameNode() {
         return (VariableNameNode) getChild(0);
     }
+
+    public boolean hasNameNode() {
+        return getChildrenCount() != 0;
+    }
 }

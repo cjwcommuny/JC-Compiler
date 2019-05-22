@@ -15,7 +15,6 @@ public class DefaultCodeInfo implements CodeInfo {
 
     @Override
     public int getMaxStack() {
-        //TODO
         return maxStack;
     }
 

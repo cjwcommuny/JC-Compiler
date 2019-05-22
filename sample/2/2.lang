@@ -1,10 +1,96 @@
-namespace TestClass {
-
-    def void main(String[] args) {
-        int[] arr = new int[10];
-        int t = arr[3];
-        arr[4] = 6;
-        print(t);
-        print(arr[4]);
+namespace ComplexOperation {
+    struct Complex {
+        double real;
+        double imagine;
     }
+    /**/
+    def void main(String[] args) {
+        test();
+    }
+
+    def void test() {
+        Complex c1;
+        c1.real = 3.0;
+        c1.imagine = 4.0;
+        Complex c2;
+        c2.real = 6.0;
+        c2.imagine = 8.0;
+
+        print("complex number c1: ");
+        printComplex(c1);
+        print("\n");
+        print("complex number c2: ");
+        printComplex(c2);
+        print("\n");
+
+        print("add: ");
+        printComplex(add(c1, c2));
+        print("\n");
+
+        print("sub: ");
+        printComplex(sub(c1, c2));
+        print("\n");
+
+        print("mul: ");
+        printComplex(mul(c1, c2));
+        print("\n");
+
+        print("div: ");
+        printComplex(div(c1, c2));
+        print("\n");
+    }
+    
+    
+    def void printComplex(Complex c) {
+        if (c.real != 0.0) {
+            print(c.real);
+        }
+        if (c.imagine > 0.0) {
+            print("+");
+            print(c.imagine);
+            print("i");
+        } elif (c.imagine < 0.0) {
+            print(c.imagine);
+            print("i");
+        }
+        
+    }
+    
+    
+    
+    def Complex add(Complex c1, Complex c2) {
+        Complex c;
+        c.real = c1.real + c2.real;
+        c.imagine = c1.imagine + c2.imagine;
+        return c;
+    }
+
+    def Complex sub(Complex c1, Complex c2) {
+        Complex c;
+        c.real = c1.real - c2.real;
+        c.imagine = c1.imagine - c2.imagine;
+        return c;
+    }
+
+    def Complex mul(Complex c1, Complex c2) {
+        //(c11+c12i) * (c21+c22i)
+        Complex c;
+        c.real = c1.real * c2.real - c1.imagine * c2.imagine;
+        c.imagine = c1.real * c2.imagine + c1.imagine * c2.real;
+        return c;
+    }
+    
+
+    def Complex div(Complex c1, Complex c2) {
+        //(c11+c12i) / (c21+c22i)
+        Complex c3;
+        c3.real = c2.real;
+        c3.imagine = -c2.imagine;
+        double denominator = mul(c2, c3).real;
+        Complex c = mul(c1, c3);
+        c.real = c.real / denominator;
+        c.imagine = c.imagine / denominator;
+        return c;
+    }
+    
 }

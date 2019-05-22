@@ -74,17 +74,16 @@ public class SymbolTableGenerator extends rulesBaseVisitor<SymbolTableResult> {
     @Override
     public SymbolTableResult visitProgram(rulesParser.ProgramContext ctx) {
         Map<String, DefinitionNode> table = new HashMap<>();
-        for (rulesParser.NamespaceDefinitionContext context: ctx.namespaceDefinition()) {
-            String name = context.IDENTIFIER().getText();
-            if (table.containsKey(name)) {
-                int[] errorPosition = astGenerator.getTokenPosition(ctx, context.IDENTIFIER().getSymbol());
-                throw new SymbolNotResolvedException(errorPosition, name);
-            }
-            table.put(name,
-                    DefinitionNodeBuilder.generateNamespaceNode(name,
-                            null,
-                            scopeHandler.getCurrentScope()));
+        rulesParser.NamespaceDefinitionContext context = ctx.namespaceDefinition();
+        String name = context.IDENTIFIER().getText();
+        if (table.containsKey(name)) {
+            int[] errorPosition = astGenerator.getTokenPosition(ctx, context.IDENTIFIER().getSymbol());
+            throw new SymbolNotResolvedException(errorPosition, name);
         }
+        table.put(name,
+                DefinitionNodeBuilder.generateNamespaceNode(name,
+                        null,
+                        scopeHandler.getCurrentScope()));
         return new SymbolTableResult(table);
     }
 

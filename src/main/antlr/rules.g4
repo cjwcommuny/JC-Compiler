@@ -9,6 +9,8 @@ package parser;
 }
 
 //basic tokens ==============================================================
+STRING_LITERAL: '"' ([a-zA-Z0-9 \t\\] | '+' | '-' | '*' | '/' | ':')* '"';
+
 LEFT_CURLY_BRACE: '{';
 RIGHT_CURLY_BRACE: '}';
 
@@ -47,7 +49,7 @@ EQUAL_SYMBOL: '==';
 NOT_EQUAL_SYMBOL: '!=';
 
 //TODO: unicode support
-STRING_LITERAL: '"' [a-zA-Z0-9 \t\\]* '"';
+
 BOOL_LITERAL: 'true' | 'false';
 
 arrayInitialization:
@@ -119,7 +121,7 @@ namespaceDefinition:
 
 //program general rules ==============================================================
 program:
-	(namespaceDefinition)+
+	namespaceDefinition
 	; //    | code //default namespace
 
 
@@ -131,30 +133,39 @@ codeContent:
 
 //arithmetic or bool expression ==============================================================
 expression:
-	IDENTIFIER # identifier
-    | literal # literalLabel
-	| functionCall # functionCallLabel
-	| expression add expression # infixExpression
-	| expression sub expression # infixExpression
-	| expression MUL expression # infixExpression
-	| expression DIV expression # infixExpression
-	| sub expression # unaryExpression
-	| expression XOR expression # infixExpression
+    term # termLabel
+	| expression add term # infixExpression
+	| expression sub term # infixExpression
 	| expression OR expression # infixExpression
 	| expression AND expression # infixExpression
-	| NOT expression # unaryExpression
-	| LEFT_PARENTHESES expression RIGHT_PARENTHESES # infixExpression
 	| expression LESS_THAN expression # infixExpression
     | expression GREATER_THAN expression # infixExpression
     | expression LESS_OR_EQUAL_THAN expression # infixExpression
     | expression GREATER_OR_EQUAL_THAN expression # infixExpression
     | expression EQUAL_SYMBOL expression # infixExpression
     | expression NOT_EQUAL_SYMBOL expression # infixExpression
-    | LOGIC_NOT expression # unaryExpression
 	| expression LOGIC_OR expression # infixExpression
 	| expression LOGIC_AND expression # infixExpression
     ;
 
+term:
+    factor # factorLabel
+    | term MUL factor # infixTerms
+    | term DIV factor # infixTerms
+    | term XOR factor # infixTerms
+    ;
+
+
+factor:
+	IDENTIFIER # identifier
+    | literal # literalLabel
+	| functionCall # functionCallLabel
+	| structReference # structReferenceLabel
+	| LEFT_PARENTHESES expression RIGHT_PARENTHESES # expressionInParentheses
+    | LOGIC_NOT factor # unaryExpression
+    | NOT factor # unaryExpression
+    | sub factor # unaryExpression
+    ;
 
 //assignment ==============================================================
 assignment: lValue ASSIGN_SYMBOL rValue;

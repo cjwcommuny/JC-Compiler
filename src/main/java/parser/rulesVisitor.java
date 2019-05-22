@@ -81,26 +81,12 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitCodeContent(rulesParser.CodeContentContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code identifier}
+	 * Visit a parse tree produced by the {@code termLabel}
 	 * labeled alternative in {@link rulesParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitIdentifier(rulesParser.IdentifierContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code functionCallLabel}
-	 * labeled alternative in {@link rulesParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code literalLabel}
-	 * labeled alternative in {@link rulesParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLiteralLabel(rulesParser.LiteralLabelContext ctx);
+	T visitTermLabel(rulesParser.TermLabelContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code infixExpression}
 	 * labeled alternative in {@link rulesParser#expression}.
@@ -109,8 +95,57 @@ public interface rulesVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInfixExpression(rulesParser.InfixExpressionContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code infixTerms}
+	 * labeled alternative in {@link rulesParser#term}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInfixTerms(rulesParser.InfixTermsContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code factorLabel}
+	 * labeled alternative in {@link rulesParser#term}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFactorLabel(rulesParser.FactorLabelContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code identifier}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIdentifier(rulesParser.IdentifierContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code literalLabel}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLiteralLabel(rulesParser.LiteralLabelContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code functionCallLabel}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionCallLabel(rulesParser.FunctionCallLabelContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code structReferenceLabel}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStructReferenceLabel(rulesParser.StructReferenceLabelContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code expressionInParentheses}
+	 * labeled alternative in {@link rulesParser#factor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExpressionInParentheses(rulesParser.ExpressionInParenthesesContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code unaryExpression}
-	 * labeled alternative in {@link rulesParser#expression}.
+	 * labeled alternative in {@link rulesParser#factor}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */

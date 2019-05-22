@@ -1,0 +1,29 @@
+namespace ComplexOperation {
+    struct Complex {
+        int real;
+        int imagine;
+    }
+
+    def void main(String[] args) {
+
+    }
+
+    def void printComplex(Complex c) {
+        print(c.real);
+        if (c.imagine > 0) {
+            print("+");
+            print(c.imagine);
+            print("i");
+        } else if (c.imagine < 0) {
+            print(c.imagine);
+            print("i");
+        }
+    }
+
+    def Complex add(Complex c1, Complex c2) {
+        Complex c;
+        c.real = c1.real + c2.real;
+        c.imagine = c1.imagine + c2.imagine;
+        return c;
+    }
+}
