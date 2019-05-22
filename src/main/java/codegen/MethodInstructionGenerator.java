@@ -543,7 +543,16 @@ public class MethodInstructionGenerator {
         List<InstructionInfo> result = new LinkedList<>();
         Type type = node.getType();
         org.objectweb.asm.Type asmType = type.getAsmType();
-        result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ICONST_0), null));
+        if (asmType.equals(org.objectweb.asm.Type.INT_TYPE)) {
+            result.add(new DefaultInstruction(Opcodes.ICONST_0, null));
+        } else if (asmType.equals(org.objectweb.asm.Type.DOUBLE_TYPE)) {
+            result.add(new DefaultInstruction(Opcodes.DCONST_0, null));
+        } else if (asmType.equals(org.objectweb.asm.Type.CHAR_TYPE)) {
+            result.add(new DefaultInstruction(Opcodes.ICONST_0, null));
+        } else if (asmType.equals(org.objectweb.asm.Type.BOOLEAN_TYPE)) {
+            result.add(new DefaultInstruction(Opcodes.ICONST_0, null));
+        }
+//        result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ICONST_0), null));
         result.add(new DefaultInstruction(asmType.getOpcode(Opcodes.ISTORE), new Object[]{localIndex}));
         return result;
     }

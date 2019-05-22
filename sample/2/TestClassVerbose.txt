@@ -1,84 +1,45 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/sample/2/ComplexOperation.class
-  Last modified 2019-5-22; size 1590 bytes
-  MD5 checksum 9b28ca3a690dba5d69c26dfca286060f
+  Last modified 2019年5月22日; size 409 bytes
+  MD5 checksum 26a1554cd037fb5d6a69d4abb8f29d26
   Compiled from "TestClass.java"
 class ComplexOperation
   minor version: 0
-  major version: 52
-  flags: ACC_SUPER
+  major version: 55
+  flags: (0x0020) ACC_SUPER
+  this_class: #5                          // ComplexOperation
+  super_class: #6                         // java/lang/Object
+  interfaces: 0, fields: 0, methods: 3, attributes: 1
 Constant pool:
-   #1 = Methodref          #18.#38        // java/lang/Object."<init>":()V
-   #2 = Class              #39            // ComplexOperation$Complex
-   #3 = Methodref          #2.#40         // ComplexOperation$Complex."<init>":(LComplexOperation;)V
-   #4 = Fieldref           #2.#41         // ComplexOperation$Complex.real:I
-   #5 = Fieldref           #2.#42         // ComplexOperation$Complex.imagine:I
-   #6 = Methodref          #17.#43        // ComplexOperation.add:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-   #7 = Methodref          #17.#44        // ComplexOperation.printComplex:(LComplexOperation$Complex;)V
-   #8 = Fieldref           #45.#46        // java/lang/System.out:Ljava/io/PrintStream;
-   #9 = String             #47            // \n
-  #10 = Methodref          #48.#49        // java/io/PrintStream.print:(Ljava/lang/String;)V
-  #11 = Methodref          #17.#50        // ComplexOperation.sub:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-  #12 = Methodref          #17.#51        // ComplexOperation.mul:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-  #13 = Methodref          #17.#52        // ComplexOperation.div:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-  #14 = Methodref          #48.#53        // java/io/PrintStream.print:(I)V
-  #15 = String             #54            // +
-  #16 = String             #55            // i
-  #17 = Class              #56            // ComplexOperation
-  #18 = Class              #57            // java/lang/Object
-  #19 = Utf8               Complex
-  #20 = Utf8               InnerClasses
-  #21 = Utf8               <init>
-  #22 = Utf8               ()V
-  #23 = Utf8               Code
-  #24 = Utf8               LineNumberTable
-  #25 = Utf8               main
-  #26 = Utf8               ([Ljava/lang/String;)V
-  #27 = Utf8               test
-  #28 = Utf8               printComplex
-  #29 = Utf8               (LComplexOperation$Complex;)V
-  #30 = Utf8               StackMapTable
-  #31 = Utf8               add
-  #32 = Utf8               (LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-  #33 = Utf8               sub
-  #34 = Utf8               mul
-  #35 = Utf8               div
-  #36 = Utf8               SourceFile
-  #37 = Utf8               TestClass.java
-  #38 = NameAndType        #21:#22        // "<init>":()V
-  #39 = Utf8               ComplexOperation$Complex
-  #40 = NameAndType        #21:#58        // "<init>":(LComplexOperation;)V
-  #41 = NameAndType        #59:#60        // real:I
-  #42 = NameAndType        #61:#60        // imagine:I
-  #43 = NameAndType        #31:#32        // add:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-  #44 = NameAndType        #28:#29        // printComplex:(LComplexOperation$Complex;)V
-  #45 = Class              #62            // java/lang/System
-  #46 = NameAndType        #63:#64        // out:Ljava/io/PrintStream;
-  #47 = Utf8               \n
-  #48 = Class              #65            // java/io/PrintStream
-  #49 = NameAndType        #66:#67        // print:(Ljava/lang/String;)V
-  #50 = NameAndType        #33:#32        // sub:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-  #51 = NameAndType        #34:#32        // mul:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-  #52 = NameAndType        #35:#32        // div:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-  #53 = NameAndType        #66:#68        // print:(I)V
-  #54 = Utf8               +
-  #55 = Utf8               i
-  #56 = Utf8               ComplexOperation
-  #57 = Utf8               java/lang/Object
-  #58 = Utf8               (LComplexOperation;)V
-  #59 = Utf8               real
-  #60 = Utf8               I
-  #61 = Utf8               imagine
-  #62 = Utf8               java/lang/System
-  #63 = Utf8               out
-  #64 = Utf8               Ljava/io/PrintStream;
-  #65 = Utf8               java/io/PrintStream
-  #66 = Utf8               print
-  #67 = Utf8               (Ljava/lang/String;)V
-  #68 = Utf8               (I)V
+   #1 = Methodref          #6.#17         // java/lang/Object."<init>":()V
+   #2 = Methodref          #5.#18         // ComplexOperation.f:()C
+   #3 = String             #19            // hello
+   #4 = Methodref          #20.#21        // java/lang/String.charAt:(I)C
+   #5 = Class              #22            // ComplexOperation
+   #6 = Class              #23            // java/lang/Object
+   #7 = Utf8               <init>
+   #8 = Utf8               ()V
+   #9 = Utf8               Code
+  #10 = Utf8               LineNumberTable
+  #11 = Utf8               main
+  #12 = Utf8               ([Ljava/lang/String;)V
+  #13 = Utf8               f
+  #14 = Utf8               ()C
+  #15 = Utf8               SourceFile
+  #16 = Utf8               TestClass.java
+  #17 = NameAndType        #7:#8          // "<init>":()V
+  #18 = NameAndType        #13:#14        // f:()C
+  #19 = Utf8               hello
+  #20 = Class              #24            // java/lang/String
+  #21 = NameAndType        #25:#26        // charAt:(I)C
+  #22 = Utf8               ComplexOperation
+  #23 = Utf8               java/lang/Object
+  #24 = Utf8               java/lang/String
+  #25 = Utf8               charAt
+  #26 = Utf8               (I)C
 {
   ComplexOperation();
     descriptor: ()V
-    flags:
+    flags: (0x0000)
     Code:
       stack=1, locals=1, args_size=1
          0: aload_0
@@ -89,304 +50,30 @@ Constant pool:
 
   void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
-    flags:
+    flags: (0x0000)
     Code:
-      stack=0, locals=2, args_size=2
-         0: return
+      stack=1, locals=4, args_size=2
+         0: aload_0
+         1: invokevirtual #2                  // Method f:()C
+         4: istore_2
+         5: return
       LineNumberTable:
-        line 9: 0
+        line 5: 0
+        line 7: 5
 
-  void test();
-    descriptor: ()V
-    flags:
+  char f();
+    descriptor: ()C
+    flags: (0x0000)
     Code:
-      stack=4, locals=3, args_size=1
-         0: new           #2                  // class ComplexOperation$Complex
-         3: dup
-         4: aload_0
-         5: invokespecial #3                  // Method ComplexOperation$Complex."<init>":(LComplexOperation;)V
-         8: astore_1
-         9: aload_1
-        10: iconst_3
-        11: putfield      #4                  // Field ComplexOperation$Complex.real:I
-        14: aload_1
-        15: iconst_4
-        16: putfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        19: new           #2                  // class ComplexOperation$Complex
-        22: dup
-        23: aload_0
-        24: invokespecial #3                  // Method ComplexOperation$Complex."<init>":(LComplexOperation;)V
-        27: astore_2
-        28: aload_2
-        29: bipush        6
-        31: putfield      #4                  // Field ComplexOperation$Complex.real:I
-        34: aload_2
-        35: bipush        8
-        37: putfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        40: aload_0
-        41: aload_0
-        42: aload_1
-        43: aload_2
-        44: invokevirtual #6                  // Method add:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-        47: invokevirtual #7                  // Method printComplex:(LComplexOperation$Complex;)V
-        50: getstatic     #8                  // Field java/lang/System.out:Ljava/io/PrintStream;
-        53: ldc           #9                  // String \n
-        55: invokevirtual #10                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-        58: aload_0
-        59: aload_0
-        60: aload_1
-        61: aload_2
-        62: invokevirtual #11                 // Method sub:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-        65: invokevirtual #7                  // Method printComplex:(LComplexOperation$Complex;)V
-        68: getstatic     #8                  // Field java/lang/System.out:Ljava/io/PrintStream;
-        71: ldc           #9                  // String \n
-        73: invokevirtual #10                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-        76: aload_0
-        77: aload_0
-        78: aload_1
-        79: aload_2
-        80: invokevirtual #12                 // Method mul:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-        83: invokevirtual #7                  // Method printComplex:(LComplexOperation$Complex;)V
-        86: getstatic     #8                  // Field java/lang/System.out:Ljava/io/PrintStream;
-        89: ldc           #9                  // String \n
-        91: invokevirtual #10                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-        94: aload_0
-        95: aload_0
-        96: aload_1
-        97: aload_2
-        98: invokevirtual #13                 // Method div:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-       101: invokevirtual #7                  // Method printComplex:(LComplexOperation$Complex;)V
-       104: getstatic     #8                  // Field java/lang/System.out:Ljava/io/PrintStream;
-       107: ldc           #9                  // String \n
-       109: invokevirtual #10                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-       112: return
-      LineNumberTable:
-        line 12: 0
-        line 13: 9
-        line 14: 14
-        line 15: 19
-        line 16: 28
-        line 17: 34
-        line 18: 40
-        line 19: 50
-        line 20: 58
-        line 21: 68
-        line 22: 76
-        line 23: 86
-        line 24: 94
-        line 25: 104
-        line 26: 112
-
-  void printComplex(ComplexOperation$Complex);
-    descriptor: (LComplexOperation$Complex;)V
-    flags:
-    Code:
-      stack=2, locals=2, args_size=2
-         0: getstatic     #8                  // Field java/lang/System.out:Ljava/io/PrintStream;
+      stack=2, locals=2, args_size=1
+         0: ldc           #3                  // String hello
+         2: astore_1
          3: aload_1
-         4: getfield      #4                  // Field ComplexOperation$Complex.real:I
-         7: invokevirtual #14                 // Method java/io/PrintStream.print:(I)V
-        10: aload_1
-        11: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        14: ifle          46
-        17: getstatic     #8                  // Field java/lang/System.out:Ljava/io/PrintStream;
-        20: ldc           #15                 // String +
-        22: invokevirtual #10                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-        25: getstatic     #8                  // Field java/lang/System.out:Ljava/io/PrintStream;
-        28: aload_1
-        29: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        32: invokevirtual #14                 // Method java/io/PrintStream.print:(I)V
-        35: getstatic     #8                  // Field java/lang/System.out:Ljava/io/PrintStream;
-        38: ldc           #16                 // String i
-        40: invokevirtual #10                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-        43: goto          71
-        46: aload_1
-        47: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        50: ifge          71
-        53: getstatic     #8                  // Field java/lang/System.out:Ljava/io/PrintStream;
-        56: aload_1
-        57: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        60: invokevirtual #14                 // Method java/io/PrintStream.print:(I)V
-        63: getstatic     #8                  // Field java/lang/System.out:Ljava/io/PrintStream;
-        66: ldc           #16                 // String i
-        68: invokevirtual #10                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-        71: return
+         4: iconst_2
+         5: invokevirtual #4                  // Method java/lang/String.charAt:(I)C
+         8: ireturn
       LineNumberTable:
-        line 29: 0
-        line 31: 10
-        line 32: 17
-        line 33: 25
-        line 34: 35
-        line 35: 46
-        line 36: 53
-        line 37: 63
-        line 40: 71
-      StackMapTable: number_of_entries = 2
-        frame_type = 46 /* same */
-        frame_type = 24 /* same */
-
-  ComplexOperation$Complex add(ComplexOperation$Complex, ComplexOperation$Complex);
-    descriptor: (LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-    flags:
-    Code:
-      stack=3, locals=4, args_size=3
-         0: new           #2                  // class ComplexOperation$Complex
-         3: dup
-         4: aload_0
-         5: invokespecial #3                  // Method ComplexOperation$Complex."<init>":(LComplexOperation;)V
-         8: astore_3
-         9: aload_3
-        10: aload_1
-        11: getfield      #4                  // Field ComplexOperation$Complex.real:I
-        14: aload_2
-        15: getfield      #4                  // Field ComplexOperation$Complex.real:I
-        18: iadd
-        19: putfield      #4                  // Field ComplexOperation$Complex.real:I
-        22: aload_3
-        23: aload_1
-        24: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        27: aload_2
-        28: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        31: iadd
-        32: putfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        35: aload_3
-        36: areturn
-      LineNumberTable:
-        line 44: 0
-        line 45: 9
-        line 46: 22
-        line 47: 35
-
-  ComplexOperation$Complex sub(ComplexOperation$Complex, ComplexOperation$Complex);
-    descriptor: (LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-    flags:
-    Code:
-      stack=3, locals=4, args_size=3
-         0: new           #2                  // class ComplexOperation$Complex
-         3: dup
-         4: aload_0
-         5: invokespecial #3                  // Method ComplexOperation$Complex."<init>":(LComplexOperation;)V
-         8: astore_3
-         9: aload_3
-        10: aload_1
-        11: getfield      #4                  // Field ComplexOperation$Complex.real:I
-        14: aload_2
-        15: getfield      #4                  // Field ComplexOperation$Complex.real:I
-        18: isub
-        19: putfield      #4                  // Field ComplexOperation$Complex.real:I
-        22: aload_3
-        23: aload_1
-        24: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        27: aload_2
-        28: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        31: isub
-        32: putfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        35: aload_3
-        36: areturn
-      LineNumberTable:
-        line 52: 0
-        line 53: 9
-        line 54: 22
-        line 55: 35
-
-  ComplexOperation$Complex mul(ComplexOperation$Complex, ComplexOperation$Complex);
-    descriptor: (LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-    flags:
-    Code:
-      stack=4, locals=4, args_size=3
-         0: new           #2                  // class ComplexOperation$Complex
-         3: dup
-         4: aload_0
-         5: invokespecial #3                  // Method ComplexOperation$Complex."<init>":(LComplexOperation;)V
-         8: astore_3
-         9: aload_3
-        10: aload_1
-        11: getfield      #4                  // Field ComplexOperation$Complex.real:I
-        14: aload_2
-        15: getfield      #4                  // Field ComplexOperation$Complex.real:I
-        18: imul
-        19: aload_1
-        20: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        23: aload_2
-        24: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        27: imul
-        28: isub
-        29: putfield      #4                  // Field ComplexOperation$Complex.real:I
-        32: aload_3
-        33: aload_1
-        34: getfield      #4                  // Field ComplexOperation$Complex.real:I
-        37: aload_2
-        38: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        41: imul
-        42: aload_1
-        43: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        46: aload_2
-        47: getfield      #4                  // Field ComplexOperation$Complex.real:I
-        50: imul
-        51: iadd
-        52: putfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        55: aload_3
-        56: areturn
-      LineNumberTable:
-        line 60: 0
-        line 61: 9
-        line 62: 32
-        line 63: 55
-
-  ComplexOperation$Complex div(ComplexOperation$Complex, ComplexOperation$Complex);
-    descriptor: (LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-    flags:
-    Code:
-      stack=3, locals=6, args_size=3
-         0: new           #2                  // class ComplexOperation$Complex
-         3: dup
-         4: aload_0
-         5: invokespecial #3                  // Method ComplexOperation$Complex."<init>":(LComplexOperation;)V
-         8: astore_3
-         9: aload_3
-        10: aload_2
-        11: getfield      #4                  // Field ComplexOperation$Complex.real:I
-        14: putfield      #4                  // Field ComplexOperation$Complex.real:I
-        17: aload_3
-        18: aload_2
-        19: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        22: ineg
-        23: putfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        26: aload_0
-        27: aload_2
-        28: aload_3
-        29: invokevirtual #12                 // Method mul:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-        32: getfield      #4                  // Field ComplexOperation$Complex.real:I
-        35: istore        4
-        37: aload_0
-        38: aload_1
-        39: aload_3
-        40: invokevirtual #12                 // Method mul:(LComplexOperation$Complex;LComplexOperation$Complex;)LComplexOperation$Complex;
-        43: astore        5
-        45: aload         5
-        47: aload         5
-        49: getfield      #4                  // Field ComplexOperation$Complex.real:I
-        52: iload         4
-        54: idiv
-        55: putfield      #4                  // Field ComplexOperation$Complex.real:I
-        58: aload         5
-        60: aload         5
-        62: getfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        65: iload         4
-        67: idiv
-        68: putfield      #5                  // Field ComplexOperation$Complex.imagine:I
-        71: aload         5
-        73: areturn
-      LineNumberTable:
-        line 68: 0
-        line 69: 9
-        line 70: 17
-        line 71: 26
-        line 72: 37
-        line 73: 45
-        line 74: 58
-        line 75: 71
+        line 10: 0
+        line 11: 3
 }
 SourceFile: "TestClass.java"
-InnerClasses:
-     #19= #2 of #17; //Complex=class ComplexOperation$Complex of class ComplexOperation

@@ -1,113 +1,35 @@
 Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/ComplexOperation.class
-  Last modified 2019年5月22日; size 622 bytes
-  MD5 checksum 676bdf040674f8a75d4649fe7a1ed24b
+  Last modified 2019年5月22日; size 193 bytes
+  MD5 checksum e038adc64104736b618fe964adab765f
 public class ComplexOperation
   minor version: 0
   major version: 50
   flags: (0x0021) ACC_PUBLIC, ACC_SUPER
   this_class: #2                          // ComplexOperation
   super_class: #4                         // java/lang/Object
-  interfaces: 0, fields: 0, methods: 2, attributes: 1
+  interfaces: 0, fields: 0, methods: 2, attributes: 0
 Constant pool:
    #1 = Utf8               ComplexOperation
    #2 = Class              #1             // ComplexOperation
    #3 = Utf8               java/lang/Object
    #4 = Class              #3             // java/lang/Object
-   #5 = Utf8               ComplexOperation$Complex
-   #6 = Class              #5             // ComplexOperation$Complex
-   #7 = Utf8               Complex
-   #8 = Utf8               printComplex
-   #9 = Utf8               (LComplexOperation$Complex;)V
-  #10 = Utf8               imagine
-  #11 = Utf8               D
-  #12 = NameAndType        #10:#11        // imagine:D
-  #13 = Fieldref           #6.#12         // ComplexOperation$Complex.imagine:D
-  #14 = Double             0.0d
-  #16 = Utf8               java/lang/System
-  #17 = Class              #16            // java/lang/System
-  #18 = Utf8               out
-  #19 = Utf8               Ljava/io/PrintStream;
-  #20 = NameAndType        #18:#19        // out:Ljava/io/PrintStream;
-  #21 = Fieldref           #17.#20        // java/lang/System.out:Ljava/io/PrintStream;
-  #22 = Utf8               +
-  #23 = String             #22            // +
-  #24 = Utf8               java/io/PrintStream
-  #25 = Class              #24            // java/io/PrintStream
-  #26 = Utf8               print
-  #27 = Utf8               (Ljava/lang/String;)V
-  #28 = NameAndType        #26:#27        // print:(Ljava/lang/String;)V
-  #29 = Methodref          #25.#28        // java/io/PrintStream.print:(Ljava/lang/String;)V
-  #30 = Utf8               i
-  #31 = String             #30            // i
-  #32 = Utf8               java/lang/Throwable
-  #33 = Class              #32            // java/lang/Throwable
-  #34 = Utf8               <clinit>
-  #35 = Utf8               ()V
-  #36 = Utf8               Code
-  #37 = Utf8               StackMapTable
-  #38 = Utf8               InnerClasses
+   #5 = Utf8               main
+   #6 = Utf8               ([Ljava/lang/String;)V
+   #7 = Double             1.0d
+   #9 = Utf8               <clinit>
+  #10 = Utf8               ()V
+  #11 = Utf8               Code
 {
-  public static void printComplex(ComplexOperation$Complex);
-    descriptor: (LComplexOperation$Complex;)V
+  public static void main(java.lang.String[]);
+    descriptor: ([Ljava/lang/String;)V
     flags: (0x0009) ACC_PUBLIC, ACC_STATIC
     Code:
-      stack=6, locals=1, args_size=1
-         0: aload_0
-         1: getfield      #13                 // Field ComplexOperation$Complex.imagine:D
-         4: ldc2_w        #14                 // double 0.0d
-         7: dcmpg
-         8: iconst_0
-         9: goto          16
-        12: nop
-        13: nop
-        14: nop
-        15: athrow
-        16: iconst_0
-        17: ifeq          31
-        20: getstatic     #21                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        23: ldc           #23                 // String +
-        25: invokevirtual #29                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-        28: goto          62
-        31: aload_0
-        32: getfield      #13                 // Field ComplexOperation$Complex.imagine:D
-        35: ldc2_w        #14                 // double 0.0d
-        38: dcmpg
-        39: iconst_0
-        40: if_acmpeq     47
-        43: iconst_1
-        44: goto          48
-        47: iconst_0
-        48: ifeq          62
-        51: getstatic     #21                 // Field java/lang/System.out:Ljava/io/PrintStream;
-        54: ldc           #31                 // String i
-        56: invokevirtual #29                 // Method java/io/PrintStream.print:(Ljava/lang/String;)V
-        59: goto          62
-        62: return
-      StackMapTable: number_of_entries = 6
-        frame_type = 255 /* full_frame */
-          offset_delta = 12
-          locals = []
-          stack = [ class java/lang/Throwable ]
-        frame_type = 255 /* full_frame */
-          offset_delta = 3
-          locals = [ class ComplexOperation$Complex ]
-          stack = [ int, int ]
-        frame_type = 255 /* full_frame */
-          offset_delta = 14
-          locals = [ class ComplexOperation$Complex ]
-          stack = [ int, int ]
-        frame_type = 255 /* full_frame */
-          offset_delta = 15
-          locals = [ class ComplexOperation$Complex ]
-          stack = [ int, int ]
-        frame_type = 255 /* full_frame */
-          offset_delta = 0
-          locals = [ class ComplexOperation$Complex ]
-          stack = [ int, int, int ]
-        frame_type = 255 /* full_frame */
-          offset_delta = 13
-          locals = [ class ComplexOperation$Complex ]
-          stack = [ int, int ]
+      stack=2, locals=3, args_size=1
+         0: dconst_0
+         1: dstore_1
+         2: ldc2_w        #7                  // double 1.0d
+         5: dstore_1
+         6: return
 
   static {};
     descriptor: ()V
@@ -116,5 +38,3 @@ Constant pool:
       stack=0, locals=0, args_size=0
          0: return
 }
-InnerClasses:
-  public static #7= #6 of #2;             // Complex=class ComplexOperation$Complex of class ComplexOperation
