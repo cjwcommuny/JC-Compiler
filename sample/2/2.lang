@@ -1,9 +1,10 @@
 namespace ComplexOperation {    
-    double a = 5;
+    struct S {
+        double t = 4;
+    }
 
     def void main(String[] args) {
-        print(a);
-        a = 4;
-        print(a);
+        S s;
+        print(s.t);
     }
 }

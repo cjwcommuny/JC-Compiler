@@ -1,5 +1,6 @@
 package ast.node.definition;
 
+import ast.node.HasType;
 import ast.node.LiteralNode;
 import ast.node.Node;
 import ast.node.reference.ArrayNameNode;
@@ -31,5 +32,15 @@ public class ArrayDefinitionNode extends VariableDefinitionNode implements Assig
             return null;
         }
         return child;
+    }
+
+    @Override
+    public Type getLeftType() {
+        return getType();
+    }
+
+    @Override
+    public Type getRightType() {
+        return ((HasType) getArrayInitNode()).getType();
     }
 }

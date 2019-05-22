@@ -7,10 +7,9 @@ import ast.node.definition.Assignable;
 import ast.node.definition.VariableDefinitionNode;
 import classgen.provider.*;
 import org.objectweb.asm.Opcodes;
-import type.typetype.ArrayType;
-import type.typetype.ObjectType;
-import type.typetype.Type;
+import type.typetype.*;
 
+import java.nio.file.OpenOption;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -115,6 +114,13 @@ public class InnerClassInfo implements ClassRaw {
         result.add(new DefaultInstruction(Opcodes.ALOAD, new Object[]{0})); //load this pointer
         result.addAll(new MethodInstructionGenerator(node.getRightSide(),
                 null, outerClassName).generate());
+
+        //up-cast int to double
+        if (!node.getLeftType().equals(node.getRightType())) {
+            assert(node.getRightType() instanceof IntType && node.getLeftType() instanceof DoubleType);
+        }
+        result.add(new DefaultInstruction(Opcodes.I2D, null));
+
         result.add(new DefaultInstruction(Opcodes.PUTFIELD,
                 new Object[]{getInternalClassName(), fieldName, type.getDescriptor()}));
         return result;

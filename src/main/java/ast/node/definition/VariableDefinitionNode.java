@@ -63,4 +63,14 @@ public class VariableDefinitionNode extends DefinitionNode implements HasType, A
     public boolean hasNameNode() {
         return getChildrenCount() != 0;
     }
+
+    @Override
+    public Type getLeftType() {
+        return getType();
+    }
+
+    @Override
+    public Type getRightType() {
+        return ((HasType) getRightSide()).getType();
+    }
 }
