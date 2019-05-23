@@ -84,7 +84,7 @@ public class Main {
     }
 
     private static void showAstInGUI(rulesParser parser, ParseTree tree) {
-        JFrame frame = new JFrame("Antlr ast");
+        JFrame frame = new JFrame("ANTLR Parse Tree");
         JPanel panel = new JPanel();
         TreeViewer viewr = new TreeViewer(Arrays.asList(
                 parser.getRuleNames()),tree);

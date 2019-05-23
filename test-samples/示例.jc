@@ -1,0 +1,15 @@
+namespace Test {
+    struct MyStruct {
+        int a = f();
+    }
+
+    double d = 4;
+
+    def void main(String[] args) {
+        print("Hello world!\n");
+    }
+
+    def int f() {
+        return 3;
+    }
+}

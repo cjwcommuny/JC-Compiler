@@ -122,7 +122,7 @@ namespaceDefinition:
 //program general rules ==============================================================
 program:
 	namespaceDefinition
-	; //    | code //default namespace
+	;
 
 
 codeContent:
