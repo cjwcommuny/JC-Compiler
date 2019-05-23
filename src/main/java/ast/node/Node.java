@@ -26,7 +26,6 @@ public abstract class Node {
     }
 
     protected String visualInfo() {
-        //TODO
         return this.getClass().getSimpleName();
     }
 
