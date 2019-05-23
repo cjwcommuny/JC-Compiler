@@ -10,7 +10,7 @@
 
 本编译器的语言是一门自定义的语言，具有面向过程特性，语言特点取自 Java 和 C 的交集（因此简称为 JC Compiler）。
 
-本编译器使用 Java 编写，将源代码编译为 JVM Bytecode，并生成 `.class` 文件。该文件可以在 JVM 下运行。
+本编译器使用 Java 编写，将源代码编译为 JVM Bytecode，并生成 `.class` 文件。该文件可以在 JVM（Java Virtual Machine）下运行。
 
 ## 第三方库
 
@@ -27,19 +27,23 @@
 
 ### 编译/运行方法：
 
-Build:
+### Build
 
 ```
 gradle build
 ```
 
-Run:
+### Run
 
 ```
 
 ```
 
+options：
 
+`-p` , `—parsetree` : 同时生成 parse tree 。
+
+`-s` , `-syntaxtree`：同时生成 syntax tree 。
 
 ## 语言特性示例
 
@@ -215,11 +219,142 @@ public abstract class Node {
 
 ### 代码生成
 
-本编译器将源代码最终转换为 JVM Bytecode，即一个 `Byte[]` 数组，并将这个数组写入文件，该文件可由 JVM 运行。
+本编译器将源代码最终转换为 JVM Bytecode，即一个 `Byte[]` 数组，并将这个数组写入文件，该文件可由 JVM 运行。代码生成部分使用 Java ASM 第三方库辅助生成。
+
+Java ASM 提供了 `ClassVisitor` 、`MethodVisitor` 等接口，使我们能方便地生成 JVM 汇编代码。
+
+本语言中有关数据结构映射关系如下：
+
+| 本语言的结构             | JVM 对应的结构                                    |
+| ------------------------ | ------------------------------------------------- |
+| `Namespace`              | `class`                                           |
+| `Struct`                 | 所在 `Namespace` 的内部类（public，static）       |
+| `Struct` 中的成员变量    | 所在 `Struct` 的普通成员变量（public）            |
+| `Namespace` 中声明的变量 | 所在 `Namespace` 的静态成员变量（public，static） |
+| 函数                     | 所在 `Namespace` 的静态方法（public，static）     |
+| 其他                     | 与 JVM 中完全一致                                 |
+
+与前面的示例等价的 Java 如下，以下左右两边代码等价（右侧代码仅作示例，不会真正生成这样的 Java 代码）：
+
+![codeConvert](assets/codeConvert.png)
 
 #### 中间代码格式
 
 本编译器中间代码即为 JVM Bytecode，具体可参照 [JVM Instruction Set](https://docs.oracle.com/javase/specs/jvms/se7/html/jvms-6.html) ，简单叙述如下：
+
+JVM 的 `.class` 文件的格式如下图所示：
+
+![java-class-file-internal-structure](assets/java-class-file-internal-structure.png)
+
+其中 Constant Pool 存储程序中出现的字面量，类、成员变量和方法的名字和其他一些常量的值。
+
+Access Flags 指的是访问作用符，对于本语言的 `Namespace` 来说是 `ACC_PUBLIC` 和 `ACC_SUPER` 。
+
+super Class 指明父类，由于本语言不支持继承，因此父类为 `java.lang.Object` 。
+
+本语言对应的 class 文件 Interfaces 为空。
+
+Fields 部分将会填充定义在 `Namespace` 结构中的变量，它们都是 `static ` 的。
+
+Methods 部分会填充 `Namespace` 结构中的各个函数，它们也都是 `static` 的；每个方法具体的汇编指令会被填充到这里。
+
+Attributes 部分由 ASM 第三方库代为自动填充，一般会有内部类的一些信息（在本语言中是 `Struct` ）。
+
+#### JVM 运行方式
+
+JVM 本质上是一个堆栈机，所以对应的汇编代码（中间代码）也适应了这一情况。
+
+![JVM-stack](assets/JVM-stack.png)
+
+JVM 中每一个线程对应一个 stack，stack中每一层是一个 frame。每个frame中分别有一个存储局部变量的数组（因此在方法中，局部变量的名字被隐去，只剩下编号），一个 operand stack（用于指令进行操作）。每条指令都会从顶到底地使用合适数量的变量，将它们弹出，操作后假如需要再放回顶端。
+
+#### JVM 汇编代码的生成
+
+需要注意的有：对于每一个方法，都必须有一个返回值，否则 JVM 对 class 文件的校验阶段将无法通过。
+
+一下分析仅仅以几条指令作为例子：
+
+##### 加法指令
+
+对于不同的对象有不同的加法指令（如 `double` 对应的是 `DADD` ，`int` 对应的是 `IADD` ）。加法指令将 operand stack 顶端的两个元素弹出，做加法操作后重新压入。这里，如果两个运算数的类型不一致（一个是 `double` 而另一个是 `int` ），那么需要使用 `I2D` 指令将 operand stack 顶端的元素从 `int` 转变为 `double` 型。
+
+加法指令的伪代码如下：
+
+```assembly
+//push the first operand
+//push the second operand
+IADD
+```
+
+可以看到，压入操作数的操作可以递归地完成。如操作数由一个函数产生，那么先使用调用函数的指令，这条指令会把函数的返回结果压入 operand stack，这样以来就可以被接下来的 `IADD` 指令所利用。
+
+##### 调用函数
+
+由于本语言所有的函数翻译到 JVM  上后都是属于类的静态函数，所以调用函数会使用指令 `invokestatic` 。
+
+其伪代码如下：
+
+```assembly
+invokestatic <XXX> # 这里 <XXX> 是对 constant pool 的一个引用编号，引用的是一个方法信息
+```
+
+##### for 循环块
+
+```java
+for (initStatements; condition; stepStatements) {
+    //BlockCode
+}
+```
+
+对于如上所示的 for 循环，可以翻译为以下的 JVM 汇编代码：
+
+```assembly
+   //do initStatements
+loop_label:
+    //push condition
+    ifeq end_label
+    //BlockCode
+continue_label:    
+    //stepStatements
+    goto loop_label
+end_label:
+    ...
+```
+
+这里 `continue_label` 是用在 `continue` 语句中的。
+
+`if_eq` 指令从 operand stack 顶端取出一个操作数，将它与 $0$ 比较。如果它等于零，就将 PC（program counter） 跳转到 `end_label` 对应位置。
+
+##### if-elif-else 块
+
+```python
+if (C1) {
+    B1
+} elif (C21) {
+    B21
+} else {
+    B3
+}
+```
+
+对于如上的 `if-elif-else` 语句块可以翻译为以下汇编代码：
+
+```assembly
+    //push C1
+    ifeq else_label1
+    B1
+    goto end_label
+else_label1:
+    //push C21
+    ifeq else_label2
+    B21
+    goto end_label
+else_label2:
+    //else part
+    B3
+end_label:
+    ...
+```
 
 
 

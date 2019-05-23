@@ -1,75 +1,118 @@
-Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/test-samples/TestClass.class
-  Last modified 2019年5月22日; size 492 bytes
-  MD5 checksum 1de8cbb7104daab45112014968d16c9b
-public class TestClass
+Classfile /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/test-samples/Fib.class
+  Last modified 2019年5月22日; size 489 bytes
+  MD5 checksum eeb7d854d514c7262096973a1bed6d54
+public class Fib
   minor version: 0
   major version: 50
   flags: (0x0021) ACC_PUBLIC, ACC_SUPER
-  this_class: #2                          // TestClass
+  this_class: #2                          // Fib
   super_class: #4                         // java/lang/Object
-  interfaces: 0, fields: 1, methods: 2, attributes: 1
+  interfaces: 0, fields: 0, methods: 3, attributes: 0
 Constant pool:
-   #1 = Utf8               TestClass
-   #2 = Class              #1             // TestClass
+   #1 = Utf8               Fib
+   #2 = Class              #1             // Fib
    #3 = Utf8               java/lang/Object
    #4 = Class              #3             // java/lang/Object
-   #5 = Utf8               s2
-   #6 = Utf8               Ljava/lang/String;
-   #7 = Utf8               hello2\\n
-   #8 = String             #7             // hello2\\n
-   #9 = Utf8               TestClass$S
-  #10 = Class              #9             // TestClass$S
-  #11 = Utf8               S
-  #12 = Utf8               main
-  #13 = Utf8               ([Ljava/lang/String;)V
-  #14 = Utf8               java/lang/System
-  #15 = Class              #14            // java/lang/System
-  #16 = Utf8               out
-  #17 = Utf8               Ljava/io/PrintStream;
-  #18 = NameAndType        #16:#17        // out:Ljava/io/PrintStream;
-  #19 = Fieldref           #15.#18        // java/lang/System.out:Ljava/io/PrintStream;
-  #20 = Utf8               LTestClass/String;
-  #21 = NameAndType        #5:#20         // s2:LTestClass/String;
-  #22 = Fieldref           #2.#21         // TestClass.s2:LTestClass/String;
-  #23 = Utf8               java/io/PrintStream
-  #24 = Class              #23            // java/io/PrintStream
-  #25 = Utf8               print
-  #26 = Utf8               (LTestClass/String;)V
-  #27 = NameAndType        #25:#26        // print:(LTestClass/String;)V
-  #28 = Methodref          #24.#27        // java/io/PrintStream.print:(LTestClass/String;)V
-  #29 = Utf8               <clinit>
-  #30 = Utf8               ()V
-  #31 = Utf8               hello2\n
-  #32 = String             #31            // hello2\n
-  #33 = NameAndType        #5:#6          // s2:Ljava/lang/String;
-  #34 = Fieldref           #2.#33         // TestClass.s2:Ljava/lang/String;
-  #35 = Utf8               ConstantValue
-  #36 = Utf8               Code
-  #37 = Utf8               InnerClasses
+   #5 = Utf8               main
+   #6 = Utf8               ([Ljava/lang/String;)V
+   #7 = Utf8               java/lang/System
+   #8 = Class              #7             // java/lang/System
+   #9 = Utf8               out
+  #10 = Utf8               Ljava/io/PrintStream;
+  #11 = NameAndType        #9:#10         // out:Ljava/io/PrintStream;
+  #12 = Fieldref           #8.#11         // java/lang/System.out:Ljava/io/PrintStream;
+  #13 = Integer            10
+  #14 = Utf8               fib
+  #15 = Utf8               (I)I
+  #16 = NameAndType        #14:#15        // fib:(I)I
+  #17 = Methodref          #2.#16         // Fib.fib:(I)I
+  #18 = Utf8               java/io/PrintStream
+  #19 = Class              #18            // java/io/PrintStream
+  #20 = Utf8               print
+  #21 = Utf8               (I)V
+  #22 = NameAndType        #20:#21        // print:(I)V
+  #23 = Methodref          #19.#22        // java/io/PrintStream.print:(I)V
+  #24 = Integer            1
+  #25 = Integer            2
+  #26 = Utf8               java/lang/Throwable
+  #27 = Class              #26            // java/lang/Throwable
+  #28 = Utf8               <clinit>
+  #29 = Utf8               ()V
+  #30 = Utf8               Code
+  #31 = Utf8               StackMapTable
 {
-  public static java.lang.String s2;
-    descriptor: Ljava/lang/String;
-    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
-    ConstantValue: String hello2\\n
-
   public static void main(java.lang.String[]);
     descriptor: ([Ljava/lang/String;)V
     flags: (0x0009) ACC_PUBLIC, ACC_STATIC
     Code:
       stack=2, locals=1, args_size=1
-         0: getstatic     #19                 // Field java/lang/System.out:Ljava/io/PrintStream;
-         3: getstatic     #22                 // Field s2:LTestClass/String;
-         6: invokevirtual #28                 // Method java/io/PrintStream.print:(LTestClass/String;)V
-         9: return
+         0: getstatic     #12                 // Field java/lang/System.out:Ljava/io/PrintStream;
+         3: ldc           #13                 // int 10
+         5: invokestatic  #17                 // Method fib:(I)I
+         8: invokevirtual #23                 // Method java/io/PrintStream.print:(I)V
+        11: return
+
+  public static int fib(int);
+    descriptor: (I)I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=3, locals=1, args_size=1
+         0: iload_0
+         1: ldc           #24                 // int 1
+         3: if_icmpne     10
+         6: iconst_1
+         7: goto          11
+        10: iconst_0
+        11: iload_0
+        12: ldc           #25                 // int 2
+        14: if_icmpne     21
+        17: iconst_1
+        18: goto          22
+        21: iconst_0
+        22: ior
+        23: ifeq          32
+        26: ldc           #24                 // int 1
+        28: ireturn
+        29: nop
+        30: nop
+        31: athrow
+        32: iload_0
+        33: ldc           #24                 // int 1
+        35: isub
+        36: invokestatic  #17                 // Method fib:(I)I
+        39: iload_0
+        40: ldc           #25                 // int 2
+        42: isub
+        43: invokestatic  #17                 // Method fib:(I)I
+        46: iadd
+        47: ireturn
+        48: athrow
+      StackMapTable: number_of_entries = 7
+        frame_type = 10 /* same */
+        frame_type = 64 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 73 /* same_locals_1_stack_item */
+          stack = [ int ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 0
+          locals = [ int ]
+          stack = [ int, int ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 6
+          locals = []
+          stack = [ class java/lang/Throwable ]
+        frame_type = 252 /* append */
+          offset_delta = 2
+          locals = [ int ]
+        frame_type = 255 /* full_frame */
+          offset_delta = 15
+          locals = []
+          stack = [ class java/lang/Throwable ]
 
   static {};
     descriptor: ()V
     flags: (0x0008) ACC_STATIC
     Code:
-      stack=1, locals=0, args_size=0
-         0: ldc           #32                 // String hello2\n
-         2: putstatic     #34                 // Field s2:Ljava/lang/String;
-         5: return
+      stack=0, locals=0, args_size=0
+         0: return
 }
-InnerClasses:
-  public static #11= #10 of #2;           // S=class TestClass$S of class TestClass
