@@ -17,7 +17,6 @@ dependencies {
     antlr "org.antlr:antlr4:4.7.2"
     compile group: 'org.ow2.asm', name: 'asm', version: '7.1'
     compile group: 'commons-cli', name: 'commons-cli', version: '1.4'
-
 }
 
 generateGrammarSource {
@@ -28,5 +27,16 @@ generateGrammarSource {
 
 run {
     mainClassName = 'Main'
-    args = ["./test-samples/示例.jc"]
+    args = ["./test-samples/upcast.jc"]
+}
+
+mainClassName = "Main"
+jar {
+    manifest {
+        attributes "Main-Class": "$mainClassName"
+    }
+
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

@@ -164,12 +164,14 @@ public class Main {
             astGenerator = new AstGenerator(tokenStream);
 
             //parser error info display
+            if (lexListener.getSyntaxErrorsCount() != 0) {
+                printErrors(lexListener.getSyntaxErrors());
+                hasErrors = true;
+                return this;
+            }
             if (parserErrorListener.getSyntaxErrorsCount() != 0) {
                 List<SyntaxError> syntaxErrors = parserErrorListener.getSyntaxErrors();
-                for (SyntaxError error: syntaxErrors) {
-                    System.out.print("line " + error.getLine() + ":" + error.getCharPositionInLine() + " ");
-                    System.out.println(error.getMessage());
-                }
+                printErrors(syntaxErrors);
                 hasErrors = true;
                 return this;
             }
@@ -178,6 +180,13 @@ public class Main {
             }
             hasErrors = false;
             return this;
+        }
+
+        private void printErrors(List<SyntaxError> syntaxErrors) {
+            for (SyntaxError error: syntaxErrors) {
+                System.out.print("line " + error.getLine() + ":" + error.getCharPositionInLine() + " ");
+                System.out.println(error.getMessage());
+            }
         }
     }
 }
