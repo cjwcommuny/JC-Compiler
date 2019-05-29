@@ -1,0 +1,5 @@
+PWD /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/presentation
+INPUT /usr/local/texlive/2018/texmf.cnf
+INPUT /usr/local/texlive/2018/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2018/texmf-var/web2c/pdftex/pdflatex.fmt
+OUTPUT /Users/cjw/Library/Mobile Documents/com~apple~CloudDocs/workspace/JavaCompiler/presentation/texput.log
