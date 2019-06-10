@@ -36,7 +36,7 @@ gradle build
 ### Run
 
 ```
-
+java -jar <JAR_name> <file_name> [options]
 ```
 
 options：
