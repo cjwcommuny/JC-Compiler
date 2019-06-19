@@ -2,6 +2,8 @@ assets/
 .idea
 .gradle
 out/
+bin/
+gradle/
 
 # Compiled class file
 *.class
