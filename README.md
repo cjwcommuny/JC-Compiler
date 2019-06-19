@@ -1,11 +1,5 @@
 # JC Compiler
 
-## 分工
-
-陈佳伟：词法分析，语法分析（部分），代码生成（部分），测试
-
-戚浙拓：语法分析（部分），代码生成（部分），代码优化
-
 ## 概述
 
 本编译器的语言是一门自定义的语言，具有面向过程特性，语言特点取自 Java 和 C 的交集（因此简称为 JC Compiler）。
@@ -112,7 +106,7 @@ ANTLR 使用 Visitor 模式来提供对 parse tree 的访问，可以通过递�
 
 通过继承  `XXXBaseVisitor<...>`  来实现访问 parse tree：
 
-``` java
+```java
 class AstGenerator extends XXXBaseVisitor<AstGeneratorResult> {
     public AstGeneratorResult visitXXX(ParserRulesContext ctx) {
       //...

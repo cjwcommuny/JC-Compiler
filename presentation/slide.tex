@@ -140,7 +140,7 @@ namespaceDefinition:
 
 \begin{frame}
     \frametitle{Code Generation}
-        \begin{itemize}
+    \begin{itemize}
         \item[$\blacksquare$] Format of JVM .class file
     \end{itemize}
     \begin{figure}[h]
@@ -161,27 +161,23 @@ namespaceDefinition:
     \end{figure}
 \end{frame}
 
-\begin{frame}[fragile]{Code}
+\begin{frame}
     \frametitle{Code Generation}
-    \begin{block}{Pseudocode of for-loop}
-        \begin{lstlisting}[firstnumber=1, label=glabels, xleftmargin=10pt] 
-for (initStatements; condition; stepStatements) { }
-        \end{lstlisting}
-    \end{block}
-    
-    \begin{block}{JVM assembly code of for-loop}
-        \begin{lstlisting}[firstnumber=1, label=glabels, xleftmargin=10pt] 
-   //do initStatements
-loop_label:
-    //push condition
-    ifeq end_label
-    //BlockCode
-continue_label:    
-    //stepStatements
-    goto loop_label
-end_label:
-        \end{lstlisting}
-    \end{block}
+    \begin{itemize}
+        \item[$\blacksquare$] Constant Pool
+    \end{itemize}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[scale=0.5]{assets/constantpool.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Code Generation}
+    \begin{figure}[h]
+        \centering
+        \includegraphics[scale=0.5]{assets/func.png}
+    \end{figure}
 \end{frame}
 
 \begin{frame}
